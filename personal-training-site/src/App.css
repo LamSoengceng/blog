@@ -5158,3 +5158,108 @@ main {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ---------- Mind metrics: mood curve + habit grid ---------- */
+
+.mind-section-heading {
+  margin-top: 56px;
+}
+
+.mind-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 20px;
+  max-width: 1120px;
+}
+
+.mind-panel {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background-color: rgba(5, 8, 6, 0.42);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.024), rgba(255, 255, 255, 0) 140px);
+}
+
+.mood-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.mood-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px rgba(66, 201, 121, 0.35));
+}
+
+.mood-point {
+  fill: var(--accent);
+  stroke: #050806;
+  stroke-width: 1.5;
+}
+
+.habit-board {
+  display: grid;
+  gap: 10px;
+}
+
+.habit-row {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+}
+
+.habit-label strong {
+  display: block;
+  color: var(--text-strong);
+  font-size: 13px;
+}
+
+.habit-label span {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.habit-cells {
+  display: grid;
+  grid-template-columns: repeat(28, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.habit-cell {
+  aspect-ratio: 1;
+  min-width: 0;
+  padding: 0;
+  border: 1px solid rgba(66, 201, 121, 0.14);
+  border-radius: 4px;
+  background: rgba(23, 51, 38, 0.5);
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.habit-cell:hover {
+  border-color: rgba(66, 201, 121, 0.5);
+}
+
+.habit-cell.checked {
+  border-color: rgba(66, 201, 121, 0.5);
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(66, 201, 121, 0.35);
+}
+
+.habit-cell.today {
+  border-color: rgba(117, 199, 219, 0.7);
+}
+
+.habit-hint {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}

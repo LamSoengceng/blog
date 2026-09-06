@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BodyHeatmap } from '../components/BodyHeatmap'
 import { JournalSection } from '../components/JournalSection'
+import { MindMetricsSection } from '../components/MindMetrics'
 import { diaryEntries, diaryStats } from '../data/diaryData'
 import {
   movementHighlights,
@@ -88,6 +89,14 @@ export function TrainingPage() {
       </div>
 
       <JournalSection />
+
+      <div className="section-heading compact-heading mind-section-heading">
+        <p className="eyebrow">Mind · 心迹数据</p>
+        <h2>心情与习惯</h2>
+        <p>日记里的心情连成曲线；每天给想坚持的习惯打个勾。都只存在本机浏览器。</p>
+      </div>
+
+      <MindMetricsSection />
 
       <div className="section-heading compact-heading body-section-heading">
         <p className="eyebrow">Body · 身体训练</p>
