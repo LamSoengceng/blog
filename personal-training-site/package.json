@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "generate:algorithms": "node scripts/generateAlgorithmData.mjs",
-    "enrich:llm": "node scripts/llmEnrichReview.mjs"
+    "enrich:llm": "node scripts/llmEnrichReview.mjs",
+    "sync:xunji": "node --env-file-if-exists=.env.local scripts/sync-xunji.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.24.0",

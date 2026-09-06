@@ -5399,3 +5399,187 @@ main {
   font-size: 12px;
   line-height: 1.7;
 }
+
+/* ---------- Xunji sync panel ---------- */
+
+.xunji-heading {
+  margin-top: 40px;
+}
+
+.xunji-panel {
+  max-width: 980px;
+  padding: 20px 22px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(5, 8, 6, 0.42);
+}
+
+.xunji-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.xunji-badge {
+  padding: 3px 12px;
+  border-radius: 999px;
+  background: rgba(117, 199, 219, 0.14);
+  color: #9fdcec;
+  font-size: 12px;
+  font-weight: 900;
+  box-shadow: 0 0 14px rgba(117, 199, 219, 0.14);
+}
+
+.xunji-synced-at {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.xunji-list {
+  display: grid;
+  gap: 8px;
+}
+
+.xunji-day {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(5, 8, 6, 0.4);
+}
+
+.xunji-day time {
+  color: var(--accent-soft);
+  font-weight: 900;
+  font-size: 13px;
+}
+
+.xunji-day strong {
+  color: var(--text-strong);
+  font-size: 14px;
+}
+
+.xunji-day em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.xunji-empty .empty-note {
+  margin: 0;
+}
+
+.xunji-empty code {
+  margin: 0 4px;
+  padding: 1px 7px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: rgba(23, 51, 38, 0.5);
+  color: var(--accent-soft);
+  font-size: 12px;
+}
+
+/* ---------- Xunji day summaries inside diary section ---------- */
+
+/* ---------- Feynman check ---------- */
+
+.feynman-block {
+  margin-top: 26px;
+  border: 1px solid rgba(117, 199, 219, 0.22);
+  border-radius: 10px;
+  background: rgba(117, 199, 219, 0.04);
+}
+
+.feynman-head {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.feynman-head strong {
+  color: #9fdcec;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.feynman-head span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.feynman-body {
+  display: grid;
+  gap: 12px;
+  padding: 0 18px 16px;
+}
+
+.feynman-body textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: rgba(5, 8, 6, 0.6);
+  color: var(--text-strong);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+  outline: none;
+  resize: vertical;
+}
+
+.feynman-body textarea:focus {
+  border-color: rgba(117, 199, 219, 0.55);
+}
+
+.feynman-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.feynman-hint {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.feynman-feedback {
+  padding: 12px 16px;
+  border: 1px solid rgba(117, 199, 219, 0.3);
+  border-radius: 8px;
+  background: rgba(117, 199, 219, 0.07);
+}
+
+.feynman-feedback p {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.feynman-feedback em {
+  display: block;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+}

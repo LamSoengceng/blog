@@ -4,6 +4,7 @@ import { BodyHeatmap } from '../components/BodyHeatmap'
 import { JournalSection } from '../components/JournalSection'
 import { MindMetricsSection } from '../components/MindMetrics'
 import { diaryEntries, diaryStats } from '../data/diaryData'
+import { xunjiDaySummaries, xunjiLastSyncedAt } from '../data/xunjiData'
 import {
   movementHighlights,
   muscleVolumes,
@@ -421,6 +422,45 @@ export function TrainingPage() {
           )
         })}
       </div>
+
+      <div className="section-heading compact-heading xunji-heading">
+        <p className="eyebrow">Xunji Sync · 客观记录</p>
+        <h2>训记同步</h2>
+        <p>
+          来自训记 App 的真实活动数据（时长、距离、卡路里），和上面的主观日记互为印证。
+          数据只在本机同步脚本里拉取，前端不持有任何密钥。
+        </p>
+      </div>
+
+      {xunjiDaySummaries.length ? (
+        <div className="xunji-panel">
+          <div className="xunji-badge-row">
+            <span className="xunji-badge">真实数据</span>
+            <span className="xunji-synced-at">同步于 {xunjiLastSyncedAt.slice(0, 16).replace('T', ' ')}</span>
+          </div>
+          <div className="xunji-list">
+            {xunjiDaySummaries.map((day) => (
+              <div className="xunji-day" key={day.date}>
+                <time>{day.date.slice(5)}</time>
+                <strong>{day.types.join(' + ')}</strong>
+                <em>
+                  {day.sessions} 次 · {day.durationMin} min
+                  {day.kcal ? ` · ${day.kcal} kcal` : ''}
+                  {day.distanceKm ? ` · ${day.distanceKm} km` : ''}
+                </em>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className="xunji-panel xunji-empty">
+          <p className="empty-note">
+            还没有同步过训记数据。在项目根目录的 <code>.env.local</code> 写入
+            <code>XUNJI_API_KEY=你的token</code>（训记 App 内获取），然后运行
+            <code>npm run sync:xunji</code>，这里就会出现真实的活动记录。
+          </p>
+        </div>
+      )}
     </section>
   )
 }
