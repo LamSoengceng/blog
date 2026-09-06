@@ -4,6 +4,15 @@ import { algorithmProblems, type AlgorithmProblem } from '../data/algorithmData'
 import { HighlightText } from '../utils/techTerms'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import { loadReviewPrefs, onReviewPrefsChange, openSiteSettings, type ReviewPrefs } from '../utils/settings'
+import {
+  buildDueQueue,
+  countDueWithinDay,
+  loadReviewStore,
+  recordReview,
+  saveReviewStore,
+  type ReviewStatus,
+  type ReviewStore,
+} from '../utils/reviewStore'
 
 const difficultyClass = (difficulty: string) => {
   if (difficulty === '简单') return 'easy'
@@ -12,28 +21,6 @@ const difficultyClass = (difficulty: string) => {
 }
 
 const reReviewPattern = /需二刷|待二刷|三刷|再刷一遍/
-const STORAGE_KEY = 'algorithm-review-v1'
-
-type ReviewStatus = 'known' | 'again'
-
-type ReviewStore = Record<string, { status: ReviewStatus; at: string }>
-
-const loadStore = (): ReviewStore => {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as ReviewStore) : {}
-  } catch {
-    return {}
-  }
-}
-
-const saveStore = (store: ReviewStore) => {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store))
-  } catch {
-    // localStorage 不可用（隐私模式等）时静默降级，仅本次会话内生效
-  }
-}
 
 const isReReview = (problem: AlgorithmProblem) =>
   problem.thoughts.some((thought) => reReviewPattern.test(thought)) ||
@@ -75,13 +62,13 @@ export function AlgorithmReviewPage() {
 
   // 队列：没记住/跳过的题挪到队尾循环，直到全部「记住了」
   const [queue, setQueue] = useState<string[]>(() => {
-    const pool = applyQueueLimit(reviewPool.map((problem) => problem.slug), prefs.queueLimit)
-    if (!focusSlug) return pool
+    const pool = buildDueQueue(reviewPool.map((problem) => problem.slug), loadReviewStore())
+    if (!focusSlug) return applyQueueLimit(pool, prefs.queueLimit)
     const rest = pool.filter((slug) => slug !== focusSlug)
-    return [focusSlug, ...rest]
+    return [focusSlug, ...applyQueueLimit(rest, prefs.queueLimit)]
   })
   const [showCode, setShowCode] = useState(false)
-  const [store, setStore] = useState<ReviewStore>(loadStore)
+  const [store, setStore] = useState<ReviewStore>(loadReviewStore)
   const [sessionTotal, setSessionTotal] = useState(queue.length)
 
   const current = useMemo(
@@ -102,9 +89,9 @@ export function AlgorithmReviewPage() {
   const againCount = Object.values(store).filter((item) => item.status === 'again').length
 
   const record = (slug: string, status: ReviewStatus) => {
-    const next = { ...store, [slug]: { status, at: new Date().toISOString() } }
+    const next = recordReview(store, slug, status)
     setStore(next)
-    saveStore(next)
+    saveReviewStore(next)
   }
 
   const advance = (status: ReviewStatus | 'skip') => {
@@ -139,7 +126,7 @@ export function AlgorithmReviewPage() {
 
   const resetProgress = () => {
     setStore({})
-    saveStore({})
+    saveReviewStore({})
     const pool = applyQueueLimit(reviewPool.map((p) => p.slug), prefs.queueLimit)
     const nextQueue = focusSlug ? [focusSlug, ...pool.filter((s) => s !== focusSlug)] : pool
     setQueue(nextQueue)
@@ -147,7 +134,10 @@ export function AlgorithmReviewPage() {
   }
 
   const restartQueue = () => {
-    const nextQueue = applyQueueLimit(reviewPool.map((problem) => problem.slug), prefs.queueLimit)
+    const nextQueue = applyQueueLimit(
+      buildDueQueue(reviewPool.map((problem) => problem.slug), store),
+      prefs.queueLimit,
+    )
     setQueue(nextQueue)
     setSessionTotal(nextQueue.length)
   }
@@ -219,6 +209,7 @@ export function AlgorithmReviewPage() {
     const againSlugs = Object.entries(store)
       .filter(([, item]) => item.status === 'again')
       .map(([slug]) => slug)
+    const dueTomorrow = countDueWithinDay(store)
     return (
       <section className="content-band page-band">
         <div className="review-done">
@@ -230,6 +221,7 @@ export function AlgorithmReviewPage() {
           {againSlugs.length ? (
             <p>建议稍后针对「待巩固」的题再过一轮，或者直接开始新一轮。</p>
           ) : null}
+          {dueTomorrow > 0 ? <p>明天有 {dueTomorrow} 道题到期，记得回来复习。</p> : null}
           <div className="review-actions review-actions-center">
             <button className="review-btn primary" type="button" onClick={restartQueue}>
               再来一轮

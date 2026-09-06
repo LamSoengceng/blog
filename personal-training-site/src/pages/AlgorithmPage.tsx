@@ -8,6 +8,7 @@ import {
   type AlgorithmProblem,
 } from '../data/algorithmData'
 import { algorithmMeta } from '../data/algorithmMeta'
+import { countDueReviews, loadReviewStore } from '../utils/reviewStore'
 
 const difficultyClass = (difficulty: string) => {
   if (difficulty === '简单') return 'easy'
@@ -51,6 +52,12 @@ const nextFocusProblems = pendingProblems
   .slice(0, 6)
 
 const allCleared = pendingProblems.length === 0
+const reReviewPatternPage = /需二刷|待二刷|三刷|再刷一遍/
+const reviewPoolSlugs = algorithmProblems
+  .filter((problem) => problem.completed)
+  .filter((problem) => problem.thoughts.some((t) => reReviewPatternPage.test(t)) || problem.pitfalls.some((t) => reReviewPatternPage.test(t)))
+  .map((problem) => problem.slug)
+const dueReviewCount = countDueReviews(reviewPoolSlugs, loadReviewStore())
 const hardSolvedCount = completedProblems.filter((problem) => problem.difficulty === '困难').length
 const extensionCount = completedProblems.filter((problem) => problem.sourceBanks.includes('本地补充')).length
 const reReviewPattern = /需二刷|待二刷|三刷|再刷一遍/
@@ -119,7 +126,7 @@ export function AlgorithmPage() {
                 : `已同步 ${completedProblems.length} 道本地题解，复习队列里有 ${algorithmReviewQueue.length} 道带错误记录的题。`}
             </p>
             <Link className="review-entry" to="/algorithm/review">
-              开始快速复习 →
+              {dueReviewCount > 0 ? `开始复习 · 今日到期 ${dueReviewCount} 道 →` : '开始快速复习 →'}
             </Link>
           </div>
         </aside>
