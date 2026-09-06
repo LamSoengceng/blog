@@ -24,7 +24,7 @@ const TrainingPage = lazy(() => import('./pages/TrainingPage').then((module) => 
 
 const navItems = [
   { label: 'Blog', to: '/blog' },
-  { label: 'Training', to: '/training' },
+  { label: 'Growth', to: '/training' },
   { label: 'Algorithm', to: '/algorithm' },
   { label: 'Market', to: '/market' },
   { label: 'Projects', to: '/#projects' },

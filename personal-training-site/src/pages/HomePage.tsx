@@ -116,12 +116,12 @@ const homeModules = [
   },
   {
     eyebrow: 'Training',
-    title: '训练专题',
-    description: '今年训练频率、主项变化、肌群覆盖、PR 时间线和后续 Agent 复盘。',
+    title: '自我提升',
+    description: '写给自己看的日记，加上身体训练的长期数据：频率、主项变化、肌群覆盖和 PR。',
     stat: metricCards[0].value,
     detail: metricCards[2].value,
     to: '/training',
-    action: '进入训练页',
+    action: '进入提升页',
   },
   {
     eyebrow: 'Algorithm',

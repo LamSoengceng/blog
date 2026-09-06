@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BodyHeatmap } from '../components/BodyHeatmap'
+import { JournalSection } from '../components/JournalSection'
 import { diaryEntries, diaryStats } from '../data/diaryData'
 import {
   movementHighlights,
@@ -70,11 +71,29 @@ export function TrainingPage() {
   return (
     <section className="content-band page-band" id="training">
       <div className="section-heading">
-        <p className="eyebrow">Training / 2026 YTD</p>
-        <h1 className="page-title">训练数据</h1>
+        <p className="eyebrow">Growth / Body &amp; Mind</p>
+        <h1 className="page-title">自我提升</h1>
         <p>
-          重点展示三大项、实力推、臀冲和高位下拉。这里是独立训练页，只放训练表现、
-          肌群覆盖、PR 时间线和后续 Agent 复盘相关内容。
+          身心和肌肉一样，都是练出来的。这里记录两件事：写给自己看的日记（心迹），
+          以及身体训练的长期数据——力量趋势、肌群覆盖、训练日志和 PR 时间线。
+        </p>
+      </div>
+
+      <div className="section-heading compact-heading">
+        <p className="eyebrow">Journal · 心迹</p>
+        <h2>写一篇日记</h2>
+        <p>
+          真正的日记：想到什么写什么。只存在你自己浏览器的 localStorage 里，不上传、不公开。
+        </p>
+      </div>
+
+      <JournalSection />
+
+      <div className="section-heading compact-heading body-section-heading">
+        <p className="eyebrow">Body · 身体训练</p>
+        <h2>身体的记录</h2>
+        <p>
+          三大项、实力推、臀冲和高位下拉的长期信号：训练频率、主项变化、肌群覆盖和 PR 时间线。
         </p>
       </div>
 
