@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BodyHeatmap } from '../components/BodyHeatmap'
+import { diaryEntries, diaryStats } from '../data/diaryData'
 import {
   movementHighlights,
   muscleVolumes,
@@ -57,6 +59,14 @@ const trendSeries = [
 ]
 
 export function TrainingPage() {
+  const [expandedDiary, setExpandedDiary] = useState<string[]>([diaryEntries[0]?.id ?? ''])
+
+  const toggleDiary = (id: string) => {
+    setExpandedDiary((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    )
+  }
+
   return (
     <section className="content-band page-band" id="training">
       <div className="section-heading">
@@ -305,6 +315,83 @@ export function TrainingPage() {
             ))}
           </ul>
         </article>
+      </div>
+
+      <div className="section-heading compact-heading">
+        <p className="eyebrow">Training Diary</p>
+        <h2>训练日记</h2>
+        <p>
+          每一次训练的动作、顶级组、吨位和主观感受。字段按「训记 API → 本地同步 →
+          JSON」的管道设计，当前为本地日志数据，接入后自动更新。
+        </p>
+      </div>
+
+      <div className="diary-stat-strip" aria-label="近期训练统计">
+        <div>
+          <span>近段训练</span>
+          <strong>{diaryStats.sessions} 次</strong>
+        </div>
+        <div>
+          <span>累计吨位</span>
+          <strong>{(diaryStats.totalTonnage / 1000).toFixed(1)} t</strong>
+        </div>
+        <div>
+          <span>平均时长</span>
+          <strong>{diaryStats.avgDuration} min</strong>
+        </div>
+        <div>
+          <span>平均 RPE</span>
+          <strong>{diaryStats.avgRpe}</strong>
+        </div>
+      </div>
+
+      <div className="diary-list">
+        {diaryEntries.map((entry, index) => {
+          const expanded = expandedDiary.includes(entry.id)
+          return (
+            <article className={`diary-entry ${index === 0 ? 'latest' : ''}`} key={entry.id}>
+              <div className="diary-date-rail" aria-hidden="true">
+                <time>{entry.date.slice(5).replace('-', ' / ')}</time>
+                <span>{entry.weekday}</span>
+              </div>
+              <div className="diary-body">
+                <button
+                  className="diary-toggle"
+                  type="button"
+                  aria-expanded={expanded}
+                  onClick={() => toggleDiary(entry.id)}
+                >
+                  <span className="diary-title">
+                    {index === 0 ? <b className="diary-new">最新</b> : null}
+                    {entry.title}
+                  </span>
+                  <span className="diary-toggle-meta">
+                    {entry.movements.length} 个动作 · {entry.durationMin} min · {entry.tonnage} kg · RPE {entry.rpe}
+                  </span>
+                </button>
+                <div className="diary-tag-row">
+                  {entry.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+                {expanded ? (
+                  <div className="diary-detail">
+                    <ul className="diary-movements">
+                      {entry.movements.map((movement) => (
+                        <li key={movement.name}>
+                          <strong>{movement.name}</strong>
+                          <em>{movement.topSet}</em>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="diary-highlight">{entry.highlight}</p>
+                    <p className="diary-notes">{entry.notes}</p>
+                  </div>
+                ) : null}
+              </div>
+            </article>
+          )
+        })}
       </div>
     </section>
   )
