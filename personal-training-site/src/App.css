@@ -5263,3 +5263,139 @@ main {
   color: var(--muted);
   font-size: 12px;
 }
+
+/* ---------- Ask My Site ---------- */
+
+.ask-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.ask-page .section-heading {
+  margin-bottom: 20px;
+}
+
+.ask-samples {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.ask-sample {
+  padding: 7px 16px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: rgba(5, 8, 6, 0.4);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.ask-sample:hover {
+  border-color: rgba(66, 201, 121, 0.45);
+  color: var(--accent-soft);
+}
+
+.ask-thread {
+  display: grid;
+  gap: 12px;
+  min-height: 200px;
+  margin-bottom: 18px;
+}
+
+.ask-message {
+  max-width: 860px;
+  padding: 16px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(5, 8, 6, 0.42);
+}
+
+.ask-message.user {
+  align-self: flex-end;
+  border-color: rgba(66, 201, 121, 0.28);
+}
+
+.ask-message > span {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--accent-soft);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.ask-message p {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.ask-sources {
+  margin-top: 10px;
+}
+
+.ask-sources summary {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ask-sources ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.ask-input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  max-width: 980px;
+}
+
+.ask-input-row textarea {
+  flex: 1;
+  min-height: 72px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(5, 8, 6, 0.6);
+  color: var(--text-strong);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.15s ease;
+}
+
+.ask-input-row textarea:focus {
+  border-color: rgba(66, 201, 121, 0.5);
+}
+
+.ask-input-row .review-btn {
+  flex: none;
+  min-height: 48px;
+}
+
+.ask-input-stack {
+  display: grid;
+  gap: 8px;
+  flex: 1;
+}
+
+.ask-preview {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
