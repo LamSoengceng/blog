@@ -204,6 +204,9 @@ export function HomePage() {
             它可以展示 React、TypeScript、数据可视化、静态部署、本地同步脚本、
             API 安全设计和 Agent 工作流。文章提供上下文，专题页面提供可验证的结果。
           </p>
+          <Link className="primary-link" to="/projects">
+            查看项目清单
+          </Link>
         </section>
 
         <section className="workflow-section" id="workflow">
