@@ -1,9 +1,13 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { Menu } from 'lucide-react'
+import { Menu, Settings } from 'lucide-react'
 import './App.css'
+import { SettingsModal } from './components/SettingsModal'
 
 const AlgorithmPage = lazy(() => import('./pages/AlgorithmPage').then((module) => ({ default: module.AlgorithmPage })))
+const AlgorithmReviewPage = lazy(() =>
+  import('./pages/AlgorithmReviewPage').then((module) => ({ default: module.AlgorithmReviewPage })),
+)
 const AlgorithmDetailPage = lazy(() =>
   import('./pages/AlgorithmDetailPage').then((module) => ({ default: module.AlgorithmDetailPage })),
 )
@@ -63,10 +67,17 @@ function NotFoundPage() {
 function App() {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   useEffect(() => {
     setMenuOpen(false)
   }, [location.pathname, location.hash])
+
+  useEffect(() => {
+    const openSettings = () => setSettingsOpen(true)
+    window.addEventListener('open-site-settings', openSettings)
+    return () => window.removeEventListener('open-site-settings', openSettings)
+  }, [])
 
   return (
     <main className="min-h-screen bg-[#050806] tracking-[-0.02em]" style={{ fontFamily: 'var(--font-sans)' }}>
@@ -92,19 +103,30 @@ function App() {
           ))}
         </div>
 
-        <Link className="hidden md:block bg-[#30f27b] text-[#031006] text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-[#94ffbd] transition-colors shadow-lg shadow-[#30f27b]/20" to="/blog">
-          Read Blog
-        </Link>
-        <button
-          className="md:hidden text-white"
-          type="button"
-          aria-label={menuOpen ? '关闭菜单' : '打开菜单'}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-navigation"
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <Menu size={28} strokeWidth={2} />
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            className="settings-trigger"
+            type="button"
+            aria-label="网站设置"
+            title="网站设置"
+            onClick={() => setSettingsOpen(true)}
+          >
+            <Settings size={18} />
+          </button>
+          <Link className="hidden md:block bg-[#30f27b] text-[#031006] text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-[#94ffbd] transition-colors shadow-lg shadow-[#30f27b]/20" to="/blog">
+            Read Blog
+          </Link>
+          <button
+            className="md:hidden text-white"
+            type="button"
+            aria-label={menuOpen ? '关闭菜单' : '打开菜单'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <Menu size={28} strokeWidth={2} />
+          </button>
+        </div>
       </nav>
 
       {menuOpen ? (
@@ -125,6 +147,7 @@ function App() {
           <Route path="/blog/:postSlug" element={<BlogDetailPage />} />
           <Route path="/training" element={<TrainingPage />} />
           <Route path="/algorithm" element={<AlgorithmPage />} />
+          <Route path="/algorithm/review" element={<AlgorithmReviewPage />} />
           <Route path="/market" element={<MarketPage />} />
           <Route path="/training/:movementId" element={<MovementDetailPage />} />
           <Route path="/fitness/:movementId" element={<MovementDetailPage />} />
@@ -132,6 +155,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
+      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
     </main>
   )
 }

@@ -32,11 +32,9 @@ const featuredAlgorithmProblems = algorithmReviewQueue
   .slice(0, 8)
 
 const algorithmCompletion = Math.round((algorithmMeta.solved / algorithmMeta.total) * 100)
-const remainingProblems = algorithmMeta.total - algorithmMeta.solved
 const completedProblems = algorithmProblems.filter((problem) => problem.completed)
 const leetcodeLinkedProblems = algorithmProblems.filter((problem) => problem.leetcodeUrl)
 const pendingProblems = algorithmProblems.filter((problem) => !problem.completed)
-const pendingHardProblems = pendingProblems.filter((problem) => problem.difficulty === '困难')
 const categoriesByWeakness = [...algorithmCategories].sort((first, second) => {
   const firstRatio = first.solved / first.total
   const secondRatio = second.solved / second.total
@@ -51,6 +49,28 @@ const categoryBoards = algorithmCategories.map((category) => ({
 const nextFocusProblems = pendingProblems
   .filter((problem) => focusCategories.some((category) => category.name === problem.category))
   .slice(0, 6)
+
+const allCleared = pendingProblems.length === 0
+const hardSolvedCount = completedProblems.filter((problem) => problem.difficulty === '困难').length
+const extensionCount = completedProblems.filter((problem) => problem.sourceBanks.includes('本地补充')).length
+const reReviewPattern = /需二刷|待二刷|三刷|再刷一遍/
+const reReviewTotal = algorithmProblems.filter(
+  (problem) =>
+    problem.thoughts.some((thought) => reReviewPattern.test(thought)) ||
+    problem.pitfalls.some((pitfall) => reReviewPattern.test(pitfall)),
+).length
+const reReviewProblems = algorithmProblems
+  .filter(
+    (problem) =>
+      problem.thoughts.some((thought) => reReviewPattern.test(thought)) ||
+      problem.pitfalls.some((pitfall) => reReviewPattern.test(pitfall)),
+  )
+  .sort((first, second) => (second.lastUpdatedAt ?? '').localeCompare(first.lastUpdatedAt ?? ''))
+  .slice(0, 6)
+const difficultyBreakdown = (['简单', '中等', '困难'] as const).map((level) => ({
+  level,
+  count: algorithmProblems.filter((problem) => problem.difficulty === level).length,
+}))
 type ProgressStyle = CSSProperties & { '--progress': string }
 
 export function AlgorithmPage() {
@@ -70,12 +90,12 @@ export function AlgorithmPage() {
               <strong>{algorithmMeta.solved}</strong>
             </div>
             <div>
-              <span>剩余</span>
-              <strong>{remainingProblems}</strong>
+              <span>困难攻克</span>
+              <strong>{hardSolvedCount}</strong>
             </div>
             <div>
-              <span>困难待补</span>
-              <strong>{pendingHardProblems.length}</strong>
+              <span>拓展加练</span>
+              <strong>{extensionCount}</strong>
             </div>
             <div>
               <span>匹配题库</span>
@@ -89,53 +109,106 @@ export function AlgorithmPage() {
             <span>{algorithmCompletion}%</span>
           </div>
           <div>
-            <span>Hot100 progress</span>
+            <span>{allCleared ? '🏆 Hot 100 全通' : 'Hot100 progress'}</span>
             <strong>
               {algorithmMeta.solved}/{algorithmMeta.total}
             </strong>
-            <p>已同步 {completedProblems.length} 道本地题解，复习队列里有 {algorithmReviewQueue.length} 道带错误记录的题。</p>
+            <p>
+              {allCleared
+                ? `Hot 100 全部完成，另有 ${extensionCount} 道拓展加练；${reReviewTotal} 道题标记了二刷，复习队列里有 ${algorithmReviewQueue.length} 道带错误记录。`
+                : `已同步 ${completedProblems.length} 道本地题解，复习队列里有 ${algorithmReviewQueue.length} 道带错误记录的题。`}
+            </p>
+            <Link className="review-entry" to="/algorithm/review">
+              开始快速复习 →
+            </Link>
           </div>
         </aside>
       </div>
 
-      <div className="algorithm-focus-grid">
-        <article className="algorithm-focus-panel">
-          <div className="panel-heading">
-            <h3>下一轮重点</h3>
-            <span>weak categories</span>
-          </div>
-          <div className="algorithm-focus-list">
-            {focusCategories.map((category) => (
-              <div className="algorithm-focus-row" key={category.name}>
-                <div>
-                  <strong>{category.name}</strong>
-                  <span>{category.total - category.solved} 道待补 · {category.hard} 道困难</span>
-                </div>
-                <div className="category-track">
-                  <span style={{ width: `${Math.round((category.solved / category.total) * 100)}%` }} />
-                </div>
-                <b>{Math.round((category.solved / category.total) * 100)}%</b>
-              </div>
-            ))}
-          </div>
-        </article>
+      {allCleared ? (
+        <div className="algorithm-focus-grid">
+          <article className="algorithm-focus-panel">
+            <div className="panel-heading">
+              <h3>二刷清单</h3>
+              <span>{reReviewTotal} marked for re-solve</span>
+            </div>
+            <div className="algorithm-focus-list">
+              {reReviewProblems.map((problem) => (
+                <Link className="algorithm-focus-row" key={problem.slug} to={`/algorithm/${problem.slug}`}>
+                  <div>
+                    <strong>
+                      {problem.id}. {problem.title}
+                    </strong>
+                    <span>{problem.lastUpdated ?? 'recent'}</span>
+                  </div>
+                  <span>{problem.category}</span>
+                  <em>{problem.difficulty}</em>
+                </Link>
+              ))}
+            </div>
+          </article>
 
-        <article className="algorithm-next-panel">
-          <div className="panel-heading">
-            <h3>待补题目</h3>
-            <span>next problems</span>
-          </div>
-          <div className="algorithm-mini-list">
-            {nextFocusProblems.map((problem) => (
-              <Link className="algorithm-mini-row" key={problem.slug} to={`/algorithm/${problem.slug}`}>
-                <span>{problem.id}</span>
-                <strong>{problem.title}</strong>
-                <em>{problem.category}</em>
-              </Link>
-            ))}
-          </div>
-        </article>
-      </div>
+          <article className="algorithm-next-panel">
+            <div className="panel-heading">
+              <h3>难度分布</h3>
+              <span>difficulty mix</span>
+            </div>
+            <div className="algorithm-focus-list">
+              {difficultyBreakdown.map(({ level, count }) => (
+                <div className="algorithm-focus-row" key={level}>
+                  <div>
+                    <strong>{level}</strong>
+                    <span>{count} 道 · 占总数 {Math.round((count / algorithmMeta.total) * 100)}%</span>
+                  </div>
+                  <div className="category-track">
+                    <span style={{ width: `${Math.round((count / algorithmMeta.total) * 100)}%` }} />
+                  </div>
+                  <b>{count}</b>
+                </div>
+              ))}
+            </div>
+          </article>
+        </div>
+      ) : (
+        <div className="algorithm-focus-grid">
+          <article className="algorithm-focus-panel">
+            <div className="panel-heading">
+              <h3>下一轮重点</h3>
+              <span>weak categories</span>
+            </div>
+            <div className="algorithm-focus-list">
+              {focusCategories.map((category) => (
+                <div className="algorithm-focus-row" key={category.name}>
+                  <div>
+                    <strong>{category.name}</strong>
+                    <span>{category.total - category.solved} 道待补 · {category.hard} 道困难</span>
+                  </div>
+                  <div className="category-track">
+                    <span style={{ width: `${Math.round((category.solved / category.total) * 100)}%` }} />
+                  </div>
+                  <b>{Math.round((category.solved / category.total) * 100)}%</b>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="algorithm-next-panel">
+            <div className="panel-heading">
+              <h3>待补题目</h3>
+              <span>next problems</span>
+            </div>
+            <div className="algorithm-mini-list">
+              {nextFocusProblems.map((problem) => (
+                <Link className="algorithm-mini-row" key={problem.slug} to={`/algorithm/${problem.slug}`}>
+                  <span>{problem.id}</span>
+                  <strong>{problem.title}</strong>
+                  <em>{problem.category}</em>
+                </Link>
+              ))}
+            </div>
+          </article>
+        </div>
+      )}
 
       <div className="section-heading compact-heading">
         <p className="eyebrow">Latest Commits</p>

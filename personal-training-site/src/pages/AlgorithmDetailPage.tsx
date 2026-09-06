@@ -81,6 +81,14 @@ export function AlgorithmDetailPage() {
               打开 LeetCode
             </a>
           ) : null}
+          {problem.nowcoderUrl ? (
+            <a className="algorithm-external-link" href={problem.nowcoderUrl} target="_blank" rel="noreferrer">
+              牛客题解
+            </a>
+          ) : null}
+          <Link className="algorithm-external-link" to={`/algorithm/review?slug=${problem.slug}`}>
+            在复习模式中过这道题
+          </Link>
           {problem.sourcePath ? <code>{problem.sourcePath}</code> : <code>progress only</code>}
         </aside>
       </div>
