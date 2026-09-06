@@ -9,6 +9,8 @@ const progressPath = join(leetcodeRoot, 'LeetCode-Hot100-Progress.md')
 const outputPath = join(projectRoot, 'src', 'data', 'algorithmData.ts')
 const cacheDir = join(projectRoot, 'scripts', 'cache')
 const leetcodeCachePath = join(cacheDir, 'leetcode-question-bank.json')
+const llmEnrichmentPath = join(cacheDir, 'review-enrichment.json')
+const statementCacheDir = join(cacheDir, 'statements')
 
 const difficultyMap = new Map([
   ['🟢', '简单'],
@@ -48,7 +50,7 @@ const cleanComment = (line) =>
     .trim()
 
 const isCommentHeading = (line) =>
-  /^(解题思路|正确解法|踩坑记录|易错点\/误区|注意事项|复杂度分析)(\s*[（(:：].*)?$/.test(line)
+  /^(解题思路|思路|正确解法|解法|踩坑记录|易错点\/误区|注意事项|复杂度分析)(\s*[（(:：].*)?$/.test(line)
 
 const slugify = (id, title) =>
   `${id}-${title}`
@@ -219,6 +221,48 @@ const cleanNoteText = (note) => {
 
 const unique = (items) => [...new Set(items.filter(Boolean))]
 
+// 复习填空：把注释句子里的关键技术术语挖空，做成主动回忆题。
+const techTermPattern = new RegExp(
+  [
+    '快慢指针', '双指针', '滑动窗口', '单调栈', '单调队列', '前缀和', '差分数组', '哈希表', '并查集',
+    '拓扑排序', '动态规划', '记忆化搜索', '状态压缩', '位运算', '摩尔投票', '二分查找', '快速幂',
+    '分治', '归并排序', '快速排序', '三路快排', '桶排序', '计数排序', '基数排序', '堆排序',
+    '大顶堆', '小顶堆', '优先队列', '反转链表', '环形链表', '虚拟头节点', 'dummy 节点', '哨兵节点',
+    '层序遍历', '前序遍历', '中序遍历', '后序遍历', 'Morris 遍历', '深度优先搜索', '广度优先搜索',
+    'DFS', 'BFS', 'Dijkstra', 'Bellman-Ford', 'Floyd', 'Kruskal', 'Prim', 'KMP', 'Manacher',
+    '字典树', 'Trie', '线段树', '树状数组', '滚动数组', '01 背包', '完全背包', '状压 DP', '树形 DP',
+    '区间 DP', '打表', '离散化', '异或前缀和', '接雨水', '回文子串', '最长递增子序列', '编辑距离',
+    '零拷贝', '原地哈希', '差分', '贪心', '回溯', '剪枝', '递归', '堆', '栈', '队列',
+  ].join('|'),
+  'gi',
+)
+
+const buildRecallBlanks = ({ thoughts, pitfalls }) => {
+  const candidates = [
+    ...pitfalls.map((pitfall) => cleanNoteText(pitfall)),
+    ...thoughts,
+  ]
+    .filter((line) => line.length >= 12 && line.length <= 120)
+    .filter((line) => !/^\d+\.\s*$/.test(line))
+
+  const blanks = []
+  const seenAnswers = new Set()
+  for (const line of candidates) {
+    const match = line.match(techTermPattern)
+    if (!match) continue
+    const answer = match[0]
+    const key = answer.toLowerCase()
+    if (seenAnswers.has(key)) continue
+    seenAnswers.add(key)
+    blanks.push({
+      prompt: line.replace(techTermPattern, '＿＿＿'),
+      answer,
+    })
+    if (blanks.length >= 3) break
+  }
+  return blanks
+}
+
 const buildSolutionGuide = ({ row, thoughts, pitfalls, tags }) => {
   const firstUsefulThought = thoughts.find((line) => !/时间复杂度|空间复杂度/.test(line))
   const keyMistake = pitfalls.map(cleanNoteText).find(Boolean)
@@ -268,6 +312,67 @@ const parseProgress = () => {
   return rows
 }
 
+// 原题描述：逐题从 LeetCode 抓取，转换为纯文本并落盘缓存，避免重复请求。
+const htmlToText = (html) =>
+  html
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|pre|li|h3)>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/[\t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+
+const fetchStatement = async (titleSlug) => {
+  const response = await fetch('https://leetcode.cn/graphql/', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json', referer: 'https://leetcode.cn/' },
+    body: JSON.stringify({
+      operationName: 'questionDetail',
+      variables: { titleSlug },
+      query: 'query questionDetail($titleSlug: String!) { question(titleSlug: $titleSlug) { translatedContent } }',
+    }),
+  })
+  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`)
+  const payload = await response.json()
+  return htmlToText(payload?.data?.question?.translatedContent ?? '')
+}
+
+const fetchStatements = async (titleSlugs) => {
+  mkdirSync(statementCacheDir, { recursive: true })
+  const statements = new Map()
+  for (const slug of titleSlugs) {
+    if (!slug) continue
+    const cacheFile = join(statementCacheDir, `${slug}.json`)
+    if (existsSync(cacheFile)) {
+      try {
+        statements.set(slug, JSON.parse(readUtf8(cacheFile)).text ?? '')
+        continue
+      } catch {
+        // 缓存损坏则重新抓取
+      }
+    }
+    if (process.env.LEETCODE_FETCH === '0') continue
+    try {
+      const text = await fetchStatement(slug)
+      if (text) {
+        writeFileSync(cacheFile, JSON.stringify({ fetchedAt: new Date().toISOString(), text }, null, 2), 'utf8')
+        statements.set(slug, text)
+        console.log(`statement cached: ${slug}`)
+      }
+      await new Promise((resolve) => setTimeout(resolve, 250))
+    } catch (error) {
+      console.warn(`statement fetch failed for ${slug}: ${error.message}`)
+    }
+  }
+  return statements
+}
+
 const leetcodeQuestions = await fetchLeetcodeCatalog()
 const leetcodeById = new Map(leetcodeQuestions.map((question) => [String(question.frontendQuestionId), question]))
 const leetcodeByTitleCn = new Map(leetcodeQuestions.map((question) => [question.titleCn, question]))
@@ -314,14 +419,18 @@ const rows = [
     })),
 ]
 
+const llmEnrichment = readJsonCache(llmEnrichmentPath) ?? {}
+
 const problems = rows.map((row) => {
   const file = filesById.get(row.id)
   const leetcode = leetcodeById.get(row.id) ?? leetcodeByTitleCn.get(row.title)
-  const leetcodeTags = leetcode?.topicTags?.map((tag) => tag.nameTranslated || tag.name) ?? []
-  const tags = unique([row.category, row.topic, ...leetcodeTags])
+  const leetcodeTags = leetcode?.topicTags?.map((tag) => tag.nameTranslated || tag.name) ?? []  // 不在进度表里的本地补充题没有人工标注考点，用 LeetCode 官方标签顶替，避免出现「本地提交」这种无效考点。
+  const resolvedTopic =
+    row.topic && !/^(本地提交|未标注)$/.test(row.topic) ? row.topic : leetcodeTags[0] ?? row.topic
+  const tags = unique([row.category, resolvedTopic, ...leetcodeTags])
   const thoughts = file?.thoughts?.length
     ? file.thoughts
-    : [`核心考点：${row.topic}`, fallbackPatterns[row.category] ?? '先整理输入输出和边界，再选择合适的数据结构。']
+    : [`核心考点：${resolvedTopic}`, fallbackPatterns[row.category] ?? '先整理输入输出和边界，再选择合适的数据结构。']
   const pitfalls = file?.pitfalls?.length
     ? file.pitfalls
     : row.completed
@@ -337,10 +446,11 @@ const problems = rows.map((row) => {
     difficulty: row.difficulty === '未标注' && leetcode?.difficulty
       ? leetcodeDifficultyMap.get(leetcode.difficulty) ?? row.difficulty
       : row.difficulty,
-    topic: row.topic,
+    topic: resolvedTopic,
     completed: row.completed || Boolean(file),
     leetcodeSlug: leetcode?.titleSlug,
     leetcodeUrl: leetcode?.titleSlug ? `https://leetcode.cn/problems/${leetcode.titleSlug}/` : undefined,
+    nowcoderUrl: `https://www.nowcoder.com/search/all?query=${encodeURIComponent(leetcode?.titleCn ?? row.title)}`,
     acceptanceRate: typeof leetcode?.acRate === 'number' ? Number((leetcode.acRate * 100).toFixed(1)) : undefined,
     solutionCount: leetcode?.solutionNum,
     companyTagCount: leetcode?.extra?.companyTagNum,
@@ -353,12 +463,31 @@ const problems = rows.map((row) => {
     interviewPattern: fallbackPatterns[row.category] ?? '先讲清楚暴力解，再给出数据结构优化，并补充复杂度。',
     thoughts,
     pitfalls,
-    solutionGuide: buildSolutionGuide({ row, thoughts, pitfalls, tags }),
+    recallBlanks: buildRecallBlanks({ thoughts, pitfalls }),
+    llmReview: llmEnrichment[row.id] ?? null,
+    solutionGuide: buildSolutionGuide({ row: { ...row, topic: resolvedTopic }, thoughts, pitfalls, tags }),
     codePreview: file?.codePreview,
   }
 })
 
-const recentProblems = problems
+// 原题描述
+const statements = await fetchStatements(problems.map((problem) => problem.leetcodeSlug).filter(Boolean))
+
+// 大模型提炼结果（scripts/llmEnrichReview.mjs 生成）优先于确定性挖空
+const problemsWithReview = problems.map((problem) => {
+  const { llmReview, ...rest } = problem
+  const enrichment = llmReview
+  const statement = statements.get(rest.leetcodeSlug ?? '') ?? undefined
+  if (!enrichment) return { ...rest, statement }
+  return {
+    ...rest,
+    statement,
+    recallBlanks: Array.isArray(enrichment.blanks) ? enrichment.blanks : problem.recallBlanks,
+    keyPoints: Array.isArray(enrichment.keyPoints) ? enrichment.keyPoints : undefined,
+  }
+})
+
+const recentProblems = problemsWithReview
   .filter((problem) => problem.codePreview && problem.lastUpdatedAt)
   .sort((first, second) => new Date(second.lastUpdatedAt).getTime() - new Date(first.lastUpdatedAt).getTime())
   .slice(0, 10)
@@ -376,8 +505,8 @@ const recentProblems = problems
     codePreview: problem.codePreview,
   }))
 
-const categories = [...new Set(problems.map((problem) => problem.category))].map((category) => {
-  const items = problems.filter((problem) => problem.category === category)
+const categories = [...new Set(problemsWithReview.map((problem) => problem.category))].map((category) => {
+  const items = problemsWithReview.filter((problem) => problem.category === category)
   return {
     name: category,
     total: items.length,
@@ -386,7 +515,7 @@ const categories = [...new Set(problems.map((problem) => problem.category))].map
   }
 })
 
-const reviewQueue = problems
+const reviewQueue = problemsWithReview
   .filter((problem) => problem.completed && problem.pitfalls.some((pitfall) => !pitfall.includes('暂未提取')))
   .slice(0, 8)
   .map((problem) => ({
@@ -407,6 +536,7 @@ const output = `export type AlgorithmProblem = {
   completed: boolean
   leetcodeSlug?: string
   leetcodeUrl?: string
+  nowcoderUrl?: string
   acceptanceRate?: number
   solutionCount?: number
   companyTagCount?: number
@@ -419,6 +549,9 @@ const output = `export type AlgorithmProblem = {
   interviewPattern: string
   thoughts: string[]
   pitfalls: string[]
+  recallBlanks: { prompt: string; answer: string }[]
+  keyPoints?: string[]
+  statement?: string
   solutionGuide: {
     idea: string
     interviewSteps: string[]
@@ -462,8 +595,8 @@ export const algorithmMeta = ${JSON.stringify(
     generatedAt: new Date().toISOString(),
     leetcodeCatalogSource: 'https://leetcode.cn/problemset/',
     leetcodeCatalogFetchedAt: readJsonCache(leetcodeCachePath)?.fetchedAt,
-    total: problems.length,
-    solved: problems.filter((problem) => problem.completed).length,
+    total: problemsWithReview.length,
+    solved: problemsWithReview.filter((problem) => problem.completed).length,
   },
   null,
   2,
@@ -475,8 +608,8 @@ export const algorithmReviewQueue: AlgorithmReviewItem[] = ${JSON.stringify(revi
 
 export const algorithmRecentProblems: AlgorithmRecentItem[] = ${JSON.stringify(recentProblems, null, 2)}
 
-export const algorithmProblems: AlgorithmProblem[] = ${JSON.stringify(problems, null, 2)}
+export const algorithmProblems: AlgorithmProblem[] = ${JSON.stringify(problemsWithReview, null, 2)}
 `
 
 writeFileSync(outputPath, output, 'utf8')
-console.log(`Generated ${problems.length} algorithm problems -> ${outputPath}`)
+console.log(`Generated ${problemsWithReview.length} algorithm problems -> ${outputPath}`)
