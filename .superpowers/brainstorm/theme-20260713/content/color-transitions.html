@@ -1,0 +1,41 @@
+<h2>黑绿基底的颜色层次</h2>
+<p class="subtitle">下面三种都以黑、绿为主，区别在于页面从背景到卡片、边框、文字和状态色的过渡丰富度。</p>
+
+<style>
+  .palette-options { display:grid; gap:18px; margin-top:24px; }
+  .palette-option { display:grid; grid-template-columns:1.1fr 1fr; gap:18px; align-items:stretch; padding:18px; border:1px solid rgba(255,255,255,.14); border-radius:14px; background:#111; cursor:pointer; transition:transform .2s ease,border-color .2s ease; }
+  .palette-option:hover { transform:translateY(-3px); border-color:rgba(255,255,255,.5); }
+  .palette-preview { min-height:170px; padding:18px; border-radius:10px; color:#effff3; }
+  .palette-preview header { display:flex; justify-content:space-between; font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+  .palette-preview h3 { margin:28px 0 8px; font-size:24px; }
+  .palette-preview p { margin:0; max-width:340px; font-size:11px; line-height:1.55; opacity:.75; }
+  .token-row { display:flex; flex-wrap:wrap; gap:8px; align-content:start; }
+  .token { min-width:82px; padding:12px 10px; border-radius:8px; color:#fff; font-size:10px; }
+  .token b { display:block; margin-bottom:4px; font-size:11px; }
+  .palette-copy strong { display:block; margin-bottom:8px; }
+  .palette-copy p { margin:0; line-height:1.6; opacity:.72; }
+  .p1 .palette-preview { background:linear-gradient(135deg,#050806 0%,#0b1710 45%,#173d27 100%); }
+  .p1 .t1 { background:#050806; } .p1 .t2 { background:#0b1710; } .p1 .t3 { background:#173d27; } .p1 .t4 { color:#07110a; background:#55e889; } .p1 .t5 { color:#14100a; background:#e5b86f; }
+  .p2 .palette-preview { background:linear-gradient(135deg,#050806 0%,#102018 34%,#195335 70%,#2c9f68 100%); }
+  .p2 .t1 { background:#050806; } .p2 .t2 { background:#102018; } .p2 .t3 { background:#195335; } .p2 .t4 { color:#06120b; background:#8fffc0; } .p2 .t5 { color:#081116; background:#75c7db; }
+  .p3 .palette-preview { background:linear-gradient(135deg,#050806 0%,#121b13 42%,#334e2f 75%,#637747 100%); }
+  .p3 .t1 { background:#050806; } .p3 .t2 { background:#121b13; } .p3 .t3 { background:#334e2f; } .p3 .t4 { color:#08100a; background:#b4f2a4; } .p3 .t5 { color:#171208; background:#e2c77f; }
+  @media (max-width:720px) { .palette-option { grid-template-columns:1fr; } }
+</style>
+
+<div class="palette-options">
+  <div class="palette-option p1" data-choice="a" onclick="toggleSelect(this)">
+    <div class="palette-preview"><header><b>Black / Green</b><span>Quiet depth</span></header><h3>层次克制</h3><p>黑色背景 → 深森林绿卡片 → 中绿边框 → 柔和薄荷强调。加入少量琥珀作为提醒色。</p></div>
+    <div class="palette-copy"><strong>A · 推荐：深森林渐进</strong><div class="token-row"><span class="token t1"><b>Canvas</b>#050806</span><span class="token t2"><b>Surface</b>#0B1710</span><span class="token t3"><b>Raised</b>#173D27</span><span class="token t4"><b>Accent</b>#55E889</span><span class="token t5"><b>Signal</b>#E5B86F</span></div><p>适合博客、训练、算法和市场共用；变化丰富但不会离开黑绿品牌。</p></div>
+  </div>
+
+  <div class="palette-option p2" data-choice="b" onclick="toggleSelect(this)">
+    <div class="palette-preview"><header><b>Black / Green</b><span>Fresh energy</span></header><h3>明暗反差</h3><p>绿色层级更明显，卡片和指标更有跃迁感，蓝青色只用于信息状态和图表辅助线。</p></div>
+    <div class="palette-copy"><strong>B · 高反差：薄荷与青蓝</strong><div class="token-row"><span class="token t1"><b>Canvas</b>#050806</span><span class="token t2"><b>Surface</b>#102018</span><span class="token t3"><b>Raised</b>#195335</span><span class="token t4"><b>Accent</b>#8FFFC0</span><span class="token t5"><b>Info</b>#75C7DB</span></div><p>页面更有活力，数据可视化更醒目，但需要控制绿色面积避免再次变成荧光绿主题。</p></div>
+  </div>
+
+  <div class="palette-option p3" data-choice="c" onclick="toggleSelect(this)">
+    <div class="palette-preview"><header><b>Black / Green</b><span>Natural archive</span></header><h3>自然过渡</h3><p>黑色 → 橄榄绿 → 苔藓绿 → 柔和浅绿，琥珀色只做时间线、提示和重要节点。</p></div>
+    <div class="palette-copy"><strong>C · 自然感：苔藓绿与橄榄绿</strong><div class="token-row"><span class="token t1"><b>Canvas</b>#050806</span><span class="token t2"><b>Surface</b>#121B13</span><span class="token t3"><b>Raised</b>#334E2F</span><span class="token t4"><b>Accent</b>#B4F2A4</span><span class="token t5"><b>Signal</b>#E2C77F</span></div><p>更温和、更像长期档案和训练日志，适合阅读，但技术工作台的锐度会降低。</p></div>
+  </div>
+</div>

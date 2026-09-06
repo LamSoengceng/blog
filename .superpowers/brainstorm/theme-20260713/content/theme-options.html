@@ -1,0 +1,67 @@
+<h2>选择 Blog 页的主题方向</h2>
+<p class="subtitle">三种方案都保留深色基底，但减少“纯黑 + 荧光绿”的单一感。请点击最接近你想要的方向。</p>
+
+<style>
+  .theme-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin-top:24px; }
+  .theme-option { min-width:0; border:1px solid rgba(255,255,255,.14); border-radius:14px; overflow:hidden; background:#111; cursor:pointer; transition:transform .2s ease,border-color .2s ease; }
+  .theme-option:hover { transform:translateY(-4px); border-color:rgba(255,255,255,.5); }
+  .theme-preview { min-height:280px; padding:16px; }
+  .theme-preview header { display:flex; justify-content:space-between; align-items:center; font-size:11px; letter-spacing:.08em; text-transform:uppercase; }
+  .theme-preview nav { display:flex; gap:6px; margin:28px 0 42px; font-size:10px; }
+  .theme-preview nav span { padding:6px 8px; border-radius:999px; }
+  .theme-preview h3 { margin:0 0 10px; font-size:27px; line-height:1; }
+  .theme-preview p { margin:0; max-width:230px; font-size:11px; line-height:1.6; opacity:.72; }
+  .theme-preview .cards { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:22px; }
+  .theme-preview .cards span { height:42px; border-radius:6px; border:1px solid currentColor; opacity:.5; }
+  .theme-name { padding:16px; background:rgba(255,255,255,.04); }
+  .theme-name strong { display:block; margin-bottom:5px; }
+  .theme-name small { opacity:.7; line-height:1.5; }
+  .theme-a .theme-preview { color:#d9f5e2; background:linear-gradient(145deg,#0d1712,#18271d); }
+  .theme-a .theme-preview header { color:#8fe5ad; }
+  .theme-a .theme-preview nav span:first-child { background:#8fe5ad; color:#0b120d; }
+  .theme-a .theme-preview .cards span:first-child { color:#8fe5ad; }
+  .theme-b .theme-preview { color:#f3eee5; background:linear-gradient(145deg,#171615,#25221e); }
+  .theme-b .theme-preview header { color:#d9a86c; }
+  .theme-b .theme-preview nav span:first-child { background:#d9a86c; color:#171615; }
+  .theme-b .theme-preview .cards span:first-child { color:#d9a86c; }
+  .theme-c .theme-preview { color:#e4e9f5; background:linear-gradient(145deg,#111722,#1b2638); }
+  .theme-c .theme-preview header { color:#91b7ff; }
+  .theme-c .theme-preview nav span:first-child { background:#91b7ff; color:#111722; }
+  .theme-c .theme-preview .cards span:first-child { color:#91b7ff; }
+  @media (max-width:760px) { .theme-options { grid-template-columns:1fr; } .theme-preview { min-height:230px; } }
+</style>
+
+<div class="theme-options">
+  <div class="theme-option theme-a" data-choice="a" onclick="toggleSelect(this)">
+    <div class="theme-preview">
+      <header><b>Lam</b><span>Quiet Green</span></header>
+      <nav><span>Blog</span><span>Training</span><span>Notes</span></nav>
+      <h3>个人博客</h3>
+      <p>深墨绿层次，绿色只用于当前状态、链接和关键数字。</p>
+      <div class="cards"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="theme-name"><strong>A · Quiet Green</strong><small>最接近当前品牌，降低荧光感，适合长期阅读和数据面板。</small></div>
+  </div>
+
+  <div class="theme-option theme-b" data-choice="b" onclick="toggleSelect(this)">
+    <div class="theme-preview">
+      <header><b>Lam</b><span>Warm Editorial</span></header>
+      <nav><span>Blog</span><span>Training</span><span>Notes</span></nav>
+      <h3>个人博客</h3>
+      <p>炭黑与暖米白，琥珀色做强调，阅读感更像独立作者杂志。</p>
+      <div class="cards"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="theme-name"><strong>B · Warm Editorial</strong><small>视觉变化最大，博客气质最强，但和训练、市场模块的统一成本更高。</small></div>
+  </div>
+
+  <div class="theme-option theme-c" data-choice="c" onclick="toggleSelect(this)">
+    <div class="theme-preview">
+      <header><b>Lam</b><span>Cool Studio</span></header>
+      <nav><span>Blog</span><span>Training</span><span>Notes</span></nav>
+      <h3>个人博客</h3>
+      <p>冷灰蓝工作台风格，强调结构、代码和项目记录的技术感。</p>
+      <div class="cards"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="theme-name"><strong>C · Cool Studio</strong><small>最像产品工作台，适合项目和算法内容，但会削弱个人博客的温度。</small></div>
+  </div>
+</div>

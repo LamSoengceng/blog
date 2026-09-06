@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap');
+* { font-family: var(--font-sans); }
+.font-playfair { font-family: 'Playfair Display', serif; }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes heroReveal { 0%{opacity:0;transform:translateY(28px);filter:blur(12px)} 100%{opacity:1;transform:translateY(0);filter:blur(0)} }
+@keyframes heroFadeUp { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
+@keyframes heroZoom { 0%{transform:scale(1.12)} 100%{transform:scale(1)} }
+.hero-anim { opacity:0; animation-fill-mode:forwards; animation-timing-function:cubic-bezier(0.16,1,0.3,1); }
+.hero-reveal { animation-name:heroReveal; animation-duration:1.1s; }
+.hero-fade { animation-name:heroFadeUp; animation-duration:1s; }
+.hero-zoom { animation:heroZoom 1.8s cubic-bezier(0.16,1,0.3,1) forwards; }
+@media (prefers-reduced-motion: reduce){ .hero-anim,.hero-zoom{ animation:none; opacity:1; } }
+
+.hero-reveal-layer {
+  -webkit-mask-image: radial-gradient(
+    circle 260px at var(--cursor-x, -999px) var(--cursor-y, -999px),
+    #fff 0,
+    #fff 40%,
+    rgba(255, 255, 255, 0.72) 60%,
+    rgba(255, 255, 255, 0.32) 76%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    circle 260px at var(--cursor-x, -999px) var(--cursor-y, -999px),
+    #fff 0,
+    #fff 40%,
+    rgba(255, 255, 255, 0.72) 60%,
+    rgba(255, 255, 255, 0.32) 76%,
+    transparent 100%
+  );
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .hero-reveal-layer {
+    display: none;
+  }
+}
+
+:root {
+  --font-sans:
+    Inter, "Noto Sans SC", "HarmonyOS Sans SC", MiSans, "Microsoft YaHei UI", "Microsoft YaHei",
+    "PingFang SC", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  --font-display:
+    "Noto Sans SC", Inter, "HarmonyOS Sans SC", MiSans, "Microsoft YaHei UI", "Microsoft YaHei",
+    "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+  --font-mono:
+    "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, Menlo, Monaco,
+    monospace;
+  font-family:
+    var(--font-sans);
+  color: #ddebe2;
+  background: #050806;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --page: #050806;
+  --surface: #0b1510;
+  --surface-strong: #102018;
+  --surface-raised: #195335;
+  --text: #ddebe2;
+  --text-strong: #f3fff7;
+  --muted: #88a391;
+  --border: #244936;
+  --accent: #42c979;
+  --accent-soft: #8fffc0;
+  --info: #75c7db;
+  --signal: #e5b86f;
+  --track: #173326;
+  --danger: #ff7a4f;
+  --success: #55e889;
+  --warning: #e5b86f;
+  --focus-ring: #75c7db;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0;
+  background:
+    radial-gradient(circle at 82% 8%, rgba(117, 199, 219, 0.08), transparent 28rem),
+    radial-gradient(circle at 12% 30%, rgba(66, 201, 121, 0.12), transparent 30rem),
+    linear-gradient(180deg, #050806 0%, #09140d 48%, #050806 100%);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

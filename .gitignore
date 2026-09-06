@@ -1,0 +1,17 @@
+# Dependencies & build outputs (global fallback)
+node_modules/
+dist/
+dist-ssr/
+*.local
+*.log
+
+# Tool session state
+.mimosa/
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.sw?
