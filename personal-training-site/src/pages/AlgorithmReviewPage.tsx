@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { algorithmProblems, type AlgorithmProblem } from '../data/algorithmData'
 import { HighlightText } from '../utils/techTerms'
+import { FeynmanCheck } from '../components/FeynmanCheck'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import { loadReviewPrefs, onReviewPrefsChange, openSiteSettings, type ReviewPrefs } from '../utils/settings'
 import {
@@ -357,6 +358,8 @@ export function AlgorithmReviewPage() {
             </div>
           </div>
         ) : null}
+
+        <FeynmanCheck problem={current} />
 
         <div className="review-section">
           <span>最该记住的错</span>
