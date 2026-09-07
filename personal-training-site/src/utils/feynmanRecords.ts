@@ -7,6 +7,7 @@ export type FeynmanRecord = {
   score: number | null // 1-5，未评估为 null
   feedback: string // 模型评语，未评估为空
   sourceNotes: boolean // 评估时是否附带了站内标准笔记
+  sketch?: string // 小黑板草图（dataURL）
 }
 
 const STORAGE_KEY = 'feynman-records-v1'
@@ -34,7 +35,7 @@ export const saveFeynmanRecords = (records: FeynmanRecord[]) => {
 
 export const addFeynmanRecord = (
   records: FeynmanRecord[],
-  draft: { topic: string; text: string; score: number | null; feedback: string; sourceNotes: boolean },
+  draft: { topic: string; text: string; score: number | null; feedback: string; sourceNotes: boolean; sketch?: string },
 ): FeynmanRecord[] => [
   {
     id: `f-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,

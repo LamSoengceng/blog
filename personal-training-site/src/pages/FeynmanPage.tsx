@@ -9,6 +9,8 @@ import {
   saveFeynmanRecords,
 } from '../utils/feynmanRecords'
 import { openSiteSettings } from '../utils/settings'
+import { DictationButton } from '../components/DictationButton'
+import { SketchPad, requestSketchExport } from '../components/SketchPad'
 import type { FeynmanRecord } from '../utils/feynmanRecords'
 
 const scoreRegex = /费曼得分[:：]?\s*([1-5])\s*\/\s*5/
@@ -71,6 +73,7 @@ export function FeynmanPage() {
   const [grading, setGrading] = useState(false)
   const [error, setError] = useState('')
   const [savedFlash, setSavedFlash] = useState('')
+  const [showSketch, setShowSketch] = useState(false)
 
   const stats = feynmanStats(records)
   const canSubmit = topic.trim() && text.trim().length >= 10
@@ -91,8 +94,9 @@ export function FeynmanPage() {
     const cleanTopic = topic.trim()
     const cleanText = text.trim()
 
+    const sketchDataUrl = showSketch ? await requestSketchExport() : ''
     if (saveOnly) {
-      persist(addFeynmanRecord(records, { topic: cleanTopic, text: cleanText, score: null, feedback: '', sourceNotes: Boolean(referenceNotes) }))
+      persist(addFeynmanRecord(records, { topic: cleanTopic, text: cleanText, score: null, feedback: '', sourceNotes: Boolean(referenceNotes), sketch: sketchDataUrl || undefined }))
       setText('')
       flash('已保存（未评估）✓')
       return
@@ -120,6 +124,7 @@ export function FeynmanPage() {
           score: score && score >= 1 ? score : null,
           feedback,
           sourceNotes: Boolean(referenceNotes),
+          sketch: sketchDataUrl || undefined,
         }),
       )
       setText('')
@@ -179,13 +184,26 @@ export function FeynmanPage() {
           ) : null}
         </div>
 
-        <textarea
-          className="feynman-explain-input"
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-          rows={7}
-          placeholder="合上资料，开始讲：这个知识点是什么？解决什么问题？怎么用？容易错在哪？——就当对面坐着一个完全没学过的人。"
-        />
+        <div className="feynman-input-block">
+          <div className="feynman-input-tools">
+            <DictationButton onText={(spoken) => setText((prev) => (prev ? `${prev} ${spoken}` : spoken))} />
+            <button
+              className={`journal-kind ${showSketch ? 'active' : ''}`}
+              type="button"
+              onClick={() => setShowSketch((prev) => !prev)}
+            >
+              {showSketch ? '收起小黑板' : '🖍 小黑板'}
+            </button>
+          </div>
+          <textarea
+            className="feynman-explain-input"
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            rows={7}
+            placeholder="合上资料，开始讲：这个知识点是什么？解决什么问题？怎么用？容易错在哪？——就当对面坐着一个完全没学过的人。也可以点麦克风口述，或打开小黑板画图。"
+          />
+          {showSketch ? <SketchPad /> : null}
+        </div>
 
         <div className="journal-composer-actions">
           <button className="review-btn primary" type="submit" disabled={!canSubmit || grading}>
@@ -245,6 +263,7 @@ export function FeynmanPage() {
                 </button>
               </div>
               <p className="feynman-record-text">{record.text}</p>
+              {record.sketch ? <img className="feynman-sketch" src={record.sketch} alt={`${record.topic} 的小黑板草图`} /> : null}
               {record.feedback ? (
                 <details className="ask-sources" open={record.score == null}>
                   <summary>{record.score ? '查看模型评语' : '未评估'}</summary>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { X } from 'lucide-react'
+import { DictationButton } from './DictationButton'
 import {
   addJournalEntry,
   formatJournalDate,
@@ -103,13 +104,19 @@ export function JournalSection() {
           placeholder="标题（可留空，会自动用类型 + 日期）"
           maxLength={60}
         />
-        <textarea
-          className="journal-body-input"
-          value={body}
-          onChange={(event) => setBody(event.target.value)}
-          rows={5}
-          placeholder="今天练了什么、想了什么、情绪怎么样——写给未来的自己。"
-        />
+        <div className="journal-input-block">
+          <div className="journal-input-tools">
+            <DictationButton onText={(spoken) => setBody((prev) => (prev ? `${prev} ${spoken}` : spoken))} />
+            <span className="journal-input-tools-hint">口述转文字（Chrome / Edge）</span>
+          </div>
+          <textarea
+            className="journal-body-input"
+            value={body}
+            onChange={(event) => setBody(event.target.value)}
+            rows={5}
+            placeholder="今天练了什么、想了什么、情绪怎么样——写给未来的自己。"
+          />
+        </div>
         <div className="journal-composer-actions">
           <button className="review-btn primary" type="submit" disabled={!canSave}>
             写下这一篇
