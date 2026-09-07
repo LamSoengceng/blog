@@ -18,6 +18,7 @@ const BlogDetailPage = lazy(() =>
 const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })))
 const MarketPage = lazy(() => import('./pages/MarketPage').then((module) => ({ default: module.MarketPage })))
 const AskPage = lazy(() => import('./pages/AskPage').then((module) => ({ default: module.AskPage })))
+const FeynmanPage = lazy(() => import('./pages/FeynmanPage').then((module) => ({ default: module.FeynmanPage })))
 const ProjectsPage = lazy(() =>
   import('./pages/ProjectsPage').then((module) => ({ default: module.ProjectsPage })),
 )
@@ -30,6 +31,7 @@ const navItems = [
   { label: 'Blog', to: '/blog' },
   { label: 'Growth', to: '/training' },
   { label: 'Algorithm', to: '/algorithm' },
+  { label: 'Feynman', to: '/feynman' },
   { label: 'Market', to: '/market' },
   { label: 'Projects', to: '/projects' },
   { label: 'Notes', to: '/blog/personal-site-as-lab' },
@@ -156,6 +158,7 @@ function App() {
           <Route path="/market" element={<MarketPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/ask" element={<AskPage />} />
+          <Route path="/feynman" element={<FeynmanPage />} />
           <Route path="/training/:movementId" element={<MovementDetailPage />} />
           <Route path="/fitness/:movementId" element={<MovementDetailPage />} />
           <Route path="/algorithm/:problemSlug" element={<AlgorithmDetailPage />} />
