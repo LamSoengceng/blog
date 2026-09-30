@@ -26,6 +26,7 @@ const MovementDetailPage = lazy(() =>
   import('./pages/MovementDetailPage').then((module) => ({ default: module.MovementDetailPage })),
 )
 const TrainingPage = lazy(() => import('./pages/TrainingPage').then((module) => ({ default: module.TrainingPage })))
+const WrappedPage = lazy(() => import('./pages/WrappedPage').then((module) => ({ default: module.WrappedPage })))
 
 const navItems = [
   { label: 'Blog', to: '/blog' },
@@ -34,6 +35,7 @@ const navItems = [
   { label: 'Feynman', to: '/feynman' },
   { label: 'Market', to: '/market' },
   { label: 'Projects', to: '/projects' },
+  { label: 'Wrapped', to: '/wrapped' },
   { label: 'Notes', to: '/blog/personal-site-as-lab' },
   { label: 'Ask', to: '/ask' },
 ]
@@ -157,6 +159,7 @@ function App() {
           <Route path="/algorithm/review" element={<AlgorithmReviewPage />} />
           <Route path="/market" element={<MarketPage />} />
           <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/wrapped" element={<WrappedPage />} />
           <Route path="/ask" element={<AskPage />} />
           <Route path="/feynman" element={<FeynmanPage />} />
           <Route path="/training/:movementId" element={<MovementDetailPage />} />
