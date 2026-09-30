@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   currentStreak,
   habits,
@@ -8,7 +8,7 @@ import {
   toDateKey,
   toggleHabit,
 } from '../utils/habitStore'
-import { loadJournal } from '../utils/journalStore'
+import { loadJournal, onJournalChange } from '../utils/journalStore'
 import { toChartPoints, toPolyline } from '../utils/chartGeometry'
 
 const moodChart = {
@@ -23,9 +23,13 @@ const TRACK_DAYS = 28
 
 export function MindMetricsSection() {
   const [checkins, setCheckins] = useState(loadHabitCheckins)
+  const [journal, setJournal] = useState(loadJournal)
+  // 日期只在挂载时取一次，避免渲染期调用 new Date()（跨零点时旧值也够用：下次挂载即刷新）
+  const [today] = useState(() => ({ key: toDateKey(new Date()), days: lastNDays(TRACK_DAYS) }))
 
-  const days = lastNDays(TRACK_DAYS)
-  const todayKey = toDateKey(new Date())
+  useEffect(() => onJournalChange(() => setJournal(loadJournal())), [])
+
+  const { days, key: todayKey } = today
 
   const toggle = (dateKey: string, habitId: string) => {
     // 函数式更新：同一帧内连续点击多格也能逐次生效
@@ -37,7 +41,7 @@ export function MindMetricsSection() {
   }
 
   // 心情曲线：取日记按时间正序，展示最近 14 条
-  const moodEntries = [...loadJournal()]
+  const moodEntries = [...journal]
     .sort((first, second) => first.createdAt.localeCompare(second.createdAt))
     .slice(-14)
   const moodValues = moodEntries.map((entry) => entry.mood)

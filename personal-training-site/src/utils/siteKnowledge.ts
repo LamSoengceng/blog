@@ -130,7 +130,8 @@ export const buildKnowledgeChunks = (): KnowledgeChunk[] => {
 
 // 极简中文友好的关键词检索：查询词 + 二元组，标题命中加权，返回最相关的 K 块。
 export const retrieveChunks = (query: string, chunks: KnowledgeChunk[], k = 6): KnowledgeChunk[] => {
-  const clean = query.replace(/[\s，。？?！、,.\-—:：；;（）()【】\[\]"'`]+/g, ' ').trim()
+  // 字符类里 [ 无需转义，但 ] 必须转义，否则会被当成字符类结束
+  const clean = query.replace(/[\s，。？?！、,.\-—:：；;（）()【】["'`\]]+/g, ' ').trim()
   if (!clean) return []
 
   const terms = new Set<string>()

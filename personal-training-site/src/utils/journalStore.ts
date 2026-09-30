@@ -35,6 +35,13 @@ export const saveJournal = (entries: JournalEntry[]) => {
   } catch {
     // localStorage 不可用（隐私模式等）时静默降级，仅本次会话有效
   }
+  // 通知同页的心情曲线等只读消费者刷新（它们与日记编辑器是兄弟组件）
+  window.dispatchEvent(new Event('journal-changed'))
+}
+
+export const onJournalChange = (callback: () => void) => {
+  window.addEventListener('journal-changed', callback)
+  return () => window.removeEventListener('journal-changed', callback)
 }
 
 export const addJournalEntry = (
