@@ -7,6 +7,7 @@ const projectRoot = join(__dirname, '..')
 const leetcodeRoot = process.env.LEETCODE_ROOT ?? 'C:\\Project\\leetcode'
 const progressPath = join(leetcodeRoot, 'LeetCode-Hot100-Progress.md')
 const outputPath = join(projectRoot, 'src', 'data', 'algorithmData.ts')
+const metaOutputPath = join(projectRoot, 'src', 'data', 'algorithmMeta.ts')
 const cacheDir = join(projectRoot, 'scripts', 'cache')
 const leetcodeCachePath = join(cacheDir, 'leetcode-question-bank.json')
 const llmEnrichmentPath = join(cacheDir, 'review-enrichment.json')
@@ -589,6 +590,17 @@ export type AlgorithmRecentItem = {
   codePreview: string
 }
 
+export const algorithmCategories: AlgorithmCategory[] = ${JSON.stringify(categories, null, 2)}
+
+export const algorithmReviewQueue: AlgorithmReviewItem[] = ${JSON.stringify(reviewQueue, null, 2)}
+
+export const algorithmRecentProblems: AlgorithmRecentItem[] = ${JSON.stringify(recentProblems, null, 2)}
+
+export const algorithmProblems: AlgorithmProblem[] = ${JSON.stringify(problemsWithReview, null, 2)}
+`
+
+// 汇总数据单独成文件：首页/知识库只需要这几个数字，不应因此下载整个题库。
+const metaOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
 export const algorithmMeta = ${JSON.stringify(
   {
     sourceLabel: 'Local LeetCode snapshot',
@@ -601,15 +613,9 @@ export const algorithmMeta = ${JSON.stringify(
   null,
   2,
 )} as const
-
-export const algorithmCategories: AlgorithmCategory[] = ${JSON.stringify(categories, null, 2)}
-
-export const algorithmReviewQueue: AlgorithmReviewItem[] = ${JSON.stringify(reviewQueue, null, 2)}
-
-export const algorithmRecentProblems: AlgorithmRecentItem[] = ${JSON.stringify(recentProblems, null, 2)}
-
-export const algorithmProblems: AlgorithmProblem[] = ${JSON.stringify(problemsWithReview, null, 2)}
 `
 
 writeFileSync(outputPath, output, 'utf8')
+writeFileSync(metaOutputPath, metaOutput, 'utf8')
 console.log(`Generated ${problemsWithReview.length} algorithm problems -> ${outputPath}`)
+console.log(`Generated algorithmMeta -> ${metaOutputPath}`)

@@ -1,6 +1,7 @@
 // Ask My Site：把全站内容聚合成分块知识库，问题按关键词检索出最相关的块，
 // 再交给 BYOK 大模型回答。检索在浏览器本地完成，不依赖向量服务。
-import { algorithmMeta, algorithmProblems } from '../data/algorithmData'
+import { algorithmProblems } from '../data/algorithmData'
+import { algorithmMeta } from '../data/algorithmMeta'
 import { blogPosts } from '../data/blogData'
 import { diaryEntries } from '../data/diaryData'
 import { metricCards, movementHighlights, muscleVolumes, prs } from '../data/fitnessData'
