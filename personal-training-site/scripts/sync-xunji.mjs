@@ -111,7 +111,7 @@ const fetchDate = async (dateKey) => {
 
 const activities = []
 const staleDates = []
-const now = Date.now()
+let successCount = 0
 
 for (const dateKey of dates) {
   const cacheFile = join(cacheDir, `${dateKey}.json`)
@@ -119,6 +119,7 @@ for (const dateKey of dates) {
     try {
       const cached = JSON.parse(readFileSync(cacheFile, 'utf8'))
       activities.push(...cached.records)
+      successCount += 1
       continue
     } catch {
       // 缓存损坏则重新抓取
@@ -130,6 +131,7 @@ for (const dateKey of dates) {
     mkdirSync(cacheDir, { recursive: true })
     writeFileSync(cacheFile, JSON.stringify({ fetchedAt: new Date().toISOString(), records }, null, 2), 'utf8')
     activities.push(...records)
+    successCount += 1
     console.log(`  ${records.length} 条记录`)
   } catch (error) {
     console.warn(`  失败：${error.message}`)
@@ -137,6 +139,13 @@ for (const dateKey of dates) {
   }
   // 礼貌限速：不同日期也稍作间隔
   await sleep(1200)
+}
+
+// 一个日期都没拿到（如 token 失效）：保留上一份数据，不要改写成「刚同步过」的空文件。
+if (successCount === 0) {
+  console.error(`\n全部 ${dates.length} 个日期抓取失败，未写入 ${outputPath}；现有数据保持不变。`)
+  console.error('常见原因：XUNJI_API_KEY 失效（训记 App 内重新获取后更新 .env.local）。')
+  process.exit(1)
 }
 
 activities.sort((first, second) => (second.startIso ?? second.date).localeCompare(first.startIso ?? first.date))
