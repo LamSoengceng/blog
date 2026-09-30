@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { loadAiConfig, chatCompletion } from '../utils/aiChat'
-import { loadFeynmanDraft, saveFeynmanDraft, type FeynmanDraft } from '../utils/feynmanStore'
+import {
+  loadFeynmanDraft,
+  parseFeynmanScore,
+  saveFeynmanDraft,
+  type FeynmanDraft,
+} from '../utils/feynmanStore'
+import { FEYNMAN_BOOST_SCORE } from '../utils/reviewStore'
 import { openSiteSettings } from '../utils/settings'
 import type { AlgorithmProblem } from '../data/algorithmData'
 
@@ -58,7 +64,9 @@ export function FeynmanCheck({ problem }: { problem: AlgorithmProblem }) {
         { role: 'system', content: systemPrompt },
         { role: 'user', content: buildPrompt(problem, draft.text) },
       ])
-      update({ feedback, feedbackAt: new Date().toISOString() })
+      const now = new Date().toISOString()
+      const score = parseFeynmanScore(feedback)
+      update({ feedback, feedbackAt: now, score: score ?? undefined, scoreAt: score ? now : undefined })
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : String(caught))
     } finally {
@@ -70,7 +78,9 @@ export function FeynmanCheck({ problem }: { problem: AlgorithmProblem }) {
     <div className="feynman-block">
       <button className="feynman-head" type="button" onClick={() => setExpanded((prev) => !prev)} aria-expanded={expanded}>
         <strong>费曼检验：合上笔记，用自己的话讲这道题</strong>
-        <span>{draft.text.trim() ? '已有草稿 ✓' : '未开始'}</span>
+        <span>
+          {draft.score != null ? `费曼得分 ${draft.score}/5` : draft.text.trim() ? '已有草稿 ✓' : '未开始'}
+        </span>
       </button>
       {expanded ? (
         <div className="feynman-body">
@@ -94,6 +104,11 @@ export function FeynmanCheck({ problem }: { problem: AlgorithmProblem }) {
           {draft.feedback ? (
             <div className="feynman-feedback">
               <p>{draft.feedback}</p>
+              {draft.score != null && draft.score >= FEYNMAN_BOOST_SCORE ? (
+                <p className="feynman-hint">
+                  讲清楚了：本题下次标记「记住了」时，复习间隔会加速一档。
+                </p>
+              ) : null}
               {draft.feedbackAt ? <em>点评于 {draft.feedbackAt.slice(0, 16).replace('T', ' ')}</em> : null}
             </div>
           ) : null}

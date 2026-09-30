@@ -9,11 +9,10 @@ import {
   saveFeynmanRecords,
 } from '../utils/feynmanRecords'
 import { openSiteSettings } from '../utils/settings'
+import { parseFeynmanScore } from '../utils/feynmanStore'
 import { DictationButton } from '../components/DictationButton'
 import { SketchPad, requestSketchExport } from '../components/SketchPad'
 import type { FeynmanRecord } from '../utils/feynmanRecords'
-
-const scoreRegex = /费曼得分[:：]?\s*([1-5])\s*\/\s*5/
 
 // 根据主题匹配站内标准笔记：命中算法分类或题目时，评估会附上你的本地注释作对照
 const findReferenceNotes = (topic: string): string | null => {
@@ -116,7 +115,7 @@ export function FeynmanPage() {
         { role: 'system', content: buildSystemPrompt(cleanTopic, referenceNotes) },
         { role: 'user', content: cleanText },
       ])
-      const score = Number(scoreRegex.exec(feedback)?.[1] ?? 0) || null
+      const score = parseFeynmanScore(feedback)
       persist(
         addFeynmanRecord(records, {
           topic: cleanTopic,

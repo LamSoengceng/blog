@@ -5,6 +5,8 @@ export type FeynmanDraft = {
   updatedAt: string
   feedback?: string
   feedbackAt?: string
+  score?: number // 最近一次点评的费曼得分（1-5），复习调度用它加速间隔
+  scoreAt?: string
 }
 
 const STORAGE_KEY = 'feynman-drafts-v1'
@@ -34,3 +36,16 @@ export const saveFeynmanDraft = (slug: string, draft: FeynmanDraft) => {
 // 已完成费曼讲解的题目数（与算法复习池取交集时由调用方过滤）
 export const countFeynmanDrafts = () =>
   Object.values(loadAll()).filter((draft) => draft.text.trim().length > 0).length
+
+// 模型评语里的「费曼得分：N/5」统一从这里解析，复习页与费曼页共用同一规则。
+const SCORE_PATTERN = /费曼得分[:：]?\s*([1-5])\s*\/\s*5/
+
+export const parseFeynmanScore = (feedback: string): number | null => {
+  const matched = feedback.match(SCORE_PATTERN)?.[1]
+  if (!matched) return null
+  const score = Number(matched)
+  return score >= 1 && score <= 5 ? score : null
+}
+
+// 某道题最近一次费曼检验得分；没讲过或没评估过返回 null
+export const loadFeynmanScore = (slug: string): number | null => loadAll()[slug]?.score ?? null

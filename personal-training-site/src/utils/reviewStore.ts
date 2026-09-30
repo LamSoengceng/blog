@@ -16,6 +16,9 @@ const STORAGE_KEY = 'algorithm-review-v1'
 // 记住了的间隔阶梯（天）：连对次数越多，间隔越长
 export const REVIEW_INTERVALS = [1, 3, 7, 14, 30, 60]
 
+// 费曼检验讲清楚过的分数线：达到即认为理解到位，间隔加速一档
+export const FEYNMAN_BOOST_SCORE = 4
+
 const DAY_MS = 24 * 60 * 60 * 1000
 
 const addDays = (days: number) => new Date(Date.now() + days * DAY_MS).toISOString()
@@ -50,14 +53,21 @@ export const saveReviewStore = (store: ReviewStore) => {
   }
 }
 
-export const recordReview = (store: ReviewStore, slug: string, status: ReviewStatus): ReviewStore => {
+// feynmanScore 为本题最近一次费曼检验得分（1-5），达到 FEYNMAN_BOOST_SCORE 时升级加速一档。
+export const recordReview = (
+  store: ReviewStore,
+  slug: string,
+  status: ReviewStatus,
+  feynmanScore?: number | null,
+): ReviewStore => {
   const previous = store[slug]
   const next: ReviewEntry =
     status === 'known'
       ? (() => {
           const box = previous?.box ?? 0
-          const interval = REVIEW_INTERVALS[Math.min(box, REVIEW_INTERVALS.length - 1)]
-          return { status, at: new Date().toISOString(), box: box + 1, due: addDays(interval) }
+          const step = feynmanScore != null && feynmanScore >= FEYNMAN_BOOST_SCORE ? 2 : 1
+          const interval = REVIEW_INTERVALS[Math.min(box + step - 1, REVIEW_INTERVALS.length - 1)]
+          return { status, at: new Date().toISOString(), box: box + step, due: addDays(interval) }
         })()
       : { status, at: new Date().toISOString(), box: 0, due: addDays(1) }
   return { ...store, [slug]: next }

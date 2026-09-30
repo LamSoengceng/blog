@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { algorithmProblems, type AlgorithmProblem } from '../data/algorithmData'
 import { HighlightText } from '../utils/techTerms'
 import { FeynmanCheck } from '../components/FeynmanCheck'
+import { loadFeynmanScore } from '../utils/feynmanStore'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import { loadReviewPrefs, onReviewPrefsChange, openSiteSettings, type ReviewPrefs } from '../utils/settings'
 import {
@@ -90,7 +91,8 @@ export function AlgorithmReviewPage() {
   const againCount = Object.values(store).filter((item) => item.status === 'again').length
 
   const record = (slug: string, status: ReviewStatus) => {
-    const next = recordReview(store, slug, status)
+    // 费曼检验讲清楚过（≥4 分）的题，「记住了」时多升一个箱级
+    const next = recordReview(store, slug, status, loadFeynmanScore(slug))
     setStore(next)
     saveReviewStore(next)
   }
