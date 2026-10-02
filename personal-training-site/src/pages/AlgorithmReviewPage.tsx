@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { algorithmProblems, type AlgorithmProblem } from '../data/algorithmData'
+import { algorithmProblems, type AlgorithmProblem } from '../data/algorithm'
 import { HighlightText } from '../utils/techTerms'
 import { FeynmanCheck } from '../components/FeynmanCheck'
 import { loadFeynmanScore } from '../utils/feynmanStore'

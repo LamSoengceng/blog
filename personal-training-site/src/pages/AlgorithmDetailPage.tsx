@@ -1,5 +1,5 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { algorithmProblems } from '../data/algorithmData'
+import { algorithmProblems } from '../data/algorithm'
 import { AlgorithmVisualizer } from '../components/algorithmVisualization/AlgorithmVisualizer'
 import { getAlgorithmSteps } from '../components/algorithmVisualization/containerSteps'
 

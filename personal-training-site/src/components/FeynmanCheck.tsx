@@ -8,7 +8,7 @@ import {
 } from '../utils/feynmanStore'
 import { FEYNMAN_BOOST_SCORE } from '../utils/reviewStore'
 import { openSiteSettings } from '../utils/settings'
-import type { AlgorithmProblem } from '../data/algorithmData'
+import type { AlgorithmProblem } from '../data/algorithm'
 
 const buildPrompt = (problem: AlgorithmProblem, explanation: string) =>
   [

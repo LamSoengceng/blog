@@ -6,7 +6,7 @@ import {
   algorithmRecentProblems,
   algorithmReviewQueue,
   type AlgorithmProblem,
-} from '../data/algorithmData'
+} from '../data/algorithm'
 import { algorithmMeta } from '../data/algorithmMeta'
 import { countDueReviews, loadReviewStore } from '../utils/reviewStore'
 

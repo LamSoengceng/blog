@@ -1,0 +1,324 @@
+// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
+import type { AlgorithmProblem } from '../types'
+
+export const binarySearchProblems: AlgorithmProblem[] = [
+  {
+    "id": "33",
+    "slug": "33-搜索旋转排序数组",
+    "title": "搜索旋转排序数组",
+    "titleEn": "Search in Rotated Sorted Array",
+    "category": "二分查找",
+    "difficulty": "中等",
+    "topic": "二分变形",
+    "completed": true,
+    "leetcodeSlug": "search-in-rotated-sorted-array",
+    "leetcodeUrl": "https://leetcode.cn/problems/search-in-rotated-sorted-array/",
+    "nowcoderUrl": "https://www.nowcoder.com/search/all?query=%E6%90%9C%E7%B4%A2%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84",
+    "acceptanceRate": 46.5,
+    "solutionCount": 6653,
+    "companyTagCount": 153,
+    "paidOnly": false,
+    "sourceBanks": [
+      "LeetCode Hot 100"
+    ],
+    "tags": [
+      "二分查找",
+      "二分变形",
+      "数组"
+    ],
+    "sourcePath": "hot100/11_二分查找/33.搜索旋转排序数组.py",
+    "lastUpdated": "2026-03-26",
+    "lastUpdatedAt": "2026-03-26T08:05:20.985Z",
+    "interviewPattern": "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+    "thoughts": [
+      "时间 O(log n)，空间 O(1)"
+    ],
+    "pitfalls": [
+      "3. 判断 target 范围时注意 < 和 < 的区别：",
+      "- 面试时 mid 的计算推荐写 left + (right - left) // 2，防止整数溢出"
+    ],
+    "recallBlanks": [],
+    "solutionGuide": {
+      "idea": "时间 O(log n)，空间 O(1)",
+      "interviewSteps": [
+        "先说明核心考点：二分变形。",
+        "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+        "关键词：二分查找 / 二分变形 / 数组。"
+      ],
+      "complexity": "面试时补充时间复杂度和空间复杂度。",
+      "keyMistake": "3. 判断 target 范围时注意 < 和 < 的区别："
+    },
+    "codePreview": "# 📌 需二刷：旋转数组二分查找（判断有序半边 + 范围收缩）\n#\n# 思路：每次取 mid，必有一半有序。在有序半边判断 target 是否在范围内，\n#       在就往那边缩，不在就去另一边。\n# 时间 O(log n)，空间 O(1)\n#\n# ⚠️ 易错点/误区：\n# 1. 循环条件必须是 left <= right（下标），不是 nums[left] 和 nums[right] 比值\n#    → 旋转数组的值关系不稳定，用值判断会导致提前退出循环\n# 2. 判断左半边有序用 <=：nums[left] <= nums[mid]（等号处理 left == mid 的情况）\n# 3. 判断 target 范围时注意 < 和 <= 的区别：\n#    nums[mid] 已经判断过不等于 target，所以和 mid 比较用严格 <\n# 4. 不需要嵌套二分！while 循环本身就在不断二分，每次只移动 left 或 right\n#\n# 💡 面试技巧：\n# - 先跟面试官确认：数组中有无重复元素？（有重复是 81 题，更复杂）\n# - 可以先画图说明旋转数组的两段递增结构，再推导二分逻辑\n# - 面试时 mid 的计算推荐写 left + (right - left) // 2，防止整数溢出\n#   （Python 无溢出问题，但 Java/C++ 面试中这是加分项）\nclass Solution:\n    def search(self, nums: List[int], target: int) -> int:\n        left, right = 0, len(nums) - 1\n        while left <= right:\n            mid = left + (right - left) // 2  # 面试推荐写法，防溢出\n            # 找到了，直接返回\n            if nums[mid] == target:\n                return mid\n            # 判断哪半边有序\n            if nums[left] <= nums[mid]:\n                # 左半边 [left, mid] 有序\n                if nums[left] <= target < nums[mid]:\n                    right = mid - 1   # target 在有序的左半边，去左边找\n                else:\n                    left = mid + 1    # target 不在左半边，去右边找\n            else:\n                # 右半边 [mid, right] 有序\n                if nums[mid] < target <= nums[right]:\n                    left = mid + 1    # target 在有序的右半边，去右边找\n                else:\n                    right = mid - 1   # target 不在右半边，去左边找\n        return -1",
+    "statement": "整数数组 nums 按升序排列，数组中的值 互不相同 。\n\n在传递给函数之前，nums 在预先未知的某个下标 k（0 <= k < nums.length）上进行了 向左旋转，使数组变为 [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]]（下标 从 0 开始 计数）。例如， [0,1,2,4,5,6,7] 下标 3 上向左旋转后可能变为 [4,5,6,7,0,1,2] 。\n\n给你 旋转后 的数组 nums 和一个整数 target ，如果 nums 中存在这个目标值 target ，则返回它的下标，否则返回 -1 。\n\n你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。\n\n \n\n示例 1：\n\n输入：nums = [4,5,6,7,0,1,2], target = 0\n输出：4\n\n示例 2：\n\n输入：nums = [4,5,6,7,0,1,2], target = 3\n输出：-1\n\n示例 3：\n\n输入：nums = [1], target = 0\n输出：-1\n\n \n\n提示：\n\n\t1 <= nums.length <= 5000\n\n\t-104 <= nums[i] <= 104\n\n\tnums 中的每个值都 独一无二\n\n\t题目数据保证 nums 在预先未知的某个下标上进行了旋转\n\n\t-104 <= target <= 104"
+  },
+  {
+    "id": "34",
+    "slug": "34-在排序数组中查找首尾位置",
+    "title": "在排序数组中查找元素的第一个和最后一个位置",
+    "titleEn": "Find First and Last Position of Element in Sorted Array",
+    "category": "二分查找",
+    "difficulty": "中等",
+    "topic": "二分边界",
+    "completed": true,
+    "leetcodeSlug": "find-first-and-last-position-of-element-in-sorted-array",
+    "leetcodeUrl": "https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/",
+    "nowcoderUrl": "https://www.nowcoder.com/search/all?query=%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%A5%E6%89%BE%E5%85%83%E7%B4%A0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%92%8C%E6%9C%80%E5%90%8E%E4%B8%80%E4%B8%AA%E4%BD%8D%E7%BD%AE",
+    "acceptanceRate": 47,
+    "solutionCount": 10640,
+    "companyTagCount": 102,
+    "paidOnly": false,
+    "sourceBanks": [
+      "LeetCode Hot 100"
+    ],
+    "tags": [
+      "二分查找",
+      "二分边界",
+      "数组"
+    ],
+    "sourcePath": "hot100/11_二分查找/34.在排序数组中查找元素的第一个和最后一个位置.py",
+    "lastUpdated": "2026-04-02",
+    "lastUpdatedAt": "2026-04-02T09:55:07.616Z",
+    "interviewPattern": "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+    "thoughts": [
+      "时间 O(log n)，空间 O(1)",
+      "核心思想：把「找左边界」和「找右边界」统一为一个函数"
+    ],
+    "pitfalls": [
+      "需二刷：二分查找找边界（左边界 + 右边界）",
+      "- 找左边界：nums[mid] > target 时收缩右边界（right  mid），让搜索往左逼近",
+      "- 找右边界：nums[mid] < target 时收缩左边界（left  mid + 1），让搜索往右逼近",
+      "2. 找右边界时方向容易搞反——nums[mid] < target 应该让 left 右移而非 right 左移",
+      "3. 找右边界用 right  mid（不要 mid-1），配合 while left ! right 使用，",
+      "否则 left 可能跳过 right 导致死循环",
+      "需要在左边界二分后验证 nums[left]  target",
+      "5. 右边界的结果是 right - 1（因为 left  mid + 1 会多走一步）"
+    ],
+    "recallBlanks": [
+      {
+        "prompt": "需二刷：＿＿＿找边界（左边界 + 右边界）",
+        "answer": "二分查找"
+      }
+    ],
+    "solutionGuide": {
+      "idea": "时间 O(log n)，空间 O(1)",
+      "interviewSteps": [
+        "先说明核心考点：二分边界。",
+        "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+        "关键词：二分查找 / 二分边界 / 数组。"
+      ],
+      "complexity": "面试时补充时间复杂度和空间复杂度。",
+      "keyMistake": "需二刷：二分查找找边界（左边界 + 右边界）"
+    },
+    "codePreview": "# 📌 需二刷：二分查找找边界（左边界 + 右边界）\n#\n# 思路：两次二分查找，分别找 target 的第一个位置（左边界）和最后一个位置（右边界）\n#   - 找左边界：nums[mid] >= target 时收缩右边界（right = mid），让搜索往左逼近\n#   - 找右边界：nums[mid] <= target 时收缩左边界（left = mid + 1），让搜索往右逼近\n# 时间 O(log n)，空间 O(1)\n#\n# ⚠️ 易错点/误区：\n# 1. left = mid 会导致死循环（当 left+1 == right 时 mid == left，永远不变）\n#    正确做法：left = mid + 1，确保搜索范围一定缩小\n# 2. 找右边界时方向容易搞反——nums[mid] <= target 应该让 left 右移而非 right 左移\n# 3. 找右边界用 right = mid（不要 mid-1），配合 while left != right 使用，\n#    否则 left 可能跳过 right 导致死循环\n# 4. target 可能不在数组中但在 nums[0] 和 nums[-1] 范围内（如 [1,3,5] 找 2），\n#    需要在左边界二分后验证 nums[left] == target\n# 5. 右边界的结果是 right - 1（因为 left = mid + 1 会多走一步）\nclass Solution:\n    def searchRange(self, nums: List[int], target: int) -> List[int]:\n        # 空数组直接返回\n        if not nums:\n            return [-1,-1]\n        # target 超出数组范围，不可能存在\n        if nums[0] > target or nums[-1] < target:\n            return [-1,-1]\n        # ===== 第一次二分：找左边界 =====\n        left = 0\n        right = len(nums)                       # 右边界用 len(nums)，左闭右开 [left, right)\n        while left != right:\n            mid = (left + right) // 2\n            if nums[mid] >= target:              # mid 可能是答案或答案在更左边\n                right = mid                      # 收缩右边界\n            else:                                # nums[mid] < target，mid 肯定不是答案\n                left = mid + 1                   # 跳过 mid，避免死循环\n        tmpleft = left                           # 循环结束时 left == right，即左边界位置\n        # 验证：target 可能根本不存在于数组中\n        if tmpleft >= len(nums) or nums[tmpleft] != target:\n            return [-1, -1]\n        # ===== 第二次二分：找右边界 =====\n        left = 0\n        right = len(nums)\n        while left != right:\n            mid = (left + right) // 2\n            if nums[mid] <= target:              # mid 可能是答案或答案在更右边\n                left = mid + 1                   # 收缩左边界，跳过 mid 避免死循环\n            else:                                # nums[mid] > target，mid 肯定不是答案\n                right = mid                      # 收缩右边界\n        return [tmpleft, right - 1]              # right-1 因为 left = mid+1 多走了一步\n# ======================================================\n# 📝 面试推荐写法：提取通用 bisect 函数\n# ======================================================\n# 核心思想：把「找左边界」和「找右边界」统一为一个函数\n# bisect_left(target)  → 第一个 >= target 的位置\n# bisect_right(target) → 第一个 > target 的位置（即 bisect_left(target+1)）\n# 右边界 = bisect_right(target) - 1\n#\n# class Solution:\n#     def searchRange(self, nums: List[int], target: int) -> List[int]:\n#         def bisect_left(target):\n#             \"\"\"找第一个 >= target 的位置\"\"\"\n#             lo, hi = 0, len(nums)\n#             while lo < hi:\n#                 mid = (lo + hi) // 2\n#                 if nums[mid] >= target:\n#                     hi = mid\n#                 else:\n#                     lo = mid + 1\n#             return lo\n#\n#         left = bisect_left(target)\n#         # target 不存在\n#         if left >= len(nums) or nums[left] != target:\n#             return [-1, -1]\n#         # 右边界 = 第一个 > target 的位置 - 1 = bisect_left(target+1) - 1\n#         right = bisect_left(target + 1) - 1\n#         return [left, right]\n# ======================================================",
+    "statement": "给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target。请你找出给定目标值在数组中的开始位置和结束位置。\n\n如果数组中不存在目标值 target，返回 [-1, -1]。\n\n你必须设计并实现时间复杂度为 O(log n) 的算法解决此问题。\n\n \n\n示例 1：\n\n输入：nums = [5,7,7,8,8,10], target = 8\n输出：[3,4]\n\n示例 2：\n\n输入：nums = [5,7,7,8,8,10], target = 6\n输出：[-1,-1]\n\n示例 3：\n\n输入：nums = [], target = 0\n输出：[-1,-1]\n\n \n\n提示：\n\n\t0 <= nums.length <= 105\n\n\t-109 <= nums[i] <= 109\n\n\tnums 是一个非递减数组\n\n\t-109 <= target <= 109"
+  },
+  {
+    "id": "35",
+    "slug": "35-搜索插入位置",
+    "title": "搜索插入位置",
+    "titleEn": "Search Insert Position",
+    "category": "二分查找",
+    "difficulty": "简单",
+    "topic": "标准二分",
+    "completed": true,
+    "leetcodeSlug": "search-insert-position",
+    "leetcodeUrl": "https://leetcode.cn/problems/search-insert-position/",
+    "nowcoderUrl": "https://www.nowcoder.com/search/all?query=%E6%90%9C%E7%B4%A2%E6%8F%92%E5%85%A5%E4%BD%8D%E7%BD%AE",
+    "acceptanceRate": 49.8,
+    "solutionCount": 10567,
+    "companyTagCount": 71,
+    "paidOnly": false,
+    "sourceBanks": [
+      "LeetCode Hot 100"
+    ],
+    "tags": [
+      "二分查找",
+      "标准二分",
+      "数组"
+    ],
+    "sourcePath": "hot100/11_二分查找/35.搜索插入位置.py",
+    "lastUpdated": "2026-08-27",
+    "lastUpdatedAt": "2026-08-27T19:47:41.192Z",
+    "interviewPattern": "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+    "thoughts": [
+      "时间 O(log n)，空间 O(1)"
+    ],
+    "pitfalls": [
+      "需二刷：二分查找标准模板，用来找边界感",
+      "2. 死循环坑：当 nums[mid] < target 时，必须 left  mid + 1。写成 left  mid 会在剩 2 个元素时死循环。",
+      "3. 边界收缩方向反了：nums[mid] > target 意味着 target 在左半区，右边界应该收缩 (right  mid - 1)，别写成 mid + 1。"
+    ],
+    "recallBlanks": [
+      {
+        "prompt": "需二刷：＿＿＿标准模板，用来找边界感",
+        "answer": "二分查找"
+      }
+    ],
+    "solutionGuide": {
+      "idea": "时间 O(log n)，空间 O(1)",
+      "interviewSteps": [
+        "先说明核心考点：标准二分。",
+        "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+        "关键词：二分查找 / 标准二分 / 数组。"
+      ],
+      "complexity": "面试时补充时间复杂度和空间复杂度。",
+      "keyMistake": "需二刷：二分查找标准模板，用来找边界感"
+    },
+    "codePreview": "from typing import List\nclass Solution:\n    def searchInsert(self, nums: List[int], target: int) -> int:\n        # 📌 需二刷：二分查找标准模板，用来找边界感\n        #\n        # 思路：标准二分查找。如果 target 不在数组中，while 循环结束时，left 刚好指向第一个大于 target 的元素位置（即插入位置）。\n        # 时间 O(log n)，空间 O(1)\n        #\n        # ⚠️ 易错点/误区：\n        # 1. 企图再次排序：题目给了有序数组，且要求 O(log n)，排序会变 O(n log n)。\n        # 2. 死循环坑：当 nums[mid] < target 时，必须 left = mid + 1。写成 left = mid 会在剩 2 个元素时死循环。\n        # 3. 边界收缩方向反了：nums[mid] > target 意味着 target 在左半区，右边界应该收缩 (right = mid - 1)，别写成 mid + 1。\n        # 4. 找不到 target 时怎么返回：退出循环时，left 刚好是正确的插入位置，所以 return left，不要纠结 return mid 还是其他的。\n        n = len(nums)\n        left = 0\n        right = n - 1\n        while left <= right:\n            mid = (left + right) // 2\n            if nums[mid] == target:\n                return mid\n            if nums[mid] < target:\n                left = mid + 1\n            if nums[mid] > target:\n                right = mid - 1\n        return left",
+    "statement": "给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。\n\n请必须使用时间复杂度为 O(log n) 的算法。\n\n \n\n示例 1:\n\n输入: nums = [1,3,5,6], target = 5\n输出: 2\n\n示例 2:\n\n输入: nums = [1,3,5,6], target = 2\n输出: 1\n\n示例 3:\n\n输入: nums = [1,3,5,6], target = 7\n输出: 4\n\n \n\n提示:\n\n\t1 <= nums.length <= 104\n\n\t-104 <= nums[i] <= 104\n\n\tnums 为 无重复元素 的 升序 排列数组\n\n\t-104 <= target <= 104"
+  },
+  {
+    "id": "74",
+    "slug": "74-搜索二维矩阵",
+    "title": "搜索二维矩阵",
+    "titleEn": "Search a 2D Matrix",
+    "category": "二分查找",
+    "difficulty": "中等",
+    "topic": "二分 / Z 字形",
+    "completed": true,
+    "leetcodeSlug": "search-a-2d-matrix",
+    "leetcodeUrl": "https://leetcode.cn/problems/search-a-2d-matrix/",
+    "nowcoderUrl": "https://www.nowcoder.com/search/all?query=%E6%90%9C%E7%B4%A2%E4%BA%8C%E7%BB%B4%E7%9F%A9%E9%98%B5",
+    "acceptanceRate": 52.6,
+    "solutionCount": 4446,
+    "companyTagCount": 78,
+    "paidOnly": false,
+    "sourceBanks": [
+      "LeetCode Hot 100"
+    ],
+    "tags": [
+      "二分查找",
+      "二分 / Z 字形",
+      "数组",
+      "矩阵"
+    ],
+    "sourcePath": "hot100/11_二分查找/74.搜索二维矩阵.py",
+    "lastUpdated": "2026-08-27",
+    "lastUpdatedAt": "2026-08-27T21:22:04.828Z",
+    "interviewPattern": "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+    "thoughts": [
+      "核心在于坐标转换：一维索引 mid 对应的二维坐标为 row  mid // n, col  mid % n。",
+      "时间 O(log(m*n))，空间 O(1)"
+    ],
+    "pitfalls": [
+      "2. 如果矩阵为空（比如 matrix[] 或 matrix[[]]），要特别小心越界，好在力扣这题给了约束 m,n > 1。"
+    ],
+    "recallBlanks": [],
+    "solutionGuide": {
+      "idea": "核心在于坐标转换：一维索引 mid 对应的二维坐标为 row  mid // n, col  mid % n。",
+      "interviewSteps": [
+        "先说明核心考点：二分 / Z 字形。",
+        "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+        "关键词：二分查找 / 二分 / Z 字形 / 数组 / 矩阵。"
+      ],
+      "complexity": "面试时补充时间复杂度和空间复杂度。",
+      "keyMistake": "2. 如果矩阵为空（比如 matrix[] 或 matrix[[]]），要特别小心越界，好在力扣这题给了约束 m,n > 1。"
+    },
+    "codePreview": "from typing import List\nclass Solution:\n    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:\n        # 📌 需二刷：降维打击，一维二分查找变形\n        #\n        # 思路：将 m x n 的矩阵拉平看作一个长度为 m*n 的一维有序数组，直接使用标准二分查找。\n        # 核心在于坐标转换：一维索引 mid 对应的二维坐标为 row = mid // n, col = mid % n。\n        # 时间 O(log(m*n))，空间 O(1)\n        #\n        # ⚠️ 易错点/误区：\n        # 1. 坐标转换公式的除数和模数必须是列数 n，不是行数 m！实战极容易敲错。\n        # 2. 如果矩阵为空（比如 matrix=[] 或 matrix=[[]]），要特别小心越界，好在力扣这题给了约束 m,n >= 1。\n        m = len(matrix)\n        n = len(matrix[0])\n        left = 0\n        right = m * n - 1\n        while left <= right:\n            mid = (left + right) // 2\n            row = mid // n\n            col = mid % n\n            if target == matrix[row][col]:\n                return True\n            if target > matrix[row][col]:\n                left = mid + 1\n            if target < matrix[row][col]:\n                right = mid - 1\n        return False",
+    "statement": "给你一个满足下述两条属性的 m x n 整数矩阵：\n\n\t每行中的整数从左到右按非严格递增顺序排列。\n\n\t每行的第一个整数大于前一行的最后一个整数。\n\n给你一个整数 target ，如果 target 在矩阵中，返回 true ；否则，返回 false 。\n\n你必须编写一个时间复杂度为 O(log(m * n)) 的解决方案。\n\n \n\n示例 1：\n\n输入：matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3\n输出：true\n\n示例 2：\n\n输入：matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13\n输出：false\n\n \n\n提示：\n\n\tm == matrix.length\n\n\tn == matrix[i].length\n\n\t1 <= m, n <= 100\n\n\t-104 <= matrix[i][j], target <= 104"
+  },
+  {
+    "id": "153",
+    "slug": "153-寻找旋转排序数组中的最小值",
+    "title": "寻找旋转排序数组中的最小值",
+    "titleEn": "Find Minimum in Rotated Sorted Array",
+    "category": "二分查找",
+    "difficulty": "中等",
+    "topic": "二分变形",
+    "completed": true,
+    "leetcodeSlug": "find-minimum-in-rotated-sorted-array",
+    "leetcodeUrl": "https://leetcode.cn/problems/find-minimum-in-rotated-sorted-array/",
+    "nowcoderUrl": "https://www.nowcoder.com/search/all?query=%E5%AF%BB%E6%89%BE%E6%97%8B%E8%BD%AC%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC",
+    "acceptanceRate": 59.4,
+    "solutionCount": 3924,
+    "companyTagCount": 78,
+    "paidOnly": false,
+    "sourceBanks": [
+      "LeetCode Hot 100"
+    ],
+    "tags": [
+      "二分查找",
+      "二分变形",
+      "数组"
+    ],
+    "sourcePath": "hot100/11_二分查找/153.寻找旋转排序数组中的最小值.py",
+    "lastUpdated": "2026-08-27",
+    "lastUpdatedAt": "2026-08-27T21:51:36.619Z",
+    "interviewPattern": "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+    "thoughts": [
+      "时间 O(log n)，空间 O(1)"
+    ],
+    "pitfalls": [
+      "需二刷：二分查找寻找旋转边界",
+      "3. 收缩右边界时是 right  mid 而不是 mid - 1，因为 nums[mid] 完全有可能就是那个最小值，不能跨过它。"
+    ],
+    "recallBlanks": [
+      {
+        "prompt": "需二刷：＿＿＿寻找旋转边界",
+        "answer": "二分查找"
+      }
+    ],
+    "solutionGuide": {
+      "idea": "时间 O(log n)，空间 O(1)",
+      "interviewSteps": [
+        "先说明核心考点：二分变形。",
+        "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+        "关键词：二分查找 / 二分变形 / 数组。"
+      ],
+      "complexity": "面试时补充时间复杂度和空间复杂度。",
+      "keyMistake": "需二刷：二分查找寻找旋转边界"
+    },
+    "codePreview": "from typing import List\nclass Solution:\n    def findMin(self, nums: List[int]) -> int:\n        # 📌 需二刷：二分查找寻找旋转边界\n        #\n        # 思路：核心是利用 nums[mid] 和 nums[right] 的比较来判断“断崖”（最小值）在哪半边。\n        # 如果 nums[mid] > nums[right]，说明右边有断崖，最小值肯定在右半边，left = mid + 1。\n        # 如果 nums[mid] < nums[right]，说明右半边是正常升序的，最小值在左半边或者就是 mid 本身，right = mid。\n        # 时间 O(log n)，空间 O(1)\n        #\n        # ⚠️ 易错点/误区：\n        # 1. 为什么不用 nums[left] 比较？因为当数组没有旋转（如 [1,2,3]）时，比较 left 需要额外写特判，而比较 right 完美兼容所有情况。\n        # 2. 防死循环奥义：循环条件必须是 left < right。因为有了 right = mid 这种保留中点的写法，如果写成 left <= right，当剩一个元素时就会无限死循环。\n        # 3. 收缩右边界时是 right = mid 而不是 mid - 1，因为 nums[mid] 完全有可能就是那个最小值，不能跨过它。\n        n = len(nums)\n        left = 0\n        right = n - 1\n        while left < right:\n            mid = (left + right) // 2\n            if nums[mid] < nums[right]:\n                right = mid\n            if nums[mid] > nums[right]:\n                left = mid + 1\n        return nums[left]",
+    "statement": "已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：\n\n\t若旋转 4 次，则可以得到 [4,5,6,7,0,1,2]\n\n\t若旋转 7 次，则可以得到 [0,1,2,4,5,6,7]\n\n注意，数组 [a[0], a[1], a[2], ..., a[n-1]] 旋转一次 的结果为数组 [a[n-1], a[0], a[1], a[2], ..., a[n-2]] 。\n\n给你一个元素值 互不相同 的数组 nums ，它原来是一个升序排列的数组，并按上述情形进行了多次旋转。请你找出并返回数组中的 最小元素 。\n\n你必须设计一个时间复杂度为 O(log n) 的算法解决此问题。\n\n \n\n示例 1：\n\n输入：nums = [3,4,5,1,2]\n输出：1\n解释：原数组为 [1,2,3,4,5] ，旋转 3 次得到输入数组。\n\n示例 2：\n\n输入：nums = [4,5,6,7,0,1,2]\n输出：0\n解释：原数组为 [0,1,2,4,5,6,7] ，旋转 4 次得到输入数组。\n\n示例 3：\n\n输入：nums = [11,13,15,17]\n输出：11\n解释：原数组为 [11,13,15,17] ，旋转 4 次得到输入数组。\n\n \n\n提示：\n\n\tn == nums.length\n\n\t1 <= n <= 5000\n\n\t-5000 <= nums[i] <= 5000\n\n\tnums 中的所有整数 互不相同\n\n\tnums 原来是一个升序排序的数组，并进行了 1 至 n 次旋转"
+  },
+  {
+    "id": "4",
+    "slug": "4-寻找两个正序数组的中位数",
+    "title": "寻找两个正序数组的中位数",
+    "titleEn": "Median of Two Sorted Arrays",
+    "category": "二分查找",
+    "difficulty": "困难",
+    "topic": "划分数组",
+    "completed": true,
+    "leetcodeSlug": "median-of-two-sorted-arrays",
+    "leetcodeUrl": "https://leetcode.cn/problems/median-of-two-sorted-arrays/",
+    "nowcoderUrl": "https://www.nowcoder.com/search/all?query=%E5%AF%BB%E6%89%BE%E4%B8%A4%E4%B8%AA%E6%AD%A3%E5%BA%8F%E6%95%B0%E7%BB%84%E7%9A%84%E4%B8%AD%E4%BD%8D%E6%95%B0",
+    "acceptanceRate": 44.9,
+    "solutionCount": 9595,
+    "companyTagCount": 196,
+    "paidOnly": false,
+    "sourceBanks": [
+      "LeetCode Hot 100"
+    ],
+    "tags": [
+      "二分查找",
+      "划分数组",
+      "数组",
+      "分治"
+    ],
+    "sourcePath": "hot100/11_二分查找/4.寻找两个正序数组的中位数.py",
+    "lastUpdated": "2026-08-27",
+    "lastUpdatedAt": "2026-08-27T22:39:54.041Z",
+    "interviewPattern": "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+    "thoughts": [
+      "时间 O(log(min(m,n)))，空间 O(1)"
+    ],
+    "pitfalls": [
+      "1. 必须对较短的数组进行二分（强制交换），否则不仅慢，算出来的 j 还会越界出现负数。",
+      "2. 边界处理：切口在两端时，左边无元素用 -inf，右边无元素用 inf 占位。"
+    ],
+    "recallBlanks": [],
+    "solutionGuide": {
+      "idea": "时间 O(log(min(m,n)))，空间 O(1)",
+      "interviewSteps": [
+        "先说明核心考点：划分数组。",
+        "先确定搜索区间语义，再维护不变量；边界题推荐左闭右闭或左闭右开固定一种。",
+        "关键词：二分查找 / 划分数组 / 数组 / 分治。"
+      ],
+      "complexity": "面试时补充时间复杂度和空间复杂度。",
+      "keyMistake": "1. 必须对较短的数组进行二分（强制交换），否则不仅慢，算出来的 j 还会越界出现负数。"
+    },
+    "codePreview": "from typing import List\nclass Solution:\n    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:\n        # 📌 需二刷：二分查找寻找切分线（划分数组）大魔王题\n        #\n        # 思路：在较短的数组 nums1 中二分查找切口 i，使得 nums1 和 nums2 左半边元素总数等于 (m+n+1)//2。\n        # 当满足交叉验证 nums1_left_max <= nums2_right_min 且 nums2_left_max <= nums1_right_min 时，切分正确。\n        # 时间 O(log(min(m,n)))，空间 O(1)\n        #\n        # ⚠️ 易错点/误区：\n        # 1. 必须对较短的数组进行二分（强制交换），否则不仅慢，算出来的 j 还会越界出现负数。\n        # 2. 边界处理：切口在两端时，左边无元素用 -inf，右边无元素用 inf 占位。\n        # 3. 数组总长度为奇偶数时的返回逻辑不同，奇数是 max(左)，偶数是 (max(左) + min(右)) / 2.0。\n        m = len(nums1)\n        n = len(nums2)\n        if m > n:\n            nums1, nums2 = nums2, nums1\n            m, n = n, m\n        left = 0\n        right = m\n        while left <= right:\n            total_left = (m + n + 1) // 2\n            i = (left + right) // 2\n            j = total_left - i\n            nums1_left_max = nums1[i - 1] if i > 0 else float('-inf')\n            nums1_right_min = nums1[i] if i < m else float('inf')\n            nums2_left_max = nums2[j - 1] if j > 0 else float('-inf')\n            nums2_right_min = nums2[j] if j < n else float('inf')\n            if nums1_left_max <= nums2_right_min and nums2_left_max <= nums1_right_min:\n                if (m + n) % 2 == 1:\n                    return max((nums1_left_max, nums2_left_max))\n                else:\n                    return (max(nums1_left_max, nums2_left_max) + min(nums1_right_min, nums2_right_min)) / 2.0\n            if nums1_left_max > nums2_right_min:\n                right = i - 1\n            if nums1_right_min < nums2_left_max:\n                left = i + 1",
+    "statement": "给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。\n\n算法的时间复杂度应该为 O(log (m+n)) 。\n\n \n\n示例 1：\n\n输入：nums1 = [1,3], nums2 = [2]\n输出：2.00000\n解释：合并数组 = [1,2,3] ，中位数 2\n\n示例 2：\n\n输入：nums1 = [1,2], nums2 = [3,4]\n输出：2.50000\n解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5\n\n \n\n \n\n提示：\n\n\tnums1.length == m\n\n\tnums2.length == n\n\n\t0 <= m <= 1000\n\n\t0 <= n <= 1000\n\n\t1 <= m + n <= 2000\n\n\t-106 <= nums1[i], nums2[i] <= 106"
+  }
+]

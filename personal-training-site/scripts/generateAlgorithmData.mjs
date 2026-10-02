@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, rmSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { basename, dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -6,7 +6,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const projectRoot = join(__dirname, '..')
 const leetcodeRoot = process.env.LEETCODE_ROOT ?? 'C:\\Project\\leetcode'
 const progressPath = join(leetcodeRoot, 'LeetCode-Hot100-Progress.md')
-const outputPath = join(projectRoot, 'src', 'data', 'algorithmData.ts')
+const algorithmDir = join(projectRoot, 'src', 'data', 'algorithm')
+const algorithmProblemsDir = join(algorithmDir, 'problems')
 const metaOutputPath = join(projectRoot, 'src', 'data', 'algorithmMeta.ts')
 const cacheDir = join(projectRoot, 'scripts', 'cache')
 const leetcodeCachePath = join(cacheDir, 'leetcode-question-bank.json')
@@ -506,7 +507,9 @@ const recentProblems = problemsWithReview
     codePreview: problem.codePreview,
   }))
 
-const categories = [...new Set(problemsWithReview.map((problem) => problem.category))].map((category) => {
+const categoryNames = [...new Set(problemsWithReview.map((problem) => problem.category))]
+
+const categories = categoryNames.map((category) => {
   const items = problemsWithReview.filter((problem) => problem.category === category)
   return {
     name: category,
@@ -526,7 +529,33 @@ const reviewQueue = problemsWithReview
     reason: problem.pitfalls[0],
   }))
 
-const output = `export type AlgorithmProblem = {
+// 中文类别名 -> 模块文件名；进度表里出现新类别时在这里登记，否则回退成 cat-<序号>。
+const categorySlugMap = new Map([
+  ['哈希表', 'hash-table'],
+  ['双指针', 'two-pointers'],
+  ['滑动窗口', 'sliding-window'],
+  ['子串', 'substring'],
+  ['普通数组', 'array'],
+  ['矩阵', 'matrix'],
+  ['链表', 'linked-list'],
+  ['二叉树', 'binary-tree'],
+  ['图论', 'graph'],
+  ['回溯', 'backtracking'],
+  ['二分查找', 'binary-search'],
+  ['栈', 'stack'],
+  ['堆', 'heap'],
+  ['贪心', 'greedy'],
+  ['动态规划', 'dynamic-programming'],
+  ['技巧', 'tricks'],
+  ['Hot100 补充', 'hot100-extra'],
+  ['本地补充', 'local-extra'],
+  ['未分类', 'uncategorized'],
+])
+
+const toCamel = (slug) => slug.replace(/-([a-z0-9])/g, (_, char) => char.toUpperCase())
+
+const typesOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
+export type AlgorithmProblem = {
   id: string
   slug: string
   title: string
@@ -589,15 +618,43 @@ export type AlgorithmRecentItem = {
   leetcodeUrl?: string
   codePreview: string
 }
+`
+
+rmSync(algorithmProblemsDir, { recursive: true, force: true })
+mkdirSync(algorithmProblemsDir, { recursive: true })
+writeFileSync(join(algorithmDir, 'types.ts'), typesOutput, 'utf8')
+
+const categoryModules = categoryNames.map((name, index) => {
+  const slug = categorySlugMap.get(name) ?? `cat-${index + 1}`
+  const varName = `${toCamel(slug)}Problems`
+  const items = problemsWithReview.filter((problem) => problem.category === name)
+  const moduleOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
+import type { AlgorithmProblem } from '../types'
+
+export const ${varName}: AlgorithmProblem[] = ${JSON.stringify(items, null, 2)}
+`
+  writeFileSync(join(algorithmProblemsDir, `${slug}.ts`), moduleOutput, 'utf8')
+  return { slug, varName }
+})
+
+const indexOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
+${categoryModules.map((module) => `import { ${module.varName} } from './problems/${module.slug}'`).join('\n')}
+import type { AlgorithmCategory, AlgorithmProblem, AlgorithmRecentItem, AlgorithmReviewItem } from './types'
+
+export type { AlgorithmCategory, AlgorithmProblem, AlgorithmRecentItem, AlgorithmReviewItem } from './types'
+
+export const algorithmProblems: AlgorithmProblem[] = [
+${categoryModules.map((module) => `  ...${module.varName},`).join('\n')}
+]
 
 export const algorithmCategories: AlgorithmCategory[] = ${JSON.stringify(categories, null, 2)}
 
 export const algorithmReviewQueue: AlgorithmReviewItem[] = ${JSON.stringify(reviewQueue, null, 2)}
 
 export const algorithmRecentProblems: AlgorithmRecentItem[] = ${JSON.stringify(recentProblems, null, 2)}
-
-export const algorithmProblems: AlgorithmProblem[] = ${JSON.stringify(problemsWithReview, null, 2)}
 `
+
+writeFileSync(join(algorithmDir, 'index.ts'), indexOutput, 'utf8')
 
 // 汇总数据单独成文件：首页/知识库只需要这几个数字，不应因此下载整个题库。
 const metaOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
@@ -615,7 +672,8 @@ export const algorithmMeta = ${JSON.stringify(
 )} as const
 `
 
-writeFileSync(outputPath, output, 'utf8')
 writeFileSync(metaOutputPath, metaOutput, 'utf8')
-console.log(`Generated ${problemsWithReview.length} algorithm problems -> ${outputPath}`)
+console.log(
+  `Generated ${problemsWithReview.length} algorithm problems in ${categoryNames.length} categories -> ${algorithmDir}`,
+)
 console.log(`Generated algorithmMeta -> ${metaOutputPath}`)

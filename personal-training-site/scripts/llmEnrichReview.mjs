@@ -2,13 +2,13 @@
 // 用法（Key 只放环境变量，绝不能提交到 Git）：
 //   LLM_API_KEY=sk-xxx LLM_BASE_URL=https://api.deepseek.com LLM_MODEL=deepseek-chat node scripts/llmEnrichReview.mjs
 // 输出写入 scripts/cache/review-enrichment.json，generateAlgorithmData.mjs 会自动合并。
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const projectRoot = join(__dirname, '..')
-const dataPath = join(projectRoot, 'src', 'data', 'algorithmData.ts')
+const problemsDir = join(projectRoot, 'src', 'data', 'algorithm', 'problems')
 const cachePath = join(projectRoot, 'scripts', 'cache', 'review-enrichment.json')
 
 const apiKey = process.env.LLM_API_KEY
@@ -21,14 +21,17 @@ if (!apiKey) {
   process.exit(1)
 }
 
-// algorithmData.ts 由脚本生成，直接从 TS 源码里提取 problems JSON 段。
-const source = readFileSync(dataPath, 'utf8')
-const problemsMatch = source.match(/export const algorithmProblems: AlgorithmProblem\[\] = ([\s\S]*)\n?$/)
-if (!problemsMatch) {
-  console.error('无法从 algorithmData.ts 解析 problems 数据，请先运行 npm run generate:algorithms')
-  process.exit(1)
-}
-const problems = JSON.parse(problemsMatch[1])
+// 题目数据按类别拆在 algorithm/problems/*.ts，由脚本生成，直接从各模块提取 JSON 段。
+const problemFiles = readdirSync(problemsDir).filter((name) => name.endsWith('.ts')).sort()
+const problems = problemFiles.flatMap((name) => {
+  const source = readFileSync(join(problemsDir, name), 'utf8')
+  const match = source.match(/= (\[[\s\S]*\])\n?$/)
+  if (!match) {
+    console.error(`无法从 ${name} 解析 problems 数据，请先运行 npm run generate:algorithms`)
+    process.exit(1)
+  }
+  return JSON.parse(match[1])
+})
 
 const cache = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, 'utf8')) : {}
 const targets = limit ? problems.slice(0, limit) : problems

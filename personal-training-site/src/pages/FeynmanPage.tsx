@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { algorithmCategories, algorithmProblems } from '../data/algorithmData'
+import { algorithmCategories, algorithmProblems } from '../data/algorithm'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import {
   addFeynmanRecord,
