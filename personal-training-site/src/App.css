@@ -577,6 +577,7 @@ p {
   gap: 16px;
   max-width: 1084px;
   margin-top: 42px;
+  margin-inline: auto;
 }
 
 .blog-post-nav > span,
@@ -737,6 +738,16 @@ p {
 .content-band,
 .workflow-section {
   padding: 76px 40px;
+}
+
+/* 宽屏下内容列居中：全站主容器统一限宽，避免内容整条拉开靠左 */
+.content-band,
+.detail-page,
+.algorithm-detail-page,
+.blog-detail-page,
+.market-page {
+  max-width: 1200px;
+  margin-inline: auto;
 }
 
 .page-band {
