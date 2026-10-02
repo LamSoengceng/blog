@@ -1,0 +1,168 @@
+{
+  "fetchedAt": "2026-10-02T13:43:28.697Z",
+  "source": "v2",
+  "trains": [
+    {
+      "localid": 1788953849571,
+      "datestr": "2026-09-09",
+      "title": "臀 腿",
+      "note": "",
+      "start": 1788953867805,
+      "end": 1788956715954,
+      "started_at": 1788953867805,
+      "ended_at": 1788956715954,
+      "movements": [
+        {
+          "index": 1,
+          "name": "深蹲",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "60",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "90",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 2,
+          "name": "悍马机臀冲",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "60",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "70",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 5,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 7,
+          "name": "蝴蝶机反向飞鸟",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "45",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "45",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        }
+      ],
+      "truncated": false
+    }
+  ],
+  "records": [
+    {
+      "date": "2026-09-09",
+      "id": "1788953849571",
+      "type": "臀 腿",
+      "source": "训记",
+      "durationMin": 47,
+      "distanceKm": null,
+      "kcal": null,
+      "startIso": "2026-09-09T11:37:47.805Z"
+    }
+  ]
+}

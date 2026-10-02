@@ -1,0 +1,18800 @@
+// 本文件由 scripts/sync-xunji.mjs 自动生成，请勿手改。
+// 数据来源：训记 App Open API v2（逐组重量次数明细）。
+export type XunjiSetItem = {
+  name: string
+  weight: number | null
+  unit?: string
+  reps: number | null
+}
+
+export type XunjiSet = {
+  done: boolean
+  weight: number | null
+  unit?: string
+  reps: number | null
+  selfWeight?: boolean
+  items?: XunjiSetItem[]
+}
+
+export type XunjiTrain = {
+  localid: number | string
+  datestr: string
+  title: string
+  startIso?: string
+  endIso?: string
+  durationMin: number | null
+  note?: string
+  movements: {
+    name: string
+    sets: XunjiSet[]
+  }[]
+}
+
+export const xunjiTrains: XunjiTrain[] = [
+  {
+    "localid": 1789133625700,
+    "datestr": "2026-09-11",
+    "title": "背 二头",
+    "startIso": "2026-09-11T13:36:37.663Z",
+    "endIso": "2026-09-11T14:43:47.576Z",
+    "durationMin": 67,
+    "note": "calorie:240",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "宽距高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 67.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "杠铃划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1788953849571,
+    "datestr": "2026-09-09",
+    "title": "臀 腿",
+    "startIso": "2026-09-09T11:37:47.805Z",
+    "endIso": "2026-09-09T12:25:15.954Z",
+    "durationMin": 47,
+    "note": "",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1788785384564,
+    "datestr": "2026-09-07",
+    "title": "训练",
+    "startIso": "2026-09-07T12:50:59.339Z",
+    "endIso": "2026-09-07T13:20:15.827Z",
+    "durationMin": 29,
+    "note": "",
+    "movements": [
+      {
+        "name": "杠铃片飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 52.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1785233223314,
+    "datestr": "2026-07-28",
+    "title": "背 二头",
+    "startIso": "2026-07-28T10:07:14.459Z",
+    "endIso": "2026-07-28T10:43:14.342Z",
+    "durationMin": 36,
+    "note": "",
+    "movements": [
+      {
+        "name": "站姿哑铃肩部环绕",
+        "sets": [
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1785144938688,
+    "datestr": "2026-07-27",
+    "title": "胸 三头",
+    "startIso": "2026-07-27T09:35:45.899Z",
+    "endIso": "2026-07-27T10:47:44.546Z",
+    "durationMin": 72,
+    "note": "calorie:247",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784876931224,
+    "datestr": "2026-07-24",
+    "title": "胸 三头",
+    "startIso": "2026-07-24T07:08:55.039Z",
+    "endIso": "2026-07-24T12:07:44.903Z",
+    "durationMin": null,
+    "note": "calorie:884",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "上斜史密斯机卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784804397742,
+    "datestr": "2026-07-23",
+    "title": "背 二头",
+    "startIso": "2026-07-23T11:00:07.213Z",
+    "endIso": "2026-07-24T01:34:17.235Z",
+    "durationMin": null,
+    "note": "calorie:2490",
+    "movements": [
+      {
+        "name": "对握高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 1
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 13
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784630382788,
+    "datestr": "2026-07-21",
+    "title": "臀 腿",
+    "startIso": "2026-07-21T10:39:47.855Z",
+    "endIso": "2026-07-21T13:12:36.229Z",
+    "durationMin": 153,
+    "note": "calorie:473",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "杠铃臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 140,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悬挂抬腿",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "前蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784551648727,
+    "datestr": "2026-07-20",
+    "title": "背 二头",
+    "startIso": "2026-07-20T12:47:46.391Z",
+    "endIso": "2026-07-21T10:39:39.847Z",
+    "durationMin": null,
+    "note": "calorie:3723",
+    "movements": [
+      {
+        "name": "杠铃划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 2
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784463351024,
+    "datestr": "2026-07-19",
+    "title": "胸 三头",
+    "startIso": "2026-07-19T12:15:57.195Z",
+    "endIso": "2026-07-20T12:47:24.726Z",
+    "durationMin": null,
+    "note": "calorie:4177",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      },
+      {
+        "name": "器械推胸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784290038632,
+    "datestr": "2026-07-17",
+    "title": "臀 腿",
+    "startIso": "2026-07-17T12:07:21.637Z",
+    "endIso": "2026-07-17T13:26:31.513Z",
+    "durationMin": 79,
+    "note": "calorie:267",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "杠铃臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悬挂抬腿",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784196981747,
+    "datestr": "2026-07-16",
+    "title": "背 二头",
+    "startIso": "2026-07-16T10:16:29.196Z",
+    "endIso": "2026-07-16T22:17:04.909Z",
+    "durationMin": null,
+    "note": "calorie:2077",
+    "movements": [
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 67.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 52.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 52.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1784122202178,
+    "datestr": "2026-07-15",
+    "title": "胸 三头",
+    "startIso": "2026-07-15T13:30:10.386Z",
+    "endIso": "2026-07-15T20:07:58.963Z",
+    "durationMin": null,
+    "note": "calorie:1173",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "器械推胸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 37.5,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1783935522307,
+    "datestr": "2026-07-13",
+    "title": "背 二头",
+    "startIso": "2026-07-13T09:38:48.790Z",
+    "endIso": "2026-07-13T14:38:53.181Z",
+    "durationMin": null,
+    "note": "calorie:890",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "半俯身侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1783854862454,
+    "datestr": "2026-07-12",
+    "title": "胸 三头",
+    "startIso": "2026-07-12T11:14:28.593Z",
+    "endIso": "2026-07-12T12:09:33.289Z",
+    "durationMin": 55,
+    "note": "calorie:202",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 66,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 73,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 73,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 59,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 32,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 27,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 27,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 23,
+            "unit": "kg",
+            "reps": 9
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "划船机",
+        "sets": [
+          {
+            "done": false,
+            "weight": 0,
+            "unit": "KM",
+            "reps": 331
+          },
+          {
+            "done": false,
+            "weight": 0,
+            "unit": "KM",
+            "reps": 391
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782962122152,
+    "datestr": "2026-07-02",
+    "title": "胸 三头",
+    "startIso": "2026-07-02T03:15:26.602Z",
+    "endIso": "2026-07-02T04:33:47.316Z",
+    "durationMin": 78,
+    "note": "calorie:264",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 160,
+            "unit": "lbs",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 175,
+            "unit": "lbs",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 175,
+            "unit": "lbs",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 175,
+            "unit": "lbs",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 27,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 32,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 27,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 23,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782718708197,
+    "datestr": "2026-06-29",
+    "title": "胸 三头",
+    "startIso": "2026-06-29T07:38:32.656Z",
+    "endIso": "2026-06-29T08:19:58.581Z",
+    "durationMin": 41,
+    "note": "calorie:173",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "半俯身侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782653759481,
+    "datestr": "2026-06-28",
+    "title": "臀 腿",
+    "startIso": "2026-06-28T13:36:02.980Z",
+    "endIso": "2026-06-28T18:21:46.915Z",
+    "durationMin": null,
+    "note": "calorie:855",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782555672610,
+    "datestr": "2026-06-27",
+    "title": "背 二头",
+    "startIso": "2026-06-27T10:21:19.381Z",
+    "endIso": "2026-06-27T12:30:54.986Z",
+    "durationMin": 130,
+    "note": "calorie:449",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 1
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "V-bar下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "悬挂抬腿",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 25
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 25
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782481979770,
+    "datestr": "2026-06-26",
+    "title": "胸 三头",
+    "startIso": "2026-06-26T13:53:04.556Z",
+    "endIso": "2026-06-26T15:32:45.605Z",
+    "durationMin": 100,
+    "note": "好累",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 85,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 11
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782279326305,
+    "datestr": "2026-06-24",
+    "title": "臀 腿",
+    "startIso": "2026-06-24T05:35:30.654Z",
+    "endIso": "2026-06-24T06:42:30.132Z",
+    "durationMin": 67,
+    "note": "calorie:242",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃推肩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悬挂抬腿",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 18
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "前蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782200846193,
+    "datestr": "2026-06-23",
+    "title": "背 二头",
+    "startIso": "2026-06-23T07:47:48.579Z",
+    "endIso": "2026-06-23T07:50:54.882Z",
+    "durationMin": 3,
+    "note": "calorie:61",
+    "movements": [
+      {
+        "name": "宽距高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 85,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "V-bar划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 1
+          }
+        ]
+      },
+      {
+        "name": "窄握把手下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "高翻",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782110250763,
+    "datestr": "2026-06-22",
+    "title": "胸 三头",
+    "startIso": "2026-06-22T06:37:35.738Z",
+    "endIso": "2026-06-22T06:39:17.837Z",
+    "durationMin": 2,
+    "note": "calorie:52",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "半俯身侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1782032923284,
+    "datestr": "2026-06-21",
+    "title": "臀 腿",
+    "startIso": "2026-06-21T09:08:49.686Z",
+    "endIso": "2026-06-21T10:09:16.540Z",
+    "durationMin": 60,
+    "note": "calorie:217",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "悬挂抬腿",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781843391545,
+    "datestr": "2026-06-19",
+    "title": "背 二头",
+    "startIso": "2026-06-19T04:29:55.278Z",
+    "endIso": "2026-06-19T12:53:23.402Z",
+    "durationMin": null,
+    "note": "calorie:1445",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781668755127,
+    "datestr": "2026-06-17",
+    "title": "臀 腿",
+    "startIso": "2026-06-17T03:59:21.464Z",
+    "endIso": "2026-06-17T06:14:25.499Z",
+    "durationMin": 135,
+    "note": "calorie:466",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 130,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "悬挂抬腿",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿绳索转体",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781583091068,
+    "datestr": "2026-06-16",
+    "title": "胸 三头",
+    "startIso": "2026-06-16T04:11:35.542Z",
+    "endIso": "2026-06-16T06:26:31.851Z",
+    "durationMin": 135,
+    "note": "calorie:440",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781496119507,
+    "datestr": "2026-06-15",
+    "title": "背 二头",
+    "startIso": "2026-06-15T04:02:03.538Z",
+    "endIso": "2026-06-15T06:27:06.662Z",
+    "durationMin": 145,
+    "note": "calorie:480",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 15
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "宽距高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781412648976,
+    "datestr": "2026-06-14",
+    "title": "臀 腿",
+    "startIso": "2026-06-14T04:50:55.992Z",
+    "endIso": "2026-06-14T06:36:32.918Z",
+    "durationMin": 106,
+    "note": "calorie:379",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "杠铃站姿提踵",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "悬挂抬腿",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781323739112,
+    "datestr": "2026-06-13",
+    "title": "胸 三头",
+    "startIso": "2026-06-13T04:09:03.960Z",
+    "endIso": "2026-06-13T06:26:01.401Z",
+    "durationMin": 137,
+    "note": "calorie:457",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      },
+      {
+        "name": "地雷杆推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781148735314,
+    "datestr": "2026-06-11",
+    "title": "背 二头",
+    "startIso": "2026-06-11T03:32:20.107Z",
+    "endIso": "2026-06-11T05:24:25.269Z",
+    "durationMin": 112,
+    "note": "calorie:383",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "V-bar划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "杠铃划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1781065038441,
+    "datestr": "2026-06-10",
+    "title": "臀 腿",
+    "startIso": "2026-06-10T04:17:22.641Z",
+    "endIso": "2026-06-10T06:25:15.828Z",
+    "durationMin": 128,
+    "note": "calorie:449",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 125,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "半俯身侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 4,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 4,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "哑铃保加利亚蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "杠铃站姿提踵",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780978658690,
+    "datestr": "2026-06-09",
+    "title": "胸 三头",
+    "startIso": "2026-06-09T04:17:44.536Z",
+    "endIso": "2026-06-09T07:20:35.236Z",
+    "durationMin": 183,
+    "note": "calorie:581",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780891989588,
+    "datestr": "2026-06-08",
+    "title": "背 二头",
+    "startIso": "2026-06-08T04:13:12.306Z",
+    "endIso": "2026-06-08T06:10:39.930Z",
+    "durationMin": 117,
+    "note": "calorie:396",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780843663298,
+    "datestr": "2026-06-07",
+    "title": "臀 腿",
+    "startIso": "2026-06-07T14:47:59.897Z",
+    "endIso": "2026-06-07T17:37:32.628Z",
+    "durationMin": 170,
+    "note": "calorie:527",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 6,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 3,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 6,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 3,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 6,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 3,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "杠铃站姿提踵",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780632607290,
+    "datestr": "2026-06-05",
+    "title": "胸 三头",
+    "startIso": "2026-06-05T04:10:21.729Z",
+    "endIso": "2026-06-05T09:58:13.274Z",
+    "durationMin": null,
+    "note": "calorie:1031",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780545066725,
+    "datestr": "2026-06-04",
+    "title": "背 二头",
+    "startIso": "2026-06-04T03:51:12.667Z",
+    "endIso": "2026-06-04T06:30:07.922Z",
+    "durationMin": 159,
+    "note": "calorie:526",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "宽距高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "V-bar划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 9
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780463529549,
+    "datestr": "2026-06-03",
+    "title": "臀 腿",
+    "startIso": "2026-06-03T05:12:15.479Z",
+    "endIso": "2026-06-03T07:56:31.138Z",
+    "durationMin": 164,
+    "note": "calorie:527",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "杠铃站姿提踵",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 15
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780373201352,
+    "datestr": "2026-06-02",
+    "title": "胸 三头",
+    "startIso": "2026-06-02T04:06:46.371Z",
+    "endIso": "2026-06-02T06:52:30.284Z",
+    "durationMin": 166,
+    "note": "calorie:531",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780286011504,
+    "datestr": "2026-06-01",
+    "title": "背 二头",
+    "startIso": "2026-06-01T03:53:55.479Z",
+    "endIso": "2026-06-01T05:57:00.987Z",
+    "durationMin": 123,
+    "note": "calorie:428",
+    "movements": [
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "对握高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 14
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 37.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780232968386,
+    "datestr": "2026-05-31",
+    "title": "臀 腿",
+    "startIso": "2026-05-31T13:09:47.192Z",
+    "endIso": "2026-05-31T17:12:17.307Z",
+    "durationMin": null,
+    "note": "calorie:755",
+    "movements": [
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "地雷杆甩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "杠铃站姿提踵",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780117189705,
+    "datestr": "2026-05-30",
+    "title": "胸 三头",
+    "startIso": "2026-05-30T04:59:56.562Z",
+    "endIso": "2026-05-30T08:21:31.245Z",
+    "durationMin": 202,
+    "note": "calorie:629",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 11
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1780027856381,
+    "datestr": "2026-05-29",
+    "title": "背 二头",
+    "startIso": "2026-05-29T04:11:02.817Z",
+    "endIso": "2026-05-29T14:04:06.465Z",
+    "durationMin": null,
+    "note": "calorie:1715",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 13
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 8,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779812568367,
+    "datestr": "2026-05-27",
+    "title": "周三",
+    "startIso": "2026-05-27T04:14:51.151Z",
+    "endIso": "2026-05-27T07:52:32.310Z",
+    "durationMin": 218,
+    "note": "calorie:686",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 37.5,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃提踵",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "地雷杆推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779768035519,
+    "datestr": "2026-05-26",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-26T04:00:52.529Z",
+    "endIso": "2026-05-26T16:14:34.962Z",
+    "durationMin": null,
+    "note": "calorie:2119",
+    "movements": [
+      {
+        "name": "对握高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 20
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 37.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779703171914,
+    "datestr": "2026-05-25",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-25T09:59:37.163Z",
+    "endIso": "2026-05-25T10:01:34.772Z",
+    "durationMin": 2,
+    "note": "calorie:63",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "器械推胸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779609545761,
+    "datestr": "2026-05-24",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-05-24T07:59:14.852Z",
+    "endIso": "2026-05-25T09:59:28.097Z",
+    "durationMin": null,
+    "note": "calorie:4443",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 120,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 3.75,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 3.75,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 3.75,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 3.75,
+            "unit": "kg",
+            "reps": 9
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779511954345,
+    "datestr": "2026-05-23",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-23T04:52:40.244Z",
+    "endIso": "2026-05-23T20:11:42.402Z",
+    "durationMin": null,
+    "note": "calorie:2628",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "硬拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 8,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779422317180,
+    "datestr": "2026-05-22",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-22T03:58:43.012Z",
+    "endIso": "2026-05-22T07:27:45.338Z",
+    "durationMin": 209,
+    "note": "calorie:681",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "上斜杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779248845761,
+    "datestr": "2026-05-20",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-05-20T03:47:33.183Z",
+    "endIso": "2026-05-20T06:12:17.017Z",
+    "durationMin": 145,
+    "note": "calorie:494",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 3.75,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "地雷杆甩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779163434332,
+    "datestr": "2026-05-19",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-19T04:03:59.284Z",
+    "endIso": "2026-05-19T05:43:49.139Z",
+    "durationMin": 100,
+    "note": "calorie:365",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1779076125391,
+    "datestr": "2026-05-18",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-18T03:49:32.933Z",
+    "endIso": "2026-05-19T04:03:50.334Z",
+    "durationMin": null,
+    "note": "calorie:4136",
+    "movements": [
+      {
+        "name": "引体向上（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "对握高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 37.5,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 8,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 9,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 9,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778992273338,
+    "datestr": "2026-05-17",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-05-17T04:31:24.852Z",
+    "endIso": "2026-05-17T06:47:46.139Z",
+    "durationMin": 136,
+    "note": "calorie:456",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "哑铃保加利亚蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 115,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778938206709,
+    "datestr": "2026-05-16",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-16T13:30:13.011Z",
+    "endIso": "2026-05-16T15:31:03.480Z",
+    "durationMin": 121,
+    "note": "calorie:400",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 1
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 2
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778818315436,
+    "datestr": "2026-05-15",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-15T04:12:06.141Z",
+    "endIso": "2026-05-15T15:25:22.398Z",
+    "durationMin": null,
+    "note": "calorie:1940",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "蜘蛛弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 8,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 6,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 9,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778644569486,
+    "datestr": "2026-05-13",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-05-13T03:56:14.615Z",
+    "endIso": "2026-05-13T06:40:25.302Z",
+    "durationMin": 164,
+    "note": "calorie:519",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃保加利亚蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778557789047,
+    "datestr": "2026-05-12",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-12T03:50:20.141Z",
+    "endIso": "2026-05-12T06:56:30.758Z",
+    "durationMin": 186,
+    "note": "calorie:581",
+    "movements": [
+      {
+        "name": "引体向上（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 9
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "锤式弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 7,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778472127220,
+    "datestr": "2026-05-11",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-11T05:04:47.729Z",
+    "endIso": "2026-05-11T06:44:56.894Z",
+    "durationMin": 100,
+    "note": "calorie:354",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778387592508,
+    "datestr": "2026-05-10",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-05-10T04:33:24.507Z",
+    "endIso": "2026-05-10T06:36:55.519Z",
+    "durationMin": 124,
+    "note": "calorie:405",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      },
+      {
+        "name": "哑铃保加利亚蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 105,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778299180093,
+    "datestr": "2026-05-09",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-09T03:59:44.235Z",
+    "endIso": "2026-05-09T05:33:17.825Z",
+    "durationMin": 94,
+    "note": "calorie:333",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "器械胸部推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778212042520,
+    "datestr": "2026-05-08",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-08T03:47:35.946Z",
+    "endIso": "2026-05-09T03:59:37.398Z",
+    "durationMin": null,
+    "note": "calorie:4135",
+    "movements": [
+      {
+        "name": "对握高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "正手杠铃弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿杠铃推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "上斜卷腹转体",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778125614383,
+    "datestr": "2026-05-07",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-05-07T03:47:00.116Z",
+    "endIso": "2026-05-07T05:52:36.139Z",
+    "durationMin": 126,
+    "note": "calorie:409",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 105,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 110,
+            "unit": "kg",
+            "reps": 3
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 15
+          }
+        ]
+      },
+      {
+        "name": "哑铃保加利亚蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1778040750827,
+    "datestr": "2026-05-06",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-06T04:12:35.096Z",
+    "endIso": "2026-05-06T05:58:07.801Z",
+    "durationMin": 106,
+    "note": "calorie:336",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 9
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777968996016,
+    "datestr": "2026-05-05",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-05T08:16:42.298Z",
+    "endIso": "2026-05-05T09:57:21.418Z",
+    "durationMin": 101,
+    "note": "calorie:346",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 2
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "单手绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 9
+          }
+        ]
+      },
+      {
+        "name": "双杠臂屈伸（辅助）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机推胸（版本2）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777787410347,
+    "datestr": "2026-05-03",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-05-03T05:51:34.886Z",
+    "endIso": "2026-05-03T07:13:35.305Z",
+    "durationMin": 82,
+    "note": "calorie:304",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 15
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 15
+          }
+        ]
+      },
+      {
+        "name": "哑铃保加利亚蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777697867730,
+    "datestr": "2026-05-02",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-05-02T04:57:55.513Z",
+    "endIso": "2026-05-02T17:12:03.264Z",
+    "durationMin": null,
+    "note": "calorie:2103",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "下斜悍马机推胸（版本2）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777608927146,
+    "datestr": "2026-05-01",
+    "title": "第一天 背和二头",
+    "startIso": "2026-05-01T04:15:34.039Z",
+    "endIso": "2026-05-01T05:44:52.048Z",
+    "durationMin": 89,
+    "note": "calorie:298",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 32.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(宽握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "颈后下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "分动式高位划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777437776576,
+    "datestr": "2026-04-29",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-29T04:43:11.181Z",
+    "endIso": "2026-04-29T14:58:29.619Z",
+    "durationMin": null,
+    "note": "calorie:1749",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777367050802,
+    "datestr": "2026-04-28",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-04-28T09:21:04.306Z",
+    "endIso": "2026-04-28T11:47:41.690Z",
+    "durationMin": 147,
+    "note": "calorie:453",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 62.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 62.5,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "宽距高位下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "下斜悍马机推胸（版本2）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777175567074,
+    "datestr": "2026-04-26",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-26T03:52:53.289Z",
+    "endIso": "2026-04-26T05:45:45.193Z",
+    "durationMin": 113,
+    "note": "calorie:366",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃保加利亚蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777088098405,
+    "datestr": "2026-04-25",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-04-25T03:35:04.517Z",
+    "endIso": "2026-04-25T04:44:28.944Z",
+    "durationMin": 69,
+    "note": "calorie:256",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 9
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "地雷杆甩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "下斜悍马机推胸（版本2）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1777003816924,
+    "datestr": "2026-04-24",
+    "title": "第一天 背和二头",
+    "startIso": "2026-04-24T04:12:31.221Z",
+    "endIso": "2026-04-24T05:23:01.516Z",
+    "durationMin": 71,
+    "note": "calorie:255",
+    "movements": [
+      {
+        "name": "宽握反手下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 27.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "正手杠铃弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "拉杆坐姿划船(窄握)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 13
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776916794516,
+    "datestr": "2026-04-23",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-23T04:00:14.272Z",
+    "endIso": "2026-04-23T06:09:06.317Z",
+    "durationMin": 129,
+    "note": "calorie:447",
+    "movements": [
+      {
+        "name": "哑铃推肩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 1275,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776836017329,
+    "datestr": "2026-04-22",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-04-22T05:33:57.290Z",
+    "endIso": "2026-04-22T05:35:03.672Z",
+    "durationMin": 1,
+    "note": "calorie:43",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "下斜悍马机推胸（版本2）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776745444893,
+    "datestr": "2026-04-21",
+    "title": "第一天 背和二头",
+    "startIso": "2026-04-21T04:24:07.830Z",
+    "endIso": "2026-04-21T05:44:18.182Z",
+    "durationMin": 80,
+    "note": "calorie:291",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 13
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 13
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 22.5,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      },
+      {
+        "name": "正手杠铃弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 13
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 13
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 13
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776572355043,
+    "datestr": "2026-04-19",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-19T04:19:26.938Z",
+    "endIso": "2026-04-19T06:29:56.094Z",
+    "durationMin": 130,
+    "note": "calorie:439",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 3
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋外展",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "坐姿髋内收",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776488340158,
+    "datestr": "2026-04-18",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-04-18T04:59:03.646Z",
+    "endIso": "2026-04-18T06:16:43.310Z",
+    "durationMin": 78,
+    "note": "calorie:287",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "地雷杆甩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 16
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "下斜悍马机推胸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776392702338,
+    "datestr": "2026-04-17",
+    "title": "第一天 背和二头",
+    "startIso": "2026-04-17T02:25:22.853Z",
+    "endIso": "2026-04-17T03:58:47.432Z",
+    "durationMin": 93,
+    "note": "calorie:323",
+    "movements": [
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "正手杠铃弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776304404593,
+    "datestr": "2026-04-14",
+    "title": "游泳",
+    "startIso": "2026-04-16T01:23:24.589Z",
+    "endIso": "2026-04-16T01:53:24.589Z",
+    "durationMin": 30,
+    "note": "",
+    "movements": [
+      {
+        "name": "有氧训练",
+        "sets": [
+          {
+            "done": true,
+            "weight": 0,
+            "reps": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776227281897,
+    "datestr": "2026-04-15",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-15T04:28:11.165Z",
+    "endIso": "2026-04-15T06:21:24.885Z",
+    "durationMin": 113,
+    "note": "calorie:386",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 7
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "Y字绳索侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776141932173,
+    "datestr": "2026-04-14",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-04-14T04:45:37.070Z",
+    "endIso": "2026-04-14T11:11:49.829Z",
+    "durationMin": null,
+    "note": "calorie:1143",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "负重仰卧起坐",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "下斜悍马机推胸（版本2）",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 4
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1776053411383,
+    "datestr": "2026-04-13",
+    "title": "第一天 背和二头",
+    "startIso": "2026-04-13T04:11:50.525Z",
+    "endIso": "2026-04-13T05:44:18.690Z",
+    "durationMin": 92,
+    "note": "calorie:326",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "悍马机大剪刀",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "分动式高位划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1775882060977,
+    "datestr": "2026-04-11",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-11T04:35:24.325Z",
+    "endIso": "2026-04-11T05:36:25.813Z",
+    "durationMin": 61,
+    "note": "calorie:223",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 100,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 90,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1775791043796,
+    "datestr": "2026-04-10",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-04-10T03:17:38.744Z",
+    "endIso": "2026-04-10T06:27:57.649Z",
+    "durationMin": 190,
+    "note": "calorie:585",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 17.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "负重仰卧起坐",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1775707661075,
+    "datestr": "2026-04-09",
+    "title": "第一天 背和二头",
+    "startIso": "2026-04-09T04:07:46.388Z",
+    "endIso": "2026-04-09T05:06:22.736Z",
+    "durationMin": 59,
+    "note": "calorie:219",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "山羊挺身",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 11
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃轮换弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "颈后下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1775539895263,
+    "datestr": "2026-04-03",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-07T05:31:48.262Z",
+    "endIso": "2026-04-07T05:32:42.052Z",
+    "durationMin": 1,
+    "note": "calorie:45",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1775538906246,
+    "datestr": "2026-04-07",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-04-07T05:15:12.777Z",
+    "endIso": "2026-04-07T05:31:13.037Z",
+    "durationMin": 16,
+    "note": "calorie:109",
+    "movements": [
+      {
+        "name": "哑铃推肩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1775449912306,
+    "datestr": "2026-04-06",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-04-06T04:31:56.391Z",
+    "endIso": "2026-04-06T05:13:18.613Z",
+    "durationMin": 41,
+    "note": "",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1775387451503,
+    "datestr": "2026-04-05",
+    "title": "第一天 背和二头",
+    "startIso": "2026-04-05T11:10:54.991Z",
+    "endIso": "2026-04-05T12:17:47.388Z",
+    "durationMin": 67,
+    "note": "calorie:232",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 7
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "负重仰卧起坐",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "颈后下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774934010187,
+    "datestr": "2026-03-31",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-03-31T05:14:02.839Z",
+    "endIso": "2026-03-31T06:08:15.192Z",
+    "durationMin": 54,
+    "note": "calorie:206",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 75,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 80,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774846617294,
+    "datestr": "2026-03-30",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-03-30T04:57:26.757Z",
+    "endIso": "2026-03-31T05:13:24.710Z",
+    "durationMin": null,
+    "note": "calorie:4115",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774763181851,
+    "datestr": "2026-03-29",
+    "title": "第一天 背和二头",
+    "startIso": "2026-03-29T05:46:29.840Z",
+    "endIso": "2026-03-29T07:20:16.803Z",
+    "durationMin": 94,
+    "note": "calorie:317",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 11
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "引体向上",
+        "sets": [
+          {
+            "done": true,
+            "weight": 55,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "悍马机划船(v1)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "铁杆直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 15,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃轮换弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "负重仰卧起坐",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774619747544,
+    "datestr": "2026-03-27",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-03-27T14:21:32.033Z",
+    "endIso": "2026-03-27T15:21:42.183Z",
+    "durationMin": 60,
+    "note": "calorie:228",
+    "movements": [
+      {
+        "name": "悍马机坐姿推举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 14
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "器械臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿腿弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774532733218,
+    "datestr": "2026-03-26",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-03-26T13:45:43.119Z",
+    "endIso": "2026-03-26T14:43:08.030Z",
+    "durationMin": 57,
+    "note": "calorie:203",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索十字夹胸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "lbs",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "lbs",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "lbs",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774446830595,
+    "datestr": "2026-03-25",
+    "title": "第一天 背和二头",
+    "startIso": "2026-03-25T13:53:56.945Z",
+    "endIso": "2026-03-25T15:33:19.140Z",
+    "durationMin": 99,
+    "note": "calorie:302",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "绳索直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774276173564,
+    "datestr": "2026-03-23",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-03-23T14:30:19.610Z",
+    "endIso": "2026-03-24T08:41:17.563Z",
+    "durationMin": null,
+    "note": "calorie:3100",
+    "movements": [
+      {
+        "name": "哑铃推肩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "站姿器械侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 2.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "蝴蝶机反向飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃箭步蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774187871433,
+    "datestr": "2026-03-22",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-03-22T13:58:02.657Z",
+    "endIso": "2026-03-23T14:29:28.595Z",
+    "durationMin": null,
+    "note": "calorie:4168",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 5
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 50,
+            "unit": "kg",
+            "reps": 4
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 12.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "把手式蝴蝶机飞鸟",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1774103737143,
+    "datestr": "2026-03-21",
+    "title": "第一天 背和二头",
+    "startIso": "2026-03-21T14:49:05.455Z",
+    "endIso": "2026-03-21T18:28:05.837Z",
+    "durationMin": 219,
+    "note": "calorie:654",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "V-bar划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "悍马机划船(v1)",
+        "sets": [
+          {
+            "done": true,
+            "weight": 35,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "单手牧师凳弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "哑铃轮换弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1773801252207,
+    "datestr": "2026-03-18",
+    "title": "第三天 肩 腿",
+    "startIso": "2026-03-18T03:15:09.063Z",
+    "endIso": "2026-03-18T05:22:42.779Z",
+    "durationMin": 128,
+    "note": "calorie:402",
+    "movements": [
+      {
+        "name": "哑铃推肩",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "半俯身侧平举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "面拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "深蹲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 70,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 65,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "悍马机臀冲",
+        "sets": [
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 60,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1773716199629,
+    "datestr": "2026-03-17",
+    "title": "第二天 胸 三头",
+    "startIso": "2026-03-17T03:06:42.159Z",
+    "endIso": "2026-03-17T03:51:19.725Z",
+    "durationMin": 45,
+    "note": "calorie:160",
+    "movements": [
+      {
+        "name": "杠铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 30,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 45,
+            "unit": "kg",
+            "reps": 6
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 8
+          },
+          {
+            "done": true,
+            "weight": 40,
+            "unit": "kg",
+            "reps": 6
+          }
+        ]
+      },
+      {
+        "name": "上斜哑铃卧推",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "绳索臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 10,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃臂屈伸",
+        "sets": [
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 7.5,
+            "unit": "kg",
+            "reps": 10
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "localid": 1773633128930,
+    "datestr": "2026-03-16",
+    "title": "第一天 背和二头",
+    "startIso": "2026-03-16T03:53:52.668Z",
+    "endIso": "2026-03-17T02:47:25.705Z",
+    "durationMin": null,
+    "note": "calorie:3879",
+    "movements": [
+      {
+        "name": "宽距下拉",
+        "sets": [
+          {
+            "done": true,
+            "weight": 25,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 8
+          }
+        ]
+      },
+      {
+        "name": "坐姿划船",
+        "sets": [
+          {
+            "done": true,
+            "weight": 64,
+            "unit": "lbs",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 64,
+            "unit": "lbs",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 64,
+            "unit": "lbs",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 53,
+            "unit": "lbs",
+            "reps": 10
+          }
+        ]
+      },
+      {
+        "name": "绳索直臂下压",
+        "sets": [
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 20,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      },
+      {
+        "name": "哑铃轮换弯举",
+        "sets": [
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 10
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          },
+          {
+            "done": true,
+            "weight": 5,
+            "unit": "kg",
+            "reps": 12
+          }
+        ]
+      }
+    ]
+  }
+]

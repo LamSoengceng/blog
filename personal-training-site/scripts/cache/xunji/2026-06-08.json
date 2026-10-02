@@ -1,0 +1,374 @@
+{
+  "fetchedAt": "2026-10-02T13:41:32.155Z",
+  "source": "v2",
+  "trains": [
+    {
+      "localid": 1780891989588,
+      "datestr": "2026-06-08",
+      "title": "背 二头",
+      "note": "calorie:396",
+      "start": 1780891992306,
+      "end": 1780899039930,
+      "started_at": 1780891992306,
+      "ended_at": 1780899039930,
+      "movements": [
+        {
+          "index": 1,
+          "name": "引体向上",
+          "type": "背",
+          "exetype": "plus_weight",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "0",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "0",
+              "unit": "kg",
+              "reps": "5",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "0",
+              "unit": "kg",
+              "reps": "5",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "0",
+              "unit": "kg",
+              "reps": "5",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 2,
+          "name": "蜘蛛弯举",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "25",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "22.5",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "20",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "20",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 3,
+          "name": "拉杆坐姿划船(宽握)",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "70",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "75",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 4,
+          "name": "硬拉",
+          "type": "腿",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "60",
+              "unit": "kg",
+              "reps": "3",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "100",
+              "unit": "kg",
+              "reps": "5",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 5,
+          "name": "站姿杠铃推举",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "35",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "5",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "35",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 6,
+          "name": "悍马机大剪刀",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "35",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 7,
+          "name": "锤式弯举",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "10",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "10",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "10",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "10",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        }
+      ],
+      "truncated": false
+    }
+  ],
+  "records": [
+    {
+      "date": "2026-06-08",
+      "id": "1780891989588",
+      "type": "背 二头",
+      "source": "训记",
+      "durationMin": 117,
+      "distanceKm": null,
+      "kcal": null,
+      "startIso": "2026-06-08T04:13:12.306Z"
+    }
+  ]
+}

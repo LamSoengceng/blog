@@ -444,7 +444,8 @@ export function TrainingPage() {
                 <time>{day.date.slice(5)}</time>
                 <strong>{day.types.join(' + ')}</strong>
                 <em>
-                  {day.sessions} 次 · {day.durationMin} min
+                  {day.sessions} 次
+                  {day.durationMin ? ` · ${day.durationMin} min` : ''}
                   {day.kcal ? ` · ${day.kcal} kcal` : ''}
                   {day.distanceKm ? ` · ${day.distanceKm} km` : ''}
                 </em>

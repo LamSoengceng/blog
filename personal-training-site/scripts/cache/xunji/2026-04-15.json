@@ -1,0 +1,393 @@
+{
+  "fetchedAt": "2026-10-02T13:40:23.945Z",
+  "source": "v2",
+  "trains": [
+    {
+      "localid": 1776227281897,
+      "datestr": "2026-04-15",
+      "title": "第三天 肩 腿",
+      "note": "calorie:386",
+      "start": 1776227291165,
+      "end": 1776234084885,
+      "started_at": 1776227291165,
+      "ended_at": 1776234084885,
+      "movements": [
+        {
+          "index": 1,
+          "name": "悍马机坐姿推举",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "15",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "17.5",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "17.5",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "15",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 2,
+          "name": "站姿器械侧平举",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "2.5",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "5",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "2.5",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "2.5",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 3,
+          "name": "面拉",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "30",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "35",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "45",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 4,
+          "name": "蝴蝶机反向飞鸟",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "45",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "40",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "35",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "30",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 5,
+          "name": "深蹲",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "60",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "90",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "90",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 5,
+              "done": true,
+              "weight": "80",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 6,
+          "name": "悍马机臀冲",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "50",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "70",
+              "unit": "kg",
+              "reps": "10",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "70",
+              "unit": "kg",
+              "reps": "7",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 4,
+              "done": true,
+              "weight": "70",
+              "unit": "kg",
+              "reps": "6",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 7,
+          "name": "坐姿腿屈伸",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "50",
+              "unit": "kg",
+              "reps": "12",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        },
+        {
+          "index": 8,
+          "name": "Y字绳索侧平举",
+          "type": "",
+          "exetype": "",
+          "sets": [
+            {
+              "index": 1,
+              "done": true,
+              "weight": "2.5",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 2,
+              "done": true,
+              "weight": "2.5",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            },
+            {
+              "index": 3,
+              "done": true,
+              "weight": "2.5",
+              "unit": "kg",
+              "reps": "8",
+              "time": 0,
+              "timeLabel": "",
+              "selfWeight": false
+            }
+          ],
+          "truncated": false
+        }
+      ],
+      "truncated": false
+    }
+  ],
+  "records": [
+    {
+      "date": "2026-04-15",
+      "id": "1776227281897",
+      "type": "第三天 肩 腿",
+      "source": "训记",
+      "durationMin": 113,
+      "distanceKm": null,
+      "kcal": null,
+      "startIso": "2026-04-15T04:28:11.165Z"
+    }
+  ]
+}
