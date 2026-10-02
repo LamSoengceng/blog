@@ -157,17 +157,3 @@ export function SketchPad({ width = 760, height = 360 }: { width?: number; heigh
     </div>
   )
 }
-
-// 请求当前挂载的小黑板导出图片（若没有小黑板则返回空串）
-export const requestSketchExport = (): Promise<string> =>
-  new Promise((resolve) => {
-    const handler = (event: Event) => {
-      event.preventDefault()
-      resolve((event as CustomEvent<{ dataUrl: string }>).detail.dataUrl)
-    }
-    window.addEventListener('sketchpad-export-response', handler, { once: true })
-    window.dispatchEvent(new CustomEvent('sketchpad-export', { detail: { callback: (dataUrl: string) => {
-      window.dispatchEvent(new CustomEvent('sketchpad-export-response', { detail: { dataUrl } }))
-    } } }))
-    setTimeout(() => resolve(''), 300)
-  })

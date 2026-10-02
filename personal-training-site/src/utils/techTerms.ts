@@ -28,20 +28,3 @@ export const splitByTechTerms = (text: string): HighlightSegment[] => {
   if (lastIndex < text.length) segments.push({ text: text.slice(lastIndex), highlight: false })
   return segments
 }
-
-export function HighlightText({ text }: { text: string }) {
-  const segments = splitByTechTerms(text)
-  return (
-    <>
-      {segments.map((segment, index) =>
-        segment.highlight ? (
-          <mark className="kw" key={index}>
-            {segment.text}
-          </mark>
-        ) : (
-          <span key={index}>{segment.text}</span>
-        ),
-      )}
-    </>
-  )
-}

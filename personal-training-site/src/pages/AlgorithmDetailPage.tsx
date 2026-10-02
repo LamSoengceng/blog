@@ -134,7 +134,7 @@ export function AlgorithmDetailPage() {
         </div>
       </article>
 
-      {visualizationSteps ? <AlgorithmVisualizer steps={visualizationSteps} /> : null}
+      {visualizationSteps ? <AlgorithmVisualizer key={problem.slug} steps={visualizationSteps} /> : null}
 
       <div className="algorithm-detail-grid">
         <article className="detail-panel">

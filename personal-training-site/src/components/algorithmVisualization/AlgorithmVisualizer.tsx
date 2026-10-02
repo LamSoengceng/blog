@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { AlgorithmStepPlayer } from './AlgorithmStepPlayer'
 import { ArrayRenderer } from './ArrayRenderer'
 import type { AlgorithmStep } from './types'
@@ -8,14 +8,10 @@ type AlgorithmVisualizerProps = {
 }
 
 export function AlgorithmVisualizer({ steps }: AlgorithmVisualizerProps) {
+  // steps 只随题目变化：父组件用 key={slug} 重挂载本组件来重置播放状态
   const [currentStep, setCurrentStep] = useState(0)
   const [playing, setPlaying] = useState(false)
   const step = steps[currentStep]
-
-  useEffect(() => {
-    setCurrentStep(0)
-    setPlaying(false)
-  }, [steps])
 
   if (!step) return null
 

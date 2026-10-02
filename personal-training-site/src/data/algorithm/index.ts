@@ -3899,7 +3899,7 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       "需二刷：双栈解码嵌套结构",
       "时间 O(n)，n 为解码后字符串长度（每个字符最多入栈出栈一次）",
       "空间 O(n)，栈的深度取决于嵌套层数",
-      "\udca1 面试推荐：双栈法（本解法）",
+      "💡 面试推荐：双栈法（本解法）",
       "- 思路直观，容易讲清楚",
       "- 另一种方法是递归，但栈的写法更不容易出错，推荐优先用栈",
       "3. ] 弹栈时的拼接顺序：letterstack.pop() + numstack.pop() * cur_str"

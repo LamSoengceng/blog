@@ -77,10 +77,13 @@ function App() {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [lastLocation, setLastLocation] = useState(location)
 
-  useEffect(() => {
+  // 路由变化时收起菜单：渲染期对比 location，比 effect 里同步 setState 少一次级联渲染
+  if (lastLocation !== location) {
+    setLastLocation(location)
     setMenuOpen(false)
-  }, [location.pathname, location.hash])
+  }
 
   useEffect(() => {
     const openSettings = () => setSettingsOpen(true)

@@ -11,7 +11,8 @@ import {
 import { openSiteSettings } from '../utils/settings'
 import { parseFeynmanScore } from '../utils/feynmanStore'
 import { DictationButton } from '../components/DictationButton'
-import { SketchPad, requestSketchExport } from '../components/SketchPad'
+import { SketchPad } from '../components/SketchPad'
+import { requestSketchExport } from '../utils/sketchExport'
 import type { FeynmanRecord } from '../utils/feynmanRecords'
 
 // 根据主题匹配站内标准笔记：命中算法分类或题目时，评估会附上你的本地注释作对照

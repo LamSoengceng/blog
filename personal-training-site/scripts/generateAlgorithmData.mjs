@@ -48,7 +48,9 @@ const leetcodeDifficultyMap = new Map([
 const cleanComment = (line) =>
   line
     .replace(/^\s*#\s?/, '')
-    .replace(/[═=📌⚠️✅❌🟢🟡🔴`]/g, '')
+    // 剥离装饰符号：═ 📌 ⚠ ✅ ❌ 🟢 🟡 🔴 与反引号；变体选择符单独剥，避免组合序列歧义
+    .replace(/\u{FE0F}/gu, '')
+    .replace(/[═=\u{1F4CC}\u{26A0}\u{2705}\u{274C}\u{1F7E2}\u{1F7E1}\u{1F534}`]/gu, '')
     .trim()
 
 const isCommentHeading = (line) =>

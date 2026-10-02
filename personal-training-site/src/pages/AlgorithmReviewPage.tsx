@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { algorithmProblems, type AlgorithmProblem, type AlgorithmProblemSummary } from '../data/algorithm'
-import { HighlightText } from '../utils/techTerms'
+import { HighlightText } from '../utils/HighlightText'
 import { FeynmanCheck } from '../components/FeynmanCheck'
 import { loadFeynmanScore } from '../utils/feynmanStore'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
@@ -89,14 +89,14 @@ export function AlgorithmReviewPage() {
     })
   }, [current])
 
-  // 填空回忆：每道题独立的作答状态
+  // 填空回忆：每道题独立的作答状态；切题时在渲染期重置（比 effect 同步 setState 少一次级联渲染）
   const [blanks, setBlanks] = useState<BlankEntry[]>([])
-  useEffect(() => {
-    setBlanks(
-      (current?.recallBlanks ?? []).map(() => ({ value: '', state: 'idle' as BlankState })),
-    )
+  const [blankSlug, setBlankSlug] = useState(current?.slug)
+  if (blankSlug !== current?.slug) {
+    setBlankSlug(current?.slug)
+    setBlanks((current?.recallBlanks ?? []).map(() => ({ value: '', state: 'idle' as BlankState })))
     setShowCode(loadReviewPrefs().autoExpandCode)
-  }, [current?.slug])
+  }
 
   const knownCount = Object.values(store).filter((item) => item.status === 'known').length
   const againCount = Object.values(store).filter((item) => item.status === 'again').length
@@ -176,10 +176,12 @@ export function AlgorithmReviewPage() {
   const [aiLoading, setAiLoading] = useState(false)
   const [aiError, setAiError] = useState('')
 
-  useEffect(() => {
+  const [aiSlug, setAiSlug] = useState(current?.slug)
+  if (aiSlug !== current?.slug) {
+    setAiSlug(current?.slug)
     setAiMessages([])
     setAiError('')
-  }, [current?.slug])
+  }
 
   const askAi = async () => {
     const question = aiInput.trim()
