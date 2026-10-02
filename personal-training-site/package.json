@@ -10,7 +10,8 @@
     "lint": "oxlint",
     "generate:algorithms": "node scripts/generateAlgorithmData.mjs",
     "enrich:llm": "node scripts/llmEnrichReview.mjs",
-    "sync:xunji": "node --env-file-if-exists=.env.local scripts/sync-xunji.mjs"
+    "sync:xunji": "node --env-file-if-exists=.env.local scripts/sync-xunji.mjs",
+    "test": "vitest run"
   },
   "dependencies": {
     "lucide-react": "^1.24.0",
@@ -29,6 +30,7 @@
     "postcss": "^8.5.16",
     "tailwindcss": "^3.4.17",
     "typescript": "~5.6.3",
-    "vite": "^5.4.11"
+    "vite": "^5.4.11",
+    "vitest": "^2.1.9"
   }
 }
