@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { algorithmCategories, algorithmProblems } from '../data/algorithm'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
+import { insightByCategory } from '../data/categoryInsights'
 import {
   addFeynmanRecord,
   feynmanStats,
@@ -22,8 +23,12 @@ const findReferenceNotes = (topic: string): string | null => {
 
   const category = algorithmCategories.find((item) => item.name === clean)
   if (category) {
+    const insight = insightByCategory[clean]
     const problems = algorithmProblems.filter((problem) => problem.category === clean).slice(0, 6)
     return (
+      (insight
+        ? `分类标准笔记：一句话：${insight.surface} 机制：${insight.mechanism} 常见缺口：${insight.implication}\n`
+        : '') +
       `这是站点里「${clean}」分类下的本地笔记摘要，作为评估对照：\n` +
       problems
         .map(
@@ -78,6 +83,7 @@ export function FeynmanPage() {
   const stats = feynmanStats(records)
   const canSubmit = topic.trim() && text.trim().length >= 10
   const referenceNotes = findReferenceNotes(topic)
+  const insight = topic.trim() ? insightByCategory[topic.trim()] : undefined
 
   const flash = (message: string) => {
     setSavedFlash(message)
@@ -204,6 +210,19 @@ export function FeynmanPage() {
           />
           {showSketch ? <SketchPad /> : null}
         </div>
+
+        {/* 费曼纪律：先合上资料讲，讲完再展开对照，所以默认折叠 */}
+        {insight ? (
+          <details className="feynman-canonical">
+            <summary>标准笔记 · {insight.category}（讲完再展开对照）</summary>
+            <div className="feynman-canonical-body">
+              <p><b>一句话</b>{insight.surface}</p>
+              <p><b>机制</b>{insight.mechanism}</p>
+              <p><b>不懂会栽在哪</b>{insight.implication}</p>
+              <p><b>类比 · {insight.analogyFrom}</b>{insight.analogy}</p>
+            </div>
+          </details>
+        ) : null}
 
         <div className="journal-composer-actions">
           <button className="review-btn primary" type="submit" disabled={!canSubmit || grading}>

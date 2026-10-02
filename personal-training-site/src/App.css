@@ -5880,6 +5880,43 @@ main {
   color: #9fdcec;
 }
 
+/* 分类标准笔记（费曼对照）：默认折叠，讲完再展开 */
+.feynman-canonical {
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  background: rgba(5, 8, 6, 0.45);
+}
+
+.feynman-canonical summary {
+  padding: 10px 14px;
+  cursor: pointer;
+  color: var(--accent-soft);
+  font-size: 13px;
+  font-weight: 800;
+  list-style-position: inside;
+}
+
+.feynman-canonical-body {
+  display: grid;
+  gap: 8px;
+  padding: 4px 14px 14px;
+}
+
+.feynman-canonical-body p {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.feynman-canonical-body b {
+  margin-right: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
 .feynman-explain-input {
   padding: 14px 16px;
   border: 1px solid var(--border);

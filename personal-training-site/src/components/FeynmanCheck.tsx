@@ -10,20 +10,27 @@ import { FEYNMAN_BOOST_SCORE } from '../utils/reviewStore'
 import { openSiteSettings } from '../utils/settings'
 import type { AlgorithmProblemSummary } from '../data/algorithm'
 
-const buildPrompt = (problem: AlgorithmProblemSummary, explanation: string) =>
-  [
+import { insightByCategory } from '../data/categoryInsights'
+
+const buildPrompt = (problem: AlgorithmProblemSummary, explanation: string) => {
+  const insight = insightByCategory[problem.category]
+  return [
     `题目：${problem.id}. ${problem.title}（${problem.difficulty}，${problem.category}，考点：${problem.topic}）`,
     '',
     '—— 标准笔记（来自本地题解注释）——',
     `思路：${problem.thoughts.slice(0, 5).join('；')}`,
     problem.pitfalls.length ? `易错点：${problem.pitfalls.slice(0, 3).join('；')}` : '',
     `复杂度：${problem.solutionGuide.complexity}`,
+    insight
+      ? `分类概念笔记：一句话：${insight.surface}；机制：${insight.mechanism}；常见理解缺口：${insight.implication}`
+      : '',
     '',
     `—— 学生自己的讲解（费曼检验）——`,
     explanation,
   ]
     .filter(Boolean)
     .join('\n')
+}
 
 const systemPrompt =
   '你是费曼学习法教练。学生不看笔记、用自己的话讲解一道算法题，你对照标准笔记评改。' +
