@@ -5904,6 +5904,126 @@ main {
   color: #9fdcec;
 }
 
+/* 面试官出题行：出题按钮 + 来源勾选 + 资料库入口 */
+.feynman-draw-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.feynman-draw-row .journal-kind {
+  cursor: pointer;
+}
+
+/* 流式评语面板 */
+.feynman-stream {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  background: rgba(5, 8, 6, 0.5);
+  color: var(--text-strong);
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.feynman-caret {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--accent-soft);
+  animation: feynman-caret-blink 0.9s steps(1) infinite;
+}
+
+@keyframes feynman-caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 我的资料库面板 */
+.feynman-library {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px dashed var(--border);
+  display: grid;
+  gap: 10px;
+}
+
+.feynman-library-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.feynman-library-import {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.feynman-library-import .feynman-topic-input {
+  flex: 1;
+  min-width: 180px;
+}
+
+.feynman-lib-file {
+  cursor: pointer;
+}
+
+.feynman-lib-file input[type='file'] {
+  display: none;
+}
+
+.feynman-library-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 6px;
+}
+
+.feynman-library-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.feynman-library-list li span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-strong);
+}
+
+.feynman-library-list li em {
+  color: var(--muted);
+  font-size: 12px;
+  font-style: normal;
+}
+
+.feynman-library-list li button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.feynman-library-list li button:hover {
+  color: #ff7a7a;
+}
+
 /* 分类标准笔记（费曼对照）：默认折叠，讲完再展开 */
 .feynman-canonical {
   margin-top: 10px;
