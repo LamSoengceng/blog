@@ -1,7 +1,5 @@
 import { useRef, useState } from 'react'
 import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
-import { algorithmCategories, algorithmProblems } from '../data/algorithm'
-import { insightByCategory } from '../data/categoryInsights'
 import {
   addFeynmanRecord,
   feynmanStats,
@@ -15,71 +13,26 @@ import { DictationButton } from '../components/DictationButton'
 import { SketchPad } from '../components/SketchPad'
 import { requestSketchExport } from '../utils/sketchExport'
 import type { FeynmanRecord } from '../utils/feynmanRecords'
-import { buildKnowledgePool, pickRandomPoint, type KnowledgePoint, type KnowledgeSource } from '../utils/knowledgePool'
+import { pickRandomPoint, splitDocIntoPoints, type KnowledgePoint } from '../utils/knowledgePool'
 import { useFeynmanLibrary } from '../hooks/useFeynmanLibrary'
 import { FeynmanLibrary } from '../components/feynman/FeynmanLibrary'
 import { RubricFeedback } from '../components/feynman/RubricFeedback'
 
-const SOURCE_OPTIONS: { key: KnowledgeSource; label: string }[] = [
-  { key: '算法', label: '算法' },
-  { key: '训练', label: '训练动作' },
-  { key: '博客', label: '博客' },
-  { key: '资料库', label: '我的资料' },
-]
-
-// 根据主题匹配站内标准笔记：命中算法分类或题目时，评估会附上你的本地注释作对照
-const findReferenceNotes = (topic: string): string | null => {
-  const clean = topic.trim()
-  if (!clean) return null
-
-  const category = algorithmCategories.find((item) => item.name === clean)
-  if (category) {
-    const insight = insightByCategory[clean]
-    const problems = algorithmProblems.filter((problem) => problem.category === clean).slice(0, 6)
-    return (
-      (insight
-        ? `分类标准笔记：一句话：${insight.surface} 机制：${insight.mechanism} 常见理解缺口：${insight.implication}\n`
-        : '') +
-      `这是站点里「${clean}」分类下的本地笔记摘要，作为评估对照：\n` +
-      problems
-        .map(
-          (problem) =>
-            `- ${problem.id}. ${problem.title}：核心 ${problem.thoughts[0] ?? ''}；易错 ${problem.pitfalls[0] ?? '无'}`,
-        )
-        .join('\n')
-    )
-  }
-
-  const problem = algorithmProblems.find(
-    (item) => item.title === clean || item.id === clean || item.title.includes(clean),
-  )
-  if (problem) {
-    return (
-      `这是站点里「${problem.id}. ${problem.title}」的本地笔记，作为评估对照：\n` +
-      `核心：${problem.thoughts.slice(0, 4).join('；')}\n` +
-      `易错点：${problem.pitfalls.slice(0, 3).join('；') || '无'}\n` +
-      `复杂度：${problem.solutionGuide.complexity}`
-    )
-  }
-
-  return null
-}
-
-// 面试官评估标准：对照参考笔记按四段 rubric 批改，追问不给答案，最后单独一行打分
+// 通用费曼评估：模型不扮演特定角色，只根据用户资料与知识点给出结构化建议。
 const buildSystemPrompt = (topic: string, referenceNotes: string | null) =>
   [
-    '你是技术面试官兼费曼学习法教练。学生被问到下面的知识点，像面试作答一样讲解，你对照参考笔记评改。',
+    '你是费曼学习法教练。用户刚刚用自己的话解释了一个知识点。你的任务是帮助他发现理解中的缺口，而不是替他作答。',
     referenceNotes
-      ? '参考笔记附在最后，重点对照它判断对错与遗漏。'
-      : '没有参考笔记，依据你自己的知识评估，不确定的内容要注明。',
+      ? '下面附有用户上传资料中与该知识点相关的原文，请以它为主要对照依据，同时指出资料本身可能遗漏的地方。'
+      : '没有附带资料，请依据你的知识评估；不确定时明确标注，不要编造资料来源。',
     '用简体中文、严格按以下结构输出评语：',
     '✓ 讲对了：列出理解正确的要点（简短）',
-    '⚠️ 错与漏：讲错的当场纠正、漏掉的关键机制逐条指出',
-    '🔍 深度判定：明确说这次讲解属于「表面罗列名词」还是「讲到了机制与边界」，并用一句话说明理由',
-    '🎤 面试官追问：给出你接下来最可能追问的 1-2 个问题（只提问，不给答案）',
+    '⚠️ 错与漏：纠正讲错的内容，指出遗漏的关键机制或边界',
+    '🔍 理解深度：判断是否讲到了因果机制、不变量和适用边界，而不只是罗列名词，并说明理由',
+    '🎤 下一步练习：给出 1-2 个帮助用户继续思考的问题，但不要直接给答案',
     '💡 一句话版本：把这个知识点讲给完全不懂的人听的一句话',
-    '最后单独一行输出「费曼得分：N/5」（5 = 清晰正确，能教会别人）。',
-    '不要复述学生的原文。',
+    '最后单独一行输出「费曼得分：N/5」（5 = 能清楚、正确、带机制地教会别人）。',
+    '不要复述用户的整段原文，也不要替用户写完整答案。',
     '',
     `知识点：${topic}`,
     referenceNotes ? `\n${referenceNotes}` : '',
@@ -95,20 +48,13 @@ export function FeynmanPage() {
   const [showSketch, setShowSketch] = useState(false)
   const [feedback, setFeedback] = useState('')
   const [picked, setPicked] = useState<KnowledgePoint | null>(null)
-  const [sources, setSources] = useState<Record<KnowledgeSource, boolean>>({
-    算法: true,
-    训练: true,
-    博客: true,
-    资料库: true,
-  })
   const { docs: library, addPaste, importFiles, remove: removeDoc } = useFeynmanLibrary()
   const [libraryOpen, setLibraryOpen] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
 
   const stats = feynmanStats(records)
   const canSubmit = topic.trim() && text.trim().length >= 10
-  const referenceNotes = picked ? picked.reference : findReferenceNotes(topic)
-  const insight = topic.trim() && !picked ? insightByCategory[topic.trim()] : undefined
+  const referenceNotes = picked?.reference ?? null
 
   const flash = (message: string) => {
     setSavedFlash(message)
@@ -120,18 +66,19 @@ export function FeynmanPage() {
     saveFeynmanRecords(next)
   }
 
-  // 面试官出题：从勾选的来源池里随机抽一个知识点
+  // 从用户上传资料中随机抽取一个知识点，避开上一题。 
   const drawRandom = () => {
-    const pool = buildKnowledgePool(library).filter((point) => sources[point.source])
+    const pool = library.flatMap(splitDocIntoPoints)
     if (!pool.length) {
-      flash('知识池为空：勾选至少一个来源，或往资料库导入内容')
+      flash('资料库为空：请先上传 .md / .txt 文件')
+      setLibraryOpen(true)
       return
     }
     const point = pickRandomPoint(pool, picked?.topic ?? topic)
     setPicked(point)
     setTopic(point.topic)
     setFeedback('')
-    flash('面试官出题完成，开始作答')
+    flash('已随机抽取一个知识点')
   }
 
   const handleAddPaste = (title: string, text: string) => {
@@ -209,8 +156,8 @@ export function FeynmanPage() {
         <p className="eyebrow">Feynman Technique</p>
         <h1 className="page-title">费曼练习</h1>
         <p>
-          费曼学习法：面试官从知识池随机出题（算法 / 训练动作 / 博客 / 你的资料库），你不看资料、像面试作答一样讲清楚，
-          模型流式给出结构化评语：讲对了什么、错漏在哪、深度够不够、还会追问什么——讲不清的地方，就是还没学会的地方。
+          费曼学习法：从你的资料库随机抽取一个知识点，先用自己的话讲清楚，再由大模型流式给出结构化建议——
+          讲对了什么、错漏在哪、理解是否深入、下一步怎么继续练习。
         </p>
       </div>
 
@@ -224,25 +171,14 @@ export function FeynmanPage() {
         <div className="feynman-topic-block">
           <div className="feynman-draw-row">
             <button className="review-btn primary review-btn-small" type="button" onClick={drawRandom}>
-              🎲 面试官出题
+              🎲 随机知识点
             </button>
-            {SOURCE_OPTIONS.map(({ key, label }) => (
-              <button
-                key={key}
-                className={`journal-kind ${sources[key] ? 'active' : ''}`}
-                type="button"
-                title={`出题池${sources[key] ? '包含' : '排除'}：${label}`}
-                onClick={() => setSources({ ...sources, [key]: !sources[key] })}
-              >
-                {label}
-              </button>
-            ))}
             <button
               className={`journal-kind ${libraryOpen ? 'active' : ''}`}
               type="button"
               onClick={() => setLibraryOpen((prev) => !prev)}
             >
-              📚 我的资料库（{library.length}）
+              📚 上传资料（{library.length}）
             </button>
           </div>
 
@@ -265,31 +201,12 @@ export function FeynmanPage() {
               setPicked(null)
               setTopic(event.target.value)
             }}
-            placeholder="手动输入，或点「面试官出题」随机抽一个……"
+            placeholder="手动输入知识点，或从上传资料中随机抽取一个……"
             maxLength={60}
           />
-          <div className="feynman-topic-chips">
-            {algorithmCategories.map((category) => (
-              <button
-                className={`journal-kind ${topic === category.name ? 'active' : ''}`}
-                type="button"
-                key={category.name}
-                onClick={() => {
-                  setPicked(null)
-                  setTopic(category.name)
-                }}
-              >
-                {category.name}
-              </button>
-            ))}
-          </div>
           {topic.trim() ? (
             <p className="feynman-note-state">
-              {picked
-                ? `面试官已出题：${picked.topic}（来源：${picked.source}）· 对照资料已附`
-                : referenceNotes
-                  ? '✓ 已匹配到站内笔记，评估时会附上对照'
-                  : '未命中站内笔记，模型将按自身知识评估'}
+              {picked ? `已从资料库抽取：${picked.topic} · 对照资料已附` : referenceNotes ? '✓ 已附资料对照' : '未选择资料对照，大模型将按自身知识评估'}
             </p>
           ) : null}
         </div>
@@ -312,29 +229,17 @@ export function FeynmanPage() {
             rows={7}
             placeholder={
               picked
-                ? `面试官刚问到你「${picked.topic}」——合上资料，像面试作答一样开讲：是什么？解决什么问题？怎么用？容易错在哪？`
-                : '合上资料，开始讲：这个知识点是什么？解决什么问题？怎么用？容易错在哪？——就当对面坐着一个完全没学过的人。也可以点麦克风口述，或打开小黑板画图。'
+                ? `刚才从资料中抽到「${picked.topic}」——合上资料，先用自己的话解释：它是什么？为什么？怎么用？边界在哪里？`
+                : '合上资料，开始讲：这个知识点是什么？为什么？怎么用？容易错在哪？——也可以点麦克风口述，或打开小黑板画图。'
             }
           />
           {showSketch ? <SketchPad /> : null}
         </div>
 
-        {/* 费曼纪律：先合上资料讲，讲完再展开对照，所以默认折叠 */}
-        {insight ? (
-          <details className="feynman-canonical">
-            <summary>标准笔记 · {insight.category}（讲完再展开对照）</summary>
-            <div className="feynman-canonical-body">
-              <p><b>一句话</b>{insight.surface}</p>
-              <p><b>机制</b>{insight.mechanism}</p>
-              <p><b>不懂会栽在哪</b>{insight.implication}</p>
-              <p><b>类比 · {insight.analogyFrom}</b>{insight.analogy}</p>
-            </div>
-          </details>
-        ) : null}
 
         <div className="journal-composer-actions">
           <button className="review-btn primary" type="submit" disabled={!canSubmit || grading}>
-            {grading ? '评估中…' : '讲述完毕，请面试官评估'}
+            {grading ? '评估中…' : '讲述完毕，请大模型评估'}
           </button>
           <button
             className="review-btn ghost"
@@ -355,7 +260,7 @@ export function FeynmanPage() {
         {error ? <p className="ai-note ai-error">{error}</p> : null}
         {grading || feedback ? (
           <div className="feynman-stream" aria-live="polite">
-            {feedback ? <RubricFeedback text={feedback} streaming={grading} /> : '面试官正在读你的讲解……'}
+            {feedback ? <RubricFeedback text={feedback} streaming={grading} /> : '大模型正在阅读你的讲解……'}
           </div>
         ) : null}
       </form>
@@ -378,7 +283,7 @@ export function FeynmanPage() {
       <div className="feynman-records">
         {records.length === 0 ? (
           <p className="empty-note">
-            还没有练习记录。点「面试官出题」，写下你的第一段讲解——讲不清楚的地方就是还没学会的地方。
+            还没有练习记录。上传一份资料或手动输入知识点，写下你的第一段讲解——讲不清楚的地方就是还没学会的地方。
           </p>
         ) : (
           records.map((record) => (
@@ -403,7 +308,7 @@ export function FeynmanPage() {
               {record.sketch ? <img className="feynman-sketch" src={record.sketch} alt={`${record.topic} 的小黑板草图`} /> : null}
               {record.feedback ? (
                 <details className="ask-sources" open={record.score == null}>
-                  <summary>{record.score ? '查看面试官评语' : '未评估'}</summary>
+                  <summary>{record.score ? '查看大模型评语' : '未评估'}</summary>
                   <RubricFeedback text={record.feedback} />
                 </details>
               ) : null}
