@@ -3876,6 +3876,19 @@ a.algorithm-focus-row {
   letter-spacing: 0.02em;
 }
 
+/* 复习页的本质提示块：可见的回忆线索 + 折叠的解法核心 */
+.essence-cue {
+  margin-top: 12px;
+}
+
+.essence-reveal summary {
+  margin-top: 4px;
+  cursor: pointer;
+  color: var(--accent-soft);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 .review-section {
   margin-top: 26px;
 }

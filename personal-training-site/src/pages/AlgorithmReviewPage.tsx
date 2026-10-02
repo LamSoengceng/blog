@@ -7,6 +7,8 @@ import { loadFeynmanScore } from '../utils/feynmanStore'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import { loadReviewPrefs, onReviewPrefsChange, openSiteSettings, type ReviewPrefs } from '../utils/settings'
 import { loadAlgorithmContent } from '../utils/algorithmContent'
+import { insightByCategory } from '../data/categoryInsights'
+import { problemEssences } from '../data/problemEssences'
 import {
   buildDueQueue,
   countDueWithinDay,
@@ -82,6 +84,8 @@ export function AlgorithmReviewPage() {
   // 题面/代码不在轻量索引里：切题时按需加载，内容按 slug 记录避免旧题闪现
   const [contentState, setContentState] = useState<{ slug: string; problem: AlgorithmProblem | null } | null>(null)
   const content = contentState && contentState.slug === current?.slug ? contentState.problem : null
+  const essence = current ? problemEssences[current.id] : undefined
+  const insight = current ? insightByCategory[current.category] : undefined
   useEffect(() => {
     if (!current) return
     void loadAlgorithmContent(current.slug).then((loaded) => {
@@ -327,6 +331,22 @@ export function AlgorithmReviewPage() {
         ) : null}
       </div>
 
+      {essence ? (
+        <div className="review-glance essence-cue">
+          <div className="glance-row">
+            <span>本质</span>
+            <p>{essence.essence}</p>
+          </div>
+          <details className="essence-reveal">
+            <summary>解法核心与易漏边界（先自己推，再展开）</summary>
+            <div className="feynman-canonical-body">
+              <p><b>核心</b>{essence.core}</p>
+              {essence.edge ? <p><b>易漏</b>{essence.edge}</p> : null}
+            </div>
+          </details>
+        </div>
+      ) : null}
+
         {content?.statement ? (
           <div className="review-section review-statement">
             <span>原题</span>
@@ -405,6 +425,18 @@ export function AlgorithmReviewPage() {
         ) : null}
 
         <FeynmanCheck problem={current} />
+
+        {insight ? (
+          <details className="feynman-canonical">
+            <summary>标准笔记 · {current.category}（讲完再展开对照）</summary>
+            <div className="feynman-canonical-body">
+              <p><b>一句话</b>{insight.surface}</p>
+              <p><b>机制</b>{insight.mechanism}</p>
+              <p><b>不懂会栽在哪</b>{insight.implication}</p>
+              <p><b>类比 · {insight.analogyFrom}</b>{insight.analogy}</p>
+            </div>
+          </details>
+        ) : null}
 
         <div className="review-section">
           <span>最该记住的错</span>
