@@ -8,9 +8,9 @@ import {
 } from '../utils/feynmanStore'
 import { FEYNMAN_BOOST_SCORE } from '../utils/reviewStore'
 import { openSiteSettings } from '../utils/settings'
-import type { AlgorithmProblem } from '../data/algorithm'
+import type { AlgorithmProblemSummary } from '../data/algorithm'
 
-const buildPrompt = (problem: AlgorithmProblem, explanation: string) =>
+const buildPrompt = (problem: AlgorithmProblemSummary, explanation: string) =>
   [
     `题目：${problem.id}. ${problem.title}（${problem.difficulty}，${problem.category}，考点：${problem.topic}）`,
     '',
@@ -33,7 +33,7 @@ const systemPrompt =
   '💡 讲给外行：给一句把核心思路讲给完全不懂的人听的类比或一句话总结\n' +
   '最后单独一行输出「费曼得分：N/5」（5 = 可以直接教会别人）。不要复述题面。'
 
-export function FeynmanCheck({ problem }: { problem: AlgorithmProblem }) {
+export function FeynmanCheck({ problem }: { problem: AlgorithmProblemSummary }) {
   const [draft, setDraft] = useState<FeynmanDraft>(() => loadFeynmanDraft(problem.slug))
   const [expanded, setExpanded] = useState(false)
   const [grading, setGrading] = useState(false)

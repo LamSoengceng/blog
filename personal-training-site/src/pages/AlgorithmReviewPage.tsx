@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { algorithmProblems, type AlgorithmProblem } from '../data/algorithm'
+import { algorithmProblems, type AlgorithmProblem, type AlgorithmProblemSummary } from '../data/algorithm'
 import { HighlightText } from '../utils/techTerms'
 import { FeynmanCheck } from '../components/FeynmanCheck'
 import { loadFeynmanScore } from '../utils/feynmanStore'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import { loadReviewPrefs, onReviewPrefsChange, openSiteSettings, type ReviewPrefs } from '../utils/settings'
+import { loadAlgorithmContent } from '../utils/algorithmContent'
 import {
   buildDueQueue,
   countDueWithinDay,
@@ -24,7 +25,7 @@ const difficultyClass = (difficulty: string) => {
 
 const reReviewPattern = /需二刷|待二刷|三刷|再刷一遍/
 
-const isReReview = (problem: AlgorithmProblem) =>
+const isReReview = (problem: AlgorithmProblemSummary) =>
   problem.thoughts.some((thought) => reReviewPattern.test(thought)) ||
   problem.pitfalls.some((pitfall) => reReviewPattern.test(pitfall))
 
@@ -42,14 +43,14 @@ const normalizeAnswer = (text: string) =>
     .replace(/[\s（）()、，。·\-_/\\]+/g, '')
     .trim()
 
-const buildAiContext = (problem: AlgorithmProblem) =>
+const buildAiContext = (problem: AlgorithmProblemSummary, codePreview?: string) =>
   [
     '你是算法面试教练，用简体中文简明回答，重点讲核心技巧、不变量和易错点，不要复述题面，不要说空话。',
     `当前复习题：${problem.id}. ${problem.title}（${problem.difficulty}，${problem.category}，考点：${problem.topic}）`,
     `本地笔记-思路：${problem.thoughts.join('；') || '无'}`,
     `本地笔记-易错点：${problem.pitfalls.join('；') || '无'}`,
     `复杂度：${problem.solutionGuide.complexity}`,
-    problem.codePreview ? `本地题解代码：\n${problem.codePreview.slice(0, 3000)}` : '',
+    codePreview ? `本地题解代码：\n${codePreview.slice(0, 3000)}` : '',
   ]
     .filter(Boolean)
     .join('\n')
@@ -77,6 +78,16 @@ export function AlgorithmReviewPage() {
     () => (queue.length ? algorithmProblems.find((problem) => problem.slug === queue[0]) : undefined),
     [queue],
   )
+
+  // 题面/代码不在轻量索引里：切题时按需加载，内容按 slug 记录避免旧题闪现
+  const [contentState, setContentState] = useState<{ slug: string; problem: AlgorithmProblem | null } | null>(null)
+  const content = contentState && contentState.slug === current?.slug ? contentState.problem : null
+  useEffect(() => {
+    if (!current) return
+    void loadAlgorithmContent(current.slug).then((loaded) => {
+      setContentState({ slug: current.slug, problem: loaded })
+    })
+  }, [current])
 
   // 填空回忆：每道题独立的作答状态
   const [blanks, setBlanks] = useState<BlankEntry[]>([])
@@ -186,7 +197,7 @@ export function AlgorithmReviewPage() {
     setAiError('')
     try {
       const answer = await chatCompletion(aiConfig, [
-        { role: 'system', content: buildAiContext(current) },
+        { role: 'system', content: buildAiContext(current, content?.codePreview) },
         ...nextMessages,
       ])
       setAiMessages((prev) => [...prev, { role: 'assistant', content: answer }])
@@ -285,11 +296,11 @@ export function AlgorithmReviewPage() {
           ) : null}
         </div>
 
-        {current.statement ? (
+        {content?.statement ? (
           <div className="review-section review-statement">
             <span>原题</span>
             <div className="statement-body">
-              {current.statement
+              {content.statement
                 .split('\n')
                 .filter((line) => line.trim())
                 .map((line) => (
@@ -371,11 +382,11 @@ export function AlgorithmReviewPage() {
           <p className="review-complexity">{current.solutionGuide.complexity}</p>
         </div>
 
-        {current.codePreview ? (
+        {content?.codePreview ? (
           <div className="review-section">
             <span>本地题解（先回忆，再对照）</span>
             <pre className="review-code" hidden={!showCode}>
-              <code>{current.codePreview}</code>
+              <code>{content.codePreview}</code>
             </pre>
           </div>
         ) : null}
@@ -387,7 +398,7 @@ export function AlgorithmReviewPage() {
           <button className="review-btn warn" type="button" onClick={() => advance('again')}>
             没记住（2）
           </button>
-          {current.codePreview ? (
+          {content?.codePreview ? (
             <button className="review-btn ghost" type="button" onClick={() => setShowCode((prev) => !prev)}>
               {showCode ? '收起代码' : '看代码（空格）'}
             </button>

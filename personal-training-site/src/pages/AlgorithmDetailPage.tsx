@@ -1,7 +1,9 @@
+import { useEffect, useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
-import { algorithmProblems } from '../data/algorithm'
+import { algorithmProblems, type AlgorithmProblem } from '../data/algorithm'
 import { AlgorithmVisualizer } from '../components/algorithmVisualization/AlgorithmVisualizer'
 import { getAlgorithmSteps } from '../components/algorithmVisualization/containerSteps'
+import { loadAlgorithmContent } from '../utils/algorithmContent'
 
 const difficultyClass = (difficulty: string) => {
   if (difficulty === '简单') return 'easy'
@@ -19,7 +21,17 @@ const cleanNote = (note?: string) => {
 
 export function AlgorithmDetailPage() {
   const { problemSlug } = useParams()
-  const problem = algorithmProblems.find((item) => item.slug === problemSlug)
+  const problem = useMemo(() => algorithmProblems.find((item) => item.slug === problemSlug), [problemSlug])
+  // 内容按 slug 记录，渲染期校验归属：切题瞬间旧题内容不会闪现，也无需在 effect 里同步清空
+  const [contentState, setContentState] = useState<{ slug: string; problem: AlgorithmProblem | null } | null>(null)
+  const content = contentState && contentState.slug === problem?.slug ? contentState.problem : null
+
+  useEffect(() => {
+    if (!problem) return
+    void loadAlgorithmContent(problem.slug).then((loaded) => {
+      setContentState({ slug: problem.slug, problem: loaded })
+    })
+  }, [problem])
 
   if (!problem) {
     return <Navigate to="/" replace />
@@ -160,9 +172,11 @@ export function AlgorithmDetailPage() {
           <h3>本地题解摘录</h3>
           <span>{problem.lastUpdated ?? 'not synced'}</span>
         </div>
-        {problem.codePreview ? (
+        {content === null ? (
+          <p className="empty-note">题解内容加载中…</p>
+        ) : content.codePreview ? (
           <pre>
-            <code>{problem.codePreview}</code>
+            <code>{content.codePreview}</code>
           </pre>
         ) : (
           <p className="empty-note">这道题还没有同步到本地 Python 题解文件。</p>

@@ -1,5 +1,7 @@
 // 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
-export type AlgorithmProblem = {
+// AlgorithmProblemSummary 是列表/索引用的轻量类型（不含题面与代码），
+// 完整内容（codePreview/statement）按需从 problems/*.ts 动态加载。
+export type AlgorithmProblemSummary = {
   id: string
   slug: string
   title: string
@@ -25,14 +27,17 @@ export type AlgorithmProblem = {
   pitfalls: string[]
   recallBlanks: { prompt: string; answer: string }[]
   keyPoints?: string[]
-  statement?: string
   solutionGuide: {
     idea: string
     interviewSteps: string[]
     complexity: string
     keyMistake: string
   }
+}
+
+export type AlgorithmProblem = AlgorithmProblemSummary & {
   codePreview?: string
+  statement?: string
 }
 
 export type AlgorithmCategory = {

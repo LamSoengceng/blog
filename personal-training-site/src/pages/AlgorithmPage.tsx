@@ -5,7 +5,7 @@ import {
   algorithmProblems,
   algorithmRecentProblems,
   algorithmReviewQueue,
-  type AlgorithmProblem,
+  type AlgorithmProblemSummary,
 } from '../data/algorithm'
 import { algorithmMeta } from '../data/algorithmMeta'
 import { countDueReviews, loadReviewStore } from '../utils/reviewStore'
@@ -24,12 +24,12 @@ const cleanNote = (note?: string) => {
   return cleaned
 }
 
-const usefulPitfall = (problem: AlgorithmProblem) =>
+const usefulPitfall = (problem: AlgorithmProblemSummary) =>
   problem.pitfalls.map(cleanNote).find(Boolean) ?? '复习时补充第一次卡住的判断条件。'
 
 const featuredAlgorithmProblems = algorithmReviewQueue
   .map((item) => algorithmProblems.find((problem) => problem.slug === item.slug))
-  .filter((problem): problem is AlgorithmProblem => Boolean(problem))
+  .filter((problem): problem is AlgorithmProblemSummary => Boolean(problem))
   .slice(0, 8)
 
 const algorithmCompletion = Math.round((algorithmMeta.solved / algorithmMeta.total) * 100)

@@ -2,13 +2,12 @@
 // 用法（Key 只放环境变量，绝不能提交到 Git）：
 //   LLM_API_KEY=sk-xxx LLM_BASE_URL=https://api.deepseek.com LLM_MODEL=deepseek-chat node scripts/llmEnrichReview.mjs
 // 输出写入 scripts/cache/review-enrichment.json，generateAlgorithmData.mjs 会自动合并。
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const projectRoot = join(__dirname, '..')
-const problemsDir = join(projectRoot, 'src', 'data', 'algorithm', 'problems')
 const cachePath = join(projectRoot, 'scripts', 'cache', 'review-enrichment.json')
 
 const apiKey = process.env.LLM_API_KEY
@@ -21,17 +20,17 @@ if (!apiKey) {
   process.exit(1)
 }
 
-// 题目数据按类别拆在 algorithm/problems/*.ts，由脚本生成，直接从各模块提取 JSON 段。
-const problemFiles = readdirSync(problemsDir).filter((name) => name.endsWith('.ts')).sort()
-const problems = problemFiles.flatMap((name) => {
-  const source = readFileSync(join(problemsDir, name), 'utf8')
-  const match = source.match(/= (\[[\s\S]*\])\n?$/)
-  if (!match) {
-    console.error(`无法从 ${name} 解析 problems 数据，请先运行 npm run generate:algorithms`)
-    process.exit(1)
-  }
-  return JSON.parse(match[1])
-})
+// 题目索引在 algorithm/index.ts（轻量字段齐全，够组装提示词），由脚本生成，直接提取 JSON 段。
+const indexPath = join(projectRoot, 'src', 'data', 'algorithm', 'index.ts')
+const indexSource = readFileSync(indexPath, 'utf8')
+const indexMatch =
+  indexSource.match(/export const algorithmProblems: AlgorithmProblemSummary\[\] = ([\s\S]*?)\n\n/) ??
+  indexSource.match(/export const algorithmProblems: AlgorithmProblemSummary\[\] = ([\s\S]*)\n?$/)
+if (!indexMatch) {
+  console.error('无法从 algorithm/index.ts 解析 problems 索引，请先运行 npm run generate:algorithms')
+  process.exit(1)
+}
+const problems = JSON.parse(indexMatch[1])
 
 const cache = existsSync(cachePath) ? JSON.parse(readFileSync(cachePath, 'utf8')) : {}
 const targets = limit ? problems.slice(0, limit) : problems

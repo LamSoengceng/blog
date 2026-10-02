@@ -552,10 +552,10 @@ const categorySlugMap = new Map([
   ['未分类', 'uncategorized'],
 ])
 
-const toCamel = (slug) => slug.replace(/-([a-z0-9])/g, (_, char) => char.toUpperCase())
-
 const typesOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
-export type AlgorithmProblem = {
+// AlgorithmProblemSummary 是列表/索引用的轻量类型（不含题面与代码），
+// 完整内容（codePreview/statement）按需从 problems/*.ts 动态加载。
+export type AlgorithmProblemSummary = {
   id: string
   slug: string
   title: string
@@ -581,14 +581,17 @@ export type AlgorithmProblem = {
   pitfalls: string[]
   recallBlanks: { prompt: string; answer: string }[]
   keyPoints?: string[]
-  statement?: string
   solutionGuide: {
     idea: string
     interviewSteps: string[]
     complexity: string
     keyMistake: string
   }
+}
+
+export type AlgorithmProblem = AlgorithmProblemSummary & {
   codePreview?: string
+  statement?: string
 }
 
 export type AlgorithmCategory = {
@@ -624,28 +627,32 @@ rmSync(algorithmProblemsDir, { recursive: true, force: true })
 mkdirSync(algorithmProblemsDir, { recursive: true })
 writeFileSync(join(algorithmDir, 'types.ts'), typesOutput, 'utf8')
 
+// 索引侧只保留轻字段；codePreview/statement（约占体积七成）留在内容文件里按需加载。
+const toSummary = ({ codePreview: _codePreview, statement: _statement, ...summary }) => summary
+
 const categoryModules = categoryNames.map((name, index) => {
   const slug = categorySlugMap.get(name) ?? `cat-${index + 1}`
-  const varName = `${toCamel(slug)}Problems`
   const items = problemsWithReview.filter((problem) => problem.category === name)
+  // 内容文件只存重字段（题面+代码），按 slug 索引；轻字段都在 index.ts，避免双份存储。
+  const contentMap = Object.fromEntries(
+    items.map((problem) => [problem.slug, { codePreview: problem.codePreview, statement: problem.statement }]),
+  )
   const moduleOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
-import type { AlgorithmProblem } from '../types'
-
-export const ${varName}: AlgorithmProblem[] = ${JSON.stringify(items, null, 2)}
+export const categoryContent: Record<string, { codePreview?: string; statement?: string }> = ${JSON.stringify(contentMap, null, 2)}
 `
   writeFileSync(join(algorithmProblemsDir, `${slug}.ts`), moduleOutput, 'utf8')
-  return { slug, varName }
+  return { name, slug }
 })
 
 const indexOutput = `// 本文件由 scripts/generateAlgorithmData.mjs 自动生成，请勿手改。
-${categoryModules.map((module) => `import { ${module.varName} } from './problems/${module.slug}'`).join('\n')}
-import type { AlgorithmCategory, AlgorithmProblem, AlgorithmRecentItem, AlgorithmReviewItem } from './types'
+// algorithmProblems 是轻量索引；完整题面/代码用 utils/algorithmContent.ts 的 loadAlgorithmContent 按需取。
+import type { AlgorithmCategory, AlgorithmProblemSummary, AlgorithmRecentItem, AlgorithmReviewItem } from './types'
 
-export type { AlgorithmCategory, AlgorithmProblem, AlgorithmRecentItem, AlgorithmReviewItem } from './types'
+export type { AlgorithmCategory, AlgorithmProblem, AlgorithmProblemSummary, AlgorithmRecentItem, AlgorithmReviewItem } from './types'
 
-export const algorithmProblems: AlgorithmProblem[] = [
-${categoryModules.map((module) => `  ...${module.varName},`).join('\n')}
-]
+export const categorySlugs: Record<string, string> = ${JSON.stringify(Object.fromEntries(categoryModules.map((module) => [module.name, module.slug])), null, 2)}
+
+export const algorithmProblems: AlgorithmProblemSummary[] = ${JSON.stringify(problemsWithReview.map(toSummary), null, 2)}
 
 export const algorithmCategories: AlgorithmCategory[] = ${JSON.stringify(categories, null, 2)}
 
