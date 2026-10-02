@@ -11,7 +11,8 @@
     "generate:algorithms": "node scripts/generateAlgorithmData.mjs",
     "enrich:llm": "node scripts/llmEnrichReview.mjs",
     "sync:xunji": "node --env-file-if-exists=.env.local scripts/sync-xunji.mjs",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:pages": "vite build --base=/xunji/ && node scripts/patch-gh-pages.mjs /xunji/"
   },
   "dependencies": {
     "lucide-react": "^1.24.0",
