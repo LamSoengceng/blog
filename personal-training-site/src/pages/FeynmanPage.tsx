@@ -15,15 +15,10 @@ import { DictationButton } from '../components/DictationButton'
 import { SketchPad } from '../components/SketchPad'
 import { requestSketchExport } from '../utils/sketchExport'
 import type { FeynmanRecord } from '../utils/feynmanRecords'
-import {
-  addLibraryDoc,
-  buildKnowledgePool,
-  loadLibrary,
-  pickRandomPoint,
-  removeLibraryDoc,
-  type KnowledgePoint,
-  type KnowledgeSource,
-} from '../utils/knowledgePool'
+import { buildKnowledgePool, pickRandomPoint, type KnowledgePoint, type KnowledgeSource } from '../utils/knowledgePool'
+import { useFeynmanLibrary } from '../hooks/useFeynmanLibrary'
+import { FeynmanLibrary } from '../components/feynman/FeynmanLibrary'
+import { RubricFeedback } from '../components/feynman/RubricFeedback'
 
 const SOURCE_OPTIONS: { key: KnowledgeSource; label: string }[] = [
   { key: '算法', label: '算法' },
@@ -106,10 +101,8 @@ export function FeynmanPage() {
     博客: true,
     资料库: true,
   })
-  const [library, setLibrary] = useState(loadLibrary)
+  const { docs: library, addPaste, importFiles, remove: removeDoc } = useFeynmanLibrary()
   const [libraryOpen, setLibraryOpen] = useState(false)
-  const [pasteTitle, setPasteTitle] = useState('')
-  const [pasteText, setPasteText] = useState('')
   const abortRef = useRef<AbortController | null>(null)
 
   const stats = feynmanStats(records)
@@ -141,22 +134,14 @@ export function FeynmanPage() {
     flash('面试官出题完成，开始作答')
   }
 
-  const importFiles = async (fileList: FileList | null) => {
-    if (!fileList?.length) return
-    let next = library
-    for (const file of Array.from(fileList)) {
-      next = addLibraryDoc(next, file.name.replace(/\.[^.]+$/, ''), await file.text())
-    }
-    setLibrary(next)
-    flash(`已导入 ${fileList.length} 份资料`)
+  const handleAddPaste = (title: string, text: string) => {
+    addPaste(title, text)
+    flash('资料已入库')
   }
 
-  const addPaste = () => {
-    if (!pasteText.trim()) return
-    setLibrary(addLibraryDoc(library, pasteTitle, pasteText))
-    setPasteTitle('')
-    setPasteText('')
-    flash('资料已入库')
+  const handleImportFiles = async (files: FileList | null) => {
+    const count = await importFiles(files)
+    if (count) flash(`已导入 ${count} 份资料`)
   }
 
   const stopGrading = () => abortRef.current?.abort()
@@ -262,62 +247,12 @@ export function FeynmanPage() {
           </div>
 
           {libraryOpen ? (
-            <div className="feynman-library">
-              <p className="feynman-library-hint">
-                资料存在本机浏览器。支持粘贴文本或导入 .md / .txt，一份资料按小标题拆成多个知识点进入出题池。
-              </p>
-              <div className="feynman-library-import">
-                <input
-                  className="feynman-topic-input"
-                  type="text"
-                  value={pasteTitle}
-                  onChange={(event) => setPasteTitle(event.target.value)}
-                  placeholder="资料标题（可选）"
-                  maxLength={60}
-                />
-                <label className="journal-kind feynman-lib-file">
-                  导入 .md / .txt
-                  <input
-                    type="file"
-                    accept=".md,.markdown,.txt,text/markdown,text/plain"
-                    multiple
-                    onChange={(event) => {
-                      void importFiles(event.target.files)
-                      event.target.value = ''
-                    }}
-                  />
-                </label>
-              </div>
-              <textarea
-                className="feynman-explain-input"
-                value={pasteText}
-                onChange={(event) => setPasteText(event.target.value)}
-                rows={4}
-                placeholder="粘贴资料内容……支持 markdown，# 小标题会拆成独立知识点"
-              />
-              <button className="review-btn ghost review-btn-small" type="button" onClick={addPaste} disabled={!pasteText.trim()}>
-                存入资料库
-              </button>
-              {library.length ? (
-                <ul className="feynman-library-list">
-                  {library.map((doc) => (
-                    <li key={doc.id}>
-                      <span>{doc.title}</span>
-                      <em>{doc.text.length} 字</em>
-                      <button
-                        type="button"
-                        aria-label={`删除资料 ${doc.title}`}
-                        onClick={() => setLibrary(removeLibraryDoc(library, doc.id))}
-                      >
-                        ×
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="empty-note">资料库还是空的。粘贴一段笔记，或导入一份 .md，出题池就会带上它。</p>
-              )}
-            </div>
+            <FeynmanLibrary
+              docs={library}
+              onAddPaste={handleAddPaste}
+              onImportFiles={handleImportFiles}
+              onRemove={removeDoc}
+            />
           ) : null}
 
           <label className="feynman-topic-label" htmlFor="feynman-topic">知识点</label>
@@ -420,8 +355,7 @@ export function FeynmanPage() {
         {error ? <p className="ai-note ai-error">{error}</p> : null}
         {grading || feedback ? (
           <div className="feynman-stream" aria-live="polite">
-            {feedback || '面试官正在读你的讲解……'}
-            {grading ? <span className="feynman-caret" /> : null}
+            {feedback ? <RubricFeedback text={feedback} streaming={grading} /> : '面试官正在读你的讲解……'}
           </div>
         ) : null}
       </form>
@@ -470,7 +404,7 @@ export function FeynmanPage() {
               {record.feedback ? (
                 <details className="ask-sources" open={record.score == null}>
                   <summary>{record.score ? '查看面试官评语' : '未评估'}</summary>
-                  <p className="feynman-record-feedback">{record.feedback}</p>
+                  <RubricFeedback text={record.feedback} />
                 </details>
               ) : null}
             </article>

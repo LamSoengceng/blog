@@ -6024,6 +6024,72 @@ main {
   color: #ff7a7a;
 }
 
+/* 面试官评语分块卡片：✓讲对了 / ⚠️错与漏 / 🔍深度判定 / 🎤追问 / 💡一句话 */
+.rubric-blocks {
+  display: grid;
+  gap: 8px;
+}
+
+.rubric-block {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  background: rgba(5, 8, 6, 0.35);
+}
+
+.rubric-block.is-raw {
+  border-left-color: var(--border);
+}
+
+.rubric-block.rubric-correct {
+  border-left-color: rgba(48, 242, 123, 0.6);
+}
+
+.rubric-block.rubric-gaps {
+  border-left-color: rgba(255, 122, 89, 0.65);
+}
+
+.rubric-block.rubric-depth {
+  border-left-color: #5aa7e8;
+}
+
+.rubric-block.rubric-followup {
+  border-left-color: #b48ae8;
+}
+
+.rubric-block.rubric-oneliner {
+  border-left-color: #e8c95a;
+}
+
+.rubric-head {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.rubric-block p {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.rubric-score {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 3px 12px;
+  border: 1px solid rgba(48, 242, 123, 0.45);
+  border-radius: 999px;
+  color: var(--accent-soft);
+  font-size: 13px;
+  font-weight: 800;
+}
+
 /* 分类标准笔记（费曼对照）：默认折叠，讲完再展开 */
 .feynman-canonical {
   margin-top: 10px;
