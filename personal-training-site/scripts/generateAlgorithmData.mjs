@@ -583,6 +583,8 @@ export type AlgorithmProblemSummary = {
   pitfalls: string[]
   recallBlanks: { prompt: string; answer: string }[]
   keyPoints?: string[]
+  ask?: string
+  constraints?: string[]
   solutionGuide: {
     idea: string
     interviewSteps: string[]
@@ -630,7 +632,30 @@ mkdirSync(algorithmProblemsDir, { recursive: true })
 writeFileSync(join(algorithmDir, 'types.ts'), typesOutput, 'utf8')
 
 // 索引侧只保留轻字段；codePreview/statement（约占体积七成）留在内容文件里按需加载。
-const toSummary = ({ codePreview: _codePreview, statement: _statement, ...summary }) => summary
+// 问法/边界从题面提取进索引，让列表与复习页不用下载题面也能「一眼看懂题」。
+const extractAsk = (statement) => {
+  const firstLine = statement?.split('\n').map((line) => line.trim()).find(Boolean)
+  if (!firstLine) return undefined
+  return firstLine.length > 120 ? `${firstLine.slice(0, 117)}…` : firstLine
+}
+
+const extractConstraints = (statement) => {
+  if (!statement) return undefined
+  const lines = statement.split('\n').map((line) => line.trim()).filter(Boolean)
+  const markerIndex = lines.findIndex((line) => /^(提示|Constraints)[:：]?$/i.test(line))
+  const source = markerIndex >= 0 ? lines.slice(markerIndex + 1) : lines
+  const constraints = source.filter((line) => /<=|>=|≤/.test(line) && line.length <= 60).slice(0, 5)
+  return constraints.length ? constraints : undefined
+}
+
+const toSummary = (problem) => {
+  const { codePreview: _codePreview, statement, ...summary } = problem
+  return {
+    ...summary,
+    ask: extractAsk(statement),
+    constraints: extractConstraints(statement),
+  }
+}
 
 const categoryModules = categoryNames.map((name, index) => {
   const slug = categorySlugMap.get(name) ?? `cat-${index + 1}`

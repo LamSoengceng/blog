@@ -3817,6 +3817,65 @@ a.algorithm-focus-row {
   text-decoration: underline;
 }
 
+/* 速览条：问法 / 考点 / 边界，复习页与详情页共用 */
+.review-glance {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+  border: 1px solid rgba(48, 242, 123, 0.16);
+  background: rgba(48, 242, 123, 0.05);
+}
+
+.glance-row {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.glance-row > span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.glance-row > p {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.glance-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.glance-chip {
+  padding: 2px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-strong);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.glance-chip.is-primary {
+  border-color: rgba(48, 242, 123, 0.45);
+  color: var(--accent-soft);
+}
+
+.glance-chip.is-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
 .review-section {
   margin-top: 26px;
 }

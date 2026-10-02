@@ -77,7 +77,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(n)   空间复杂度：O(n)",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target  的那 两个 整数，并返回它们的数组下标。",
+    "constraints": [
+      "2 <= nums.length <= 104",
+      "-109 <= nums[i] <= 109",
+      "-109 <= target <= 109"
+    ]
   },
   {
     "id": "49",
@@ -126,7 +132,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个字符串数组，请你将 字母异位词 组合在一起。可以按任意顺序返回结果列表。",
+    "constraints": [
+      "1 <= strs.length <= 104",
+      "0 <= strs[i].length <= 100"
+    ]
   },
   {
     "id": "128",
@@ -176,7 +187,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(n)，每个数字最多被访问两次",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。",
+    "constraints": [
+      "0 <= nums.length <= 105",
+      "-109 <= nums[i] <= 109"
+    ]
   },
   {
     "id": "283",
@@ -223,7 +239,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。",
+    "constraints": [
+      "1 <= nums.length <= 104",
+      "-231 <= nums[i] <= 231 - 1"
+    ]
   },
   {
     "id": "11",
@@ -281,7 +302,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "坑1: area 初始化写成 area  () (空元组)，不能和 int 比大小"
-    }
+    },
+    "ask": "给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。",
+    "constraints": [
+      "2 <= n <= 105",
+      "0 <= height[i] <= 104"
+    ]
   },
   {
     "id": "15",
@@ -346,7 +372,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "排序 + 双指针，时间复杂度 O(n²)",
       "keyMistake": "去重：跳过重复的第一个数（i > 0 防止越界）"
-    }
+    },
+    "ask": "给你一个整数数组 nums ，判断是否存在三元组 [nums[i], nums[j], nums[k]] 满足 i != j、i != k 且 j != k ，同时还满足 nums[i] + nums[j] + nums[k] == …",
+    "constraints": [
+      "3 <= nums.length <= 3000",
+      "-105 <= nums[i] <= 105"
+    ]
   },
   {
     "id": "42",
@@ -401,7 +432,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "# 创建备忘录"
-    }
+    },
+    "ask": "给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。",
+    "constraints": [
+      "1 <= n <= 2 * 104",
+      "0 <= height[i] <= 105"
+    ]
   },
   {
     "id": "3",
@@ -455,7 +491,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个字符串 s ，请你找出其中不含有重复字符的 最长 子串 的长度。",
+    "constraints": [
+      "0 <= s.length <= 105"
+    ]
   },
   {
     "id": "438",
@@ -509,7 +549,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定两个字符串 s 和 p，找到 s 中所有 p 的 异位词 的子串，返回这些子串的起始索引。不考虑答案输出的顺序。",
+    "constraints": [
+      "1 <= s.length, p.length <= 3 * 104"
+    ]
   },
   {
     "id": "239",
@@ -573,7 +617,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 队列必须存「下标」而非「值」，否则无法判断元素是否滑出窗口过期"
-    }
+    },
+    "ask": "给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-104 <= nums[i] <= 104",
+      "1 <= k <= nums.length"
+    ]
   },
   {
     "id": "560",
@@ -634,7 +684,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "否则会漏掉从下标0开始、和刚好等于k的子数组"
-    }
+    },
+    "ask": "给你一个整数数组 nums 和一个整数 k ，请你统计并返回 该数组中和为 k 的子数组的个数 。",
+    "constraints": [
+      "1 <= nums.length <= 2 * 104",
+      "-1000 <= nums[i] <= 1000",
+      "-107 <= k <= 107"
+    ]
   },
   {
     "id": "76",
@@ -688,7 +744,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "注意这里的返回值是 \"\" 而不是 \" \""
-    }
+    },
+    "ask": "给定两个字符串 s 和 t，长度分别是 m 和 n，返回 s 中的 最短窗口 子串，使得该子串包含 t 中的每一个字符（包括重复字符）。如果没有这样的子串，返回空字符串 \"\"。",
+    "constraints": [
+      "1 <= m, n <= 105"
+    ]
   },
   {
     "id": "239",
@@ -754,7 +814,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 队列必须存「下标」而非「值」，否则无法判断元素是否滑出窗口过期"
-    }
+    },
+    "ask": "给你一个整数数组 nums，有一个大小为 k 的滑动窗口从数组的最左侧移动到数组的最右侧。你只可以看到在滑动窗口内的 k 个数字。滑动窗口每次只向右移动一位。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-104 <= nums[i] <= 104",
+      "1 <= k <= nums.length"
+    ]
   },
   {
     "id": "53",
@@ -809,7 +875,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. max_sum 不能初始化为 0，否则全负数数组（如 [-3,-2,-1]）会返回 0"
-    }
+    },
+    "ask": "给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-104 <= nums[i] <= 104"
+    ]
   },
   {
     "id": "56",
@@ -860,7 +931,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "和 result 最后一个区间比较，有重叠就合并（更新 end），否则直接加入"
-    }
+    },
+    "ask": "以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回 一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间 。",
+    "constraints": [
+      "1 <= intervals.length <= 104",
+      "0 <= starti <= endi <= 104"
+    ]
   },
   {
     "id": "238",
@@ -909,7 +985,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. right 数组要从右往左递推，range(n-2, -1, -1)，注意终点写 -1 才能包含下标 0"
-    }
+    },
+    "ask": "给你一个整数数组 nums，返回 数组 answer ，其中 answer[i] 等于 nums 中除了 nums[i] 之外其余各元素的乘积 。",
+    "constraints": [
+      "2 <= nums.length <= 105",
+      "-30 <= nums[i] <= 30"
+    ]
   },
   {
     "id": "41",
@@ -971,7 +1052,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. while 循环条件中 nums[nums[i]-1] ! nums[i] 是防止死循环"
-    }
+    },
+    "ask": "给你一个未排序的整数数组 nums ，请你找出其中没有出现的最小的正整数。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-231 <= nums[i] <= 231 - 1"
+    ]
   },
   {
     "id": "189",
@@ -1035,7 +1121,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 必须用 nums[:]  new_nums，不能 nums  new_nums"
-    }
+    },
+    "ask": "给定一个整数数组 nums，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-231 <= nums[i] <= 231 - 1",
+      "0 <= k <= 105"
+    ]
   },
   {
     "id": "73",
@@ -1084,7 +1176,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个 m x n 的矩阵，如果一个元素为 0 ，则将其所在行和列的所有元素都设为 0 。请使用 原地 算法。",
+    "constraints": [
+      "1 <= m, n <= 200",
+      "-231 <= matrix[i][j] <= 231 - 1"
+    ]
   },
   {
     "id": "48",
@@ -1133,7 +1230,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 映射公式是 (i,j)→(j,n-1-i)，不是 (j,n-i)，注意 0-indexed 要减 1"
-    }
+    },
+    "ask": "给定一个 n × n 的二维矩阵 matrix 表示一个图像。请你将图像顺时针旋转 90 度。",
+    "constraints": [
+      "1 <= n <= 20",
+      "-1000 <= matrix[i][j] <= 1000"
+    ]
   },
   {
     "id": "54",
@@ -1187,7 +1289,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "需二刷：四边界收缩模拟（维护循环不变量）"
-    }
+    },
+    "ask": "给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。"
   },
   {
     "id": "240",
@@ -1238,7 +1341,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "「状态」是坐标本身，读出的值只是快照，指针不动等于原地打转（实战踩坑①）"
-    }
+    },
+    "ask": "编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target 。该矩阵具有以下特性：",
+    "constraints": [
+      "1 <= n, m <= 300",
+      "-109 <= matrix[i][j] <= 109",
+      "-109 <= target <= 109"
+    ]
   },
   {
     "id": "160",
@@ -1284,7 +1393,14 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你两个单链表的头节点 headA 和 headB ，请你找出并返回两个单链表相交的起始节点。如果两个链表不存在相交节点，返回 null 。",
+    "constraints": [
+      "1 <= m, n <= 3 * 104",
+      "1 <= Node.val <= 105",
+      "0 <= skipA <= m",
+      "0 <= skipB <= n"
+    ]
   },
   {
     "id": "206",
@@ -1341,7 +1457,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "把所有节点压入栈，再依次弹出重新串联，顺序自然就反了"
-    }
+    },
+    "ask": "给你单链表的头节点 head ，请你反转链表，并返回反转后的链表。"
   },
   {
     "id": "234",
@@ -1401,7 +1518,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 反转链表时要用临时变量 nxt 保存 slow.next，否则链会断"
-    }
+    },
+    "ask": "给你一个单链表的头节点 head ，请你判断该链表是否为回文链表。如果是，返回 true ；否则，返回 false 。",
+    "constraints": [
+      "0 <= Node.val <= 9"
+    ]
   },
   {
     "id": "141",
@@ -1452,7 +1573,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 循环条件必须是 while fast and fast.next，不能写 while fast.next.next"
-    }
+    },
+    "ask": "给你一个链表的头节点 head ，判断链表中是否有环。",
+    "constraints": [
+      "-105 <= Node.val <= 105"
+    ]
   },
   {
     "id": "142",
@@ -1500,7 +1625,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个链表的头节点  head ，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。",
+    "constraints": [
+      "-105 <= Node.val <= 105"
+    ]
   },
   {
     "id": "21",
@@ -1562,7 +1691,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 初始化结果链表时不能用 ans  None，因为 None 没有 .next 属性"
-    }
+    },
+    "ask": "将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。"
   },
   {
     "id": "2",
@@ -1615,7 +1745,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。",
+    "constraints": [
+      "0 <= Node.val <= 9"
+    ]
   },
   {
     "id": "19",
@@ -1667,7 +1801,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 链表题不加 dummy 节点很容易在「删除第一个节点」这种边界条件上抛出空指针异常。"
-    }
+    },
+    "ask": "给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。",
+    "constraints": [
+      "1 <= sz <= 30",
+      "0 <= Node.val <= 100",
+      "1 <= n <= sz"
+    ]
   },
   {
     "id": "24",
@@ -1715,7 +1855,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 变量只换名不换指向：不能只是 nodeA, nodeB  nodeB, nodeA 交换变量名，必须切实修改节点的 .next 属性。"
-    }
+    },
+    "ask": "给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。",
+    "constraints": [
+      "0 <= Node.val <= 100"
+    ]
   },
   {
     "id": "25",
@@ -1762,7 +1906,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 遍历方向误区：单链表没有前驱指针，无法「从后往前」倒着找节点。必须「人从前往后走（curr 从 slow.next 到 fast），但在行进中把箭头掉头指向 pre」。"
-    }
+    },
+    "ask": "给你链表的头节点 head ，每 k 个节点一组进行翻转，请你返回修改后的链表。",
+    "constraints": [
+      "1 <= k <= n <= 5000",
+      "0 <= Node.val <= 1000"
+    ]
   },
   {
     "id": "138",
@@ -1817,7 +1966,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 第一遍遍历：只复制节点值，建立 {原节点: 新节点} 的映射字典 d，并预置 d[None]  None 简化边界处理。"
-    }
+    },
+    "ask": "给你一个长度为 n 的链表，每个节点包含一个额外增加的随机指针 random ，该指针可以指向链表中的任何节点或空节点。",
+    "constraints": [
+      "0 <= n <= 1000",
+      "-104 <= Node.val <= 104"
+    ]
   },
   {
     "id": "148",
@@ -1881,7 +2035,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 中点断开：切分时必须执行 slow.next  None 将链表斩断为两条独立链表，否则递归依然处理原长链表造成死循环。"
-    }
+    },
+    "ask": "给你链表的头结点 head ，请将其按 升序 排列并返回 排序后的链表 。",
+    "constraints": [
+      "-105 <= Node.val <= 105"
+    ]
   },
   {
     "id": "94",
@@ -1948,7 +2106,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个二叉树的根节点 root ，返回 它的 中序 遍历 。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "104",
@@ -2003,7 +2165,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 别忘了 +1（当前节点自己也算一层）"
-    }
+    },
+    "ask": "给定一个二叉树 root ，返回其最大深度。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "226",
@@ -2057,7 +2223,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一棵二叉树的根节点 root ，翻转这棵二叉树，并返回其根节点。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "101",
@@ -2121,7 +2291,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 栈方法中 while 条件不能写 while root.left and root.right（永远不变，死循环），应该写 while stack"
-    }
+    },
+    "ask": "给你一个二叉树的根节点 root ， 检查它是否轴对称。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "543",
@@ -2177,7 +2351,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 直径不一定经过根节点！所以不能只算根的左深度+右深度"
-    }
+    },
+    "ask": "给你一棵二叉树的根节点，返回该树的 直径 。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "102",
@@ -2241,7 +2419,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. 入队孩子要判空：if node.left，否则 None.val 报错"
-    }
+    },
+    "ask": "给你二叉树的根节点 root ，返回其节点值的 层序遍历 。 （即逐层地，从左到右访问所有节点）。",
+    "constraints": [
+      "-1000 <= Node.val <= 1000"
+    ]
   },
   {
     "id": "108",
@@ -2296,7 +2478,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵 平衡 二叉搜索树。",
+    "constraints": [
+      "1 <= nums.length <= 104",
+      "-104 <= nums[i] <= 104"
+    ]
   },
   {
     "id": "98",
@@ -2357,7 +2544,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. 初始极小值：初始下界需设为 -float('inf')，防止第一个节点为负数（如 32 位整型最小值 -2147483648）时被误判。"
-    }
+    },
+    "ask": "给你一个二叉树的根节点 root ，判断其是否是一个有效的二叉搜索树。",
+    "constraints": [
+      "-231 <= Node.val <= 231 - 1"
+    ]
   },
   {
     "id": "230",
@@ -2410,7 +2601,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 混淆 node.val 和 node.left.val：处理当前节点时记录 node.val，不是子节点的值"
-    }
+    },
+    "ask": "给定一个二叉搜索树的根节点 root ，和一个整数 k ，请你设计一个算法查找其中第 k 小的元素（k 从 1 开始计数）。",
+    "constraints": [
+      "1 <= k <= n <= 104",
+      "0 <= Node.val <= 104"
+    ]
   },
   {
     "id": "199",
@@ -2468,7 +2664,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. depth  len(result) 是新层触发条件，不能写成 depth > len(result)（会重复 append）"
-    }
+    },
+    "ask": "给定一个二叉树的 根节点 root，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "114",
@@ -2517,7 +2717,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. for 循环要用 range(len(nodes) - 1)，否则最后一个节点 nodes[i+1] 越界"
-    }
+    },
+    "ask": "给你二叉树的根结点 root ，请你将它展开为一个单链表："
   },
   {
     "id": "105",
@@ -2574,7 +2775,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 忘记边界：if not preorder 必须在第一行，否则空数组时 preorder[0] 报错"
-    }
+    },
+    "ask": "给定两个整数数组 preorder 和 inorder ，其中 preorder 是二叉树的先序遍历， inorder 是同一棵树的中序遍历，请构造二叉树并返回其根节点。",
+    "constraints": [
+      "1 <= preorder.length <= 3000",
+      "-3000 <= preorder[i], inorder[i] <= 3000"
+    ]
   },
   {
     "id": "437",
@@ -2633,7 +2839,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "否则兄弟分支会误用当前分支的前缀和，导致多计"
-    }
+    },
+    "ask": "给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的 路径 的数目。"
   },
   {
     "id": "236",
@@ -2688,7 +2895,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 终止条件必须 return node，不能写 return（返回 None 等于\"没找到\"）"
-    }
+    },
+    "ask": "给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。"
   },
   {
     "id": "124",
@@ -2744,7 +2952,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 向父节点贡献的最大单侧路径（只能选左或右，不能拐弯）"
-    }
+    },
+    "ask": "二叉树中的 路径 被定义为一条节点序列，序列中每对相邻节点之间都存在一条边。同一个节点在一条路径序列中 至多出现一次 。该路径 至少包含一个 节点，且不一定经过根节点。",
+    "constraints": [
+      "-1000 <= Node.val <= 1000"
+    ]
   },
   {
     "id": "200",
@@ -2807,7 +3019,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. DFS 进入后要立即标记 grid[i][j]  '0'，否则相邻格子互相递归导致无限循环"
-    }
+    },
+    "ask": "给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。",
+    "constraints": [
+      "1 <= m, n <= 300"
+    ]
   },
   {
     "id": "994",
@@ -2865,7 +3081,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 感染后必须 grid[nx][ny]  2，否则同一个橘子会被重复入队"
-    }
+    },
+    "ask": "在给定的 m x n 网格 grid 中，每个单元格可以有以下三个值之一：",
+    "constraints": [
+      "1 <= m, n <= 10"
+    ]
   },
   {
     "id": "207",
@@ -2920,7 +3140,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "你这个学期必须选修 numCourses 门课程，记为 0 到 numCourses - 1 。",
+    "constraints": [
+      "1 <= numCourses <= 2000",
+      "0 <= prerequisites.length <= 5000",
+      "0 <= ai, bi < numCourses"
+    ]
   },
   {
     "id": "208",
@@ -2969,7 +3195,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "Trie（发音类似 \"try\"）或者说 前缀树 是一种树形数据结构，用于高效地存储和检索字符串数据集中的键。这一数据结构有相当多的应用情景，例如自动补全和拼写检查。",
+    "constraints": [
+      "1 <= word.length, prefix.length <= 2000"
+    ]
   },
   {
     "id": "46",
@@ -3022,7 +3252,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个不含重复数字的数组 nums ，返回其 所有可能的全排列 。你可以 按任意顺序 返回答案。",
+    "constraints": [
+      "1 <= nums.length <= 6",
+      "-10 <= nums[i] <= 10"
+    ]
   },
   {
     "id": "78",
@@ -3077,7 +3312,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 不能用 if num in path 去重（那是全排列的做法），子集用 startIndex 去重"
-    }
+    },
+    "ask": "给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。",
+    "constraints": [
+      "1 <= nums.length <= 10",
+      "-10 <= nums[i] <= 10"
+    ]
   },
   {
     "id": "17",
@@ -3137,7 +3377,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "边界情况：空字符串直接返回空列表"
-    }
+    },
+    "ask": "给定一个仅包含数字 2-9 的字符串，返回所有它能表示的字母组合。答案可以按 任意顺序 返回。",
+    "constraints": [
+      "1 <= digits.length <= 4"
+    ]
   },
   {
     "id": "39",
@@ -3191,7 +3435,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. path.copy() 别忘括号！path.copy 不加括号只是引用，不会真正复制"
-    }
+    },
+    "ask": "给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。你可以按 任意顺序 返回这些组合。",
+    "constraints": [
+      "1 <= candidates.length <= 30",
+      "2 <= candidates[i] <= 40",
+      "1 <= target <= 40"
+    ]
   },
   {
     "id": "22",
@@ -3259,7 +3509,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 右括号数不能超过左括号数（close_count < open_count 时才能加 ')'）"
-    }
+    },
+    "ask": "数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。",
+    "constraints": [
+      "1 <= n <= 8"
+    ]
   },
   {
     "id": "79",
@@ -3324,7 +3578,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "不要在 dfs 内部检查 word[index+1]，会导致最后一个字母时越界"
-    }
+    },
+    "ask": "给定一个 m x n 二维字符网格 board 和一个字符串单词 word 。如果 word 存在于网格中，返回 true ；否则，返回 false 。",
+    "constraints": [
+      "1 <= m, n <= 6",
+      "1 <= word.length <= 15"
+    ]
   },
   {
     "id": "131",
@@ -3389,7 +3648,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "后者会让调用方拿到 None（189/31 同款缩进 + 遗漏返回值组合坑）。"
-    }
+    },
+    "ask": "给你一个字符串 s，请你将 s 分割成一些 子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。",
+    "constraints": [
+      "1 <= s.length <= 16"
+    ]
   },
   {
     "id": "51",
@@ -3448,7 +3711,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. 对角线标识混淆：主对角线↘（斜率1）是 row-col，副对角线↙（斜率-1）是 row+col，搞反会整题错。"
-    }
+    },
+    "ask": "按照国际象棋的规则，皇后可以攻击与之处在同一行或同一列或同一斜线上的棋子。",
+    "constraints": [
+      "1 <= n <= 9"
+    ]
   },
   {
     "id": "33",
@@ -3495,7 +3762,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. 判断 target 范围时注意 < 和 < 的区别："
-    }
+    },
+    "ask": "整数数组 nums 按升序排列，数组中的值 互不相同 。",
+    "constraints": [
+      "1 <= nums.length <= 5000",
+      "-104 <= nums[i] <= 104",
+      "-104 <= target <= 104"
+    ]
   },
   {
     "id": "34",
@@ -3554,7 +3827,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "需二刷：二分查找找边界（左边界 + 右边界）"
-    }
+    },
+    "ask": "给你一个按照非递减顺序排列的整数数组 nums，和一个目标值 target。请你找出给定目标值在数组中的开始位置和结束位置。",
+    "constraints": [
+      "0 <= nums.length <= 105",
+      "-109 <= nums[i] <= 109",
+      "-109 <= target <= 109"
+    ]
   },
   {
     "id": "35",
@@ -3607,7 +3886,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "需二刷：二分查找标准模板，用来找边界感"
-    }
+    },
+    "ask": "给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。",
+    "constraints": [
+      "1 <= nums.length <= 104",
+      "-104 <= nums[i] <= 104",
+      "-104 <= target <= 104"
+    ]
   },
   {
     "id": "74",
@@ -3655,7 +3940,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 如果矩阵为空（比如 matrix[] 或 matrix[[]]），要特别小心越界，好在力扣这题给了约束 m,n > 1。"
-    }
+    },
+    "ask": "给你一个满足下述两条属性的 m x n 整数矩阵：",
+    "constraints": [
+      "1 <= m, n <= 100",
+      "-104 <= matrix[i][j], target <= 104"
+    ]
   },
   {
     "id": "153",
@@ -3707,7 +3997,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "需二刷：二分查找寻找旋转边界"
-    }
+    },
+    "ask": "已知一个长度为 n 的数组，预先按照升序排列，经由 1 到 n 次 旋转 后，得到输入数组。例如，原数组 nums = [0,1,2,4,5,6,7] 在变化后可能得到：",
+    "constraints": [
+      "1 <= n <= 5000",
+      "-5000 <= nums[i] <= 5000"
+    ]
   },
   {
     "id": "4",
@@ -3755,7 +4050,14 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 必须对较短的数组进行二分（强制交换），否则不仅慢，算出来的 j 还会越界出现负数。"
-    }
+    },
+    "ask": "给定两个大小分别为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的 中位数 。",
+    "constraints": [
+      "0 <= m <= 1000",
+      "0 <= n <= 1000",
+      "1 <= m + n <= 2000",
+      "-106 <= nums1[i], nums2[i] <= 106"
+    ]
   },
   {
     "id": "20",
@@ -3808,7 +4110,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. pop 之前必须先检查栈是否为空，否则空栈 pop 报 IndexError"
-    }
+    },
+    "ask": "给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。",
+    "constraints": [
+      "1 <= s.length <= 104"
+    ]
   },
   {
     "id": "155",
@@ -3864,7 +4170,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. __init__ 中变量要用 self.，否则只是局部变量，其他方法访问不到"
-    }
+    },
+    "ask": "设计一个支持 push ，pop ，top 操作，并能在常数时间内检索到最小元素的栈。",
+    "constraints": [
+      "-231 <= val <= 231 - 1"
+    ]
   },
   {
     "id": "394",
@@ -3928,7 +4238,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 数字可能是多位的（如 \"12[a]\"），不能直接 cur_num  int(char)，"
-    }
+    },
+    "ask": "给定一个经过编码的字符串，返回它解码后的字符串。",
+    "constraints": [
+      "1 <= s.length <= 30"
+    ]
   },
   {
     "id": "739",
@@ -3985,7 +4299,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. result 要用 [0]*n 初始化，不能用 []，因为后面要通过下标赋值"
-    }
+    },
+    "ask": "给定一个整数数组 temperatures ，表示每天的温度，返回一个数组 answer ，其中 answer[i] 是指对于第 i 天，下一个更高温度出现在几天后。如果气温在这之后都不会升高，请在该位置用 0 来代替。",
+    "constraints": [
+      "1 <= temperatures.length <= 105",
+      "30 <= temperatures[i] <= 100"
+    ]
   },
   {
     "id": "84",
@@ -4050,7 +4369,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "被弹柱子的高度能形成的矩形，左边界是左边第一个更矮的（新栈顶），"
-    }
+    },
+    "ask": "给定 n 个非负整数，用来表示柱状图中各个柱子的高度。每个柱子彼此相邻，且宽度为 1 。"
   },
   {
     "id": "215",
@@ -4106,7 +4426,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定整数数组 nums 和整数 k，请返回数组中第 k 个最大的元素。",
+    "constraints": [
+      "1 <= k <= nums.length <= 105",
+      "-104 <= nums[i] <= 104"
+    ]
   },
   {
     "id": "347",
@@ -4170,7 +4495,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-104 <= nums[i] <= 104"
+    ]
   },
   {
     "id": "295",
@@ -4231,7 +4561,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. 两个堆的大小差不能超过 1，否则中位数计算错误"
-    }
+    },
+    "ask": "中位数是有序整数列表中的中间值。如果列表的大小是偶数，则没有中间值，中位数是两个中间值的平均值。",
+    "constraints": [
+      "-105 <= num <= 105"
+    ]
   },
   {
     "id": "121",
@@ -4278,7 +4612,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. return 不要写在 for 循环里面，否则第一轮就返回了"
-    }
+    },
+    "ask": "给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。"
   },
   {
     "id": "55",
@@ -4325,7 +4660,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。",
+    "constraints": [
+      "1 <= nums.length <= 104",
+      "0 <= nums[i] <= 105"
+    ]
   },
   {
     "id": "45",
@@ -4378,7 +4718,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 遍历的边界是 len(nums) - 1，如果遍历到最后一个元素，会多跳一次（因为只要到了 n-1 前面就一定能覆盖，如果在 n-1 处正好触发 i  end，就会错误地多加一次步数）。"
-    }
+    },
+    "ask": "给定一个长度为 n 的 0 索引整数数组 nums。初始位置在下标 0。",
+    "constraints": [
+      "1 <= nums.length <= 104",
+      "0 <= nums[i] <= 1000"
+    ]
   },
   {
     "id": "763",
@@ -4426,7 +4771,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "第二遍遍历：用 end 维护当前片段的必达边界，当遍历指针 i  end 时，说明当前片段已经完全囊括了内部所有字母，可以切分。"
-    }
+    },
+    "ask": "给你一个字符串 s 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。例如，字符串 \"ababcc\" 能够被分为 [\"abab\", \"cc\"]，但类似 [\"aba\", \"bcc\"] 或 [\"ab\", \"ab\", …",
+    "constraints": [
+      "1 <= s.length <= 500"
+    ]
   },
   {
     "id": "70",
@@ -4483,7 +4832,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. dp[2] 赋值不能放在 n1 判断之前，否则 n1 时 dp 数组只有 2 个元素，dp[2] 越界"
-    }
+    },
+    "ask": "假设你正在爬楼梯。需要 n 阶你才能到达楼顶。",
+    "constraints": [
+      "1 <= n <= 45"
+    ]
   },
   {
     "id": "118",
@@ -4530,7 +4883,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 外层循环 range(1, numRows) 从1开始，不是从2开始，否则 numRows2 时循环不执行"
-    }
+    },
+    "ask": "给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。",
+    "constraints": [
+      "1 <= numRows <= 30"
+    ]
   },
   {
     "id": "198",
@@ -4581,7 +4938,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 边界处理：nums 只有 1 个元素时，dp[1] 会越界，需提前返回"
-    }
+    },
+    "ask": "你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。"
   },
   {
     "id": "53",
@@ -4635,7 +4993,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. max_sum 不能初始化为 0，否则全负数数组（如 [-3,-2,-1]）会返回 0"
-    }
+    },
+    "ask": "给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-104 <= nums[i] <= 104"
+    ]
   },
   {
     "id": "300",
@@ -4699,7 +5062,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 【严格递增要求】：条件必须是 nums[i] > nums[j]，不能带等号（若允许非降序列才带等号）。"
-    }
+    },
+    "ask": "给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。",
+    "constraints": [
+      "1 <= nums.length <= 2500",
+      "-104 <= nums[i] <= 104"
+    ]
   },
   {
     "id": "322",
@@ -4760,7 +5128,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "4. 最终结果：若 dp[amount] 仍为 float('inf') 说明无法凑出，返回 -1；否则返回 dp[amount]。"
-    }
+    },
+    "ask": "给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount ，表示总金额。",
+    "constraints": [
+      "1 <= coins.length <= 12",
+      "1 <= coins[i] <= 231 - 1",
+      "0 <= amount <= 104"
+    ]
   },
   {
     "id": "139",
@@ -4815,7 +5189,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "4. 初始化基准：dp 数组长度为 n + 1，dp[0] 必须置为 True，否则后续所有状态均无法被激活为 True。"
-    }
+    },
+    "ask": "给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。",
+    "constraints": [
+      "1 <= s.length <= 300",
+      "1 <= wordDict.length <= 1000",
+      "1 <= wordDict[i].length <= 20"
+    ]
   },
   {
     "id": "416",
@@ -4865,7 +5245,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. 循环结构：外层遍历物品 num，内层遍历容量 j；不可漏掉外层或混淆顺序。"
-    }
+    },
+    "ask": "给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。"
   },
   {
     "id": "152",
@@ -4923,7 +5304,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 变量覆盖 bug：初始化列表后，注意下标赋值 min_dp[0]  nums[0]，若误写为 min_dp  nums[0] 会将列表覆盖为 int 导致下标索引报错。"
-    }
+    },
+    "ask": "给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续 子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。",
+    "constraints": [
+      "1 <= nums.length <= 2 * 104",
+      "-10 <= nums[i] <= 10"
+    ]
   },
   {
     "id": "5",
@@ -4980,7 +5366,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(n²)，遍历 n 个中心，每个中心最多向两边扩散 O(n)",
       "keyMistake": "3. 每次扩散到边界或字符不相等时停止，截取合法回文串更新全局最长串 res。"
-    }
+    },
+    "ask": "给你一个字符串 s，找到 s 中最长的 回文 子串。",
+    "constraints": [
+      "1 <= s.length <= 1000"
+    ]
   },
   {
     "id": "279",
@@ -5032,7 +5422,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(n * √n)，外层循环 n 次，内层枚举最多 √i 次，总步数约为 ∫√x dx ≈ (2/3) n^(1.5)",
       "keyMistake": "1. 【DP 数组大小】：dp 数组需开 (n + 1) 大小，若只写 [float('inf')] 会因越界抛 IndexError。"
-    }
+    },
+    "ask": "给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。",
+    "constraints": [
+      "1 <= n <= 104"
+    ]
   },
   {
     "id": "32",
@@ -5086,7 +5480,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "2. 三段式拼接：情况 2 跨越匹配成功后，必须把 pre_idx 左侧相邻的历史有效长度 dp[pre_idx-1] 接上，不能只算 dp[i-1] + 2。"
-    }
+    },
+    "ask": "给你一个只包含 '(' 和 ')' 的字符串，找出最长有效（格式正确且连续）括号 子串 的长度。",
+    "constraints": [
+      "0 <= s.length <= 3 * 104"
+    ]
   },
   {
     "id": "1143",
@@ -5143,7 +5541,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(m * n)，双重循环遍历整个网格",
       "keyMistake": "2. 开 (m+1) x (n+1) 维度，第 0 行/列代表空串情况，天然为 0 避免边界越界。"
-    }
+    },
+    "ask": "给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。"
   },
   {
     "id": "72",
@@ -5204,7 +5603,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(m * n)，双重循环遍历整个网格",
       "keyMistake": "2. 开 (m+1) x (n+1) 数组，初始化边界："
-    }
+    },
+    "ask": "给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数  。",
+    "constraints": [
+      "0 <= word1.length, word2.length <= 500"
+    ]
   },
   {
     "id": "647",
@@ -5259,7 +5662,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "需二刷：中心扩展法（奇偶中心枚举与边界控制）"
-    }
+    },
+    "ask": "给你一个字符串 s ，请你统计并返回这个字符串中 回文子串 的数目。",
+    "constraints": [
+      "1 <= s.length <= 1000"
+    ]
   },
   {
     "id": "221",
@@ -5307,7 +5714,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 索引映射（Off-by-one）：dp 数组开 (m+1) x (n+1) 带哨兵边界时，对应 matrix 下标应为 matrix[i-1][j-1]，误写 matrix[i][j] 导致 IndexError 越界。"
-    }
+    },
+    "ask": "在一个由 '0' 和 '1' 组成的二维矩阵内，找到只包含 '1' 的最大正方形，并返回其面积。"
   },
   {
     "id": "136",
@@ -5354,7 +5762,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个 非空 整数数组 nums ，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。",
+    "constraints": [
+      "1 <= nums.length <= 3 * 104",
+      "-3 * 104 <= nums[i] <= 3 * 104"
+    ]
   },
   {
     "id": "169",
@@ -5408,7 +5821,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "3. 比较对象要清楚：i  j（元素 vs 元素），不能写成 i  nums（元素 vs 列表）"
-    }
+    },
+    "ask": "给定一个大小为 n 的数组 nums ，返回其中的多数元素。多数元素是指在数组中出现次数 大于 ⌊ n/2 ⌋ 的元素。",
+    "constraints": [
+      "1 <= n <= 5 * 104",
+      "-109 <= nums[i] <= 109"
+    ]
   },
   {
     "id": "75",
@@ -5466,7 +5884,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. nums[p]  2 交换后 p 不能 +1，右边换来的元素还没检查"
-    }
+    },
+    "ask": "给定一个包含红色、白色和蓝色、共 n 个元素的数组 nums ，原地 对它们进行排序，使得相同颜色的元素相邻，并按照红色、白色、蓝色顺序排列。",
+    "constraints": [
+      "1 <= n <= 300"
+    ]
   },
   {
     "id": "287",
@@ -5517,7 +5939,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给定一个包含 n + 1 个整数的数组 nums ，其数字都在 [1, n] 范围内（包括 1 和 n），可知至少存在一个重复的整数。",
+    "constraints": [
+      "1 <= n <= 105",
+      "1 <= nums[i] <= n"
+    ]
   },
   {
     "id": "31",
@@ -5566,7 +5993,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "i 右边这段天然是【严格降序】（否则趋势会在更右边被打破）。"
-    }
+    },
+    "ask": "整数数组的一个 排列  就是将其所有成员以序列或线性顺序排列。",
+    "constraints": [
+      "1 <= nums.length <= 100",
+      "0 <= nums[i] <= 100"
+    ]
   },
   {
     "id": "146",
@@ -5614,7 +6046,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "易错点/实战踩坑复盘："
-    }
+    },
+    "ask": "请你设计并实现一个满足  LRU (最近最少使用) 缓存 约束的数据结构。",
+    "constraints": [
+      "1 <= capacity <= 3000",
+      "0 <= key <= 10000",
+      "0 <= value <= 105"
+    ]
   },
   {
     "id": "130",
@@ -5674,7 +6112,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(M * N * alpha(M * N)) ≈ O(M * N)，每个格子常数次操作",
       "keyMistake": "1. 逆向思考：与其找“被包围的 O”，不如找出所有与“网格边界连通的 O”（免死安全区）。"
-    }
+    },
+    "ask": "给你一个 m x n 的矩阵 board ，由若干字符 'X' 和 'O' 组成，捕获 所有 被围绕的区域：",
+    "constraints": [
+      "1 <= m, n <= 200"
+    ]
   },
   {
     "id": "1514",
@@ -5742,7 +6184,15 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(E log E) 或 O(E log V)，其中 E 为边数，V 为顶点数 n，堆操作耗时。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个由 n 个节点（下标从 0 开始）组成的无向加权图，该图由一个描述边的列表组成，其中 edges[i] = [a, b] 表示连接节点 a 和 b 的一条无向边，且该边遍历成功的概率为 succProb[i] 。",
+    "constraints": [
+      "2 <= n <= 10^4",
+      "0 <= start, end < n",
+      "0 <= a, b < n",
+      "0 <= succProb.length == edges.length <= 2*10^4",
+      "0 <= succProb[i] <= 1"
+    ]
   },
   {
     "id": "460",
@@ -5854,7 +6304,8 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(n^2 * alpha(n)) ≈ O(n^2)，遍历上三角 n*(n-1)/2 次",
       "keyMistake": "1. 列表初始化：必须使用 list(range(n))，不能使用不可变的 range(n)。"
-    }
+    },
+    "ask": "有 n 个城市，其中一些彼此相连，另一些没有相连。如果城市 a 与城市 b 直接相连，且城市 b 与城市 c 直接相连，那么城市 a 与城市 c 间接相连。"
   },
   {
     "id": "684",
@@ -5909,7 +6360,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(n * alpha(n)) ≈ O(n)，其中 n 为边数/节点数",
       "keyMistake": "1. 编号边界：节点编号为 1 到 n，parent 数组必须开 n + 1，写 n 会触发 IndexError。"
-    }
+    },
+    "ask": "树可以看成是一个连通且 无环 的 无向 图。",
+    "constraints": [
+      "3 <= n <= 1000",
+      "1 <= ai < bi <= edges.length"
+    ]
   },
   {
     "id": "743",
@@ -5979,7 +6435,14 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(E log E) / O(E log V)，其中 E 为边数，V 为节点数",
       "keyMistake": "4. 出堆时若 d > distance[u] 则剪枝跳过，否则遍历邻居松弛距离并入堆"
-    }
+    },
+    "ask": "有 n 个网络节点，标记为 1 到 n。",
+    "constraints": [
+      "1 <= k <= n <= 100",
+      "1 <= times.length <= 6000",
+      "1 <= ui, vi <= n",
+      "0 <= wi <= 100"
+    ]
   },
   {
     "id": "990",
@@ -6028,7 +6491,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "时间复杂度：O(N * alpha(C)) ≈ O(N)，其中 N 为方程总数，C < 26 为字符种类",
       "keyMistake": "1. 单遍扫描漏洞：不能边合并边判断！若 \"!\" 出现在 \"\" 之前（如 [\"a!b\",\"bc\",\"ca\"]），单遍判断无法察觉后续合并产生的矛盾。必须先全量合并等式，再校验不等式。"
-    }
+    },
+    "ask": "给定一个由表示变量之间关系的字符串方程组成的数组，每个字符串方程 equations[i] 的长度为 4，并采用两种不同的形式之一：\"a==b\" 或 \"a!=b\"。在这里，a 和 b 是小写字母（不一定不同），表示单字母变量名。",
+    "constraints": [
+      "1 <= equations.length <= 500"
+    ]
   },
   {
     "id": "144",
@@ -6095,7 +6562,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你二叉树的根节点 root ，返回它节点值的 前序 遍历。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "145",
@@ -6162,7 +6633,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一棵二叉树的根节点 root ，返回其节点值的 后序遍历 。",
+    "constraints": [
+      "-100 <= Node.val <= 100"
+    ]
   },
   {
     "id": "2058",
@@ -6210,7 +6685,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "1. 边界条件：临界点需要前后各一个邻居，链表至少 3 个节点才可能有临界点"
-    }
+    },
+    "ask": "链表中的 临界点 定义为一个 局部极大值点 或 局部极小值点 。",
+    "constraints": [
+      "1 <= Node.val <= 105"
+    ]
   },
   {
     "id": "217",
@@ -6258,7 +6737,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个整数数组 nums 。如果任一值在数组中出现 至少两次 ，返回 true ；如果数组中每个元素互不相同，返回 false 。",
+    "constraints": [
+      "1 <= nums.length <= 105",
+      "-109 <= nums[i] <= 109"
+    ]
   },
   {
     "id": "3756",
@@ -6305,7 +6789,13 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你一个长度为 m 的字符串 s，其中仅包含数字。另给你一个二维整数数组 queries，其中 queries[i] = [li, ri]。",
+    "constraints": [
+      "1 <= m == s.length <= 105",
+      "1 <= queries.length <= 105",
+      "0 <= li <= ri < m"
+    ]
   },
   {
     "id": "461",
@@ -6350,7 +6840,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "两个整数之间的 汉明距离 指的是这两个数字对应二进制位不同的位置的数目。",
+    "constraints": [
+      "0 <= x, y <= 231 - 1"
+    ]
   },
   {
     "id": "567",
@@ -6405,7 +6899,11 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的 排列。如果是，返回 true ；否则，返回 false 。",
+    "constraints": [
+      "1 <= s1.length, s2.length <= 104"
+    ]
   },
   {
     "id": "703",
@@ -6465,7 +6963,14 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "本地文件暂未提取到明确“易错点”注释，后续可在 Python 注释里补充。"
-    }
+    },
+    "ask": "设计一个找到数据流中第 k 大元素的类（class）。注意是排序后的第 k 大元素，不是第 k 个不同的元素。",
+    "constraints": [
+      "0 <= nums.length <= 104",
+      "1 <= k <= nums.length + 1",
+      "-104 <= nums[i] <= 104",
+      "-104 <= val <= 104"
+    ]
   },
   {
     "id": "912",
@@ -6532,7 +7037,12 @@ export const algorithmProblems: AlgorithmProblemSummary[] = [
       ],
       "complexity": "面试时补充时间复杂度和空间复杂度。",
       "keyMistake": "lt: 小于区的右边界，nums[left..lt-1] < pivot"
-    }
+    },
+    "ask": "给你一个整数数组 nums，请你将该数组升序排列。",
+    "constraints": [
+      "1 <= nums.length <= 5 * 104",
+      "-5 * 104 <= nums[i] <= 5 * 104"
+    ]
   }
 ]
 

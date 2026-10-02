@@ -286,28 +286,58 @@ export function AlgorithmReviewPage() {
         <div className="review-pill-row">
           <span className={`difficulty-pill ${difficultyClass(current.difficulty)}`}>{current.difficulty}</span>
           <span className="review-pill-plain">{current.topic}</span>
-          {current.leetcodeUrl ? (
-            <a href={current.leetcodeUrl} target="_blank" rel="noreferrer">
-              打开 LeetCode ↗
-            </a>
-          ) : null}
-          {current.nowcoderUrl ? (
-            <a href={current.nowcoderUrl} target="_blank" rel="noreferrer">
-              牛客 ↗
-            </a>
-          ) : null}
+        {current.leetcodeUrl ? (
+          <a href={current.leetcodeUrl} target="_blank" rel="noreferrer">
+            打开 LeetCode ↗
+          </a>
+        ) : null}
+        {current.nowcoderUrl ? (
+          <a href={current.nowcoderUrl} target="_blank" rel="noreferrer">
+            牛客 ↗
+          </a>
+        ) : null}
+      </div>
+
+      <div className="review-glance">
+        {current.ask ? (
+          <div className="glance-row">
+            <span>问法</span>
+            <p>{current.ask}</p>
+          </div>
+        ) : null}
+        <div className="glance-row">
+          <span>考点</span>
+          <div className="glance-chips">
+            <em className="glance-chip is-primary">{current.category}</em>
+            <em className="glance-chip">{current.topic}</em>
+            {current.tags.filter((tag) => tag !== current.category && tag !== current.topic).slice(0, 5).map((tag) => (
+              <em className="glance-chip" key={tag}>{tag}</em>
+            ))}
+          </div>
         </div>
+        {current.constraints?.length ? (
+          <div className="glance-row">
+            <span>边界</span>
+            <div className="glance-chips">
+              {current.constraints.map((constraint) => (
+                <code className="glance-chip is-mono" key={constraint}>{constraint}</code>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
 
         {content?.statement ? (
           <div className="review-section review-statement">
             <span>原题</span>
             <div className="statement-body">
-              {content.statement
-                .split('\n')
-                .filter((line) => line.trim())
-                .map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
+              {(() => {
+                const lines = content.statement.split('\n').filter((line) => line.trim())
+                // 速览条已展示问法（题面首行），原题区跳过重复的首行
+                const askLine = current.ask?.replace(/…$/, '')
+                const bodyLines = askLine && lines[0]?.trim() === askLine ? lines.slice(1) : lines
+                return bodyLines.map((line) => <p key={line}>{line}</p>)
+              })()}
             </div>
           </div>
         ) : null}

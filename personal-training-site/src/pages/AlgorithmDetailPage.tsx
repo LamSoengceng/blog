@@ -105,6 +105,35 @@ export function AlgorithmDetailPage() {
         </aside>
       </div>
 
+      <div className="review-glance">
+        {problem.ask ? (
+          <div className="glance-row">
+            <span>问法</span>
+            <p>{problem.ask}</p>
+          </div>
+        ) : null}
+        <div className="glance-row">
+          <span>考点</span>
+          <div className="glance-chips">
+            <em className="glance-chip is-primary">{problem.category}</em>
+            <em className="glance-chip">{problem.topic}</em>
+            {problem.tags.filter((tag) => tag !== problem.category && tag !== problem.topic).slice(0, 5).map((tag) => (
+              <em className="glance-chip" key={tag}>{tag}</em>
+            ))}
+          </div>
+        </div>
+        {problem.constraints?.length ? (
+          <div className="glance-row">
+            <span>边界</span>
+            <div className="glance-chips">
+              {problem.constraints.map((constraint) => (
+                <code className="glance-chip is-mono" key={constraint}>{constraint}</code>
+              ))}
+            </div>
+          </div>
+        ) : null}
+      </div>
+
       <article className="detail-panel algorithm-guide-panel">
         <div className="panel-heading">
           <h3>原创面试复盘</h3>

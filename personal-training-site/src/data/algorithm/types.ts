@@ -27,6 +27,8 @@ export type AlgorithmProblemSummary = {
   pitfalls: string[]
   recallBlanks: { prompt: string; answer: string }[]
   keyPoints?: string[]
+  ask?: string
+  constraints?: string[]
   solutionGuide: {
     idea: string
     interviewSteps: string[]
