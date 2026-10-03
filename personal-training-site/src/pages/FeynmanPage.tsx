@@ -48,7 +48,7 @@ export function FeynmanPage() {
   const [showSketch, setShowSketch] = useState(false)
   const [feedback, setFeedback] = useState('')
   const [picked, setPicked] = useState<KnowledgePoint | null>(null)
-  const { docs: library, addPaste, importFiles, remove: removeDoc } = useFeynmanLibrary()
+  const { docs: library, importFiles, remove: removeDoc } = useFeynmanLibrary()
   const [libraryOpen, setLibraryOpen] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
 
@@ -79,11 +79,6 @@ export function FeynmanPage() {
     setTopic(point.topic)
     setFeedback('')
     flash('已随机抽取一个知识点')
-  }
-
-  const handleAddPaste = (title: string, text: string) => {
-    addPaste(title, text)
-    flash('资料已入库')
   }
 
   const handleImportFiles = async (files: FileList | null) => {
@@ -185,7 +180,6 @@ export function FeynmanPage() {
           {libraryOpen ? (
             <FeynmanLibrary
               docs={library}
-              onAddPaste={handleAddPaste}
               onImportFiles={handleImportFiles}
               onRemove={removeDoc}
             />

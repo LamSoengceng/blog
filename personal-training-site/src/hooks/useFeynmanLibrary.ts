@@ -5,8 +5,6 @@ import { addLibraryDoc, loadLibrary, removeLibraryDoc, type LibraryDoc } from '.
 export function useFeynmanLibrary() {
   const [docs, setDocs] = useState<LibraryDoc[]>(loadLibrary)
 
-  const addPaste = (title: string, text: string) => setDocs(addLibraryDoc(docs, title, text))
-
   const remove = (id: string) => setDocs(removeLibraryDoc(docs, id))
 
   const importFiles = async (fileList: FileList | null): Promise<number> => {
@@ -19,5 +17,5 @@ export function useFeynmanLibrary() {
     return fileList.length
   }
 
-  return { docs, addPaste, importFiles, remove }
+  return { docs, importFiles, remove }
 }
