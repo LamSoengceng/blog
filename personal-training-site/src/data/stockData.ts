@@ -1,6 +1,6 @@
 // 本文件由 scripts/generateStockData.mjs 自动生成，请勿手改。
 // 数据源: hithink-finance（同花顺金融数据服务），数据日期: 2026-09-30 收盘
-// 生成时间: 2026-10-04T01:49:22.086Z
+// 生成时间: 2026-10-04T02:22:51.925Z
 export type StockIndex = {
   name: string
   symbol: string
@@ -743,73 +743,73 @@ export const ladderBoards: LadderBoard[] = [
 export const hotStocks: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "001246",
-    "name": "力勤资源",
-    "heat": "4210938",
-    "rankChange": 0
+    "ticker": "002242",
+    "name": "九阳股份",
+    "heat": "4233986",
+    "rankChange": 1
   },
   {
     "rank": 2,
-    "ticker": "002242",
-    "name": "九阳股份",
-    "heat": "4094651",
-    "rankChange": 0
+    "ticker": "001246",
+    "name": "力勤资源",
+    "heat": "4208676",
+    "rankChange": -1
   },
   {
     "rank": 3,
     "ticker": "000678",
     "name": "襄阳轴承",
-    "heat": "3572708",
+    "heat": "3596772",
     "rankChange": 0
   },
   {
     "rank": 4,
     "ticker": "601127",
     "name": "赛力斯",
-    "heat": "3308564",
+    "heat": "3143976",
     "rankChange": 0
   },
   {
     "rank": 5,
     "ticker": "002487",
     "name": "大金重工",
-    "heat": "3045469",
+    "heat": "3010198",
     "rankChange": 0
   },
   {
     "rank": 6,
     "ticker": "000002",
     "name": "万科A",
-    "heat": "2725343",
+    "heat": "2691241",
     "rankChange": 0
   },
   {
     "rank": 7,
     "ticker": "600825",
     "name": "新华传媒",
-    "heat": "2638993",
+    "heat": "2640038",
     "rankChange": 0
   },
   {
     "rank": 8,
     "ticker": "600127",
     "name": "金健米业",
-    "heat": "2239015",
+    "heat": "2236592",
     "rankChange": 0
   },
   {
     "rank": 9,
     "ticker": "600418",
     "name": "江淮汽车",
-    "heat": "2195218",
+    "heat": "2176078",
     "rankChange": 0
   },
   {
     "rank": 10,
-    "ticker": "300308",
-    "name": "中际旭创",
-    "heat": "1981458",
-    "rankChange": 0
+    "ticker": "688836",
+    "name": "宇树科技",
+    "heat": "1954113",
+    "rankChange": 1
   }
 ]
 
@@ -818,71 +818,71 @@ export const skyrockets: RankItem[] = [
     "rank": 1,
     "ticker": "002242",
     "name": "九阳股份",
-    "heat": "75052.7",
-    "rankChange": 0
+    "heat": "139335.2",
+    "rankChange": 1
   },
   {
     "rank": 2,
-    "ticker": "603816",
-    "name": "顾家家居",
-    "heat": "25533.2",
-    "rankChange": 265
+    "ticker": "000678",
+    "name": "襄阳轴承",
+    "heat": "24064.2",
+    "rankChange": 0
   },
   {
     "rank": 3,
-    "ticker": "600664",
-    "name": "哈药股份",
-    "heat": "21627.1",
-    "rankChange": 0
+    "ticker": "603833",
+    "name": "欧派家居",
+    "heat": "23783.7",
+    "rankChange": 86
   },
   {
     "rank": 4,
-    "ticker": "600363",
-    "name": "ST联光",
-    "heat": "20881.4",
-    "rankChange": 1
-  },
-  {
-    "rank": 5,
-    "ticker": "002185",
-    "name": "华天科技",
-    "heat": "19993.0",
-    "rankChange": 1
-  },
-  {
-    "rank": 6,
-    "ticker": "002203",
-    "name": "海亮股份",
-    "heat": "18404.4",
-    "rankChange": 119
-  },
-  {
-    "rank": 7,
-    "ticker": "000678",
-    "name": "襄阳轴承",
-    "heat": "18212.7",
+    "ticker": "600664",
+    "name": "哈药股份",
+    "heat": "22380.4",
     "rankChange": 0
   },
   {
+    "rank": 5,
+    "ticker": "002203",
+    "name": "海亮股份",
+    "heat": "20076.1",
+    "rankChange": 104
+  },
+  {
+    "rank": 6,
+    "ticker": "600363",
+    "name": "ST联光",
+    "heat": "17802.7",
+    "rankChange": 0
+  },
+  {
+    "rank": 7,
+    "ticker": "603816",
+    "name": "顾家家居",
+    "heat": "17231.0",
+    "rankChange": 141
+  },
+  {
     "rank": 8,
-    "ticker": "603833",
-    "name": "欧派家居",
-    "heat": "18000.5",
-    "rankChange": 88
+    "ticker": "600592",
+    "name": "龙溪股份",
+    "heat": "17151.1",
+    "rankChange": 5
   },
   {
     "rank": 9,
-    "ticker": "001246",
-    "name": "力勤资源",
-    "heat": "17531.3",
+    "ticker": "601091",
+    "name": "沈鼓集团",
+    "heat": "16214.3",
     "rankChange": 0
   },
   {
     "rank": 10,
-    "ticker": "688008",
-    "name": "澜起科技",
-    "heat": "16278.0",
-    "rankChange": 2
+    "ticker": "600059",
+    "name": "古越龙山",
+    "heat": "16111.6",
+    "rankChange": 1
   }
 ]
 
