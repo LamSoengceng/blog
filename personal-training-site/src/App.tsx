@@ -26,6 +26,7 @@ const MovementDetailPage = lazy(() =>
   import('./pages/MovementDetailPage').then((module) => ({ default: module.MovementDetailPage })),
 )
 const TrainingPage = lazy(() => import('./pages/TrainingPage').then((module) => ({ default: module.TrainingPage })))
+const XunjiLogPage = lazy(() => import('./pages/XunjiLogPage').then((module) => ({ default: module.XunjiLogPage })))
 const WrappedPage = lazy(() => import('./pages/WrappedPage').then((module) => ({ default: module.WrappedPage })))
 
 const navItems = [
@@ -158,6 +159,7 @@ function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:postSlug" element={<BlogDetailPage />} />
           <Route path="/training" element={<TrainingPage />} />
+          <Route path="/xunji-log" element={<XunjiLogPage />} />
           <Route path="/algorithm" element={<AlgorithmPage />} />
           <Route path="/algorithm/review" element={<AlgorithmReviewPage />} />
           <Route path="/market" element={<MarketPage />} />

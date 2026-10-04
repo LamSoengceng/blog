@@ -452,6 +452,11 @@ export function TrainingPage() {
               </div>
             ))}
           </div>
+          <div className="xunji-list-more">
+            <Link className="review-btn ghost review-btn-small" to="/xunji-log">
+              查看逐组明细（动作 / 重量 / 次数）→
+            </Link>
+          </div>
         </div>
       ) : (
         <div className="xunji-panel xunji-empty">
