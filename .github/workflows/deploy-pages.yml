@@ -27,6 +27,15 @@ jobs:
       - name: Install dependencies
         working-directory: personal-training-site
         run: npm ci
+      - name: Typecheck
+        working-directory: personal-training-site
+        run: npx tsc -b
+      - name: Lint
+        working-directory: personal-training-site
+        run: npm run lint
+      - name: Test
+        working-directory: personal-training-site
+        run: npm run test
       - name: Build
         working-directory: personal-training-site
         run: npm run build:pages
