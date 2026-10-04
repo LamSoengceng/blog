@@ -23,6 +23,10 @@ beforeEach(() => memory.clear())
 
 describe('parseFeynmanScore', () => {
   it.each([
+    ['……总结得不错。\n{"score": 4}', 4],
+    ['{"score":5}', 5],
+    ['{"score": 3, "note": "保持"}', 3],
+    ['评语结束\n{"score": 2}', 2],
     ['……总结得不错。费曼得分：4/5', 4],
     ['费曼得分: 5/5', 5],
     ['费曼得分3/5', 3],
@@ -31,7 +35,15 @@ describe('parseFeynmanScore', () => {
     expect(parseFeynmanScore(feedback)).toBe(expected)
   })
 
-  it.each(['没有得分行', '费曼得分：6/5', '费曼得分：0/5', '费曼得分：/5'])('无法解析「%s」返回 null', (feedback) => {
+  it.each([
+    '没有得分行',
+    '费曼得分：6/5',
+    '费曼得分：0/5',
+    '费曼得分：/5',
+    '{"score": 6}',
+    '{"score": 4.5}',
+    '{"score": 0}',
+  ])('无法解析「%s」返回 null', (feedback) => {
     expect(parseFeynmanScore(feedback)).toBeNull()
   })
 })

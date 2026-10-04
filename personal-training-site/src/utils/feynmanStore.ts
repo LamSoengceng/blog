@@ -37,14 +37,23 @@ export const saveFeynmanDraft = (slug: string, draft: FeynmanDraft) => {
 export const countFeynmanDrafts = () =>
   Object.values(loadAll()).filter((draft) => draft.text.trim().length > 0).length
 
-// 模型评语里的「费曼得分：N/5」统一从这里解析，复习页与费曼页共用同一规则。
-const SCORE_PATTERN = /费曼得分[:：]?\s*([1-5])\s*\/\s*5/
+// 模型评语里的费曼得分统一从这里解析，复习页与费曼页共用同一规则。
+// 优先识别结构化 JSON 行 {"score": N}（当前提示词要求的输出格式，机器可校验），
+// 兼容旧版「费曼得分：N/5」自由文本（历史存档与旧提示词的评语）。
+const SCORE_PATTERNS: RegExp[] = [
+  /"score"\s*:\s*([1-5])(?=\s*[,}])/,
+  /费曼得分[:：]?\s*([1-5])\s*\/\s*5/,
+]
 
 export const parseFeynmanScore = (feedback: string): number | null => {
-  const matched = feedback.match(SCORE_PATTERN)?.[1]
-  if (!matched) return null
-  const score = Number(matched)
-  return score >= 1 && score <= 5 ? score : null
+  for (const pattern of SCORE_PATTERNS) {
+    const matched = feedback.match(pattern)?.[1]
+    if (matched) {
+      const score = Number(matched)
+      if (score >= 1 && score <= 5) return score
+    }
+  }
+  return null
 }
 
 // 某道题最近一次费曼检验得分；没讲过或没评估过返回 null

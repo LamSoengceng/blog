@@ -41,7 +41,7 @@ const systemPrompt =
   '🔍 理解深度：判断是否讲到了核心思路的因果、适用边界与复杂度，说明理由\n' +
   '🎤 下一步练习：给 1-2 个帮学生继续思考的问题，但不要直接给答案\n' +
   '💡 一句话版本：给一句把核心思路讲给完全不懂的人听的类比或总结\n' +
-  '最后单独一行输出「费曼得分：N/5」（5 = 可以直接教会别人）。不要复述题面。'
+  '最后单独一行输出 JSON：{"score": N}（N 为 1-5 整数；5 = 可以直接教会别人）。除该行外不要输出任何 JSON。不要复述题面。'
 
 export function FeynmanCheck({ problem }: { problem: AlgorithmProblemSummary }) {
   const [draft, setDraft] = useState<FeynmanDraft>(() => loadFeynmanDraft(problem.slug))

@@ -21,6 +21,8 @@ const SECTION_DEFS: { key: string; icon: string; title: string; test: (line: str
 ]
 
 const SCORE_PATTERN = /费曼得分[:：]?\s*([1-5])\s*\/\s*5/
+// 结构化 JSON 得分行（当前提示词要求模型最后单独输出 {"score": N}）
+const JSON_SCORE_PATTERN = /"score"\s*:\s*([1-5])(?=\s*[,}])/
 
 // 去掉行首的图标、图标与标题间的空格、标题和冒号，剩下的是正文
 const stripMarker = (line: string, def: { icon: string; title: string }) => {
@@ -50,7 +52,13 @@ export const parseRubric = (text: string): ParsedRubric => {
     const line = rawLine.trim()
     if (!line) continue
 
-    // 得分行：独立成行（含流式半截）或内联在段落末尾都识别
+    // 得分行：结构化 JSON（当前提示词）或旧文本格式（历史记录），含流式半截都识别
+    const jsonScore = line.match(JSON_SCORE_PATTERN)
+    if (jsonScore) {
+      score = Number(jsonScore[1])
+      continue // 完整 JSON 得分行：单独成行取值，不进正文
+    }
+    if (line.includes('"score"')) continue // 半截的 JSON 得分行（数字还没打出来）不进正文
     const inlineScore = line.match(SCORE_PATTERN)
     if (inlineScore) score = Number(inlineScore[1])
     if (line.startsWith('费曼得分')) continue // 半截得分行（数字还没打出来）不进正文

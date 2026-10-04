@@ -58,6 +58,23 @@ describe('parseRubric', () => {
     expect(blocks[0].body).toContain('反转顺序也对')
   })
 
+  it('结构化 JSON 得分行同样识别，且不进正文', () => {
+    const { blocks, score } = parseRubric(`✓ 讲对了：快慢指针思路正确
+💡 一句话版本：找中点、反转一半、逐个对值。
+{"score": 5}`)
+    expect(score).toBe(5)
+    expect(blocks).toHaveLength(2)
+    expect(blocks.some((block) => block.body.includes('{"score"'))).toBe(false)
+  })
+
+  it('流式半截的 JSON 得分行不进正文，得分暂缺', () => {
+    const { blocks, score } = parseRubric(`✓ 讲对了：思路对
+{"score":`)
+    expect(score).toBeNull()
+    expect(blocks.some((block) => block.body.includes('"score"'))).toBe(false)
+    expect(blocks[0].key).toBe('correct')
+  })
+
   it('空文本返回空块', () => {
     expect(parseRubric('')).toEqual({ blocks: [], score: null })
   })
