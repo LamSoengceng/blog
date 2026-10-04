@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
 import { buildKnowledgeChunks, retrieveChunks, type KnowledgeChunk } from '../utils/siteKnowledge'
+import { buildRequestMessages } from '../utils/askContext'
 import { openSiteSettings } from '../utils/settings'
 
 type AskMessage = { role: 'user' | 'assistant'; content: string; sources?: KnowledgeChunk[] }
@@ -42,7 +43,8 @@ export function AskPage() {
     }
 
     const chunks = retrieveChunks(question, buildKnowledgeChunks())
-    setMessages((prev) => [...prev, { role: 'user', content: question, sources: chunks }])
+    const nextMessages: AskMessage[] = [...messages, { role: 'user', content: question, sources: chunks }]
+    setMessages(nextMessages)
     setInput('')
     setError('')
     setStreamingText('')
@@ -52,10 +54,7 @@ export function AskPage() {
     try {
       const answer = await chatCompletionStream(
         aiConfig,
-        [
-          { role: 'system', content: buildSystemPrompt(chunks) },
-          ...messages.map((message) => ({ role: message.role, content: message.content })),
-        ],
+        buildRequestMessages(nextMessages, buildSystemPrompt(chunks)),
         (delta) => setStreamingText((prev) => prev + delta),
         controller.signal,
       )
