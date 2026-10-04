@@ -368,7 +368,7 @@ const stockDataPlan = [
 // ---- 输出 stockData.ts ----
 const output = `// 本文件由 scripts/generateStockData.mjs 自动生成，请勿手改。
 // 数据源: hithink-finance（同花顺金融数据服务），数据日期: ${stockMeta.updatedAt}
-// 生成时间: ${new Date().toISOString()}
+// 刻意不写入生成时间戳：数据无变化时保持零 diff，GitHub Actions 自动提交才不会每天空转。
 export type StockIndex = {
   name: string
   symbol: string

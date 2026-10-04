@@ -48,3 +48,9 @@ jobs:
           git diff --cached --quiet || git commit -m "Sync A-share stock data"
       - name: Push to main
         run: git push
+      - name: Trigger Pages deploy
+        # GITHUB_TOKEN 的 push 不会触发其它 workflow，这里显式 dispatch 部署工作流；
+        # workflow_dispatch 事件允许用 GITHUB_TOKEN 触发。
+        run: gh workflow run "Deploy site to GitHub Pages" --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
