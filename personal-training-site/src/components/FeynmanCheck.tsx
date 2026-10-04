@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { loadAiConfig, chatCompletion } from '../utils/aiChat'
+import { useRef, useState } from 'react'
+import { loadAiConfig, chatCompletionStream } from '../utils/aiChat'
 import {
   loadFeynmanDraft,
   parseFeynmanScore,
@@ -9,6 +9,7 @@ import {
 import { FEYNMAN_BOOST_SCORE } from '../utils/reviewStore'
 import { openSiteSettings } from '../utils/settings'
 import type { AlgorithmProblemSummary } from '../data/algorithm'
+import { RubricFeedback } from './feynman/RubricFeedback'
 
 import { insightByCategory } from '../data/categoryInsights'
 
@@ -34,23 +35,29 @@ const buildPrompt = (problem: AlgorithmProblemSummary, explanation: string) => {
 
 const systemPrompt =
   '你是费曼学习法教练。学生不看笔记、用自己的话讲解一道算法题，你对照标准笔记评改。' +
-  '输出三部分，用简体中文：\n' +
+  '用简体中文、严格按以下结构输出评语：\n' +
   '✓ 讲对了：列出理解正确的要点（简短）\n' +
-  '⚠️ 缺口：对照笔记指漏掉或讲错的关键点，特别是易错点\n' +
-  '💡 讲给外行：给一句把核心思路讲给完全不懂的人听的类比或一句话总结\n' +
+  '⚠️ 错与漏：对照笔记指漏掉或讲错的关键点，特别是易错点\n' +
+  '🔍 理解深度：判断是否讲到了核心思路的因果、适用边界与复杂度，说明理由\n' +
+  '🎤 下一步练习：给 1-2 个帮学生继续思考的问题，但不要直接给答案\n' +
+  '💡 一句话版本：给一句把核心思路讲给完全不懂的人听的类比或总结\n' +
   '最后单独一行输出「费曼得分：N/5」（5 = 可以直接教会别人）。不要复述题面。'
 
 export function FeynmanCheck({ problem }: { problem: AlgorithmProblemSummary }) {
   const [draft, setDraft] = useState<FeynmanDraft>(() => loadFeynmanDraft(problem.slug))
   const [expanded, setExpanded] = useState(false)
   const [grading, setGrading] = useState(false)
+  const [streamFeedback, setStreamFeedback] = useState('')
   const [error, setError] = useState('')
+  const abortRef = useRef<AbortController | null>(null)
 
   const update = (patch: Partial<FeynmanDraft>) => {
     const next = { ...draft, ...patch, updatedAt: new Date().toISOString() }
     setDraft(next)
     saveFeynmanDraft(problem.slug, next)
   }
+
+  const stopGrading = () => abortRef.current?.abort()
 
   const grade = async () => {
     if (grading) return
@@ -66,18 +73,29 @@ export function FeynmanCheck({ problem }: { problem: AlgorithmProblemSummary }) 
     }
     setGrading(true)
     setError('')
+    setStreamFeedback('')
+    const controller = new AbortController()
+    abortRef.current = controller
     try {
-      const feedback = await chatCompletion(aiConfig, [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: buildPrompt(problem, draft.text) },
-      ])
+      const feedback = await chatCompletionStream(
+        aiConfig,
+        [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: buildPrompt(problem, draft.text) },
+        ],
+        (delta) => setStreamFeedback((prev) => prev + delta),
+        controller.signal,
+      )
       const now = new Date().toISOString()
       const score = parseFeynmanScore(feedback)
+      setStreamFeedback('')
       update({ feedback, feedbackAt: now, score: score ?? undefined, scoreAt: score ? now : undefined })
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : String(caught))
+      if (caught instanceof DOMException && caught.name === 'AbortError') setError('已停止点评（未保存）。')
+      else setError(caught instanceof Error ? caught.message : String(caught))
     } finally {
       setGrading(false)
+      abortRef.current = null
     }
   }
 
@@ -105,12 +123,22 @@ export function FeynmanCheck({ problem }: { problem: AlgorithmProblemSummary }) 
             <button className="review-btn primary review-btn-small" type="button" onClick={grade} disabled={grading}>
               {grading ? '点评中…' : 'AI 对照笔记点评'}
             </button>
+            {grading ? (
+              <button className="review-btn warn review-btn-small" type="button" onClick={stopGrading}>
+                停止
+              </button>
+            ) : null}
             <span className="feynman-hint">草稿存本机；点评前请先自己讲一遍，再展开下方笔记对照。</span>
           </div>
           {error ? <p className="ai-note ai-error">{error}</p> : null}
+          {grading || streamFeedback ? (
+            <div className="feynman-stream" aria-live="polite">
+              {streamFeedback ? <RubricFeedback text={streamFeedback} streaming={grading} /> : '大模型正在阅读你的讲解……'}
+            </div>
+          ) : null}
           {draft.feedback ? (
             <div className="feynman-feedback">
-              <p>{draft.feedback}</p>
+              <RubricFeedback text={draft.feedback} />
               {draft.score != null && draft.score >= FEYNMAN_BOOST_SCORE ? (
                 <p className="feynman-hint">
                   讲清楚了：本题下次标记「记住了」时，复习间隔会加速一档。

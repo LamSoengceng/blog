@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { chatCompletion, loadAiConfig } from '../utils/aiChat'
+import { useMemo, useRef, useState } from 'react'
+import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
 import { buildKnowledgeChunks, retrieveChunks, type KnowledgeChunk } from '../utils/siteKnowledge'
 import { openSiteSettings } from '../utils/settings'
 
@@ -20,12 +20,16 @@ const sampleQuestions = ['我最近的训练状态怎么样？', '深蹲有什�
 export function AskPage() {
   const [messages, setMessages] = useState<AskMessage[]>([])
   const [input, setInput] = useState('')
+  const [streamingText, setStreamingText] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const abortRef = useRef<AbortController | null>(null)
 
-  // 输入时实时显示将被检索的资料，让检索过程可见
-  const previewChunks =
-    input.trim().length >= 2 ? retrieveChunks(input, buildKnowledgeChunks(), 4) : []
+  // 输入时实时显示将被检索的资料，让检索过程可见（仅随输入变化重算）
+  const previewChunks = useMemo(
+    () => (input.trim().length >= 2 ? retrieveChunks(input, buildKnowledgeChunks(), 4) : []),
+    [input],
+  )
 
   const ask = async () => {
     const question = input.trim()
@@ -38,23 +42,35 @@ export function AskPage() {
     }
 
     const chunks = retrieveChunks(question, buildKnowledgeChunks())
-    const nextMessages: AskMessage[] = [...messages, { role: 'user', content: question, sources: chunks }]
-    setMessages(nextMessages)
+    setMessages((prev) => [...prev, { role: 'user', content: question, sources: chunks }])
     setInput('')
     setError('')
+    setStreamingText('')
     setLoading(true)
+    const controller = new AbortController()
+    abortRef.current = controller
     try {
-      const answer = await chatCompletion(aiConfig, [
-        { role: 'system', content: buildSystemPrompt(chunks) },
-        ...nextMessages.map((message) => ({ role: message.role, content: message.content })),
-      ])
+      const answer = await chatCompletionStream(
+        aiConfig,
+        [
+          { role: 'system', content: buildSystemPrompt(chunks) },
+          ...messages.map((message) => ({ role: message.role, content: message.content })),
+        ],
+        (delta) => setStreamingText((prev) => prev + delta),
+        controller.signal,
+      )
       setMessages((prev) => [...prev, { role: 'assistant', content: answer }])
+      setStreamingText('')
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : String(caught))
+      if (caught instanceof DOMException && caught.name === 'AbortError') setError('已停止回答。')
+      else setError(caught instanceof Error ? caught.message : String(caught))
     } finally {
       setLoading(false)
+      abortRef.current = null
     }
   }
+
+  const stop = () => abortRef.current?.abort()
 
   return (
     <section className="content-band page-band ask-page">
@@ -104,7 +120,15 @@ export function AskPage() {
             ) : null}
           </div>
         ))}
-        {loading ? <p className="ai-note">检索资料并思考中…</p> : null}
+        {loading || streamingText ? (
+          <div className="ask-message assistant">
+            <span>站内助手</span>
+            <p>
+              {streamingText}
+              {loading ? <span className="feynman-caret" /> : null}
+            </p>
+          </div>
+        ) : null}
         {error ? <p className="ai-note ai-error">{error}</p> : null}
       </div>
 
@@ -129,9 +153,15 @@ export function AskPage() {
             </p>
           ) : null}
         </div>
-        <button className="review-btn primary" type="button" onClick={ask} disabled={loading}>
-          提问
-        </button>
+        {loading ? (
+          <button className="review-btn warn" type="button" onClick={stop}>
+            停止
+          </button>
+        ) : (
+          <button className="review-btn primary" type="button" onClick={ask} disabled={loading}>
+            提问
+          </button>
+        )}
       </div>
     </section>
   )
