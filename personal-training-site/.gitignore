@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# hithink-finance 取数中间缓存（每次刷新重新生成，不入库）
+scripts/cache/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

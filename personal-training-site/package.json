@@ -11,6 +11,7 @@
     "generate:algorithms": "node scripts/generateAlgorithmData.mjs",
     "enrich:llm": "node scripts/llmEnrichReview.mjs",
     "sync:xunji": "node --env-file-if-exists=.env.local scripts/sync-xunji.mjs",
+    "update:stock": "node scripts/fetchHithinkData.mjs && node scripts/generateStockData.mjs",
     "test": "vitest run",
     "build:pages": "vite build --base=/blog/ && node scripts/patch-gh-pages.mjs /blog/"
   },

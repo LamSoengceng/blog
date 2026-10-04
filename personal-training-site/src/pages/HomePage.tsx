@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { algorithmMeta } from '../data/algorithmMeta'
 import { blogPosts, featuredBlogPost } from '../data/blogData'
 import { metricCards } from '../data/fitnessData'
-import { marketMeta } from '../data/marketData'
+import { stockMeta } from '../data/stockData'
 
 const BG_IMAGE_1 =
   'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_195923_b0ba8ace-1d1d-4f2c-9a28-1ab84b330680.png&w=1280&q=85'
@@ -133,13 +133,13 @@ const homeModules = [
     action: '进入算法页',
   },
   {
-    eyebrow: 'Market',
-    title: '股市观察',
-    description: '面向 50w 资金量的 A 股驾驶舱：仓位约束、指数、行业、资金流和海外变量。',
-    stat: marketMeta.trackedMarkets.toString(),
-    detail: 'Markets',
-    to: '/market',
-    action: '进入股市页',
+    eyebrow: 'Stock',
+    title: 'A 股股票观察',
+    description: '面向 50w 资金量的 A 股观察页：指数、涨停结构、连板高度、热榜、龙虎榜、行业与 ETF，同花顺真实数据。',
+    stat: stockMeta.trackedMarkets.toString(),
+    detail: 'Stocks',
+    to: '/stock',
+    action: '进入股票页',
   },
 ]
 

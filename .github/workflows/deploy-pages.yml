@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # 兜底部署：sync-stock 用 GITHUB_TOKEN 推送不会触发本 workflow，
+    # 定时在数据更新后（北京 18:00 = UTC 10:00，周一至周五）重新构建发布一次。
+    - cron: '0 10 * * 1-5'
 
 permissions:
   contents: read

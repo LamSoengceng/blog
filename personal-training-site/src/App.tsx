@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { Link, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { Menu, Settings } from 'lucide-react'
 import './App.css'
 import { SettingsModal } from './components/SettingsModal'
@@ -16,7 +16,7 @@ const BlogDetailPage = lazy(() =>
   import('./pages/BlogDetailPage').then((module) => ({ default: module.BlogDetailPage })),
 )
 const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })))
-const MarketPage = lazy(() => import('./pages/MarketPage').then((module) => ({ default: module.MarketPage })))
+const StockPage = lazy(() => import('./pages/StockPage').then((module) => ({ default: module.StockPage })))
 const AskPage = lazy(() => import('./pages/AskPage').then((module) => ({ default: module.AskPage })))
 const FeynmanPage = lazy(() => import('./pages/FeynmanPage').then((module) => ({ default: module.FeynmanPage })))
 const ProjectsPage = lazy(() =>
@@ -34,7 +34,7 @@ const navItems = [
   { label: 'Growth', to: '/training' },
   { label: 'Algorithm', to: '/algorithm' },
   { label: 'Feynman', to: '/feynman' },
-  { label: 'Market', to: '/market' },
+  { label: 'Stock', to: '/stock' },
   { label: 'Projects', to: '/projects' },
   { label: 'Wrapped', to: '/wrapped' },
   { label: 'Notes', to: '/blog/personal-site-as-lab' },
@@ -162,7 +162,8 @@ function App() {
           <Route path="/xunji-log" element={<XunjiLogPage />} />
           <Route path="/algorithm" element={<AlgorithmPage />} />
           <Route path="/algorithm/review" element={<AlgorithmReviewPage />} />
-          <Route path="/market" element={<MarketPage />} />
+          <Route path="/stock" element={<StockPage />} />
+          <Route path="/market" element={<Navigate to="/stock" replace />} />
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/wrapped" element={<WrappedPage />} />
           <Route path="/ask" element={<AskPage />} />

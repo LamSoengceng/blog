@@ -1,0 +1,50 @@
+name: Sync A-share stock data
+
+on:
+  schedule:
+    # 交易日收盘后：北京时间 17:00 = UTC 09:00（周一至周五）。
+    # 节假日无新数据时 git diff 为空，自动跳过提交，workflow 正常结束。
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stock-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          # hithink-finance CLI 要求 Node >= 22.12
+          node-version: 22
+          cache: npm
+          cache-dependency-path: personal-training-site/package-lock.json
+      - name: Install dependencies
+        working-directory: personal-training-site
+        run: npm ci
+      - name: Install hithink-finance CLI
+        run: npm install -g @hithink-tech/hithink-finance-cli
+      - name: Configure hithink-finance API key
+        env:
+          HITHINK_FINANCE_API_KEY: ${{ secrets.HITHINK_FINANCE_API_KEY }}
+        run: |
+          printf '%s' "$HITHINK_FINANCE_API_KEY" | hithink-finance auth login --api-key-stdin --format json
+          hithink-finance auth status --format json
+      - name: Update A-share stock data
+        working-directory: personal-training-site
+        run: npm run update:stock
+      - name: Commit generated stock data
+        working-directory: personal-training-site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/stockData.ts
+          git diff --cached --quiet || git commit -m "Sync A-share stock data"
+      - name: Push to main
+        run: git push
