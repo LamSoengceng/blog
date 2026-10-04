@@ -13,6 +13,7 @@ import {
   strengthTrend,
 } from '../data/fitnessData'
 import { toChartPoints, toPolyline } from '../utils/chartGeometry'
+import { movementLiveStats } from '../utils/xunjiStats'
 
 const trendChart = {
   width: 720,
@@ -109,7 +110,10 @@ export function TrainingPage() {
 
       <section className="highlight-rail" aria-label="核心动作横向展示">
         {movementHighlights.map((movement, index) => {
-          const trendValues = movement.trend.map((point) => point.value)
+          // 实时优先：训记有足够数据时用真实推导值，否则回退到静态快照
+          const live = movementLiveStats(movement.id)
+          const card = live ? { ...movement, ...live } : movement
+          const trendValues = card.trend.map((point) => point.value)
           const minTrend = Math.min(...trendValues)
           const maxTrend = Math.max(...trendValues)
           const sparklinePoints = toChartPoints(
@@ -120,8 +124,8 @@ export function TrainingPage() {
             maxTrend,
             minTrend,
           )
-          const firstTrend = movement.trend[0]
-          const lastTrend = movement.trend[movement.trend.length - 1]
+          const firstTrend = card.trend[0]
+          const lastTrend = card.trend[card.trend.length - 1]
 
           return (
             <Link
@@ -141,22 +145,22 @@ export function TrainingPage() {
               </div>
               <div className="highlight-title-row">
                 <h3>{movement.label}</h3>
-                <time>{movement.bestDate}</time>
+                <time>{card.bestDate}</time>
               </div>
-              <span className="best-label">Best set</span>
-              <strong>{movement.bestSet}</strong>
+              <span className="best-label">Best set{live ? ' · 训记实时' : ''}</span>
+              <strong>{card.bestSet}</strong>
               <div className="highlight-stats">
                 <div>
                   <span>估算 1RM</span>
-                  <b>{movement.estimatedOneRm}kg</b>
+                  <b>{card.estimatedOneRm}kg</b>
                 </div>
                 <div>
                   <span>正式组</span>
-                  <b>{movement.totalSets}</b>
+                  <b>{card.totalSets}</b>
                 </div>
                 <div>
                   <span>容量</span>
-                  <b>{Math.round(movement.tonnage / 1000)}t</b>
+                  <b>{Math.round(card.tonnage / 1000)}t</b>
                 </div>
               </div>
               <div className="knowledge-strip" aria-label={`${movement.label} 动作知识`}>
@@ -167,8 +171,8 @@ export function TrainingPage() {
               <p className="movement-cue">{movement.cue}</p>
               <div className="trend-header">
                 <span>Recent signal</span>
-                <em className={movement.delta >= 0 ? 'up' : 'down'}>
-                  {formatDelta(movement.delta)}
+                <em className={card.delta >= 0 ? 'up' : 'down'}>
+                  {formatDelta(card.delta)}
                 </em>
               </div>
               <div className="mini-trend" aria-label={`${movement.label} 最近趋势`}>
@@ -179,12 +183,12 @@ export function TrainingPage() {
                   aria-label={`${movement.label} 最近估算 1RM 折线`}
                 >
                   <title>
-                    {movement.trend.map((point) => `${point.date}: ${point.value}kg`).join(' / ')}
+                    {card.trend.map((point) => `${point.date}: ${point.value}kg`).join(' / ')}
                   </title>
                   <polyline points={toPolyline(sparklinePoints)} />
                   {sparklinePoints.map((point, pointIndex) => (
                     <circle
-                      key={`${movement.id}-${movement.trend[pointIndex].date}`}
+                      key={`${movement.id}-${card.trend[pointIndex].date}`}
                       cx={point.x}
                       cy={point.y}
                       r="2.8"

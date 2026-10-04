@@ -1,5 +1,6 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { movementHighlights } from '../data/fitnessData'
+import { movementLiveStats } from '../utils/xunjiStats'
 import { toChartPoints, toPolyline } from '../utils/chartGeometry'
 
 const detailChart = {
@@ -10,11 +11,15 @@ const detailChart = {
 
 export function MovementDetailPage() {
   const { movementId } = useParams()
-  const movement = movementHighlights.find((item) => item.id === movementId)
+  const curated = movementHighlights.find((item) => item.id === movementId)
 
-  if (!movement) {
+  if (!curated) {
     return <Navigate to="/" replace />
   }
+
+  // 实时优先：训记有足够数据时用真实推导值，否则回退到静态快照
+  const live = movementLiveStats(curated.id)
+  const movement = live ? { ...curated, ...live } : curated
 
   const trendValues = movement.trend.map((point) => point.value)
   const minTrend = Math.min(...trendValues)
@@ -105,7 +110,7 @@ export function MovementDetailPage() {
         <article className="detail-panel">
           <div className="panel-heading">
             <h3>最近趋势</h3>
-            <span>estimated 1RM</span>
+            <span>{live ? '训记实时 · estimated 1RM' : 'estimated 1RM'}</span>
           </div>
           <div className="detail-trend">
             <svg
