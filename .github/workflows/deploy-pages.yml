@@ -25,7 +25,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # Node 20 下 jsdom/undici 报 webidl.util.markAsUncloneable 缺失，测试必挂；
+          # 统一到 22（与 sync-stock 一致），本地验证 92 测试全过。
+          node-version: 22
           cache: npm
           cache-dependency-path: personal-training-site/package-lock.json
       - name: Install dependencies
