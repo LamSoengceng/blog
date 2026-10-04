@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { xunjiTrains, type XunjiSet, type XunjiTrain } from '../data/xunjiTrains'
+import { allMovementTrends } from '../utils/xunjiStats'
+import { toChartPoints, toPolyline } from '../utils/chartGeometry'
 
 // 把一组动作的「重量 × 次数」渲染成文字：自重（weight 为 0）和超组（items）都归一处理。
 const setLabel = (set: XunjiSet): string => {
@@ -17,6 +19,12 @@ const setLabel = (set: XunjiSet): string => {
 const orderSessions = (trains: XunjiTrain[]): XunjiTrain[] =>
   [...trains].sort((a, b) => String(b.localid).localeCompare(String(a.localid)))
 
+const trendChart = {
+  width: 200,
+  height: 64,
+  padding: { top: 6, right: 6, bottom: 8, left: 8 },
+}
+
 export function XunjiLogPage() {
   const [openIds, setOpenIds] = useState<string[]>([])
 
@@ -31,6 +39,8 @@ export function XunjiLogPage() {
       ),
     0,
   )
+
+  const trends = allMovementTrends(3, 8)
 
   const toggle = (id: string) => {
     setOpenIds((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]))
@@ -61,6 +71,58 @@ export function XunjiLogPage() {
           <strong>{doneSets}</strong>
         </div>
       </div>
+
+      {trends.length ? (
+        <div className="xlog-trends-wrap">
+          <div className="section-heading compact">
+            <p className="eyebrow">Xunji Log · e1RM trends</p>
+            <h2 className="subheading">力量趋势（估算 1RM）</h2>
+            <p>每次训练用当天最好的一组按 Epley 公式折算估算 1RM，最近 12 次训练画成折线。</p>
+          </div>
+          <div className="xlog-trends" aria-label="核心动作估算 1RM 趋势">
+            {trends.map((trend) => {
+              const window = trend.points.slice(-12)
+              const values = window.map((point) => point.e1rm)
+              const min = Math.min(...values)
+              const max = Math.max(...values)
+              const points = toChartPoints(values, trendChart.width, trendChart.height, trendChart.padding, max, min)
+              const first = window[0]
+              const latest = window[window.length - 1]
+              const delta = Math.round((latest.e1rm - first.e1rm) * 10) / 10
+              return (
+                <article className="xlog-trend-card" key={trend.key}>
+                  <div className="xlog-trend-head">
+                    <span>{trend.label}</span>
+                    <em className={delta >= 0 ? 'up' : 'down'}>{delta >= 0 ? '+' : ''}{delta}kg</em>
+                  </div>
+                  <strong className="xlog-trend-latest">{latest.e1rm}kg</strong>
+                  <svg
+                    className="xlog-trend-svg"
+                    viewBox={`0 0 ${trendChart.width} ${trendChart.height}`}
+                    role="img"
+                    aria-label={`${trend.label} 最近估算 1RM 折线`}
+                  >
+                    <polyline className="xlog-trend-line" points={toPolyline(points)} />
+                    {points.map((point, index) => (
+                      <circle
+                        className="xlog-trend-point"
+                        key={`${trend.key}-${window[index].date}`}
+                        cx={point.x}
+                        cy={point.y}
+                        r="2.5"
+                      >
+                        <title>
+                          {window[index].date}: {window[index].e1rm}kg
+                        </title>
+                      </circle>
+                    ))}
+                  </svg>
+                </article>
+              )
+            })}
+          </div>
+        </div>
+      ) : null}
 
       {sessions.length === 0 ? (
         <div className="xunji-panel xunji-empty">

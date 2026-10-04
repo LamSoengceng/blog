@@ -5758,6 +5758,92 @@ main {
 
 /* ---------- Xunji log detail page (逐组明细) ---------- */
 
+.xlog-trends-wrap {
+  max-width: 980px;
+  margin-bottom: 26px;
+}
+
+.xlog-trends-wrap .section-heading.compact {
+  margin-bottom: 14px;
+}
+
+.xlog-trends-wrap .subheading {
+  color: var(--text-strong);
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.xlog-trends {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+.xlog-trend-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(5, 8, 6, 0.42);
+  padding: 12px 14px 10px;
+}
+
+.xlog-trend-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.xlog-trend-head span {
+  color: var(--text-strong);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.xlog-trend-head em {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.xlog-trend-head em.up {
+  color: var(--accent-soft);
+}
+
+.xlog-trend-head em.down {
+  color: #ff9d7a;
+}
+
+.xlog-trend-latest {
+  display: block;
+  margin: 2px 0 8px;
+  color: var(--accent-soft);
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.xlog-trend-svg {
+  width: 100%;
+  height: 64px;
+  overflow: visible;
+}
+
+.xlog-trend-line {
+  fill: none;
+  stroke: var(--accent-soft);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.xlog-trend-point {
+  fill: var(--accent-soft);
+  opacity: 0.85;
+}
+
 .xlog-list {
   display: grid;
   gap: 10px;
