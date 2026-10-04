@@ -9,7 +9,7 @@ import { xunjiDaySummaries } from '../data/xunjiData'
 import { feynmanStats, loadFeynmanRecords } from '../utils/feynmanRecords'
 import { loadJournal } from '../utils/journalStore'
 import { currentStreak, habits, loadHabitCheckins } from '../utils/habitStore'
-import { loadReviewStore } from '../utils/reviewStore'
+import { loadReviewStore, masteryLevel } from '../utils/reviewStore'
 
 const year = new Date().getFullYear()
 
@@ -19,11 +19,11 @@ const metricValue = (keyword: string) =>
 const buildSnapshot = () => {
   const reviewStore = loadReviewStore()
   const reviewEntries = Object.values(reviewStore)
-  const boxes = reviewEntries.map((entry) => entry.box)
-  const avgBox = boxes.length
-    ? (boxes.reduce((sum, box) => sum + box, 0) / boxes.length).toFixed(1)
+  const levels = reviewEntries.map((entry) => masteryLevel(entry))
+  const avgLevel = levels.length
+    ? (levels.reduce((sum, level) => sum + level, 0) / levels.length).toFixed(1)
     : null
-  const solidCount = boxes.filter((box) => box >= 4).length
+  const solidCount = levels.filter((level) => level >= 4).length
 
   const feynman = feynmanStats(loadFeynmanRecords())
 
@@ -44,7 +44,7 @@ const buildSnapshot = () => {
   const xunjiKcal = xunjiDaySummaries.reduce((sum, day) => sum + day.kcal, 0)
 
   return {
-    review: { tracked: reviewEntries.length, avgBox, solidCount },
+    review: { tracked: reviewEntries.length, avgLevel, solidCount },
     feynman: { total: feynman.total, avgScore: feynman.avgScore },
     journal: { count: journal.length, moodAvg },
     habits: { streaks: habitStreaks, bestStreak, totalCheckins },
@@ -146,12 +146,12 @@ export function WrappedPage() {
               <strong>{snapshot.review.tracked ? `${snapshot.review.tracked} 题` : '--'}</strong>
               <span>纳入间隔复习的题目</span>
             </div>
-            {snapshot.review.avgBox ? (
+            {snapshot.review.avgLevel ? (
               <div className="wrapped-row">
                 <strong>
-                  {snapshot.review.avgBox} / 6
+                  {snapshot.review.avgLevel} / 6
                 </strong>
-                <span>平均掌握箱级{snapshot.review.solidCount ? `，${snapshot.review.solidCount} 题进入长间隔` : ''}</span>
+                <span>平均掌握档位{snapshot.review.solidCount ? `，${snapshot.review.solidCount} 题进入长间隔` : ''}</span>
               </div>
             ) : null}
           </div>

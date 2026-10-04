@@ -106,7 +106,7 @@ export function AlgorithmReviewPage() {
   const againCount = Object.values(store).filter((item) => item.status === 'again').length
 
   const record = (slug: string, status: ReviewStatus) => {
-    // 费曼检验讲清楚过（≥4 分）的题，「记住了」时多升一个箱级
+    // 费曼检验讲清楚过（≥4 分）的题按满分质量（q=5）计入 SM-2：EF 增长、间隔拉得更开
     const next = recordReview(store, slug, status, loadFeynmanScore(slug))
     setStore(next)
     saveReviewStore(next)
