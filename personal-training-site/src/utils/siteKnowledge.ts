@@ -1,4 +1,4 @@
-// Ask My Site：把全站内容聚合成分块知识库，问题按关键词检索出最相关的块，
+// Ask My Site：把全站内容聚合成分块知识库，问题按 BM25 检索出最相关的块，
 // 再交给 BYOK 大模型回答。检索在浏览器本地完成，不依赖向量服务。
 import { algorithmProblems } from '../data/algorithm'
 import { algorithmMeta } from '../data/algorithmMeta'
@@ -7,6 +7,7 @@ import { diaryEntries } from '../data/diaryData'
 import { metricCards, movementHighlights, muscleVolumes, prs } from '../data/fitnessData'
 import { projects } from '../data/projectsData'
 import { loadJournal } from './journalStore'
+import { buildStats, scoreDoc, type Bm25Doc } from './bm25'
 
 export type KnowledgeChunk = {
   id: string
@@ -18,22 +19,34 @@ export type KnowledgeChunk = {
 
 const clip = (text: string, max = 420) => (text.length > max ? `${text.slice(0, max)}…` : text)
 
-let cache: KnowledgeChunk[] | null = null
+// 静态内容（博客/训练日志/算法/项目）只构建一次并缓存；
+// 日记来自 localStorage 且会变化，所以每次调用都重新读取，保证不陈旧。
+let staticCache: KnowledgeChunk[] | null = null
 
-export const buildKnowledgeChunks = (): KnowledgeChunk[] => {
-  if (cache) return cache
+const buildStaticChunks = (): KnowledgeChunk[] => {
   const chunks: KnowledgeChunk[] = []
 
+  // 博客按小节分块：整篇裁 900 字会把多个话题揉在一起，命中噪音大。
+  // 现在每节独立成块（标题带小节名，便于精准命中），另保留一篇总览块。
   for (const post of blogPosts) {
-    const body = post.sections
-      .map((section) => `${section.heading}：${section.body.join(' ')}`)
-      .join('\n')
     chunks.push({
       id: `blog-${post.slug}`,
       source: '博客',
       title: post.title,
       date: post.date,
-      text: clip(`${post.subtitle}\n${post.summary}\n${body}`, 900),
+      text: clip(
+        `${post.subtitle}\n${post.summary}\n小节：${post.sections.map((section) => section.heading).join('、')}`,
+        500,
+      ),
+    })
+    post.sections.forEach((section, index) => {
+      chunks.push({
+        id: `blog-${post.slug}-${index}`,
+        source: '博客',
+        title: `${post.title} · ${section.heading}`,
+        date: post.date,
+        text: clip(section.body.join(' '), 600),
+      })
     })
   }
 
@@ -98,10 +111,7 @@ export const buildKnowledgeChunks = (): KnowledgeChunk[] => {
     source: '算法题解',
     title: '算法学习总览',
     text: `LeetCode Hot100 已完成 ${algorithmMeta.solved}/${algorithmMeta.total}，另有拓展加练题。` +
-      `分类进度：${algorithmProblems.length ? '' : ''}` +
-      [...new Set(algorithmProblems.map((problem) => problem.category))]
-        .slice(0, 20)
-        .join('、') +
+      `分类进度：${[...new Set(algorithmProblems.map((problem) => problem.category))].slice(0, 20).join('、')}` +
       ' 等 17 个分类。',
   })
 
@@ -114,40 +124,31 @@ export const buildKnowledgeChunks = (): KnowledgeChunk[] => {
     })
   }
 
-  for (const entry of loadJournal()) {
-    chunks.push({
-      id: `journal-${entry.id}`,
-      source: '日记',
-      title: entry.title,
-      date: entry.createdAt.slice(0, 10),
-      text: clip(`${entry.title}（心情 ${entry.mood}/5）\n${entry.body}`, 500),
-    })
-  }
-
-  cache = chunks
   return chunks
 }
 
-// 极简中文友好的关键词检索：查询词 + 二元组，标题命中加权，返回最相关的 K 块。
+const journalChunks = (): KnowledgeChunk[] =>
+  loadJournal().map((entry) => ({
+    id: `journal-${entry.id}`,
+    source: '日记',
+    title: entry.title,
+    date: entry.createdAt.slice(0, 10),
+    text: clip(`${entry.title}（心情 ${entry.mood}/5）\n${entry.body}`, 500),
+  }))
+
+export const buildKnowledgeChunks = (): KnowledgeChunk[] => {
+  const staticChunks = (staticCache ??= buildStaticChunks())
+  return [...staticChunks, ...journalChunks()]
+}
+
+const toDoc = (chunk: KnowledgeChunk): Bm25Doc => ({ id: chunk.id, title: chunk.title, text: chunk.text })
+
+// BM25 检索：词频饱和 + 长度归一 + IDF 稀有词加权，标题命中加权。
 export const retrieveChunks = (query: string, chunks: KnowledgeChunk[], k = 6): KnowledgeChunk[] => {
-  // 字符类里 [ 无需转义，但 ] 必须转义，否则会被当成字符类结束
-  const clean = query.replace(/[\s，。？?！、,.\-—:：；;（）()【】["'`\]]+/g, ' ').trim()
-  if (!clean) return []
-
-  const terms = new Set<string>()
-  for (const word of clean.split(/\s+/)) {
-    terms.add(word)
-    for (let i = 0; i < word.length - 1; i += 1) {
-      terms.add(word.slice(i, i + 2))
-    }
-  }
-
-  const scored = chunks
-    .map((chunk) => {
-      const titleHits = [...terms].filter((term) => chunk.title.includes(term)).length
-      const bodyHits = [...terms].filter((term) => chunk.text.includes(term)).length
-      return { chunk, score: titleHits * 3 + bodyHits }
-    })
+  const docs = chunks.map(toDoc)
+  const stats = buildStats(docs)
+  const scored = docs
+    .map((doc, index) => ({ chunk: chunks[index], score: scoreDoc(query, doc, stats) }))
     .filter((item) => item.score > 0)
     .sort((first, second) => second.score - first.score)
 
