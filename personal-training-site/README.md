@@ -63,5 +63,11 @@ npm run enrich:llm            # 可选：用 LLM 提炼复习要点
 npm run sync:xunji            # 同步训记活动数据（需 .env.local 里的 XUNJI_API_KEY）
 ```
 
-两个脚本都只写 `src/data/` 下的公开数据，不把本地绝对路径写进前端。
+这些脚本都只写 `src/data/` 下的公开数据，不把本地绝对路径写进前端。
 `sync:xunji` 同日期有 90 秒限频；若全部日期都抓取失败（如 token 失效），脚本会保留旧数据并退出。
+
+### 训记数据自动同步
+
+GitHub Actions 每天 10:00 / 22:00（北京时间）自动跑 `sync:xunji`，并把生成的数据与逐日缓存一起提交回仓库、触发重新部署。历史日期缓存在 `scripts/cache/xunji/`（已入库），所以每次只增量抓取新日期。
+
+第一次启用前，需要在仓库 **Settings → Secrets and variables → Actions** 里配置 `XUNJI_API_KEY`（训记 App 内申请的 LLM 训练数据 Key）。也可以在 Actions 页面手动触发 `Sync Xunji training data` 工作流补抓。

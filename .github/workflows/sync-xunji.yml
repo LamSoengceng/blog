@@ -1,0 +1,39 @@
+name: Sync Xunji training data
+
+on:
+  schedule:
+    # 每天 10:00 与 22:00（北京时间），对应 UTC 02:00 / 14:00
+    - cron: '0 2,14 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: xunji-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Sync from Xunji Open API
+        working-directory: personal-training-site
+        env:
+          XUNJI_API_KEY: ${{ secrets.XUNJI_API_KEY }}
+        # 窗口略大于默认 14 天，漏掉的日子靠缓存兜底；scripts/cache/xunji 已入库，
+        # 所以每次只增量抓取新日期，历史不会丢。
+        run: node scripts/sync-xunji.mjs --days=21
+      - name: Commit generated data and cache
+        working-directory: personal-training-site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/xunjiData.ts src/data/xunjiTrains.ts scripts/cache/xunji
+          git diff --cached --quiet || git commit -m "Sync xunji training data"
+      - name: Push to main
+        run: git push
