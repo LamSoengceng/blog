@@ -1,6 +1,6 @@
 // 本文件由 scripts/generateStockData.mjs 自动生成，请勿手改。
 // 数据源: hithink-finance（同花顺金融数据服务），数据日期: 2026-09-30 收盘
-// 刻意不写入生成时间戳：数据无变化时保持零 diff，GitHub Actions 自动提交才不会空转。
+// 刻意不写入生成时间戳：数据无变化时保持零 diff，GitHub Actions 自动提交才不会每天空转。
 export type StockIndex = {
   name: string
   symbol: string
@@ -743,146 +743,146 @@ export const ladderBoards: LadderBoard[] = [
 export const hotStocks: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "002242",
-    "name": "九阳股份",
-    "heat": "4233986",
-    "rankChange": 1
+    "ticker": "300308",
+    "name": "中际旭创",
+    "heat": "7092631",
+    "rankChange": 0
   },
   {
     "rank": 2,
     "ticker": "001246",
     "name": "力勤资源",
-    "heat": "4208676",
-    "rankChange": -1
+    "heat": "4550675",
+    "rankChange": 0
   },
   {
     "rank": 3,
-    "ticker": "000678",
-    "name": "襄阳轴承",
-    "heat": "3596772",
+    "ticker": "601127",
+    "name": "赛力斯",
+    "heat": "3821564",
     "rankChange": 0
   },
   {
     "rank": 4,
-    "ticker": "601127",
-    "name": "赛力斯",
-    "heat": "3143976",
+    "ticker": "000002",
+    "name": "万科A",
+    "heat": "3704512",
     "rankChange": 0
   },
   {
     "rank": 5,
-    "ticker": "002487",
-    "name": "大金重工",
-    "heat": "3010198",
+    "ticker": "603083",
+    "name": "剑桥科技",
+    "heat": "3597694",
     "rankChange": 0
   },
   {
     "rank": 6,
-    "ticker": "000002",
-    "name": "万科A",
-    "heat": "2691241",
+    "ticker": "002242",
+    "name": "九阳股份",
+    "heat": "3484181",
     "rankChange": 0
   },
   {
     "rank": 7,
-    "ticker": "600825",
-    "name": "新华传媒",
-    "heat": "2640038",
+    "ticker": "002487",
+    "name": "大金重工",
+    "heat": "2949902",
     "rankChange": 0
   },
   {
     "rank": 8,
-    "ticker": "600127",
-    "name": "金健米业",
-    "heat": "2236592",
+    "ticker": "603259",
+    "name": "药明康德",
+    "heat": "2673049",
     "rankChange": 0
   },
   {
     "rank": 9,
-    "ticker": "600418",
-    "name": "江淮汽车",
-    "heat": "2176078",
+    "ticker": "000678",
+    "name": "襄阳轴承",
+    "heat": "2598805",
     "rankChange": 0
   },
   {
     "rank": 10,
-    "ticker": "688836",
-    "name": "宇树科技",
-    "heat": "1954113",
-    "rankChange": 1
+    "ticker": "603986",
+    "name": "兆易创新",
+    "heat": "2572004",
+    "rankChange": 0
   }
 ]
 
 export const skyrockets: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "002242",
-    "name": "九阳股份",
-    "heat": "139335.2",
-    "rankChange": 1
+    "ticker": "001246",
+    "name": "力勤资源",
+    "heat": "107090.2",
+    "rankChange": 0
   },
   {
     "rank": 2,
-    "ticker": "000678",
-    "name": "襄阳轴承",
-    "heat": "24064.2",
+    "ticker": "300308",
+    "name": "中际旭创",
+    "heat": "58213.4",
     "rankChange": 0
   },
   {
     "rank": 3,
-    "ticker": "603833",
-    "name": "欧派家居",
-    "heat": "23783.7",
-    "rankChange": 86
+    "ticker": "600737",
+    "name": "中粮糖业",
+    "heat": "37032.0",
+    "rankChange": 8
   },
   {
     "rank": 4,
-    "ticker": "600664",
-    "name": "哈药股份",
-    "heat": "22380.4",
-    "rankChange": 0
+    "ticker": "603228",
+    "name": "景旺电子",
+    "heat": "31273.3",
+    "rankChange": 2
   },
   {
     "rank": 5,
-    "ticker": "002203",
-    "name": "海亮股份",
-    "heat": "20076.1",
-    "rankChange": 104
+    "ticker": "002475",
+    "name": "立讯精密",
+    "heat": "30072.9",
+    "rankChange": 5
   },
   {
     "rank": 6,
-    "ticker": "600363",
-    "name": "ST联光",
-    "heat": "17802.7",
+    "ticker": "002487",
+    "name": "大金重工",
+    "heat": "28303.2",
     "rankChange": 0
   },
   {
     "rank": 7,
-    "ticker": "603816",
-    "name": "顾家家居",
-    "heat": "17231.0",
-    "rankChange": 141
+    "ticker": "600707",
+    "name": "彩虹股份",
+    "heat": "23674.9",
+    "rankChange": 1
   },
   {
     "rank": 8,
-    "ticker": "600592",
-    "name": "龙溪股份",
-    "heat": "17151.1",
-    "rankChange": 5
+    "ticker": "002164",
+    "name": "宁波东力",
+    "heat": "22533.1",
+    "rankChange": 7
   },
   {
     "rank": 9,
-    "ticker": "601091",
-    "name": "沈鼓集团",
-    "heat": "16214.3",
-    "rankChange": 0
+    "ticker": "600183",
+    "name": "生益科技",
+    "heat": "22131.8",
+    "rankChange": 4
   },
   {
     "rank": 10,
-    "ticker": "600059",
-    "name": "古越龙山",
-    "heat": "16111.6",
-    "rankChange": 1
+    "ticker": "301111",
+    "name": "粤万年青",
+    "heat": "21571.6",
+    "rankChange": 20
   }
 ]
 
