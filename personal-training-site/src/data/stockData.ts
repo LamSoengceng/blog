@@ -745,70 +745,70 @@ export const hotStocks: RankItem[] = [
     "rank": 1,
     "ticker": "300308",
     "name": "中际旭创",
-    "heat": "7092631",
+    "heat": "6008211",
     "rankChange": 0
   },
   {
     "rank": 2,
     "ticker": "001246",
     "name": "力勤资源",
-    "heat": "4550675",
+    "heat": "5384800",
     "rankChange": 0
   },
   {
     "rank": 3,
-    "ticker": "601127",
-    "name": "赛力斯",
-    "heat": "3821564",
+    "ticker": "603259",
+    "name": "药明康德",
+    "heat": "4971324",
     "rankChange": 0
   },
   {
     "rank": 4,
     "ticker": "000002",
     "name": "万科A",
-    "heat": "3704512",
+    "heat": "3866164",
     "rankChange": 0
   },
   {
     "rank": 5,
-    "ticker": "603083",
-    "name": "剑桥科技",
-    "heat": "3597694",
+    "ticker": "002487",
+    "name": "大金重工",
+    "heat": "3487405",
     "rankChange": 0
   },
   {
     "rank": 6,
-    "ticker": "002242",
-    "name": "九阳股份",
-    "heat": "3484181",
+    "ticker": "600825",
+    "name": "新华传媒",
+    "heat": "2864528",
     "rankChange": 0
   },
   {
     "rank": 7,
-    "ticker": "002487",
-    "name": "大金重工",
-    "heat": "2949902",
+    "ticker": "601127",
+    "name": "赛力斯",
+    "heat": "2741589",
     "rankChange": 0
   },
   {
     "rank": 8,
-    "ticker": "603259",
-    "name": "药明康德",
-    "heat": "2673049",
+    "ticker": "002242",
+    "name": "九阳股份",
+    "heat": "2709485",
     "rankChange": 0
   },
   {
     "rank": 9,
     "ticker": "000678",
     "name": "襄阳轴承",
-    "heat": "2598805",
+    "heat": "2267507",
     "rankChange": 0
   },
   {
     "rank": 10,
     "ticker": "603986",
     "name": "兆易创新",
-    "heat": "2572004",
+    "heat": "2213957",
     "rankChange": 0
   }
 ]
@@ -816,73 +816,73 @@ export const hotStocks: RankItem[] = [
 export const skyrockets: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "001246",
-    "name": "力勤资源",
-    "heat": "107090.2",
+    "ticker": "603259",
+    "name": "药明康德",
+    "heat": "344399.7",
     "rankChange": 0
   },
   {
     "rank": 2,
-    "ticker": "300308",
-    "name": "中际旭创",
-    "heat": "58213.4",
-    "rankChange": 0
+    "ticker": "603127",
+    "name": "昭衍新药",
+    "heat": "110366.8",
+    "rankChange": 1
   },
   {
     "rank": 3,
-    "ticker": "600737",
-    "name": "中粮糖业",
-    "heat": "37032.0",
-    "rankChange": 8
+    "ticker": "000021",
+    "name": "深科技",
+    "heat": "64740.9",
+    "rankChange": 27
   },
   {
     "rank": 4,
-    "ticker": "603228",
-    "name": "景旺电子",
-    "heat": "31273.3",
-    "rankChange": 2
+    "ticker": "600664",
+    "name": "哈药股份",
+    "heat": "53538.0",
+    "rankChange": 1
   },
   {
     "rank": 5,
-    "ticker": "002475",
-    "name": "立讯精密",
-    "heat": "30072.9",
-    "rankChange": 5
+    "ticker": "002421",
+    "name": "达实智能",
+    "heat": "40266.4",
+    "rankChange": 20
   },
   {
     "rank": 6,
-    "ticker": "002487",
-    "name": "大金重工",
-    "heat": "28303.2",
-    "rankChange": 0
+    "ticker": "002164",
+    "name": "宁波东力",
+    "heat": "38228.0",
+    "rankChange": 4
   },
   {
     "rank": 7,
-    "ticker": "600707",
-    "name": "彩虹股份",
-    "heat": "23674.9",
+    "ticker": "688185",
+    "name": "康希诺",
+    "heat": "35891.1",
     "rankChange": 1
   },
   {
     "rank": 8,
-    "ticker": "002164",
-    "name": "宁波东力",
-    "heat": "22533.1",
-    "rankChange": 7
+    "ticker": "600276",
+    "name": "恒瑞医药",
+    "heat": "28856.4",
+    "rankChange": 2
   },
   {
     "rank": 9,
-    "ticker": "600183",
-    "name": "生益科技",
-    "heat": "22131.8",
-    "rankChange": 4
+    "ticker": "603906",
+    "name": "龙蟠科技",
+    "heat": "28852.4",
+    "rankChange": 2
   },
   {
     "rank": 10,
-    "ticker": "301111",
-    "name": "粤万年青",
-    "heat": "21571.6",
-    "rankChange": 20
+    "ticker": "300408",
+    "name": "三环集团",
+    "heat": "27191.1",
+    "rankChange": 3
   }
 ]
 
