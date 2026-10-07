@@ -743,146 +743,146 @@ export const ladderBoards: LadderBoard[] = [
 export const hotStocks: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "300308",
-    "name": "中际旭创",
-    "heat": "6008211",
+    "ticker": "603259",
+    "name": "药明康德",
+    "heat": "6345887",
     "rankChange": 0
   },
   {
     "rank": 2,
-    "ticker": "001246",
-    "name": "力勤资源",
-    "heat": "5384800",
+    "ticker": "002487",
+    "name": "大金重工",
+    "heat": "5091413",
     "rankChange": 0
   },
   {
     "rank": 3,
-    "ticker": "603259",
-    "name": "药明康德",
-    "heat": "4971324",
+    "ticker": "001246",
+    "name": "力勤资源",
+    "heat": "4882795",
     "rankChange": 0
   },
   {
     "rank": 4,
-    "ticker": "000002",
-    "name": "万科A",
-    "heat": "3866164",
+    "ticker": "300308",
+    "name": "中际旭创",
+    "heat": "4454502",
     "rankChange": 0
   },
   {
     "rank": 5,
-    "ticker": "002487",
-    "name": "大金重工",
-    "heat": "3487405",
+    "ticker": "603127",
+    "name": "昭衍新药",
+    "heat": "3719717",
     "rankChange": 0
   },
   {
     "rank": 6,
-    "ticker": "600825",
-    "name": "新华传媒",
-    "heat": "2864528",
+    "ticker": "000002",
+    "name": "万科A",
+    "heat": "3572867",
     "rankChange": 0
   },
   {
     "rank": 7,
-    "ticker": "601127",
-    "name": "赛力斯",
-    "heat": "2741589",
-    "rankChange": 0
+    "ticker": "000678",
+    "name": "襄阳轴承",
+    "heat": "3002279",
+    "rankChange": 2
   },
   {
     "rank": 8,
-    "ticker": "002242",
-    "name": "九阳股份",
-    "heat": "2709485",
-    "rankChange": 0
+    "ticker": "002388",
+    "name": "新亚制程",
+    "heat": "2961022",
+    "rankChange": 5
   },
   {
     "rank": 9,
-    "ticker": "000678",
-    "name": "襄阳轴承",
-    "heat": "2267507",
-    "rankChange": 0
+    "ticker": "603986",
+    "name": "兆易创新",
+    "heat": "2917014",
+    "rankChange": -2
   },
   {
     "rank": 10,
-    "ticker": "603986",
-    "name": "兆易创新",
-    "heat": "2213957",
-    "rankChange": 0
+    "ticker": "600825",
+    "name": "新华传媒",
+    "heat": "2912075",
+    "rankChange": -2
   }
 ]
 
 export const skyrockets: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "603259",
-    "name": "药明康德",
-    "heat": "344399.7",
-    "rankChange": 0
+    "ticker": "002388",
+    "name": "新亚制程",
+    "heat": "632860.0",
+    "rankChange": 2
   },
   {
     "rank": 2,
-    "ticker": "603127",
-    "name": "昭衍新药",
-    "heat": "110366.8",
-    "rankChange": 1
+    "ticker": "000582",
+    "name": "北部湾港",
+    "heat": "253842.7",
+    "rankChange": 28
   },
   {
     "rank": 3,
-    "ticker": "000021",
-    "name": "深科技",
-    "heat": "64740.9",
-    "rankChange": 27
+    "ticker": "000678",
+    "name": "襄阳轴承",
+    "heat": "214793.0",
+    "rankChange": -1
   },
   {
     "rank": 4,
-    "ticker": "600664",
-    "name": "哈药股份",
-    "heat": "53538.0",
-    "rankChange": 1
+    "ticker": "002242",
+    "name": "九阳股份",
+    "heat": "118826.0",
+    "rankChange": 0
   },
   {
     "rank": 5,
-    "ticker": "002421",
-    "name": "达实智能",
-    "heat": "40266.4",
-    "rankChange": 20
+    "ticker": "600521",
+    "name": "华海药业",
+    "heat": "106202.1",
+    "rankChange": 17
   },
   {
     "rank": 6,
-    "ticker": "002164",
-    "name": "宁波东力",
-    "heat": "38228.0",
-    "rankChange": 4
+    "ticker": "002487",
+    "name": "大金重工",
+    "heat": "104277.2",
+    "rankChange": 0
   },
   {
     "rank": 7,
-    "ticker": "688185",
-    "name": "康希诺",
-    "heat": "35891.1",
-    "rankChange": 1
+    "ticker": "600812",
+    "name": "华北制药",
+    "heat": "79870.5",
+    "rankChange": 28
   },
   {
     "rank": 8,
-    "ticker": "600276",
-    "name": "恒瑞医药",
-    "heat": "28856.4",
-    "rankChange": 2
+    "ticker": "600789",
+    "name": "鲁抗医药",
+    "heat": "69116.2",
+    "rankChange": 18
   },
   {
     "rank": 9,
-    "ticker": "603906",
-    "name": "龙蟠科技",
-    "heat": "28852.4",
-    "rankChange": 2
+    "ticker": "000710",
+    "name": "贝瑞基因",
+    "heat": "68192.7",
+    "rankChange": 4
   },
   {
     "rank": 10,
-    "ticker": "300408",
-    "name": "三环集团",
-    "heat": "27191.1",
-    "rankChange": 3
+    "ticker": "600241",
+    "name": "时代万恒",
+    "heat": "65559.4",
+    "rankChange": 1
   }
 ]
 
