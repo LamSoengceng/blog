@@ -1,5 +1,5 @@
 // 本文件由 scripts/generateStockData.mjs 自动生成，请勿手改。
-// 数据源: hithink-finance（同花顺金融数据服务），数据日期: 2026-10-09 收盘
+// 数据源: hithink-finance（同花顺金融数据服务），数据日期: 2026-10-12 收盘
 // 刻意不写入生成时间戳：数据无变化时保持零 diff，GitHub Actions 自动提交才不会每天空转。
 export type StockIndex = {
   name: string
@@ -100,7 +100,7 @@ export type DragonTigerItem = {
 }
 
 export const stockMeta = {
-  "updatedAt": "2026-10-09 收盘",
+  "updatedAt": "2026-10-12 收盘",
   "sourceMode": "hithink-finance（同花顺）真实行情",
   "trackedMarkets": 7,
   "watchlistSize": 10,
@@ -136,11 +136,10 @@ export const stockIndices: StockIndex[] = [
     "name": "上证指数",
     "symbol": "000001.SH",
     "region": "A股主板",
-    "value": "3,813.79",
-    "change": "+1.89",
-    "changePct": "+0.05%",
+    "value": "3,797.24",
+    "change": "-16.55",
+    "changePct": "-0.43%",
     "trend": [
-      3911.87,
       3949.91,
       3952.13,
       3936.52,
@@ -149,18 +148,18 @@ export const stockIndices: StockIndex[] = [
       3830.45,
       3842.19,
       3811.9,
-      3813.79
+      3813.79,
+      3797.24
     ]
   },
   {
     "name": "沪深300",
     "symbol": "000300.SH",
     "region": "核心资产",
-    "value": "4,317.25",
-    "change": "+6.97",
-    "changePct": "+0.16%",
+    "value": "4,287.98",
+    "change": "-29.27",
+    "changePct": "-0.68%",
     "trend": [
-      4507.39,
       4539.57,
       4544.59,
       4517.28,
@@ -169,18 +168,18 @@ export const stockIndices: StockIndex[] = [
       4345.21,
       4357.62,
       4310.28,
-      4317.25
+      4317.25,
+      4287.98
     ]
   },
   {
     "name": "中证500",
     "symbol": "000905.SH",
     "region": "中盘成长",
-    "value": "7,251.01",
-    "change": "+2.58",
-    "changePct": "+0.04%",
+    "value": "7,093.02",
+    "change": "-157.99",
+    "changePct": "-2.18%",
     "trend": [
-      7799.61,
       7850.48,
       7828.94,
       7791.82,
@@ -189,18 +188,18 @@ export const stockIndices: StockIndex[] = [
       7439.63,
       7435.16,
       7248.43,
-      7251.01
+      7251.01,
+      7093.02
     ]
   },
   {
     "name": "中证1000",
     "symbol": "000852.SH",
     "region": "小盘弹性",
-    "value": "7,155.91",
-    "change": "+17.33",
-    "changePct": "+0.24%",
+    "value": "7,021.47",
+    "change": "-134.44",
+    "changePct": "-1.88%",
     "trend": [
-      7687.59,
       7766.33,
       7759.03,
       7745.56,
@@ -209,18 +208,18 @@ export const stockIndices: StockIndex[] = [
       7325.35,
       7298.82,
       7138.58,
-      7155.91
+      7155.91,
+      7021.47
     ]
   },
   {
     "name": "创业板指",
     "symbol": "399006.SZ",
     "region": "成长风格",
-    "value": "3,043.33",
-    "change": "+6.68",
-    "changePct": "+0.22%",
+    "value": "2,963.82",
+    "change": "-79.51",
+    "changePct": "-2.61%",
     "trend": [
-      3372.676,
       3399.59,
       3399.93,
       3379.61,
@@ -229,18 +228,18 @@ export const stockIndices: StockIndex[] = [
       3142.563,
       3135.277,
       3036.657,
-      3043.335
+      3043.335,
+      2963.824
     ]
   },
   {
     "name": "科创50",
     "symbol": "000688.SH",
     "region": "硬科技",
-    "value": "1,457.27",
-    "change": "+0.95",
-    "changePct": "+0.07%",
+    "value": "1,426.72",
+    "change": "-30.55",
+    "changePct": "-2.10%",
     "trend": [
-      1652.63,
       1657.48,
       1665.04,
       1660.85,
@@ -249,18 +248,18 @@ export const stockIndices: StockIndex[] = [
       1569.34,
       1530.01,
       1456.32,
-      1457.27
+      1457.27,
+      1426.72
     ]
   },
   {
     "name": "深证成指",
     "symbol": "399001.SZ",
     "region": "深市主板",
-    "value": "12,641.86",
-    "change": "+20.96",
-    "changePct": "+0.17%",
+    "value": "12,384.87",
+    "change": "-256.99",
+    "changePct": "-2.03%",
     "trend": [
-      13640.873,
       13730.02,
       13723.735,
       13636.074,
@@ -269,7 +268,8 @@ export const stockIndices: StockIndex[] = [
       12901.947,
       12887.62,
       12620.897,
-      12641.858
+      12641.858,
+      12384.869
     ]
   }
 ]
@@ -279,80 +279,80 @@ export const watchlist: WatchItem[] = [
     "symbol": "510300",
     "name": "沪深300ETF",
     "category": "核心仓",
-    "price": "4.385",
-    "changePct": "-0.09%",
+    "price": "4.360",
+    "changePct": "-0.57%",
     "note": "用于观察大盘核心资产，不等同于买入建议。"
   },
   {
     "symbol": "510500",
     "name": "中证500ETF",
     "category": "中盘",
-    "price": "7.282",
-    "changePct": "+0.04%",
+    "price": "7.125",
+    "changePct": "-2.16%",
     "note": "适合作为中盘景气和市场广度的观察锚。"
   },
   {
     "symbol": "512100",
     "name": "中证1000ETF",
     "category": "小盘",
-    "price": "2.909",
-    "changePct": "+0.17%",
+    "price": "2.856",
+    "changePct": "-1.82%",
     "note": "波动弹性高，50w 账户要限制仓位拥挤。"
   },
   {
     "symbol": "588000",
     "name": "科创50ETF",
     "category": "硬科技",
-    "price": "1.541",
-    "changePct": "+0.26%",
+    "price": "1.506",
+    "changePct": "-2.27%",
     "note": "关注半导体、AI、创新药等成长估值修复。"
   },
   {
     "symbol": "159915",
     "name": "创业板ETF",
     "category": "成长",
-    "price": "3.064",
-    "changePct": "+0.36%",
+    "price": "2.983",
+    "changePct": "-2.64%",
     "note": "和风险偏好、美债利率、成长股情绪联动更强。"
   },
   {
     "symbol": "512480",
     "name": "半导体ETF",
     "category": "行业主题",
-    "price": "0.911",
-    "changePct": "-0.33%",
+    "price": "0.888",
+    "changePct": "-2.52%",
     "note": "主题弹性大，适合监控成交额和拥挤度。"
   },
   {
     "symbol": "515880",
     "name": "通信ETF",
     "category": "AI链条",
-    "price": "0.592",
-    "changePct": "-0.34%",
+    "price": "0.562",
+    "changePct": "-5.07%",
     "note": "关注算力、光模块、运营商资本开支。"
   },
   {
     "symbol": "512800",
     "name": "银行ETF",
     "category": "红利/防御",
-    "price": "0.850",
-    "changePct": "-1.05%",
+    "price": "0.868",
+    "changePct": "+2.12%",
     "note": "适合观察高股息、防御风格和利率预期。"
   },
   {
     "symbol": "513180",
     "name": "恒生科技ETF",
     "category": "港股弹性",
-    "price": "0.525",
-    "changePct": "+1.74%",
+    "price": "0.523",
+    "changePct": "-0.38%",
     "note": "受港股流动性、美元利率和互联网监管预期影响。"
   },
   {
     "symbol": "159941",
     "name": "纳指ETF",
     "category": "海外映射",
-    "price": "1.769",
-    "changePct": "+1.32%",
+    "price": "1.768",
+    "changePct": "-0.06%",
     "note": "不作为 A 股替代，只看全球科技风险偏好。"
   }
 ]
@@ -360,37 +360,37 @@ export const watchlist: WatchItem[] = [
 export const sectorPulse: SectorPulse[] = [
   {
     "name": "半导体",
-    "changePct": "-1.27%",
+    "changePct": "-2.73%",
     "breadth": "n/a",
     "note": "高弹性行业，重点看成交额放大是否持续。（指数代码 881121.TI）"
   },
   {
     "name": "AI算力",
-    "changePct": "+0.55%",
+    "changePct": "-1.48%",
     "breadth": "n/a",
     "note": "东数西算(算力)概念指数，主题强时容易拥挤。（指数代码 885957.TI）"
   },
   {
     "name": "高股息",
-    "changePct": "+0.84%",
+    "changePct": "+0.27%",
     "breadth": "n/a",
     "note": "高股息精选概念，防御风格，和利率、避险偏好相关。（指数代码 886072.TI）"
   },
   {
     "name": "消费复苏",
-    "changePct": "+0.83%",
+    "changePct": "-0.43%",
     "breadth": "n/a",
     "note": "以白酒行业指数代表消费链条景气验证。（指数代码 881273.TI）"
   },
   {
     "name": "新能源",
-    "changePct": "-0.48%",
+    "changePct": "-1.53%",
     "breadth": "n/a",
     "note": "光伏概念指数，供给出清和价格周期是核心变量。（指数代码 885531.TI）"
   },
   {
     "name": "券商",
-    "changePct": "+2.32%",
+    "changePct": "+0.09%",
     "breadth": "n/a",
     "note": "证券行业指数，常作为风险偏好和成交额弹性的放大器。（指数代码 881157.TI）"
   }
@@ -399,26 +399,26 @@ export const sectorPulse: SectorPulse[] = [
 export const domesticFlows: DomesticFlow[] = [
   {
     "name": "两市成交额",
-    "value": "1.90万亿",
-    "state": "1.90万亿（沪+深）",
+    "value": "1.54万亿",
+    "state": "1.54万亿（沪+深）",
     "note": "沪市+深市成交额合计（hithink 指数快照口径），判断行情级别的第一层过滤器。"
   },
   {
     "name": "沪市成交额",
-    "value": "8886亿",
-    "state": "占两市 46.8%",
+    "value": "7149亿",
+    "state": "占两市 46.5%",
     "note": "沪市主板与科创板合计成交，观察权重与大盘活跃度。"
   },
   {
     "name": "深市成交额",
-    "value": "1.01万亿",
-    "state": "占两市 53.2%",
+    "value": "8229亿",
+    "state": "占两市 53.5%",
     "note": "深市主板与中小盘成交，观察成长与题材活跃度。"
   },
   {
     "name": "创业板成交额",
-    "value": "4948亿",
-    "state": "占深市 48.9%",
+    "value": "3945亿",
+    "state": "占深市 47.9%",
     "note": "成长风格成交占比，50w 账户重点关注 ETF 资金而不是短线热榜。"
   }
 ]
@@ -509,221 +509,221 @@ export const stockDataPlan = [
 ]
 
 export const stockBreadth = {
-  "tradeDate": "2026-10-09",
-  "limitUpCount": 72,
-  "limitBreakCount": 13,
+  "tradeDate": "2026-10-12",
+  "limitUpCount": 48,
+  "limitBreakCount": 25,
   "hotStockCount": 30
 }
 
 export const limitUpTop: LimitUpItem[] = [
   {
-    "ticker": "002979",
-    "name": "雷赛智能",
-    "price": "55.58",
-    "pct": "+9.99%",
-    "limitUpTime": "14:26",
+    "ticker": "002990",
+    "name": "盛视科技",
+    "price": "55.95",
+    "pct": "+10.01%",
+    "limitUpTime": "09:54",
     "boards": "首板",
-    "reason": "人形机器人+伺服系统+半年报增长",
-    "sealMoney": "0.7亿"
+    "reason": "智算业务+机器人+智慧口岸",
+    "sealMoney": "1.0亿"
   },
   {
-    "ticker": "605058",
-    "name": "澳弘电子",
-    "price": "53.35",
+    "ticker": "601127",
+    "name": "赛力斯",
+    "price": "51.24",
     "pct": "+10.00%",
-    "limitUpTime": "14:38",
+    "limitUpTime": "14:31",
     "boards": "首板",
-    "reason": "PCB+AI服务器电源+具身智能",
-    "sealMoney": "0.3亿"
+    "reason": "海外出海+宁德合作+华为合作",
+    "sealMoney": "3.1亿"
   },
   {
-    "ticker": "605168",
-    "name": "三人行",
-    "price": "52.10",
-    "pct": "+10.01%",
-    "limitUpTime": "14:27",
+    "ticker": "301419",
+    "name": "阿莱德",
+    "price": "47.70",
+    "pct": "+20.00%",
+    "limitUpTime": "09:55",
     "boards": "首板",
-    "reason": "数据中心+AI营销+体育营销",
-    "sealMoney": "0.0亿"
-  },
-  {
-    "ticker": "688152",
-    "name": "麒麟信安",
-    "price": "45.85",
-    "pct": "+19.99%",
-    "limitUpTime": "14:15",
-    "boards": "首板",
-    "reason": "信息安全+国产操作系统+智算一体机",
-    "sealMoney": "0.5亿"
-  },
-  {
-    "ticker": "603067",
-    "name": "振华股份",
-    "price": "42.31",
-    "pct": "+10.01%",
-    "limitUpTime": "13:11",
-    "boards": "首板",
-    "reason": "SOFC+金属铬+铬盐龙头",
-    "sealMoney": "1.1亿"
+    "reason": "光通信散热+重大资产重组+热管理材料",
+    "sealMoney": "0.4亿"
   },
   {
     "ticker": "605287",
     "name": "德才股份",
-    "price": "40.18",
-    "pct": "+9.99%",
-    "limitUpTime": "13:39",
-    "boards": "首板",
-    "reason": "AI漫剧+火山引擎合作+建筑装饰",
-    "sealMoney": "0.8亿"
-  },
-  {
-    "ticker": "300530",
-    "name": "领湃科技",
-    "price": "28.90",
-    "pct": "+20.02%",
-    "limitUpTime": "09:54",
+    "price": "44.20",
+    "pct": "+10.01%",
+    "limitUpTime": "09:25",
     "boards": "2连板",
-    "reason": "储能电池+新能源综合服务+衡阳国资",
-    "sealMoney": "0.4亿"
+    "reason": "AI漫剧+火山引擎合作+建筑装饰",
+    "sealMoney": "2.4亿"
   },
   {
-    "ticker": "002912",
-    "name": "中新赛克",
-    "price": "28.55",
-    "pct": "+10.02%",
-    "limitUpTime": "13:25",
+    "ticker": "688004",
+    "name": "博汇科技",
+    "price": "37.25",
+    "pct": "+20.01%",
+    "limitUpTime": "10:31",
     "boards": "首板",
-    "reason": "AI安全+网络安全+数据安全",
-    "sealMoney": "0.5亿"
-  },
-  {
-    "ticker": "605177",
-    "name": "东亚药业",
-    "price": "28.29",
-    "pct": "+9.99%",
-    "limitUpTime": "13:30",
-    "boards": "首板",
-    "reason": "抗生素+头孢产品+制剂一体化",
+    "reason": "AI内容安全+视听大数据+传媒安全+协议转让",
     "sealMoney": "0.3亿"
   },
   {
-    "ticker": "601069",
-    "name": "西部黄金",
-    "price": "26.55",
-    "pct": "+9.98%",
-    "limitUpTime": "13:14",
+    "ticker": "301052",
+    "name": "果麦文化",
+    "price": "30.47",
+    "pct": "+20.01%",
+    "limitUpTime": "10:07",
     "boards": "首板",
-    "reason": "黄金业务+股东合并+业绩增长",
-    "sealMoney": "1.0亿"
+    "reason": "AI出版+短剧+AIGC+教辅图书",
+    "sealMoney": "0.5亿"
   },
   {
-    "ticker": "002317",
-    "name": "众生药业",
-    "price": "25.49",
-    "pct": "+10.01%",
-    "limitUpTime": "14:08",
+    "ticker": "300829",
+    "name": "金丹科技",
+    "price": "28.02",
+    "pct": "+20.00%",
+    "limitUpTime": "09:47",
     "boards": "首板",
-    "reason": "减肥药+脂肪肝药+创新药",
-    "sealMoney": "1.0亿"
+    "reason": "聚乳酸+乳酸提价+可降解材料",
+    "sealMoney": "1.3亿"
   },
   {
     "ticker": "603533",
     "name": "掌阅科技",
-    "price": "25.44",
-    "pct": "+9.99%",
-    "limitUpTime": "14:09",
-    "boards": "首板",
+    "price": "27.98",
+    "pct": "+9.98%",
+    "limitUpTime": "10:10",
+    "boards": "2连板",
     "reason": "AI短剧+短剧出海+数字阅读",
     "sealMoney": "0.9亿"
+  },
+  {
+    "ticker": "601595",
+    "name": "上海电影",
+    "price": "27.21",
+    "pct": "+9.98%",
+    "limitUpTime": "10:21",
+    "boards": "2连板",
+    "reason": "AIGC+知识产权运营+院线经营",
+    "sealMoney": "0.3亿"
+  },
+  {
+    "ticker": "301658",
+    "name": "首航新能",
+    "price": "27.12",
+    "pct": "+20.00%",
+    "limitUpTime": "13:15",
+    "boards": "首板",
+    "reason": "储能系统+光伏逆变器+海外布局",
+    "sealMoney": "0.1亿"
+  },
+  {
+    "ticker": "001231",
+    "name": "农心科技",
+    "price": "25.61",
+    "pct": "+10.01%",
+    "limitUpTime": "13:23",
+    "boards": "首板",
+    "reason": "农药制剂+原药投产+海外登记",
+    "sealMoney": "2.0亿"
+  },
+  {
+    "ticker": "002667",
+    "name": "*ST威领",
+    "price": "24.41",
+    "pct": "+10.00%",
+    "limitUpTime": "09:25",
+    "boards": "首板",
+    "reason": "复牌+要约收购+锂电材料+有色金属矿",
+    "sealMoney": "1.3亿"
   }
 ]
 
 export const limitBreakTop: LimitBreakItem[] = [
   {
-    "ticker": "300340",
-    "name": "科恒股份",
-    "price": "10.72",
-    "pct": "+15.89%",
-    "openTimes": 3,
+    "ticker": "300690",
+    "name": "双一科技",
+    "price": "27.02",
+    "pct": "+9.79%",
+    "openTimes": 1,
     "turnover": "7亿"
   },
   {
-    "ticker": "300111",
-    "name": "向日葵",
-    "price": "3.41",
-    "pct": "+14.81%",
-    "openTimes": 3,
-    "turnover": "9亿"
+    "ticker": "603730",
+    "name": "岱美股份",
+    "price": "10.42",
+    "pct": "+7.87%",
+    "openTimes": 5,
+    "turnover": "5亿"
   },
   {
-    "ticker": "002709",
-    "name": "天赐材料",
-    "price": "35.68",
-    "pct": "+9.15%",
-    "openTimes": 2,
-    "turnover": "71亿"
-  },
-  {
-    "ticker": "600785",
-    "name": "新华百货",
-    "price": "11.59",
-    "pct": "+7.71%",
-    "openTimes": 1,
-    "turnover": "6亿"
-  },
-  {
-    "ticker": "002105",
-    "name": "信隆健康",
-    "price": "6.51",
-    "pct": "+5.51%",
-    "openTimes": 4,
-    "turnover": "2亿"
-  },
-  {
-    "ticker": "002083",
-    "name": "孚日股份",
-    "price": "10.19",
-    "pct": "+4.84%",
-    "openTimes": 1,
-    "turnover": "9亿"
-  },
-  {
-    "ticker": "001318",
-    "name": "阳光乳业",
-    "price": "13.43",
-    "pct": "+4.68%",
+    "ticker": "300389",
+    "name": "艾比森",
+    "price": "13.61",
+    "pct": "+7.84%",
     "openTimes": 1,
     "turnover": "4亿"
   },
   {
+    "ticker": "002487",
+    "name": "大金重工",
+    "price": "47.10",
+    "pct": "+7.66%",
+    "openTimes": 1,
+    "turnover": "46亿"
+  },
+  {
     "ticker": "603810",
     "name": "丰山集团",
-    "price": "12.95",
-    "pct": "+4.35%",
+    "price": "13.88",
+    "pct": "+7.18%",
     "openTimes": 1,
-    "turnover": "1亿"
+    "turnover": "2亿"
+  },
+  {
+    "ticker": "001356",
+    "name": "富岭股份",
+    "price": "9.93",
+    "pct": "+6.89%",
+    "openTimes": 2,
+    "turnover": "2亿"
+  },
+  {
+    "ticker": "002919",
+    "name": "名臣健康",
+    "price": "17.44",
+    "pct": "+6.86%",
+    "openTimes": 1,
+    "turnover": "2亿"
+  },
+  {
+    "ticker": "603956",
+    "name": "威派格",
+    "price": "7.41",
+    "pct": "+6.31%",
+    "openTimes": 3,
+    "turnover": "5亿"
   }
 ]
 
 export const ladderBoards: LadderBoard[] = [
   {
     "label": "2板",
-    "count": 8,
+    "count": 14,
     "names": [
-      "三柏硕",
-      "丰元股份",
+      "上海电影",
+      "丽人丽妆",
+      "博纳影业"
+    ]
+  },
+  {
+    "label": "3板",
+    "count": 1,
+    "names": [
       "华北制药"
     ]
   },
   {
-    "label": "4板",
-    "count": 1,
-    "names": [
-      "紫竹高科"
-    ]
-  },
-  {
-    "label": "5板",
+    "label": "6板",
     "count": 2,
     "names": [
       "九阳股份",
@@ -742,242 +742,172 @@ export const ladderBoards: LadderBoard[] = [
 export const hotStocks: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "600418",
-    "name": "江淮汽车",
-    "heat": "8207339",
+    "ticker": "600127",
+    "name": "金健米业",
+    "heat": "6640100",
     "rankChange": 0
   },
   {
     "rank": 2,
-    "ticker": "600127",
-    "name": "金健米业",
-    "heat": "3856184",
+    "ticker": "600418",
+    "name": "江淮汽车",
+    "heat": "5455472",
     "rankChange": 0
   },
   {
     "rank": 3,
-    "ticker": "002242",
-    "name": "九阳股份",
-    "heat": "3616585",
+    "ticker": "600825",
+    "name": "新华传媒",
+    "heat": "4761895",
     "rankChange": 0
   },
   {
     "rank": 4,
-    "ticker": "600825",
-    "name": "新华传媒",
-    "heat": "3472245",
+    "ticker": "002242",
+    "name": "九阳股份",
+    "heat": "4329249",
     "rankChange": 0
   },
   {
     "rank": 5,
     "ticker": "002487",
     "name": "大金重工",
-    "heat": "3343719",
+    "heat": "3206382",
     "rankChange": 0
   },
   {
     "rank": 6,
-    "ticker": "002384",
-    "name": "东山精密",
-    "heat": "2793906",
+    "ticker": "600241",
+    "name": "时代万恒",
+    "heat": "3096689",
     "rankChange": 0
   },
   {
     "rank": 7,
-    "ticker": "002709",
-    "name": "天赐材料",
-    "heat": "2682232",
-    "rankChange": 0
+    "ticker": "601127",
+    "name": "赛力斯",
+    "heat": "2849143",
+    "rankChange": 3
   },
   {
     "rank": 8,
-    "ticker": "300308",
-    "name": "中际旭创",
-    "heat": "2601356",
-    "rankChange": 0
+    "ticker": "600664",
+    "name": "哈药股份",
+    "heat": "2835536",
+    "rankChange": -1
   },
   {
     "rank": 9,
-    "ticker": "688825",
-    "name": "长鑫科技",
-    "heat": "2568476",
-    "rankChange": 0
+    "ticker": "600693",
+    "name": "东百集团",
+    "heat": "2795634",
+    "rankChange": -1
   },
   {
     "rank": 10,
-    "ticker": "300750",
-    "name": "宁德时代",
-    "heat": "2068466",
-    "rankChange": 0
+    "ticker": "300308",
+    "name": "中际旭创",
+    "heat": "2772079",
+    "rankChange": -1
   }
 ]
 
 export const skyrockets: RankItem[] = [
   {
     "rank": 1,
-    "ticker": "300364",
-    "name": "中文在线",
-    "heat": "33088.4",
-    "rankChange": 1
+    "ticker": "601127",
+    "name": "赛力斯",
+    "heat": "27788.8",
+    "rankChange": 2
   },
   {
     "rank": 2,
-    "ticker": "300413",
-    "name": "芒果超媒",
-    "heat": "29413.6",
+    "ticker": "688808",
+    "name": "联讯仪器",
+    "heat": "13191.8",
     "rankChange": 2
   },
   {
     "rank": 3,
-    "ticker": "601086",
-    "name": "国芳集团",
-    "heat": "20966.5",
+    "ticker": "002343",
+    "name": "慈文传媒",
+    "heat": "10173.6",
     "rankChange": 1
   },
   {
     "rank": 4,
-    "ticker": "601118",
-    "name": "海南橡胶",
-    "heat": "19786.4",
-    "rankChange": 5
+    "ticker": "688498",
+    "name": "源杰科技",
+    "heat": "10109.9",
+    "rankChange": 3
   },
   {
     "rank": 5,
-    "ticker": "600176",
-    "name": "中国巨石",
-    "heat": "19596.2",
+    "ticker": "600825",
+    "name": "新华传媒",
+    "heat": "10084.0",
     "rankChange": 0
   },
   {
     "rank": 6,
-    "ticker": "300369",
-    "name": "绿盟科技",
-    "heat": "17946.2",
-    "rankChange": 3
+    "ticker": "300308",
+    "name": "中际旭创",
+    "heat": "8124.0",
+    "rankChange": 0
   },
   {
     "rank": 7,
-    "ticker": "002709",
-    "name": "天赐材料",
-    "heat": "17620.7",
-    "rankChange": 0
+    "ticker": "002692",
+    "name": "远程股份",
+    "heat": "7560.3",
+    "rankChange": 3
   },
   {
     "rank": 8,
-    "ticker": "603228",
-    "name": "景旺电子",
-    "heat": "16913.3",
-    "rankChange": 11
+    "ticker": "603096",
+    "name": "新经典",
+    "heat": "7382.2",
+    "rankChange": 4
   },
   {
     "rank": 9,
-    "ticker": "601929",
-    "name": "吉视传媒",
-    "heat": "15687.6",
-    "rankChange": 10
+    "ticker": "300199",
+    "name": "翰宇药业",
+    "heat": "7067.0",
+    "rankChange": 4
   },
   {
     "rank": 10,
-    "ticker": "002487",
-    "name": "大金重工",
-    "heat": "15603.2",
-    "rankChange": 0
+    "ticker": "002264",
+    "name": "新华都",
+    "heat": "6880.4",
+    "rankChange": 1
   }
 ]
 
 export const dragonTigerTop: DragonTigerItem[] = [
   {
     "rank": 1,
-    "ticker": "600418",
-    "name": "江淮汽车",
-    "pct": "-10.01%",
-    "netValue": "0.62亿",
+    "ticker": "600127",
+    "name": "金健米业",
+    "pct": "-8.43%",
+    "netValue": "0.65亿",
     "orgNet": "—",
-    "hotMoneyNet": "3.80亿",
+    "hotMoneyNet": "-0.04亿",
     "concepts": [
-      "百度概念",
-      "华为汽车",
-      "DeepSeek概念"
+      "玉米",
+      "粮食概念",
+      "乳业"
     ]
   },
   {
     "rank": 2,
-    "ticker": "002384",
-    "name": "东山精密",
-    "pct": "-10.00%",
-    "netValue": "3.70亿",
-    "orgNet": "0.44亿",
-    "hotMoneyNet": "—",
-    "concepts": [
-      "PCB概念",
-      "同花顺果指数",
-      "共封装光学(CPO)"
-    ]
-  },
-  {
-    "rank": 3,
-    "ticker": "600825",
-    "name": "新华传媒",
-    "pct": "+10.05%",
-    "netValue": "0.29亿",
-    "orgNet": "—",
-    "hotMoneyNet": "0.15亿",
-    "concepts": [
-      "上海国企改革",
-      "AI语料",
-      "无人零售"
-    ]
-  },
-  {
-    "rank": 3,
-    "ticker": "600825",
-    "name": "新华传媒",
-    "pct": "+10.05%",
-    "netValue": "0.00亿",
-    "orgNet": "—",
-    "hotMoneyNet": "—",
-    "concepts": [
-      "上海国企改革",
-      "AI语料",
-      "无人零售"
-    ]
-  },
-  {
-    "rank": 6,
-    "ticker": "600127",
-    "name": "金健米业",
-    "pct": "+5.02%",
-    "netValue": "1.24亿",
-    "orgNet": "—",
-    "hotMoneyNet": "-0.80亿",
-    "concepts": [
-      "乳业",
-      "玉米",
-      "粮食概念"
-    ]
-  },
-  {
-    "rank": 7,
-    "ticker": "002580",
-    "name": "圣阳股份",
-    "pct": "+9.43%",
-    "netValue": "1.89亿",
-    "orgNet": "0.55亿",
-    "hotMoneyNet": "0.05亿",
-    "concepts": [
-      "钠离子电池",
-      "动力电池回收",
-      "固态电池"
-    ]
-  },
-  {
-    "rank": 8,
     "ticker": "002242",
     "name": "九阳股份",
-    "pct": "+10.00%",
-    "netValue": "-0.14亿",
-    "orgNet": "—",
-    "hotMoneyNet": "-0.24亿",
+    "pct": "+9.98%",
+    "netValue": "-1.59亿",
+    "orgNet": "-0.38亿",
+    "hotMoneyNet": "-0.16亿",
     "concepts": [
       "家用电器",
       "净水概念",
@@ -985,45 +915,113 @@ export const dragonTigerTop: DragonTigerItem[] = [
     ]
   },
   {
-    "rank": 9,
-    "ticker": "002074",
-    "name": "国轩高科",
-    "pct": "+6.10%",
-    "netValue": "0.48亿",
-    "orgNet": "-0.05亿",
-    "hotMoneyNet": "-0.03亿",
+    "rank": 2,
+    "ticker": "002242",
+    "name": "九阳股份",
+    "pct": "+9.98%",
+    "netValue": "-0.37亿",
+    "orgNet": "—",
+    "hotMoneyNet": "-0.01亿",
     "concepts": [
-      "动力电池回收",
-      "钠离子电池",
-      "两轮车"
+      "家用电器",
+      "净水概念",
+      "绿色电力"
+    ]
+  },
+  {
+    "rank": 6,
+    "ticker": "601811",
+    "name": "新华文轩",
+    "pct": "+10.00%",
+    "netValue": "-0.40亿",
+    "orgNet": "—",
+    "hotMoneyNet": "-0.56亿",
+    "concepts": [
+      "文化传媒概念",
+      "知识产权保护",
+      "NFT概念"
+    ]
+  },
+  {
+    "rank": 7,
+    "ticker": "600664",
+    "name": "哈药股份",
+    "pct": "-10.01%",
+    "netValue": "0.58亿",
+    "orgNet": "—",
+    "hotMoneyNet": "-0.04亿",
+    "concepts": [
+      "振兴东北",
+      "流感",
+      "维生素"
+    ]
+  },
+  {
+    "rank": 8,
+    "ticker": "600241",
+    "name": "时代万恒",
+    "pct": "+10.03%",
+    "netValue": "-0.72亿",
+    "orgNet": "-0.34亿",
+    "hotMoneyNet": "0.19亿",
+    "concepts": [
+      "锂电池概念",
+      "国企改革"
+    ]
+  },
+  {
+    "rank": 8,
+    "ticker": "600241",
+    "name": "时代万恒",
+    "pct": "+10.03%",
+    "netValue": "-0.74亿",
+    "orgNet": "-0.34亿",
+    "hotMoneyNet": "0.19亿",
+    "concepts": [
+      "锂电池概念",
+      "国企改革"
+    ]
+  },
+  {
+    "rank": 9,
+    "ticker": "600693",
+    "name": "东百集团",
+    "pct": "+10.04%",
+    "netValue": "0.05亿",
+    "orgNet": "—",
+    "hotMoneyNet": "-0.12亿",
+    "concepts": [
+      "免税店",
+      "冷链物流",
+      "IP经济(谷子经济)"
+    ]
+  },
+  {
+    "rank": 9,
+    "ticker": "600693",
+    "name": "东百集团",
+    "pct": "+10.04%",
+    "netValue": "0.87亿",
+    "orgNet": "—",
+    "hotMoneyNet": "0.32亿",
+    "concepts": [
+      "免税店",
+      "冷链物流",
+      "IP经济(谷子经济)"
     ]
   },
   {
     "rank": 10,
-    "ticker": "000678",
-    "name": "襄阳轴承",
-    "pct": "-5.04%",
-    "netValue": "-0.85亿",
-    "orgNet": "0.43亿",
-    "hotMoneyNet": "0.06亿",
+    "ticker": "001330",
+    "name": "博纳影业",
+    "pct": "+10.04%",
+    "netValue": "0.86亿",
+    "orgNet": "-0.21亿",
+    "hotMoneyNet": "1.35亿",
     "concepts": [
-      "股权转让(并购重组)",
-      "减速器",
-      "军民融合"
-    ]
-  },
-  {
-    "rank": 11,
-    "ticker": "601091",
-    "name": "沈鼓集团",
-    "pct": "+4.54%",
-    "netValue": "0.17亿",
-    "orgNet": "—",
-    "hotMoneyNet": "-0.51亿",
-    "concepts": [
-      "注册制次新股",
-      "天然气",
-      "煤化工概念"
+      "文化传媒概念",
+      "短剧游戏",
+      "AI视频"
     ]
   }
 ]
