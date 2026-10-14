@@ -48,7 +48,7 @@ function PersonalHero() {
         <h2>把每一点进步，记在这里。</h2>
         <p className="workspace-intro">训练身体，练习思考，认真记录。这里是我的博客，也是把算法、训练和项目慢慢做扎实的个人工作台。</p>
         <div className="workspace-hero-actions">
-          <Link className="workspace-action-primary" to="/algorithm/review">开始算法复习<ArrowUpRight size={18} /></Link>
+          <Link className="workspace-action-primary" to="/career">进入职业成长<ArrowUpRight size={18} /></Link>
           <Link className="workspace-action-secondary" to="/training#journal">写一篇日记<BookOpen size={17} /></Link>
         </div>
         <Link className="workspace-browse" to="/#explore">探索我的工作台<ArrowDown size={15} /></Link>
@@ -87,14 +87,14 @@ const homeModules = [
     action: '进入提升页',
   },
   {
-    eyebrow: 'Algorithm',
+    eyebrow: 'Career',
     icon: Code2,
-    title: '算法专题',
-    description: 'Hot100 进度、题型分类、面试写法，以及从本地 Python 注释提取的踩坑记录。',
+    title: '职业成长',
+    description: '把算法复习、面经问题和未来的工作复盘串成一条学习路径。',
     stat: `${algorithmMeta.solved}/${algorithmMeta.total}`,
     detail: '题已完成 · 含拓展',
-    to: '/algorithm',
-    action: '进入算法页',
+    to: '/career',
+    action: '进入职业页',
   },
   {
     eyebrow: 'Feynman',

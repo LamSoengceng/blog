@@ -6,6 +6,7 @@ import { SettingsModal } from './components/SettingsModal'
 import { useDialogFocus } from './hooks/useDialogFocus'
 
 const AlgorithmPage = lazy(() => import('./pages/AlgorithmPage').then((module) => ({ default: module.AlgorithmPage })))
+const CareerPage = lazy(() => import('./pages/CareerPage').then((module) => ({ default: module.CareerPage })))
 const AlgorithmReviewPage = lazy(() =>
   import('./pages/AlgorithmReviewPage').then((module) => ({ default: module.AlgorithmReviewPage })),
 )
@@ -34,7 +35,7 @@ const navItems = [
   { label: '首页', to: '/' },
   { label: '博客', to: '/blog' },
   { label: '自我提升', to: '/training' },
-  { label: '算法练习', to: '/algorithm' },
+  { label: '职业成长', to: '/career' },
   { label: '费曼练习', to: '/feynman' },
   { label: '股票观察', to: '/stock' },
   { label: '项目', to: '/projects' },
@@ -62,6 +63,7 @@ function ScrollManager() {
   useEffect(() => {
     const label = location.pathname.startsWith('/ask') ? '问我的站'
       : location.pathname.startsWith('/xunji-log') ? '训练日志'
+      : location.pathname.startsWith('/algorithm') ? '算法练习'
       : navItems.find((item) => item.to !== '/' && location.pathname.startsWith(item.to))?.label ?? '个人工作台'
     document.title = `${label} · Lam Soengceng`
   }, [location.pathname])
@@ -186,6 +188,7 @@ function App() {
           <Route path="/training" element={<TrainingPage />} />
           <Route path="/xunji-log" element={<XunjiLogPage />} />
           <Route path="/algorithm" element={<AlgorithmPage />} />
+          <Route path="/career" element={<CareerPage />} />
           <Route path="/algorithm/review" element={<AlgorithmReviewPage />} />
           <Route path="/stock" element={<StockPage />} />
           <Route path="/market" element={<Navigate to="/stock" replace />} />
