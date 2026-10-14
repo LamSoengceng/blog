@@ -59,7 +59,7 @@ export function reorganizeInterviewQuestions(questions: InterviewQuestion[], sou
     const key = normalizeQuestion(text)
     appearances.set(key, [...new Set([...(appearances.get(key) || []), source.id])])
   }
-  return questions.map((question) => ({ ...question, category: inferQuestionCategory(question.text), tags: inferQuestionTags(question.text), sourceIds: appearances.get(normalizeQuestion(question.text)) || question.sourceIds || [] }))
+  return questions.map((question) => ({ ...question, category: inferQuestionCategory(question.text), tags: inferQuestionTags(`${question.text}\n${question.answer || ''}`), sourceIds: appearances.get(normalizeQuestion(question.text)) || question.sourceIds || [] }))
 }
 
 export function rankInterviewQuestions(questions: InterviewQuestion[], query: string, sort: 'hot' | 'new'): InterviewQuestion[] {

@@ -7064,3 +7064,6 @@ main {
 .career-answer summary { color: #a7e7b6; cursor: pointer; }
 @media (max-width: 650px) { .career-history-heading { align-items: start; flex-direction: column; } }
 .career-ranking-note { margin: 9px 0 0; color: #9cbda5; font-size: 12px; line-height: 1.6; }
+.career-history li details { flex: 1 1 250px; min-width: 0; }
+.career-history li summary { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; cursor: pointer; }
+.career-history li pre { max-height: 280px; overflow: auto; margin: 14px 0 0; padding: 14px; border-radius: 9px; background: #07150d; color: #c9e2cf; font: inherit; font-size: 12px; line-height: 1.7; white-space: pre-wrap; overflow-wrap: anywhere; }

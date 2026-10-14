@@ -59,6 +59,10 @@ export function CareerPage() {
     if (safeUrl === null) { setNotice('来源链接需要是 http 或 https 地址。'); return }
     const extracted = extractQuestions(notes)
     if (!extracted.length) { setNotice('未识别到问题。请每行写一个问题，以问号结尾，或以“如何 / 为什么 / 请”等开头。'); return }
+    if (sources.some((source) => source.text.trim() === notes.trim() && source.url === (safeUrl || ''))) {
+      setNotice('这份内容已经导入过，未重复计入题目热度。')
+      return
+    }
     const source: InterviewSource = { id: crypto.randomUUID(), title: title.trim() || '面经笔记', url: safeUrl || '', text: notes.trim(), addedAt: new Date().toISOString() }
     const next = mergeInterviewSource(questions, source)
     const incoming = next.length - questions.length
@@ -134,7 +138,7 @@ export function CareerPage() {
         <div className="career-import-actions"><button type="button" onClick={addQuestions} disabled={recognizing}>整理并加入题库</button><span>可修改识别文字；本站没有自动抓取小红书笔记。</span></div>
       </div>
       {notice ? <p className="career-notice" role="status">{notice}</p> : null}
-      {sources.length ? <section className="career-history" aria-label="面经导入历史"><div className="career-history-heading"><div><h3>导入历史</h3><p>{sources.length} 条记录 · {lastOrganizedAt ? `上次整理：${new Date(lastOrganizedAt).toLocaleDateString('zh-CN')}` : '尚未定期整理'}{isReorganizationDue(lastOrganizedAt) ? ' · 建议重新整理' : ''}</p></div><button type="button" onClick={reorganize}>重新整理标签与热度</button></div><ul>{sources.map((source) => <li key={source.id}><strong>{source.title}</strong><span>{new Date(source.addedAt).toLocaleDateString('zh-CN')} · {extractQuestions(source.text).length} 道识别问题</span>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">原帖 ↗</a> : null}</li>)}</ul></section> : null}
+      {sources.length ? <section className="career-history" aria-label="面经导入历史"><div className="career-history-heading"><div><h3>导入历史</h3><p>{sources.length} 条记录 · {lastOrganizedAt ? `上次整理：${new Date(lastOrganizedAt).toLocaleDateString('zh-CN')}` : '尚未定期整理'}{isReorganizationDue(lastOrganizedAt) ? ' · 建议重新整理' : ''}</p></div><button type="button" onClick={reorganize}>重新整理标签与热度</button></div><ul>{sources.map((source) => <li key={source.id}><details><summary><strong>{source.title}</strong><span>{new Date(source.addedAt).toLocaleDateString('zh-CN')} · {extractQuestions(source.text).length} 道识别问题</span></summary><pre>{source.text}</pre></details>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">原帖 ↗</a> : null}</li>)}</ul></section> : null}
       {questions.length ? <div className="career-search-row"><label>检索题目、标签与答案<input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="例如：TCP、缓存、项目表达" /></label><label>排序<select value={sort} onChange={(event) => setSort(event.target.value as 'hot' | 'new')}><option value="hot">按题目热度</option><option value="new">按导入时间</option></select></label></div> : null}
       {questions.length ? <p className="career-ranking-note">题目热度依据已导入面经中的出现次数和你的练习次数；检索时优先显示题目与标签匹配的结果。</p> : null}
       {questions.length ? <div className="career-filters" aria-label="按主题筛选问题">{['全部', '算法与数据结构', '计算机基础', '工程与设计', '项目与表达', '综合问题'].map((item) => <button type="button" className={category === item ? 'active' : ''} onClick={() => setCategory(item)} key={item}>{item}</button>)}</div> : null}
