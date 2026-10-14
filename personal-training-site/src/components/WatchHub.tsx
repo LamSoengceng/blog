@@ -1,30 +1,32 @@
 import { useEffect, useState } from 'react'
 import { ArrowUpRight, CalendarPlus2, Radio, Trash2 } from 'lucide-react'
 import scheduleSnapshot from '../data/sportsSchedule.json'
+import standingsSnapshot from '../data/sportsStandings.json'
 
-type Match = { league: 'NBA' | '英超' | '欧冠'; title: string; at: string; url: string }
+type League = 'NBA' | '英超' | '皇马' | 'AC 米兰' | '欧冠' | '欧联'
+type Match = { id: string; league: League; title: string; at: string; url: string }
 type Room = { name: string; url: string; platform: string }
-
-const fallbackMatches: Match[] = [
-  { league: 'NBA', title: '篮网 vs 热火 · 季前赛', at: '2026-10-15T07:30:00+08:00', url: 'https://www.nba.com/schedule' },
-  { league: 'NBA', title: '掘金 vs 快船 · 季前赛', at: '2026-10-15T10:30:00+08:00', url: 'https://www.nba.com/schedule' },
-  { league: '英超', title: '布伦特福德 vs 利物浦', at: '2026-10-17T22:00:00+08:00', url: 'https://www.premierleague.com/en/matches/premier-league/2026-27/matchweek-7' },
-]
 const officialSchedules = [
   { label: 'NBA 赛程', url: 'https://www.nba.com/schedule' },
   { label: '英超赛程', url: 'https://www.premierleague.com/en/matches' },
+  { label: '西甲赛程', url: 'https://www.laliga.com/laliga-easports/calendario' },
+  { label: '意甲赛程', url: 'https://www.legaseriea.it/en/serie-a/match-report' },
   { label: '欧冠赛程', url: 'https://www.uefa.com/uefachampionsleague/fixtures-results/' },
+  { label: '欧联赛程', url: 'https://www.uefa.com/uefaeuropaleague/fixtures-results/' },
 ]
 const starterRoom: Room = { name: '墨衣moyi', platform: '斗鱼', url: 'https://www.douyu.com/8834570' }
 const storageKey = 'lam-watch-rooms-v1'
 const watchUrl = 'https://www.jrkan2023.com/'
-const scheduleSources: { league: Match['league']; path: string }[] = [
-  { league: 'NBA', path: 'basketball/nba' },
-  { league: '英超', path: 'soccer/eng.1' },
-  { league: '欧冠', path: 'soccer/uefa.champions' },
+const scheduleSources: { league: League; path: string; team?: string; url: string }[] = [
+  { league: 'NBA', path: 'basketball/nba', url: officialSchedules[0].url },
+  { league: '英超', path: 'soccer/eng.1', url: officialSchedules[1].url },
+  { league: '皇马', path: 'soccer/esp.1', team: 'Real Madrid', url: officialSchedules[2].url },
+  { league: 'AC 米兰', path: 'soccer/ita.1', team: 'AC Milan', url: officialSchedules[3].url },
+  { league: '欧冠', path: 'soccer/uefa.champions', url: officialSchedules[4].url },
+  { league: '欧联', path: 'soccer/uefa.europa', url: officialSchedules[5].url },
 ]
 
-type EspnEvent = { id: string; name: string; date: string; links?: { href: string }[] }
+type EspnEvent = { id: string; name: string; date: string; links?: { href: string }[]; competitions?: { competitors?: { team?: { displayName?: string } }[] }[] }
 
 async function loadSchedule(): Promise<Match[]> {
   const now = new Date()
@@ -38,17 +40,19 @@ async function loadSchedule(): Promise<Match[]> {
     if (!response.ok) throw new Error(`赛程请求失败：${response.status}`)
     const data = await response.json() as { events?: EspnEvent[] }
     if (!Array.isArray(data.events)) throw new Error('赛程格式不正确')
-    return data.events.map((event): Match => ({
+    return data.events.filter((event) => !source.team || event.competitions?.[0]?.competitors?.some((competitor) => competitor.team?.displayName === source.team)).map((event): Match => ({
+      id: event.id,
       league: source.league,
       title: event.name,
       at: event.date,
-      url: event.links?.[0]?.href || officialSchedules.find((item) => item.label.startsWith(source.league))?.url || 'https://www.nba.com/schedule',
+      url: event.links?.[0]?.href || source.url,
     }))
   }))
   const results = await Promise.allSettled(requests)
+  if (results.some((result) => result.status === 'rejected')) throw new Error('部分赛程未能同步')
   const loaded = results.flatMap((result) => result.status === 'fulfilled' ? result.value : [])
   if (!loaded.length) throw new Error('赛程源暂时不可用')
-  return [...new Map(loaded.map((match) => [`${match.league}-${match.at}-${match.title}`, match])).values()]
+  return [...new Map(loaded.map((match) => [match.id, match])).values()]
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
 }
 
@@ -89,17 +93,18 @@ export function WatchHub() {
   const [rooms, setRooms] = useState<Room[]>(readRooms)
   const [roomInput, setRoomInput] = useState('')
   const [error, setError] = useState('')
-  const [league, setLeague] = useState('全部')
+  const [view, setView] = useState<'schedule' | 'standings'>('schedule')
+  const [standingsLeague, setStandingsLeague] = useState('英超')
+  const [visibleCount, setVisibleCount] = useState(12)
   const [today] = useState(() => Date.now())
-  const [matches, setMatches] = useState<Match[]>(() => scheduleSnapshot.matches.length ? scheduleSnapshot.matches as Match[] : fallbackMatches)
+  const [matches, setMatches] = useState<Match[]>(() => scheduleSnapshot.matches as Match[])
   const [scheduleState, setScheduleState] = useState(() => scheduleSnapshot.matches.length
     ? `更新于 ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(scheduleSnapshot.generatedAt))}`
     : '显示备用赛程')
   const futureMatches = matches.filter((match) => new Date(match.at).getTime() > today)
-  const upcoming = league === '全部'
-    ? scheduleSources.flatMap((source) => futureMatches.filter((match) => match.league === source.league).slice(0, 2))
-      .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
-    : futureMatches.filter((match) => match.league === league).slice(0, 8)
+    .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
+  const upcoming = futureMatches.slice(0, visibleCount)
+  const standings = standingsSnapshot.tables.find((table) => table.league === standingsLeague)
 
   useEffect(() => {
     let active = true
@@ -128,21 +133,29 @@ export function WatchHub() {
 
   return <section className="watch-hub" aria-labelledby="watch-heading">
     <div className="watch-heading">
-      <div><p className="eyebrow">THE GAME DESK / 观赛中心</p><h2 id="watch-heading">比赛，就在眼前。</h2><p>接下来的比赛、常看的直播间，一个入口就够了。</p></div>
+      <div><p className="eyebrow">THE GAME DESK / 观赛中心</p><h2 id="watch-heading">比赛，就在眼前。</h2><p>关注 NBA、皇马、AC 米兰、英超、欧冠与欧联。</p></div>
       <span className="watch-timezone">ASIA / SHANGHAI · UTC+8</span>
     </div>
     <div className="watch-grid">
       <div className="watch-panel watch-board">
-        <div className="watch-panel-title"><div><span className="watch-section-label">01 / MATCH SCHEDULE</span><h3>近期赛程</h3></div><span className="watch-sync" role="status"><span />{scheduleState}</span></div>
-        <div className="watch-filters" aria-label="赛事筛选">{['全部', 'NBA', '英超', '欧冠'].map((item) => <button className={league === item ? 'active' : ''} type="button" key={item} onClick={() => setLeague(item)} aria-pressed={league === item}>{item}</button>)}</div>
-        <div className="watch-table-head"><span>北京时间</span><span>赛事 / 对阵</span><span>日历</span></div>
-        {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className="watch-match" key={`${match.league}-${match.at}-${match.title}`}>
-          <time dateTime={match.at}><strong>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(match.at))}</strong><span>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(match.at))}</span></time>
-          <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{match.title}<ArrowUpRight size={14} /></a></div>
-          <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><CalendarPlus2 size={17} /></a>
-        </div>)}</div> : <p className="watch-empty">目前没有该赛事的近期比赛，请查看赛事官网。</p>}
-        <div className="watch-official">{officialSchedules.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer">{item.label}<ArrowUpRight size={14} /></a>)}</div>
-        <p className="watch-note">赛程数据来自 ESPN，每日构建快照，并在访问时尝试刷新。比赛时间以赛事官网为准。</p>
+        <div className="watch-panel-title"><div><span className="watch-section-label">01 / MATCH CENTER</span><h3>赛程与积分榜</h3></div><span className="watch-sync" role="status"><span />{scheduleState}</span></div>
+        <div className="watch-view-switch" role="tablist" aria-label="观赛信息"><button type="button" role="tab" aria-selected={view === 'schedule'} className={view === 'schedule' ? 'active' : ''} onClick={() => setView('schedule')}>赛程</button><button type="button" role="tab" aria-selected={view === 'standings'} className={view === 'standings' ? 'active' : ''} onClick={() => setView('standings')}>积分榜</button></div>
+        {view === 'schedule' ? <div role="tabpanel">
+          <p className="watch-list-intro">全部关注赛事 · 按北京时间先后排序</p>
+          <div className="watch-table-head"><span>北京时间</span><span>赛事 / 对阵</span><span>日历</span></div>
+          {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className="watch-match" key={match.id}>
+            <time dateTime={match.at}><strong>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(match.at))}</strong><span>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(match.at))}</span></time>
+            <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{match.title}<ArrowUpRight size={14} /></a></div>
+            <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><CalendarPlus2 size={17} /></a>
+          </div>)}</div> : <p className="watch-empty">目前没有近期比赛，请查看赛事官网。</p>}
+          {futureMatches.length > visibleCount && <button type="button" className="watch-more" onClick={() => setVisibleCount((count) => count + 12)}>显示更多比赛 <span>+12</span></button>}
+          <div className="watch-official">{officialSchedules.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer">{item.label}<ArrowUpRight size={14} /></a>)}</div>
+          <p className="watch-note">赛程来自 ESPN，每日生成快照并在访问时尝试刷新；比赛时间以赛事官网为准。</p>
+        </div> : <div className="watch-standings" role="tabpanel">
+          <div className="watch-standings-controls"><label htmlFor="watch-standings-league">联赛 / 杯赛</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsSnapshot.tables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">完整榜单<ArrowUpRight size={14} /></a>}</div>
+          {standings ? <div className="watch-standings-scroll"><table><thead><tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr></thead><tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row">{row.team}</th><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></tr>)}</tbody></table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
+          <p className="watch-note">积分榜每日更新；皇马与 AC 米兰已在对应联赛中标出。数据来自 ESPN。</p>
+        </div>}
       </div>
       <aside className="watch-panel watch-side">
         <div className="watch-panel-title"><div><span className="watch-section-label">02 / YOUR CHANNELS</span><h3>直播捷径</h3></div><Radio size={21} /></div>
