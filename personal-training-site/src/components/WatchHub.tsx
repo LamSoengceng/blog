@@ -35,6 +35,16 @@ const officialSchedules = [
   { label: '腾讯体育', url: 'https://sports.qq.com/' },
   { label: '咪咕赛程', url: 'https://www.miguvideo.com/p/schedule/' },
 ]
+const quickLinks = [
+  { label: '腾讯体育', short: '腾', meta: '综合赛事', url: 'https://sports.qq.com/', highlight: true },
+  { label: '咪咕赛程', short: '咪', meta: '赛程 / 直播', url: 'https://www.miguvideo.com/p/schedule/', highlight: true },
+  { label: 'NBA', short: 'NBA', meta: '官方赛程', url: 'https://www.nba.com/schedule' },
+  { label: '英超', short: '英', meta: '官方赛程', url: 'https://www.premierleague.com/en/matches' },
+  { label: '西甲 / 皇马', short: '西', meta: '官方赛程', url: 'https://www.laliga.com/laliga-easports/calendario' },
+  { label: '意甲 / 米兰', short: '意', meta: '官方赛程', url: 'https://www.legaseriea.it/en/serie-a/match-report' },
+  { label: '欧冠', short: '冠', meta: '官方赛程', url: 'https://www.uefa.com/uefachampionsleague/fixtures-results/' },
+  { label: '欧联', short: '联', meta: '官方赛程', url: 'https://www.uefa.com/uefaeuropaleague/fixtures-results/' },
+]
 const starterRoom: Room = { name: '墨衣moyi', platform: '斗鱼', url: 'https://www.douyu.com/8834570' }
 const storageKey = 'lam-watch-rooms-v1'
 const watchUrl = 'https://www.jrkan2023.com/'
@@ -178,7 +188,6 @@ export function WatchHub() {
             <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><CalendarPlus2 size={17} /></a>
           </div>)}</div> : <p className="watch-empty">目前没有近期比赛，请查看赛事官网。</p>}
           {futureMatches.length > visibleCount && <button type="button" className="watch-more" onClick={() => setVisibleCount((count) => count + 12)}>显示更多比赛 <span>+12</span></button>}
-          <div className="watch-official">{officialSchedules.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer">{item.label}<ArrowUpRight size={14} /></a>)}</div>
           <p className="watch-note">赛程来自 ESPN，每日生成快照并在访问时尝试刷新；比赛时间以赛事官网为准。</p>
         </div> : <div className="watch-standings" role="tabpanel">
           <div className="watch-standings-controls"><label htmlFor="watch-standings-league">项目</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsTables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">官方榜单<ArrowUpRight size={14} /></a>}</div>
@@ -195,6 +204,8 @@ export function WatchHub() {
       <aside className="watch-panel watch-side">
         <div className="watch-panel-title"><div><span className="watch-section-label">02 / YOUR CHANNELS</span><h3>直播捷径</h3></div><Radio size={21} /></div>
         <a className="watch-feature-link" href={watchUrl} target="_blank" rel="noopener noreferrer"><span>赛事直播入口</span><strong>打开 JRKAN</strong><ArrowUpRight size={20} /></a>
+        <div className="watch-quick-heading"><span>官方入口</span><small>一键打开</small></div>
+        <div className="watch-quick-links">{quickLinks.map((item) => <a className={`watch-quick-link${item.highlight ? ' is-highlight' : ''}`} key={item.label} href={item.url} target="_blank" rel="noopener noreferrer"><span className="watch-quick-mark">{item.short}</span><span><strong>{item.label}</strong><small>{item.meta}</small></span><ArrowUpRight size={15} /></a>)}</div>
         <div className="watch-room-heading"><span>已收藏的直播间</span><small>{rooms.length} 个</small></div>
         <div className="watch-room-list">{rooms.map((room) => <div className="watch-room" key={room.url}><div><span>{room.platform}</span><strong>{room.name}</strong><small>点击进入查看开播状态</small></div><a href={room.url} target="_blank" rel="noopener noreferrer" aria-label={`进入${room.name}直播间`}><ArrowUpRight size={17} /></a>{room.url !== starterRoom.url && <button type="button" onClick={() => saveRooms(rooms.filter((item) => item.url !== room.url))} aria-label={`删除${room.name}`}><Trash2 size={15} /></button>}</div>)}</div>
         <form className="watch-add-room" onSubmit={addRoom}><label htmlFor="watch-room-url">收藏直播间</label><div><input id="watch-room-url" type="url" value={roomInput} onChange={(event) => setRoomInput(event.target.value)} placeholder="B站 / 斗鱼 / 虎牙链接" required /><button type="submit">添加</button></div>{error && <p role="alert">{error}</p>}</form>
