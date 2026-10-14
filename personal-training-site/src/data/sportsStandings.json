@@ -1,12 +1,13 @@
 {
-  "generatedAt": "2026-10-14T09:07:22.335Z",
+  "generatedAt": "2026-10-14T11:24:06.273Z",
   "tables": [
     {
       "league": "英超",
-      "url": "https://www.espn.com/soccer/standings/_/league/eng.1",
+      "format": "football",
+      "url": "https://www.premierleague.com/en/tables",
       "rows": [
         {
-          "rank": 1,
+          "rank": "1",
           "team": "Manchester City",
           "played": "6",
           "wins": "6",
@@ -16,7 +17,7 @@
           "points": "18"
         },
         {
-          "rank": 2,
+          "rank": "2",
           "team": "Arsenal",
           "played": "6",
           "wins": "5",
@@ -26,7 +27,7 @@
           "points": "15"
         },
         {
-          "rank": 3,
+          "rank": "3",
           "team": "Brighton & Hove Albion",
           "played": "6",
           "wins": "4",
@@ -36,7 +37,7 @@
           "points": "13"
         },
         {
-          "rank": 4,
+          "rank": "4",
           "team": "Brentford",
           "played": "6",
           "wins": "2",
@@ -46,7 +47,7 @@
           "points": "10"
         },
         {
-          "rank": 5,
+          "rank": "5",
           "team": "Everton",
           "played": "6",
           "wins": "2",
@@ -56,7 +57,7 @@
           "points": "10"
         },
         {
-          "rank": 6,
+          "rank": "6",
           "team": "Chelsea",
           "played": "6",
           "wins": "3",
@@ -66,7 +67,7 @@
           "points": "10"
         },
         {
-          "rank": 7,
+          "rank": "7",
           "team": "Leeds United",
           "played": "6",
           "wins": "2",
@@ -76,7 +77,7 @@
           "points": "9"
         },
         {
-          "rank": 8,
+          "rank": "8",
           "team": "Hull City",
           "played": "6",
           "wins": "2",
@@ -86,7 +87,7 @@
           "points": "9"
         },
         {
-          "rank": 9,
+          "rank": "9",
           "team": "Liverpool",
           "played": "6",
           "wins": "2",
@@ -96,7 +97,7 @@
           "points": "9"
         },
         {
-          "rank": 10,
+          "rank": "10",
           "team": "Ipswich Town",
           "played": "6",
           "wins": "3",
@@ -106,7 +107,7 @@
           "points": "9"
         },
         {
-          "rank": 11,
+          "rank": "11",
           "team": "Newcastle United",
           "played": "6",
           "wins": "2",
@@ -116,7 +117,7 @@
           "points": "8"
         },
         {
-          "rank": 12,
+          "rank": "12",
           "team": "Crystal Palace",
           "played": "6",
           "wins": "2",
@@ -126,7 +127,7 @@
           "points": "7"
         },
         {
-          "rank": 13,
+          "rank": "13",
           "team": "Manchester United",
           "played": "6",
           "wins": "1",
@@ -136,7 +137,7 @@
           "points": "6"
         },
         {
-          "rank": 14,
+          "rank": "14",
           "team": "Coventry City",
           "played": "6",
           "wins": "2",
@@ -146,7 +147,7 @@
           "points": "6"
         },
         {
-          "rank": 15,
+          "rank": "15",
           "team": "Nottingham Forest",
           "played": "6",
           "wins": "1",
@@ -156,7 +157,7 @@
           "points": "5"
         },
         {
-          "rank": 16,
+          "rank": "16",
           "team": "Aston Villa",
           "played": "6",
           "wins": "1",
@@ -166,7 +167,7 @@
           "points": "5"
         },
         {
-          "rank": 17,
+          "rank": "17",
           "team": "Sunderland",
           "played": "6",
           "wins": "1",
@@ -176,7 +177,7 @@
           "points": "4"
         },
         {
-          "rank": 18,
+          "rank": "18",
           "team": "AFC Bournemouth",
           "played": "6",
           "wins": "0",
@@ -186,7 +187,7 @@
           "points": "3"
         },
         {
-          "rank": 19,
+          "rank": "19",
           "team": "Tottenham Hotspur",
           "played": "6",
           "wins": "0",
@@ -196,7 +197,7 @@
           "points": "3"
         },
         {
-          "rank": 20,
+          "rank": "20",
           "team": "Fulham",
           "played": "6",
           "wins": "0",
@@ -209,10 +210,11 @@
     },
     {
       "league": "西甲",
-      "url": "https://www.espn.com/soccer/standings/_/league/esp.1",
+      "format": "football",
+      "url": "https://www.laliga.com/laliga-easports/standing",
       "rows": [
         {
-          "rank": 1,
+          "rank": "1",
           "team": "Barcelona",
           "played": "8",
           "wins": "8",
@@ -222,7 +224,7 @@
           "points": "24"
         },
         {
-          "rank": 2,
+          "rank": "2",
           "team": "Atlético Madrid",
           "played": "8",
           "wins": "6",
@@ -232,7 +234,7 @@
           "points": "19"
         },
         {
-          "rank": 3,
+          "rank": "3",
           "team": "Real Betis",
           "played": "8",
           "wins": "6",
@@ -242,7 +244,7 @@
           "points": "19"
         },
         {
-          "rank": 4,
+          "rank": "4",
           "team": "Real Madrid",
           "played": "8",
           "wins": "6",
@@ -252,7 +254,7 @@
           "points": "18"
         },
         {
-          "rank": 5,
+          "rank": "5",
           "team": "Sevilla",
           "played": "8",
           "wins": "4",
@@ -262,7 +264,7 @@
           "points": "14"
         },
         {
-          "rank": 6,
+          "rank": "6",
           "team": "Real Sociedad",
           "played": "8",
           "wins": "4",
@@ -272,7 +274,7 @@
           "points": "13"
         },
         {
-          "rank": 7,
+          "rank": "7",
           "team": "Alavés",
           "played": "8",
           "wins": "3",
@@ -282,7 +284,7 @@
           "points": "11"
         },
         {
-          "rank": 8,
+          "rank": "8",
           "team": "Deportivo",
           "played": "8",
           "wins": "2",
@@ -292,7 +294,7 @@
           "points": "10"
         },
         {
-          "rank": 9,
+          "rank": "9",
           "team": "Celta Vigo",
           "played": "8",
           "wins": "1",
@@ -302,7 +304,7 @@
           "points": "8"
         },
         {
-          "rank": 10,
+          "rank": "10",
           "team": "Athletic Club",
           "played": "6",
           "wins": "2",
@@ -312,7 +314,7 @@
           "points": "8"
         },
         {
-          "rank": 11,
+          "rank": "11",
           "team": "Villarreal",
           "played": "8",
           "wins": "2",
@@ -322,7 +324,7 @@
           "points": "8"
         },
         {
-          "rank": 12,
+          "rank": "12",
           "team": "Espanyol",
           "played": "8",
           "wins": "2",
@@ -332,7 +334,7 @@
           "points": "8"
         },
         {
-          "rank": 13,
+          "rank": "13",
           "team": "Rayo Vallecano",
           "played": "7",
           "wins": "2",
@@ -342,7 +344,7 @@
           "points": "8"
         },
         {
-          "rank": 14,
+          "rank": "14",
           "team": "Getafe",
           "played": "8",
           "wins": "2",
@@ -352,7 +354,7 @@
           "points": "8"
         },
         {
-          "rank": 15,
+          "rank": "15",
           "team": "Racing Santander",
           "played": "8",
           "wins": "2",
@@ -362,7 +364,7 @@
           "points": "8"
         },
         {
-          "rank": 16,
+          "rank": "16",
           "team": "Osasuna",
           "played": "8",
           "wins": "2",
@@ -372,7 +374,7 @@
           "points": "8"
         },
         {
-          "rank": 17,
+          "rank": "17",
           "team": "Levante",
           "played": "7",
           "wins": "1",
@@ -382,7 +384,7 @@
           "points": "6"
         },
         {
-          "rank": 18,
+          "rank": "18",
           "team": "Elche",
           "played": "8",
           "wins": "1",
@@ -392,7 +394,7 @@
           "points": "6"
         },
         {
-          "rank": 19,
+          "rank": "19",
           "team": "Valencia",
           "played": "8",
           "wins": "1",
@@ -402,7 +404,7 @@
           "points": "5"
         },
         {
-          "rank": 20,
+          "rank": "20",
           "team": "Málaga",
           "played": "8",
           "wins": "0",
@@ -415,10 +417,11 @@
     },
     {
       "league": "意甲",
-      "url": "https://www.espn.com/soccer/standings/_/league/ita.1",
+      "format": "football",
+      "url": "https://www.legaseriea.it/en/serie-a/standing",
       "rows": [
         {
-          "rank": 1,
+          "rank": "1",
           "team": "Internazionale",
           "played": "6",
           "wins": "5",
@@ -428,7 +431,7 @@
           "points": "16"
         },
         {
-          "rank": 2,
+          "rank": "2",
           "team": "Lazio",
           "played": "6",
           "wins": "5",
@@ -438,7 +441,7 @@
           "points": "16"
         },
         {
-          "rank": 3,
+          "rank": "3",
           "team": "AS Roma",
           "played": "6",
           "wins": "4",
@@ -448,7 +451,7 @@
           "points": "14"
         },
         {
-          "rank": 4,
+          "rank": "4",
           "team": "Cagliari",
           "played": "6",
           "wins": "4",
@@ -458,7 +461,7 @@
           "points": "13"
         },
         {
-          "rank": 5,
+          "rank": "5",
           "team": "AC Milan",
           "played": "6",
           "wins": "3",
@@ -468,7 +471,7 @@
           "points": "12"
         },
         {
-          "rank": 6,
+          "rank": "6",
           "team": "Juventus",
           "played": "6",
           "wins": "3",
@@ -478,7 +481,7 @@
           "points": "11"
         },
         {
-          "rank": 7,
+          "rank": "7",
           "team": "Como",
           "played": "6",
           "wins": "3",
@@ -488,7 +491,7 @@
           "points": "11"
         },
         {
-          "rank": 8,
+          "rank": "8",
           "team": "Napoli",
           "played": "6",
           "wins": "3",
@@ -498,7 +501,7 @@
           "points": "10"
         },
         {
-          "rank": 9,
+          "rank": "9",
           "team": "Frosinone",
           "played": "6",
           "wins": "3",
@@ -508,7 +511,7 @@
           "points": "10"
         },
         {
-          "rank": 10,
+          "rank": "10",
           "team": "Atalanta",
           "played": "6",
           "wins": "3",
@@ -518,7 +521,7 @@
           "points": "9"
         },
         {
-          "rank": 11,
+          "rank": "11",
           "team": "Sassuolo",
           "played": "6",
           "wins": "2",
@@ -528,7 +531,7 @@
           "points": "8"
         },
         {
-          "rank": 12,
+          "rank": "12",
           "team": "Torino",
           "played": "6",
           "wins": "2",
@@ -538,7 +541,7 @@
           "points": "7"
         },
         {
-          "rank": 13,
+          "rank": "13",
           "team": "Lecce",
           "played": "6",
           "wins": "2",
@@ -548,7 +551,7 @@
           "points": "6"
         },
         {
-          "rank": 14,
+          "rank": "14",
           "team": "Bologna",
           "played": "6",
           "wins": "1",
@@ -558,7 +561,7 @@
           "points": "5"
         },
         {
-          "rank": 15,
+          "rank": "15",
           "team": "Udinese",
           "played": "6",
           "wins": "1",
@@ -568,7 +571,7 @@
           "points": "4"
         },
         {
-          "rank": 16,
+          "rank": "16",
           "team": "Monza",
           "played": "6",
           "wins": "1",
@@ -578,7 +581,7 @@
           "points": "4"
         },
         {
-          "rank": 17,
+          "rank": "17",
           "team": "Genoa",
           "played": "6",
           "wins": "1",
@@ -588,7 +591,7 @@
           "points": "4"
         },
         {
-          "rank": 18,
+          "rank": "18",
           "team": "Parma",
           "played": "6",
           "wins": "1",
@@ -598,7 +601,7 @@
           "points": "4"
         },
         {
-          "rank": 19,
+          "rank": "19",
           "team": "Fiorentina",
           "played": "6",
           "wins": "1",
@@ -608,7 +611,7 @@
           "points": "4"
         },
         {
-          "rank": 20,
+          "rank": "20",
           "team": "Venezia",
           "played": "6",
           "wins": "0",
@@ -620,733 +623,900 @@
       ]
     },
     {
-      "league": "欧冠",
-      "url": "https://www.espn.com/soccer/standings/_/league/uefa.champions",
+      "league": "德甲",
+      "format": "football",
+      "url": "https://www.bundesliga.com/en/bundesliga/table",
       "rows": [
         {
-          "rank": 1,
-          "team": "Barcelona",
-          "played": "2",
-          "wins": "2",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+7",
-          "points": "6"
-        },
-        {
-          "rank": 2,
-          "team": "Sporting CP",
-          "played": "2",
-          "wins": "2",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+4",
-          "points": "6"
-        },
-        {
-          "rank": 3,
-          "team": "Arsenal",
-          "played": "2",
-          "wins": "2",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+4",
-          "points": "6"
-        },
-        {
-          "rank": 4,
-          "team": "Bayern Munich",
-          "played": "2",
-          "wins": "1",
+          "rank": "1",
+          "team": "SC Freiburg",
+          "played": "5",
+          "wins": "4",
           "draws": "1",
           "losses": "0",
+          "goalDifference": "+10",
+          "points": "13"
+        },
+        {
+          "rank": "2",
+          "team": "Borussia Dortmund",
+          "played": "5",
+          "wins": "4",
+          "draws": "1",
+          "losses": "0",
+          "goalDifference": "+7",
+          "points": "13"
+        },
+        {
+          "rank": "3",
+          "team": "Bayern Munich",
+          "played": "5",
+          "wins": "3",
+          "draws": "2",
+          "losses": "0",
+          "goalDifference": "+12",
+          "points": "11"
+        },
+        {
+          "rank": "4",
+          "team": "Bayer Leverkusen",
+          "played": "5",
+          "wins": "3",
+          "draws": "1",
+          "losses": "1",
+          "goalDifference": "+6",
+          "points": "10"
+        },
+        {
+          "rank": "5",
+          "team": "RB Leipzig",
+          "played": "5",
+          "wins": "3",
+          "draws": "0",
+          "losses": "2",
+          "goalDifference": "+10",
+          "points": "9"
+        },
+        {
+          "rank": "6",
+          "team": "FC Augsburg",
+          "played": "5",
+          "wins": "2",
+          "draws": "2",
+          "losses": "1",
           "goalDifference": "+5",
+          "points": "8"
+        },
+        {
+          "rank": "7",
+          "team": "Werder Bremen",
+          "played": "5",
+          "wins": "2",
+          "draws": "2",
+          "losses": "1",
+          "goalDifference": "0",
+          "points": "8"
+        },
+        {
+          "rank": "8",
+          "team": "Mainz",
+          "played": "5",
+          "wins": "2",
+          "draws": "1",
+          "losses": "2",
+          "goalDifference": "+3",
+          "points": "7"
+        },
+        {
+          "rank": "9",
+          "team": "SV Elversberg",
+          "played": "5",
+          "wins": "2",
+          "draws": "1",
+          "losses": "2",
+          "goalDifference": "0",
+          "points": "7"
+        },
+        {
+          "rank": "10",
+          "team": "FC Cologne",
+          "played": "5",
+          "wins": "2",
+          "draws": "1",
+          "losses": "2",
+          "goalDifference": "-2",
+          "points": "7"
+        },
+        {
+          "rank": "11",
+          "team": "VfB Stuttgart",
+          "played": "5",
+          "wins": "2",
+          "draws": "0",
+          "losses": "3",
+          "goalDifference": "-1",
+          "points": "6"
+        },
+        {
+          "rank": "12",
+          "team": "Hamburg SV",
+          "played": "5",
+          "wins": "2",
+          "draws": "0",
+          "losses": "3",
+          "goalDifference": "-10",
+          "points": "6"
+        },
+        {
+          "rank": "13",
+          "team": "Schalke 04",
+          "played": "5",
+          "wins": "1",
+          "draws": "2",
+          "losses": "2",
+          "goalDifference": "-2",
+          "points": "5"
+        },
+        {
+          "rank": "14",
+          "team": "Eintracht Frankfurt",
+          "played": "5",
+          "wins": "1",
+          "draws": "2",
+          "losses": "2",
+          "goalDifference": "-7",
+          "points": "5"
+        },
+        {
+          "rank": "15",
+          "team": "SC Paderborn 07",
+          "played": "5",
+          "wins": "1",
+          "draws": "1",
+          "losses": "3",
+          "goalDifference": "-4",
           "points": "4"
         },
         {
-          "rank": 5,
-          "team": "Paris Saint-Germain",
-          "played": "1",
+          "rank": "16",
+          "team": "1. FC Union Berlin",
+          "played": "5",
           "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+5",
-          "points": "3"
-        },
-        {
-          "rank": 6,
-          "team": "Como",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+3",
-          "points": "3"
-        },
-        {
-          "rank": 7,
-          "team": "Manchester United",
-          "played": "2",
-          "wins": "1",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "+2",
-          "points": "3"
-        },
-        {
-          "rank": 8,
-          "team": "VfB Stuttgart",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+2",
-          "points": "3"
-        },
-        {
-          "rank": 9,
-          "team": "Manchester City",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+2",
-          "points": "3"
-        },
-        {
-          "rank": 10,
-          "team": "Villarreal",
-          "played": "2",
-          "wins": "1",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 11,
-          "team": "Aston Villa",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 12,
-          "team": "Real Betis",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 13,
-          "team": "Atlético Madrid",
-          "played": "2",
-          "wins": "1",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 14,
-          "team": "Borussia Dortmund",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 15,
-          "team": "Liverpool",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 16,
-          "team": "Real Madrid",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 17,
-          "team": "AEK Athens",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 18,
-          "team": "Club Brugge",
-          "played": "2",
-          "wins": "1",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "0",
-          "points": "3"
-        },
-        {
-          "rank": 19,
-          "team": "Lens",
-          "played": "2",
-          "wins": "1",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "3"
-        },
-        {
-          "rank": 20,
-          "team": "RB Leipzig",
-          "played": "2",
-          "wins": "1",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "3"
-        },
-        {
-          "rank": 21,
-          "team": "Sabah FK",
-          "played": "2",
-          "wins": "1",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "3"
-        },
-        {
-          "rank": 22,
-          "team": "AS Roma",
-          "played": "1",
-          "wins": "0",
           "draws": "1",
-          "losses": "0",
-          "goalDifference": "0",
-          "points": "1"
+          "losses": "3",
+          "goalDifference": "-12",
+          "points": "4"
         },
         {
-          "rank": 23,
-          "team": "Shakhtar Donetsk",
-          "played": "1",
-          "wins": "0",
-          "draws": "1",
-          "losses": "0",
-          "goalDifference": "0",
-          "points": "1"
-        },
-        {
-          "rank": 24,
-          "team": "Fenerbahce",
-          "played": "1",
-          "wins": "0",
-          "draws": "1",
-          "losses": "0",
-          "goalDifference": "0",
-          "points": "1"
-        },
-        {
-          "rank": 25,
-          "team": "PSV Eindhoven",
-          "played": "2",
-          "wins": "0",
-          "draws": "1",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "1"
-        },
-        {
-          "rank": 26,
-          "team": "Viking FK",
-          "played": "2",
-          "wins": "0",
-          "draws": "1",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "1"
-        },
-        {
-          "rank": 27,
-          "team": "LASK Linz",
-          "played": "1",
-          "wins": "0",
+          "rank": "17",
+          "team": "TSG Hoffenheim",
+          "played": "5",
+          "wins": "1",
           "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "0"
-        },
-        {
-          "rank": 28,
-          "team": "Internazionale",
-          "played": "2",
-          "wins": "0",
-          "draws": "0",
-          "losses": "2",
-          "goalDifference": "-2",
-          "points": "0"
-        },
-        {
-          "rank": 29,
-          "team": "FC Porto",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "0"
-        },
-        {
-          "rank": 30,
-          "team": "Slavia Prague",
-          "played": "2",
-          "wins": "0",
-          "draws": "0",
-          "losses": "2",
-          "goalDifference": "-3",
-          "points": "0"
-        },
-        {
-          "rank": 31,
-          "team": "Napoli",
-          "played": "2",
-          "wins": "0",
-          "draws": "0",
-          "losses": "2",
-          "goalDifference": "-3",
-          "points": "0"
-        },
-        {
-          "rank": 32,
-          "team": "Lille",
-          "played": "2",
-          "wins": "0",
-          "draws": "0",
-          "losses": "2",
+          "losses": "4",
           "goalDifference": "-4",
-          "points": "0"
+          "points": "3"
         },
         {
-          "rank": 33,
-          "team": "Feyenoord Rotterdam",
-          "played": "1",
+          "rank": "18",
+          "team": "Borussia Mönchengladbach",
+          "played": "5",
           "wins": "0",
           "draws": "0",
-          "losses": "1",
-          "goalDifference": "-4",
-          "points": "0"
-        },
-        {
-          "rank": 34,
-          "team": "Galatasaray",
-          "played": "2",
-          "wins": "0",
-          "draws": "0",
-          "losses": "2",
-          "goalDifference": "-5",
-          "points": "0"
-        },
-        {
-          "rank": 35,
-          "team": "Slovan Bratislava",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-5",
-          "points": "0"
-        },
-        {
-          "rank": 36,
-          "team": "Bodo/Glimt",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-5",
+          "losses": "5",
+          "goalDifference": "-11",
           "points": "0"
         }
       ]
     },
     {
-      "league": "欧联",
-      "url": "https://www.espn.com/soccer/standings/_/league/uefa.europa",
+      "league": "法甲",
+      "format": "football",
+      "url": "https://www.ligue1.com/classement",
       "rows": [
         {
-          "rank": 1,
-          "team": "Juventus",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
+          "rank": "1",
+          "team": "AS Monaco",
+          "played": "6",
+          "wins": "4",
+          "draws": "2",
           "losses": "0",
           "goalDifference": "+5",
-          "points": "3"
+          "points": "14"
         },
         {
-          "rank": 2,
-          "team": "Crystal Palace",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+4",
-          "points": "3"
-        },
-        {
-          "rank": 3,
-          "team": "Sparta Prague",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+3",
-          "points": "3"
-        },
-        {
-          "rank": 4,
-          "team": "Besiktas",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+3",
-          "points": "3"
-        },
-        {
-          "rank": 5,
-          "team": "Union St.-Gilloise",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+3",
-          "points": "3"
-        },
-        {
-          "rank": 6,
-          "team": "Ferencvaros",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+2",
-          "points": "3"
-        },
-        {
-          "rank": 7,
-          "team": "Benfica",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+2",
-          "points": "3"
-        },
-        {
-          "rank": 8,
-          "team": "Bayer Leverkusen",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+2",
-          "points": "3"
-        },
-        {
-          "rank": 9,
-          "team": "OFI Crete",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+2",
-          "points": "3"
-        },
-        {
-          "rank": 10,
-          "team": "AFC Bournemouth",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 11,
-          "team": "Lyon",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 12,
-          "team": "Torreense",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 13,
-          "team": "Olympiacos",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 14,
-          "team": "RB Salzburg",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 15,
-          "team": "Omonia Nicosia",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 16,
-          "team": "Sunderland",
-          "played": "1",
-          "wins": "1",
-          "draws": "0",
-          "losses": "0",
-          "goalDifference": "+1",
-          "points": "3"
-        },
-        {
-          "rank": 17,
-          "team": "Dinamo Zagreb",
-          "played": "1",
-          "wins": "0",
+          "rank": "2",
+          "team": "Lille",
+          "played": "6",
+          "wins": "4",
           "draws": "1",
-          "losses": "0",
-          "goalDifference": "0",
-          "points": "1"
+          "losses": "1",
+          "goalDifference": "+5",
+          "points": "13"
         },
         {
-          "rank": 18,
-          "team": "Hapoel Be'er",
-          "played": "1",
-          "wins": "0",
-          "draws": "1",
-          "losses": "0",
-          "goalDifference": "0",
-          "points": "1"
-        },
-        {
-          "rank": 19,
+          "rank": "3",
           "team": "Stade Rennais",
-          "played": "1",
-          "wins": "0",
+          "played": "6",
+          "wins": "4",
           "draws": "1",
-          "losses": "0",
-          "goalDifference": "0",
-          "points": "1"
+          "losses": "1",
+          "goalDifference": "+2",
+          "points": "13"
         },
         {
-          "rank": 20,
-          "team": "SK Sturm Graz",
-          "played": "1",
-          "wins": "0",
+          "rank": "4",
+          "team": "Lyon",
+          "played": "6",
+          "wins": "3",
+          "draws": "2",
+          "losses": "1",
+          "goalDifference": "+7",
+          "points": "11"
+        },
+        {
+          "rank": "5",
+          "team": "Paris FC",
+          "played": "6",
+          "wins": "3",
+          "draws": "2",
+          "losses": "1",
+          "goalDifference": "+4",
+          "points": "11"
+        },
+        {
+          "rank": "6",
+          "team": "Paris Saint-Germain",
+          "played": "6",
+          "wins": "3",
+          "draws": "2",
+          "losses": "1",
+          "goalDifference": "+3",
+          "points": "11"
+        },
+        {
+          "rank": "7",
+          "team": "Brest",
+          "played": "6",
+          "wins": "2",
+          "draws": "2",
+          "losses": "2",
+          "goalDifference": "+3",
+          "points": "8"
+        },
+        {
+          "rank": "8",
+          "team": "Lorient",
+          "played": "6",
+          "wins": "2",
+          "draws": "2",
+          "losses": "2",
+          "goalDifference": "0",
+          "points": "8"
+        },
+        {
+          "rank": "9",
+          "team": "Nice",
+          "played": "6",
+          "wins": "2",
+          "draws": "2",
+          "losses": "2",
+          "goalDifference": "-2",
+          "points": "8"
+        },
+        {
+          "rank": "10",
+          "team": "Lens",
+          "played": "6",
+          "wins": "2",
           "draws": "1",
-          "losses": "0",
-          "goalDifference": "0",
-          "points": "1"
+          "losses": "3",
+          "goalDifference": "+1",
+          "points": "7"
         },
         {
-          "rank": 21,
-          "team": "Jagiellonia Bialystok",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
+          "rank": "11",
+          "team": "Strasbourg",
+          "played": "6",
+          "wins": "2",
+          "draws": "1",
+          "losses": "3",
           "goalDifference": "-1",
-          "points": "0"
+          "points": "7"
         },
         {
-          "rank": 22,
-          "team": "Anderlecht",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "0"
+          "rank": "12",
+          "team": "Angers",
+          "played": "6",
+          "wins": "2",
+          "draws": "1",
+          "losses": "3",
+          "goalDifference": "-3",
+          "points": "7"
         },
         {
-          "rank": 23,
-          "team": "Lillestrom",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "0"
-        },
-        {
-          "rank": 24,
-          "team": "Real Sociedad",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "0"
-        },
-        {
-          "rank": 25,
-          "team": "AZ Alkmaar",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "0"
-        },
-        {
-          "rank": 26,
-          "team": "Celta Vigo",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "0"
-        },
-        {
-          "rank": 27,
-          "team": "Levski Sofia",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-1",
-          "points": "0"
-        },
-        {
-          "rank": 28,
-          "team": "Celtic",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "0"
-        },
-        {
-          "rank": 29,
-          "team": "AC Milan",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "0"
-        },
-        {
-          "rank": 30,
-          "team": "NK Celje",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "0"
-        },
-        {
-          "rank": 31,
-          "team": "TSG Hoffenheim",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-2",
-          "points": "0"
-        },
-        {
-          "rank": 32,
+          "rank": "13",
           "team": "Marseille",
-          "played": "1",
-          "wins": "0",
+          "played": "6",
+          "wins": "2",
           "draws": "0",
-          "losses": "1",
-          "goalDifference": "-3",
-          "points": "0"
+          "losses": "4",
+          "goalDifference": "+1",
+          "points": "6"
         },
         {
-          "rank": 33,
-          "team": "Ararat-Armenia",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-3",
-          "points": "0"
+          "rank": "14",
+          "team": "Le Mans",
+          "played": "6",
+          "wins": "1",
+          "draws": "3",
+          "losses": "2",
+          "goalDifference": "-2",
+          "points": "6"
         },
         {
-          "rank": 34,
-          "team": "Viktoria Plzen",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-3",
-          "points": "0"
+          "rank": "15",
+          "team": "Toulouse",
+          "played": "6",
+          "wins": "1",
+          "draws": "3",
+          "losses": "2",
+          "goalDifference": "-2",
+          "points": "6"
         },
         {
-          "rank": 35,
-          "team": "Lech Poznan",
-          "played": "1",
-          "wins": "0",
+          "rank": "16",
+          "team": "AJ Auxerre",
+          "played": "6",
+          "wins": "2",
           "draws": "0",
-          "losses": "1",
+          "losses": "4",
+          "goalDifference": "-8",
+          "points": "6"
+        },
+        {
+          "rank": "17",
+          "team": "Troyes",
+          "played": "6",
+          "wins": "1",
+          "draws": "1",
+          "losses": "4",
+          "goalDifference": "-9",
+          "points": "4"
+        },
+        {
+          "rank": "18",
+          "team": "Le Havre AC",
+          "played": "6",
+          "wins": "0",
+          "draws": "2",
+          "losses": "4",
           "goalDifference": "-4",
+          "points": "2"
+        }
+      ]
+    },
+    {
+      "league": "NBA",
+      "format": "nba",
+      "url": "https://www.nba.com/standings",
+      "rows": [
+        {
+          "rank": "1",
+          "team": "New York Knicks",
+          "played": "4",
+          "wins": "0",
+          "losses": "4",
+          "winRate": ".000",
+          "pointDifference": "-93",
+          "gamesBehind": "3.5"
+        },
+        {
+          "rank": "2",
+          "team": "Cleveland Cavaliers",
+          "played": "3",
+          "wins": "1",
+          "losses": "2",
+          "winRate": ".333",
+          "pointDifference": "-13",
+          "gamesBehind": "2"
+        },
+        {
+          "rank": "3",
+          "team": "Indiana Pacers",
+          "played": "3",
+          "wins": "1",
+          "losses": "2",
+          "winRate": ".333",
+          "pointDifference": "+7",
+          "gamesBehind": "2"
+        },
+        {
+          "rank": "4",
+          "team": "Chicago Bulls",
+          "played": "3",
+          "wins": "1",
+          "losses": "2",
+          "winRate": ".333",
+          "pointDifference": "-2",
+          "gamesBehind": "2"
+        },
+        {
+          "rank": "5",
+          "team": "Philadelphia 76ers",
+          "played": "3",
+          "wins": "1",
+          "losses": "2",
+          "winRate": ".333",
+          "pointDifference": "-21",
+          "gamesBehind": "2"
+        },
+        {
+          "rank": "6",
+          "team": "Milwaukee Bucks",
+          "played": "3",
+          "wins": "1",
+          "losses": "2",
+          "winRate": ".333",
+          "pointDifference": "-32",
+          "gamesBehind": "2"
+        },
+        {
+          "rank": "7",
+          "team": "Detroit Pistons",
+          "played": "2",
+          "wins": "1",
+          "losses": "1",
+          "winRate": ".500",
+          "pointDifference": "-4",
+          "gamesBehind": "1.5"
+        },
+        {
+          "rank": "8",
+          "team": "Charlotte Hornets",
+          "played": "2",
+          "wins": "1",
+          "losses": "1",
+          "winRate": ".500",
+          "pointDifference": "-19",
+          "gamesBehind": "1.5"
+        },
+        {
+          "rank": "9",
+          "team": "Miami Heat",
+          "played": "3",
+          "wins": "2",
+          "losses": "1",
+          "winRate": ".667",
+          "pointDifference": "+33",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "10",
+          "team": "Washington Wizards",
+          "played": "3",
+          "wins": "2",
+          "losses": "1",
+          "winRate": ".667",
+          "pointDifference": "-1",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "11",
+          "team": "Toronto Raptors",
+          "played": "3",
+          "wins": "2",
+          "losses": "1",
+          "winRate": ".667",
+          "pointDifference": "+34",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "12",
+          "team": "Orlando Magic",
+          "played": "3",
+          "wins": "2",
+          "losses": "1",
+          "winRate": ".667",
+          "pointDifference": "+6",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "13",
+          "team": "Boston Celtics",
+          "played": "2",
+          "wins": "2",
+          "losses": "0",
+          "winRate": "1.000",
+          "pointDifference": "+49",
+          "gamesBehind": "0.5"
+        },
+        {
+          "rank": "14",
+          "team": "Atlanta Hawks",
+          "played": "4",
+          "wins": "3",
+          "losses": "1",
+          "winRate": ".750",
+          "pointDifference": "+3",
+          "gamesBehind": "0.5"
+        },
+        {
+          "rank": "15",
+          "team": "Brooklyn Nets",
+          "played": "3",
+          "wins": "3",
+          "losses": "0",
+          "winRate": "1.000",
+          "pointDifference": "+49",
+          "gamesBehind": "-"
+        },
+        {
+          "rank": "16",
+          "team": "Sacramento Kings",
+          "played": "4",
+          "wins": "0",
+          "losses": "4",
+          "winRate": ".000",
+          "pointDifference": "-45",
+          "gamesBehind": "3.5"
+        },
+        {
+          "rank": "17",
+          "team": "San Antonio Spurs",
+          "played": "3",
+          "wins": "0",
+          "losses": "3",
+          "winRate": ".000",
+          "pointDifference": "-21",
+          "gamesBehind": "3"
+        },
+        {
+          "rank": "18",
+          "team": "Oklahoma City Thunder",
+          "played": "4",
+          "wins": "1",
+          "losses": "3",
+          "winRate": ".250",
+          "pointDifference": "-9",
+          "gamesBehind": "2.5"
+        },
+        {
+          "rank": "19",
+          "team": "Phoenix Suns",
+          "played": "3",
+          "wins": "1",
+          "losses": "2",
+          "winRate": ".333",
+          "pointDifference": "-5",
+          "gamesBehind": "2"
+        },
+        {
+          "rank": "20",
+          "team": "Los Angeles Lakers",
+          "played": "4",
+          "wins": "2",
+          "losses": "2",
+          "winRate": ".500",
+          "pointDifference": "-10",
+          "gamesBehind": "1.5"
+        },
+        {
+          "rank": "21",
+          "team": "LA Clippers",
+          "played": "2",
+          "wins": "1",
+          "losses": "1",
+          "winRate": ".500",
+          "pointDifference": "-5",
+          "gamesBehind": "1.5"
+        },
+        {
+          "rank": "22",
+          "team": "Houston Rockets",
+          "played": "2",
+          "wins": "1",
+          "losses": "1",
+          "winRate": ".500",
+          "pointDifference": "+1",
+          "gamesBehind": "1.5"
+        },
+        {
+          "rank": "23",
+          "team": "Dallas Mavericks",
+          "played": "2",
+          "wins": "1",
+          "losses": "1",
+          "winRate": ".500",
+          "pointDifference": "-1",
+          "gamesBehind": "1.5"
+        },
+        {
+          "rank": "24",
+          "team": "New Orleans Pelicans",
+          "played": "2",
+          "wins": "1",
+          "losses": "1",
+          "winRate": ".500",
+          "pointDifference": "-4",
+          "gamesBehind": "1.5"
+        },
+        {
+          "rank": "25",
+          "team": "Memphis Grizzlies",
+          "played": "3",
+          "wins": "2",
+          "losses": "1",
+          "winRate": ".667",
+          "pointDifference": "+9",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "26",
+          "team": "Utah Jazz",
+          "played": "3",
+          "wins": "2",
+          "losses": "1",
+          "winRate": ".667",
+          "pointDifference": "+11",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "27",
+          "team": "Denver Nuggets",
+          "played": "3",
+          "wins": "2",
+          "losses": "1",
+          "winRate": ".667",
+          "pointDifference": "+4",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "28",
+          "team": "Golden State Warriors",
+          "played": "5",
+          "wins": "3",
+          "losses": "2",
+          "winRate": ".600",
+          "pointDifference": "+35",
+          "gamesBehind": "1"
+        },
+        {
+          "rank": "29",
+          "team": "Minnesota Timberwolves",
+          "played": "4",
+          "wins": "3",
+          "losses": "1",
+          "winRate": ".750",
+          "pointDifference": "+27",
+          "gamesBehind": "0.5"
+        },
+        {
+          "rank": "30",
+          "team": "Portland Trail Blazers",
+          "played": "3",
+          "wins": "3",
+          "losses": "0",
+          "winRate": "1.000",
+          "pointDifference": "+70",
+          "gamesBehind": "-"
+        }
+      ]
+    },
+    {
+      "league": "F1 车手",
+      "format": "f1-driver",
+      "url": "https://www.formula1.com/en/results.html/2026/drivers.html",
+      "rows": [
+        {
+          "rank": "1",
+          "team": "Kimi Antonelli",
+          "races": "2026",
+          "points": "340"
+        },
+        {
+          "rank": "2",
+          "team": "George Russell",
+          "races": "2026",
+          "points": "238"
+        },
+        {
+          "rank": "3",
+          "team": "Lewis Hamilton",
+          "races": "2026",
+          "points": "229"
+        },
+        {
+          "rank": "4",
+          "team": "Max Verstappen",
+          "races": "2026",
+          "points": "221"
+        },
+        {
+          "rank": "5",
+          "team": "Charles Leclerc",
+          "races": "2026",
+          "points": "215"
+        },
+        {
+          "rank": "6",
+          "team": "Lando Norris",
+          "races": "2026",
+          "points": "201"
+        },
+        {
+          "rank": "7",
+          "team": "Oscar Piastri",
+          "races": "2026",
+          "points": "138"
+        },
+        {
+          "rank": "8",
+          "team": "Isack Hadjar",
+          "races": "2026",
+          "points": "97"
+        },
+        {
+          "rank": "9",
+          "team": "Liam Lawson",
+          "races": "2026",
+          "points": "75"
+        },
+        {
+          "rank": "10",
+          "team": "Pierre Gasly",
+          "races": "2026",
+          "points": "41"
+        },
+        {
+          "rank": "11",
+          "team": "Arvid Lindblad",
+          "races": "2026",
+          "points": "38"
+        },
+        {
+          "rank": "12",
+          "team": "Franco Colapinto",
+          "races": "2026",
+          "points": "27"
+        },
+        {
+          "rank": "13",
+          "team": "Oliver Bearman",
+          "races": "2026",
+          "points": "23"
+        },
+        {
+          "rank": "14",
+          "team": "Nico Hülkenberg",
+          "races": "2026",
+          "points": "13"
+        },
+        {
+          "rank": "15",
+          "team": "Gabriel Bortoleto",
+          "races": "2026",
+          "points": "10"
+        },
+        {
+          "rank": "16",
+          "team": "Esteban Ocon",
+          "races": "2026",
+          "points": "7"
+        },
+        {
+          "rank": "17",
+          "team": "Fernando Alonso",
+          "races": "2026",
+          "points": "7"
+        },
+        {
+          "rank": "18",
+          "team": "Carlos Sainz",
+          "races": "2026",
+          "points": "7"
+        },
+        {
+          "rank": "19",
+          "team": "Alexander Albon",
+          "races": "2026",
+          "points": "5"
+        },
+        {
+          "rank": "20",
+          "team": "Yuki Tsunoda",
+          "races": "2026",
+          "points": "1"
+        },
+        {
+          "rank": "21",
+          "team": "Lance Stroll",
+          "races": "2026",
           "points": "0"
         },
         {
-          "rank": 36,
-          "team": "NEC Nijmegen",
-          "played": "1",
-          "wins": "0",
-          "draws": "0",
-          "losses": "1",
-          "goalDifference": "-5",
+          "rank": "22",
+          "team": "Valtteri Bottas",
+          "races": "2026",
+          "points": "0"
+        },
+        {
+          "rank": "23",
+          "team": "Sergio Pérez",
+          "races": "2026",
+          "points": "0"
+        }
+      ]
+    },
+    {
+      "league": "F1 车队",
+      "format": "f1-team",
+      "url": "https://www.formula1.com/en/results.html/2026/team.html",
+      "rows": [
+        {
+          "rank": "1",
+          "team": "Mercedes",
+          "races": "2026",
+          "points": "578"
+        },
+        {
+          "rank": "2",
+          "team": "Ferrari",
+          "races": "2026",
+          "points": "444"
+        },
+        {
+          "rank": "3",
+          "team": "McLaren",
+          "races": "2026",
+          "points": "339"
+        },
+        {
+          "rank": "4",
+          "team": "Red Bull",
+          "races": "2026",
+          "points": "332"
+        },
+        {
+          "rank": "5",
+          "team": "Racing Bulls",
+          "races": "2026",
+          "points": "100"
+        },
+        {
+          "rank": "6",
+          "team": "Alpine",
+          "races": "2026",
+          "points": "68"
+        },
+        {
+          "rank": "7",
+          "team": "Haas",
+          "races": "2026",
+          "points": "30"
+        },
+        {
+          "rank": "8",
+          "team": "Audi",
+          "races": "2026",
+          "points": "23"
+        },
+        {
+          "rank": "9",
+          "team": "Williams",
+          "races": "2026",
+          "points": "12"
+        },
+        {
+          "rank": "10",
+          "team": "Aston Martin",
+          "races": "2026",
+          "points": "7"
+        },
+        {
+          "rank": "11",
+          "team": "Cadillac",
+          "races": "2026",
           "points": "0"
         }
       ]

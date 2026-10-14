@@ -5,6 +5,23 @@ import standingsSnapshot from '../data/sportsStandings.json'
 
 type League = 'NBA' | '英超' | '皇马' | 'AC 米兰' | '欧冠' | '欧联'
 type Match = { id: string; league: League; title: string; at: string; url: string }
+type StandingFormat = 'football' | 'nba' | 'f1-driver' | 'f1-team'
+type StandingRow = {
+  rank: string | number
+  team: string
+  played?: string
+  wins?: string
+  draws?: string
+  losses?: string
+  goalDifference?: string
+  points?: string
+  winRate?: string
+  pointDifference?: string
+  gamesBehind?: string
+  races?: string
+}
+type StandingTable = { league: string; format: StandingFormat; url: string; rows: StandingRow[] }
+const standingsTables = standingsSnapshot.tables as unknown as StandingTable[]
 type Room = { name: string; url: string; platform: string }
 const officialSchedules = [
   { label: 'NBA 赛程', url: 'https://www.nba.com/schedule' },
@@ -104,7 +121,7 @@ export function WatchHub() {
   const futureMatches = matches.filter((match) => new Date(match.at).getTime() > today)
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
   const upcoming = futureMatches.slice(0, visibleCount)
-  const standings = standingsSnapshot.tables.find((table) => table.league === standingsLeague)
+  const standings = standingsTables.find((table) => table.league === standingsLeague)
 
   useEffect(() => {
     let active = true
@@ -133,7 +150,7 @@ export function WatchHub() {
 
   return <section className="watch-hub" aria-labelledby="watch-heading">
     <div className="watch-heading">
-      <div><p className="eyebrow">THE GAME DESK / 观赛中心</p><h2 id="watch-heading">比赛，就在眼前。</h2><p>关注 NBA、皇马、AC 米兰、英超、欧冠与欧联。</p></div>
+      <div><p className="eyebrow">THE GAME DESK / 观赛中心</p><h2 id="watch-heading">比赛，就在眼前。</h2><p>赛程聚合 NBA、皇马、AC 米兰、英超、欧冠与欧联；积分榜覆盖五大联赛、NBA 与 F1。</p></div>
       <span className="watch-timezone">ASIA / SHANGHAI · UTC+8</span>
     </div>
     <div className="watch-grid">
@@ -152,9 +169,12 @@ export function WatchHub() {
           <div className="watch-official">{officialSchedules.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer">{item.label}<ArrowUpRight size={14} /></a>)}</div>
           <p className="watch-note">赛程来自 ESPN，每日生成快照并在访问时尝试刷新；比赛时间以赛事官网为准。</p>
         </div> : <div className="watch-standings" role="tabpanel">
-          <div className="watch-standings-controls"><label htmlFor="watch-standings-league">联赛 / 杯赛</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsSnapshot.tables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">完整榜单<ArrowUpRight size={14} /></a>}</div>
-          {standings ? <div className="watch-standings-scroll"><table><thead><tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr></thead><tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row">{row.team}</th><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></tr>)}</tbody></table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
-          <p className="watch-note">积分榜每日更新；皇马与 AC 米兰已在对应联赛中标出。数据来自 ESPN。</p>
+          <div className="watch-standings-controls"><label htmlFor="watch-standings-league">项目</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsTables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">官方榜单<ArrowUpRight size={14} /></a>}</div>
+          {standings ? <div className="watch-standings-scroll"><table>
+            <thead>{standings.format === 'football' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr>}{standings.format === 'nba' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">负</th><th scope="col">胜率</th><th scope="col">净胜分</th><th scope="col">胜场差</th></tr>}{standings.format.startsWith('f1') && <tr><th scope="col">排名</th><th scope="col">{standings.format === 'f1-driver' ? '车手' : '车队'}</th><th scope="col">赛季</th><th scope="col">积分</th></tr>}</thead>
+            <tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row">{row.team}</th>{standings.format === 'football' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></>}{standings.format === 'nba' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.losses}</td><td>{row.winRate}</td><td>{row.pointDifference}</td><td>{row.gamesBehind}</td></>}{standings.format.startsWith('f1') && <><td>{row.races}</td><td><strong>{row.points}</strong></td></>}</tr>)}</tbody>
+          </table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
+          <p className="watch-note">覆盖英超、西甲、意甲、德甲、法甲、NBA，以及 F1 车手和车队；数据每日更新，详细规则以官方榜单为准。</p>
         </div>}
       </div>
       <aside className="watch-panel watch-side">
