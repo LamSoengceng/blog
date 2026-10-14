@@ -82,7 +82,7 @@ export function TrainingPage() {
         </p>
       </div>
 
-      <div className="section-heading compact-heading">
+      <div className="section-heading compact-heading" id="journal">
         <p className="eyebrow">Journal · 心迹</p>
         <h2>写一篇日记</h2>
         <p>

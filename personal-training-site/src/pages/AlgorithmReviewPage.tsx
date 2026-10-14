@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { algorithmProblems, type AlgorithmProblem, type AlgorithmProblemSummary } from '../data/algorithm'
 import { HighlightText } from '../utils/HighlightText'
 import { FeynmanCheck } from '../components/FeynmanCheck'
+import { MarkdownContent } from '../components/MarkdownContent'
 import { loadFeynmanScore } from '../utils/feynmanStore'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import { loadReviewPrefs, onReviewPrefsChange, openSiteSettings, type ReviewPrefs } from '../utils/settings'
@@ -487,7 +488,7 @@ export function AlgorithmReviewPage() {
               {aiMessages.map((message, index) => (
                 <div className={`ai-message ${message.role}`} key={index}>
                   <span>{message.role === 'user' ? '我' : 'AI'}</span>
-                  <p>{message.content}</p>
+                  {message.role === 'assistant' ? <MarkdownContent text={message.content} /> : <p>{message.content}</p>}
                 </div>
               ))}
               {aiLoading ? <p className="ai-note">AI 思考中…</p> : null}

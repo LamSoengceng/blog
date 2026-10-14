@@ -3,6 +3,7 @@ import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
 import { buildKnowledgeChunks, retrieveChunks, type KnowledgeChunk } from '../utils/siteKnowledge'
 import { buildRequestMessages } from '../utils/askContext'
 import { openSiteSettings } from '../utils/settings'
+import { MarkdownContent } from '../components/MarkdownContent'
 
 type AskMessage = { role: 'user' | 'assistant'; content: string; sources?: KnowledgeChunk[] }
 
@@ -104,7 +105,7 @@ export function AskPage() {
         {messages.map((message, index) => (
           <div className={`ask-message ${message.role}`} key={index}>
             <span>{message.role === 'user' ? '我' : '站内助手'}</span>
-            <p>{message.content}</p>
+            {message.role === 'assistant' ? <MarkdownContent text={message.content} /> : <p>{message.content}</p>}
             {message.sources?.length ? (
               <details className="ask-sources">
                 <summary>引用了 {message.sources.length} 段站内资料</summary>
@@ -122,10 +123,7 @@ export function AskPage() {
         {loading || streamingText ? (
           <div className="ask-message assistant">
             <span>站内助手</span>
-            <p>
-              {streamingText}
-              {loading ? <span className="feynman-caret" /> : null}
-            </p>
+            <MarkdownContent text={streamingText} streaming={loading} />
           </div>
         ) : null}
         {error ? <p className="ai-note ai-error">{error}</p> : null}
@@ -134,10 +132,11 @@ export function AskPage() {
       <div className="ask-input-row">
         <div className="ask-input-stack">
           <textarea
+            aria-label="你的问题"
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={(event) => {
-              if (event.key === 'Enter' && !event.shiftKey) {
+              if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
                 event.preventDefault()
                 ask()
               }

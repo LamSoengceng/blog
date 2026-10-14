@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
+import { ArrowDown, ArrowUpRight, BookOpen, Code2, Dumbbell, FolderGit2, MessageCircle, TrendingUp } from 'lucide-react'
 import { algorithmMeta } from '../data/algorithmMeta'
 import { blogPosts, featuredBlogPost } from '../data/blogData'
-import { metricCards } from '../data/fitnessData'
+import { xunjiDaySummaries } from '../data/xunjiData'
 import { stockMeta } from '../data/stockData'
 
 const BG_IMAGE_1 =
@@ -15,14 +16,15 @@ function PersonalHero() {
 
   useEffect(() => {
     const hero = heroRef.current
-    if (!hero || !window.matchMedia('(pointer: fine)').matches) return undefined
+    if (!hero || !window.matchMedia('(pointer: fine)').matches || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
 
     let cursorX = -999
     let cursorY = -999
 
     const handlePointerMove = (event: PointerEvent) => {
-      cursorX = event.clientX
-      cursorY = event.clientY
+      const bounds = hero.getBoundingClientRect()
+      cursorX = event.clientX - bounds.left
+      cursorY = event.clientY - bounds.top
       if (rafRef.current !== null) return
 
       rafRef.current = window.requestAnimationFrame(() => {
@@ -43,63 +45,25 @@ function PersonalHero() {
   }, [])
 
   return (
-    <section ref={heroRef} className="personal-hero relative w-full overflow-hidden h-screen bg-black" style={{ height: '100dvh' }}>
-      <div
-        className="absolute inset-0 bg-center bg-cover bg-no-repeat z-10 hero-zoom"
-        style={{ backgroundImage: `url(${BG_IMAGE_1})` }}
-      />
-      <div
-        className="hero-reveal-layer absolute inset-0 bg-center bg-cover bg-no-repeat z-30 pointer-events-none"
-        aria-hidden="true"
-        style={{ backgroundImage: `url(${BG_IMAGE_2})` }}
-      />
-
-      <div className="absolute top-[14%] left-0 right-0 flex flex-col items-center text-center px-5 pointer-events-none z-50">
-        <h1 className="text-white leading-[0.95]">
-          <span
-            className="block font-playfair italic font-normal text-5xl sm:text-7xl md:text-8xl hero-anim hero-reveal"
-            style={{ letterSpacing: '-0.05em', animationDelay: '0.25s' }}
-          >
-            Lam
-          </span>
-          <span
-            className="block font-playfair italic font-normal text-5xl sm:text-7xl md:text-8xl -mt-1 hero-anim hero-reveal"
-            style={{ letterSpacing: '-0.08em', animationDelay: '0.42s' }}
-          >
-            Soengceng
-          </span>
-        </h1>
-        <p
-          className="mt-5 max-w-[560px] text-xs sm:text-sm text-white/70 leading-relaxed hero-anim hero-fade"
-          style={{ animationDelay: '0.6s' }}
-        >
-          Personal blog about training data, algorithm practice, frontend learning, and agent-built projects.
-        </p>
+    <section className="workspace-hero" aria-labelledby="home-title">
+      <div className="workspace-hero-copy">
+        <p className="workspace-kicker"><span /> PERSONAL WORKSPACE / 持续生长</p>
+        <h1 id="home-title"><span className="font-playfair">Lam</span><span className="font-playfair">Soengceng<span className="workspace-title-dot">.</span></span></h1>
+        <h2>把每一点进步，记在这里。</h2>
+        <p className="workspace-intro">训练身体，练习思考，认真记录。这里是我的博客，也是把算法、训练和项目慢慢做扎实的个人工作台。</p>
+        <div className="workspace-hero-actions">
+          <Link className="workspace-action-primary" to="/algorithm/review">开始算法复习<ArrowUpRight size={18} /></Link>
+          <Link className="workspace-action-secondary" to="/training#journal">写一篇日记<BookOpen size={17} /></Link>
+        </div>
+        <Link className="workspace-browse" to="/#explore">探索我的工作台<ArrowDown size={15} /></Link>
       </div>
-
-      <div
-        className="hidden sm:block absolute bottom-14 left-10 md:left-14 max-w-[260px] z-50 hero-anim hero-fade"
-        style={{ animationDelay: '0.7s' }}
-      >
-        <p className="text-sm text-white/80 leading-relaxed">
-          这里不是一个静态名片页，而是我把训练、算法、前端和 Agent 开发持续沉淀下来的公开工作台。
-        </p>
-      </div>
-
-      <div
-        className="absolute bottom-10 sm:bottom-24 left-5 right-5 sm:left-auto sm:right-10 md:right-14 max-w-full sm:max-w-[260px] flex flex-col items-start gap-4 sm:gap-5 z-50 hero-anim hero-fade"
-        style={{ animationDelay: '0.85s' }}
-      >
-        <p className="text-xs sm:text-sm text-white/80 leading-relaxed">
-          数据来自本地脚本和公开内容：训练看长期变化，算法看题型与错因，博客记录每次技术选择。
-        </p>
-        <Link
-          className="bg-[#30f27b] hover:bg-[#94ffbd] text-[#031006] text-sm font-semibold px-7 py-3 rounded-full transition-all hover:scale-[1.03] active:scale-95 hover:shadow-lg hover:shadow-[#30f27b]/30"
-          to="/blog"
-        >
-          Read Notes
-        </Link>
-      </div>
+      <aside ref={heroRef} className="workspace-hero-art" aria-label="工作台封面">
+        <div className="workspace-art-image" style={{ backgroundImage: `url(${BG_IMAGE_1})` }} aria-hidden="true" />
+        <div className="hero-reveal-layer workspace-art-image" style={{ backgroundImage: `url(${BG_IMAGE_2})` }} aria-hidden="true" />
+        <div className="workspace-art-shade" aria-hidden="true" />
+        <div className="workspace-art-label"><span>THE LONG GAME</span><span>01 / 记录与生长</span></div>
+        <div className="workspace-art-caption"><span>一点一点，成为想成为的人。</span><p>BUILD. LEARN. REPEAT.</p></div>
+      </aside>
     </section>
   )
 }
@@ -107,39 +71,63 @@ function PersonalHero() {
 const homeModules = [
   {
     eyebrow: 'Blog',
+    icon: BookOpen,
     title: '个人博客',
     description: '训练、算法、Agent 开发和网站迭代的长期记录。文章是入口，专题页是证据。',
     stat: blogPosts.length.toString(),
-    detail: 'Posts',
+    detail: '篇记录',
     to: '/blog',
     action: '进入博客',
   },
   {
     eyebrow: 'Training',
+    icon: Dumbbell,
     title: '自我提升',
     description: '写给自己看的日记，加上身体训练的长期数据：频率、主项变化、肌群覆盖和 PR。',
-    stat: metricCards[0].value,
-    detail: metricCards[2].value,
+    stat: xunjiDaySummaries.filter((day) => day.sessions > 0).length.toString(),
+    detail: '个训练日 · 已同步记录',
     to: '/training',
     action: '进入提升页',
   },
   {
     eyebrow: 'Algorithm',
+    icon: Code2,
     title: '算法专题',
     description: 'Hot100 进度、题型分类、面试写法，以及从本地 Python 注释提取的踩坑记录。',
     stat: `${algorithmMeta.solved}/${algorithmMeta.total}`,
-    detail: 'Hot100',
+    detail: '题已完成 · 含拓展',
     to: '/algorithm',
     action: '进入算法页',
   },
   {
+    eyebrow: 'Feynman',
+    icon: MessageCircle,
+    title: '费曼练习',
+    description: '用自己的话讲清一个知识点，再通过反馈找到理解中的缺口。',
+    stat: '讲清楚',
+    detail: '才算真正理解',
+    to: '/feynman',
+    action: '开始讲述',
+  },
+  {
     eyebrow: 'Stock',
+    icon: TrendingUp,
     title: 'A 股股票观察',
-    description: '面向 50w 资金量的 A 股观察页：指数、涨停结构、连板高度、热榜、龙虎榜、行业与 ETF，同花顺真实数据。',
+    description: '查看指数、行业和市场结构，结合数据日期阅读已同步的市场快照。',
     stat: stockMeta.trackedMarkets.toString(),
-    detail: 'Stocks',
+    detail: '个观察标的',
     to: '/stock',
     action: '进入股票页',
+  },
+  {
+    eyebrow: 'Projects',
+    icon: FolderGit2,
+    title: '项目与实践',
+    description: '从一个想法到可以使用的作品，留下实现过程、技术选择与复盘。',
+    stat: '边做边学',
+    detail: '让想法落地',
+    to: '/projects',
+    action: '查看项目',
   },
 ]
 
@@ -151,11 +139,12 @@ export function HomePage() {
       <PersonalHero />
 
       <div className="home-after-hero">
-        <section className="home-module-grid" aria-label="网站主板块">
+        <section className="workspace-explore-heading" id="explore"><div><p className="eyebrow">Explore / 从这里开始</p><h2>今天，想做点什么？</h2></div><p>留一点时间，给长期值得做的事。</p></section>
+        <section className="home-module-grid workspace-module-grid" aria-label="网站主板块">
           {homeModules.map((module) => (
             <Link className="home-module-card" key={module.title} to={module.to}>
               <div>
-                <p className="eyebrow">{module.eyebrow}</p>
+                <div className="workspace-module-top"><p className="eyebrow">{module.eyebrow}</p><module.icon size={21} strokeWidth={1.5} /></div>
                 <h2>{module.title}</h2>
                 <p>{module.description}</p>
               </div>
@@ -163,7 +152,7 @@ export function HomePage() {
                 <strong>{module.stat}</strong>
                 <span>{module.detail}</span>
               </div>
-              <b>{module.action}</b>
+              <b>{module.action}<ArrowUpRight size={16} /></b>
             </Link>
           ))}
         </section>
@@ -212,7 +201,7 @@ export function HomePage() {
         <section className="workflow-section" id="workflow">
           <div className="section-heading">
             <p className="eyebrow">Data workflow</p>
-            <h2>公开网页不直接碰私密接口。</h2>
+            <h2>记录如何来到这里。</h2>
           </div>
           <div className="workflow-grid">
             <article>
@@ -228,7 +217,7 @@ export function HomePage() {
             <article>
               <span>03</span>
               <h3>静态发布</h3>
-              <p>GitHub Pages 只托管前端和公开数据，浏览器不会看到 API key。</p>
+              <p>网站展示已生成的数据快照；同步密钥只用于本地脚本，不随网页发布。</p>
             </article>
           </div>
         </section>

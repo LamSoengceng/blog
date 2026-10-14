@@ -1,8 +1,9 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { Menu, Settings } from 'lucide-react'
+import { ArrowUpRight, Menu, Search, Settings, X } from 'lucide-react'
 import './App.css'
 import { SettingsModal } from './components/SettingsModal'
+import { useDialogFocus } from './hooks/useDialogFocus'
 
 const AlgorithmPage = lazy(() => import('./pages/AlgorithmPage').then((module) => ({ default: module.AlgorithmPage })))
 const AlgorithmReviewPage = lazy(() =>
@@ -30,37 +31,46 @@ const XunjiLogPage = lazy(() => import('./pages/XunjiLogPage').then((module) => 
 const WrappedPage = lazy(() => import('./pages/WrappedPage').then((module) => ({ default: module.WrappedPage })))
 
 const navItems = [
-  { label: 'Blog', to: '/blog' },
-  { label: 'Growth', to: '/training' },
-  { label: 'Algorithm', to: '/algorithm' },
-  { label: 'Feynman', to: '/feynman' },
-  { label: 'Stock', to: '/stock' },
-  { label: 'Projects', to: '/projects' },
-  { label: 'Wrapped', to: '/wrapped' },
-  { label: 'Notes', to: '/blog/personal-site-as-lab' },
-  { label: 'Ask', to: '/ask' },
+  { label: '首页', to: '/' },
+  { label: '博客', to: '/blog' },
+  { label: '自我提升', to: '/training' },
+  { label: '算法练习', to: '/algorithm' },
+  { label: '费曼练习', to: '/feynman' },
+  { label: '股票观察', to: '/stock' },
+  { label: '项目', to: '/projects' },
+  { label: '年度回顾', to: '/wrapped' },
 ]
 
 function ScrollManager() {
   const location = useLocation()
+  const firstRender = useRef(true)
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
       if (location.hash) {
-        document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'smooth' })
+        document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'auto' })
       } else {
         window.scrollTo({ top: 0, behavior: 'auto' })
       }
+      if (!firstRender.current && !location.hash) document.getElementById('main-content')?.focus({ preventScroll: true })
+      firstRender.current = false
     })
 
     return () => window.cancelAnimationFrame(frame)
   }, [location.pathname, location.hash])
 
+  useEffect(() => {
+    const label = location.pathname.startsWith('/ask') ? '问我的站'
+      : location.pathname.startsWith('/xunji-log') ? '训练日志'
+      : navItems.find((item) => item.to !== '/' && location.pathname.startsWith(item.to))?.label ?? '个人工作台'
+    document.title = `${label} · Lam Soengceng`
+  }, [location.pathname])
+
   return null
 }
 
 function PageFallback() {
-  return <div className="page-loading" role="status">Loading page...</div>
+  return <div className="page-loading" role="status">正在加载页面…</div>
 }
 
 function NotFoundPage() {
@@ -79,6 +89,10 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [lastLocation, setLastLocation] = useState(location)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const closeMenu = useCallback(() => setMenuOpen(false), [])
+  const closeSettings = useCallback(() => setSettingsOpen(false), [])
+  useDialogFocus(menuOpen, menuRef, closeMenu)
 
   // 路由变化时收起菜单：渲染期对比 location，比 effect 里同步 setState 少一次级联渲染
   if (lastLocation !== location) {
@@ -87,38 +101,46 @@ function App() {
   }
 
   useEffect(() => {
-    const openSettings = () => setSettingsOpen(true)
+    const openSettings = () => { setMenuOpen(false); setSettingsOpen(true) }
     window.addEventListener('open-site-settings', openSettings)
     return () => window.removeEventListener('open-site-settings', openSettings)
   }, [])
 
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1180px)')
+    const handleResize = () => { if (desktop.matches) closeMenu() }
+    desktop.addEventListener('change', handleResize)
+    return () => desktop.removeEventListener('change', handleResize)
+  }, [closeMenu])
+
   return (
-    <main className="min-h-screen bg-[#050806] tracking-[-0.02em]" style={{ fontFamily: 'var(--font-sans)' }}>
-      <nav className="fixed top-0 left-0 right-0 z-[100] flex items-center justify-between border-b border-white/5 bg-[#050806]/70 p-4 backdrop-blur-sm sm:p-5">
-        <Link className="flex items-center gap-2" to="/" aria-label="返回首页">
+    <div className="site-shell">
+      <a className="skip-link" href="#main-content">跳到主要内容</a>
+      <header className="workbench-header">
+        <Link className="workbench-brand" to="/" aria-label="Lam 的工作台，返回首页">
           <svg width="26" height="26" viewBox="0 0 256 256" fill="#ffffff" aria-hidden="true">
             <path d="M 256 256 L 128 256 L 0 128 L 128 128 Z M 256 128 L 128 128 L 0 0 L 128 0 Z" />
           </svg>
-          <span className="text-white text-2xl font-playfair italic">Lam</span>
+          <span><b className="font-playfair">Lam</b><small>个人工作台</small></span>
         </Link>
 
-        <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 bg-white/15 backdrop-blur-md border border-white/25 rounded-full px-2 py-2 items-center gap-1 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
+        <nav className="workbench-navigation" aria-label="主导航">
           {navItems.map((item) => (
             <NavLink
-              className={({ isActive }) =>
-                `text-white/80 hover:bg-white/20 hover:text-white transition-colors px-4 py-1.5 rounded-full text-sm font-medium ${isActive ? 'bg-white/20 text-white' : ''}`
-              }
+              className="workbench-nav-link"
+              end={item.to === '/'}
               key={item.label}
               to={item.to}
             >
               {item.label}
             </NavLink>
           ))}
-        </div>
+        </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="workbench-header-actions">
+          <NavLink className="workbench-ask-link" to="/ask"><Search size={16} /><span>问我的站</span></NavLink>
           <button
-            className="settings-trigger"
+            className="settings-trigger workbench-icon-button"
             type="button"
             aria-label="网站设置"
             title="网站设置"
@@ -126,33 +148,36 @@ function App() {
           >
             <Settings size={18} />
           </button>
-          <Link className="hidden md:block bg-[#30f27b] text-[#031006] text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-[#94ffbd] transition-colors shadow-lg shadow-[#30f27b]/20" to="/blog">
-            Read Blog
-          </Link>
           <button
-            className="md:hidden text-white"
+            className="workbench-menu-button workbench-icon-button"
             type="button"
             aria-label={menuOpen ? '关闭菜单' : '打开菜单'}
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen((open) => !open)}
           >
-            <Menu size={28} strokeWidth={2} />
+            {menuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
-      </nav>
+      </header>
 
       {menuOpen ? (
-        <div className="mobile-navigation" id="mobile-navigation">
-          {navItems.map((item) => (
-            <NavLink className="mobile-navigation-link" key={item.label} to={item.to}>
-              {item.label}
-            </NavLink>
-          ))}
+        <div className="workbench-menu-overlay" onClick={closeMenu} role="presentation">
+          <div className="workbench-menu-panel" id="mobile-navigation" ref={menuRef} role="dialog" aria-modal="true" aria-label="网站导航" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
+            <div className="workbench-menu-heading"><span>去哪里看看？</span><button className="workbench-icon-button" type="button" aria-label="关闭导航" onClick={closeMenu}><X size={22} /></button></div>
+            <nav aria-label="折叠导航">
+              {[...navItems, { label: '问我的站', to: '/ask' }].map((item) => (
+                <NavLink className="workbench-menu-link" end={item.to === '/'} key={item.to} to={item.to}>
+                  {item.label}<ArrowUpRight size={16} />
+                </NavLink>
+              ))}
+            </nav>
+            <Link className="workbench-menu-review" to="/algorithm/review">继续算法复习 →</Link>
+          </div>
         </div>
       ) : null}
 
-      <ScrollManager />
+      <main id="main-content" tabIndex={-1}>
       <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -173,9 +198,15 @@ function App() {
           <Route path="/algorithm/:problemSlug" element={<AlgorithmDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        <ScrollManager />
       </Suspense>
-      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
-    </main>
+      </main>
+      <footer className="workbench-footer">
+        <div><Link to="/" className="font-playfair">Lam Soengceng</Link><p>记录过程，也记录每一点进步。</p></div>
+        <nav aria-label="页脚导航"><Link to="/blog">读博客</Link><Link to="/projects">看项目</Link><Link to="/ask">问我的站</Link></nav>
+      </footer>
+      <SettingsModal open={settingsOpen} onClose={closeSettings} />
+    </div>
   )
 }
 

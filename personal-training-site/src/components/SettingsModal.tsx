@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 import { X } from 'lucide-react'
+import { useDialogFocus } from '../hooks/useDialogFocus'
 import { chatCompletion, loadAiConfig, saveAiConfig, type AiChatConfig } from '../utils/aiChat'
 import { loadReviewPrefs, saveReviewPrefs, type ReviewPrefs } from '../utils/settings'
 
@@ -12,14 +13,8 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
   const [aiTestResult, setAiTestResult] = useState('')
   const [prefs, setPrefs] = useState<ReviewPrefs>(loadReviewPrefs)
 
-  useEffect(() => {
-    if (!open) return
-    const handler = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onClose()
-    }
-    window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
-  }, [open, onClose])
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useDialogFocus(open, dialogRef, onClose)
 
   if (!open) return null
 
@@ -54,6 +49,8 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
     <div className="settings-overlay" onClick={onClose} role="presentation">
       <div
         className="settings-dialog"
+        ref={dialogRef}
+        tabIndex={-1}
         role="dialog"
         aria-modal="true"
         aria-label="网站设置"
@@ -105,9 +102,9 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
             <button className="review-btn primary review-btn-small" type="button" onClick={saveAi} disabled={aiTesting}>
               {aiTesting ? '验证中…' : '保存并验证'}
             </button>
-            {aiSaved ? <span className="settings-saved">已保存</span> : null}
+            <span className="settings-saved" role="status">{aiSaved ? '已保存' : ''}</span>
           </div>
-          {aiTestResult ? <p className="ai-test-result">{aiTestResult}</p> : null}
+          {aiTestResult ? <p className="ai-test-result" role="status">{aiTestResult}</p> : null}
         </section>
 
         <section className="settings-section">
@@ -119,10 +116,10 @@ export function SettingsModal({ open, onClose }: { open: boolean; onClose: () =>
               min={0}
               max={reviewPoolSafeMax}
               value={prefs.queueLimit}
-              onChange={(event) => updatePrefs({ queueLimit: Math.max(0, Number(event.target.value) || 0) })}
+              onChange={(event) => updatePrefs({ queueLimit: Math.min(reviewPoolSafeMax, Math.max(0, Math.floor(Number(event.target.value) || 0))) })}
             />
           </label>
-          <p className="ai-note">0 = 不限制（当前标记二刷共 50 道）。改动在下一轮队列生效。</p>
+          <p className="ai-note">0 表示不限制，最多可设为 {reviewPoolSafeMax} 道。改动在下一轮队列生效。</p>
           <label className="settings-check-row">
             <input
               type="checkbox"

@@ -1,8 +1,19 @@
+import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Search, X } from 'lucide-react'
 import { blogCategories, blogPosts, featuredBlogPost } from '../data/blogData'
 
 export function BlogPage() {
-  const recentPosts = blogPosts.filter((post) => post.slug !== featuredBlogPost.slug)
+  const [query, setQuery] = useState('')
+  const [category, setCategory] = useState('全部')
+  const filtering = Boolean(query.trim()) || category !== '全部'
+  const recentPosts = useMemo(() => blogPosts.filter((post) => {
+    if (!filtering && post.slug === featuredBlogPost.slug) return false
+    const matchesCategory = category === '全部' || post.category === category
+    const searchable = [post.title, post.summary, ...post.tags].join(' ').toLocaleLowerCase()
+    return matchesCategory && searchable.includes(query.trim().toLocaleLowerCase())
+  }), [query, category, filtering])
+  const resetFilters = () => { setQuery(''); setCategory('全部') }
   const categoryCounts = blogCategories.map((category) => ({
     category,
     count: blogPosts.filter((post) => post.category === category).length,
@@ -26,7 +37,7 @@ export function BlogPage() {
         </aside>
       </div>
 
-      <Link className="blog-feature-card" to={`/blog/${featuredBlogPost.slug}`}>
+      {!filtering ? <Link className="blog-feature-card" to={`/blog/${featuredBlogPost.slug}`}>
         <div>
           <p className="eyebrow">{featuredBlogPost.category}</p>
           <h2>{featuredBlogPost.title}</h2>
@@ -37,7 +48,7 @@ export function BlogPage() {
           </div>
         </div>
         <strong>{featuredBlogPost.heroMetric}</strong>
-      </Link>
+      </Link> : null}
 
       <div className="blog-directory-layout">
         <aside className="blog-sidebar" aria-label="博客索引">
@@ -68,12 +79,17 @@ export function BlogPage() {
         </aside>
 
         <div>
-          <div className="blog-category-row" aria-label="博客分类">
-            {blogCategories.map((category) => (
-              <span key={category}>{category}</span>
+          <div className="blog-search-toolbar">
+            <label className="blog-search-label" htmlFor="blog-search">搜索文章</label>
+            <div className="blog-search-field"><Search size={18} aria-hidden="true" /><input id="blog-search" type="search" placeholder="搜索标题、摘要或标签…" value={query} onChange={(event) => setQuery(event.target.value)} />{query ? <button type="button" aria-label="清空搜索" onClick={() => setQuery('')}><X size={18} /></button> : null}</div>
+          </div>
+          <div className="blog-category-row blog-filter-buttons" role="group" aria-label="博客分类">
+            {['全部', ...blogCategories].map((item) => (
+              <button type="button" key={item} aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>
             ))}
           </div>
-
+          <p className="blog-result-count" role="status">{filtering ? `找到 ${recentPosts.length} 篇文章` : `共 ${blogPosts.length} 篇文章 · 精选文章置顶`}{filtering ? <button type="button" onClick={resetFilters}>重置筛选</button> : null}</p>
+          {recentPosts.length === 0 ? <div className="blog-empty-state"><Search size={28} aria-hidden="true" /><h3>还没有找到相关文章</h3><p>试试更短的关键词，或者切换到其他主题。</p><button type="button" className="review-btn ghost" onClick={resetFilters}>查看全部文章</button></div> : null}
           <div className="blog-post-grid">
             {recentPosts.map((post) => (
               <Link className="blog-post-card" key={post.slug} to={`/blog/${post.slug}`}>
