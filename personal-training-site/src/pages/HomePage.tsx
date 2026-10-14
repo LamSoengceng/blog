@@ -6,10 +6,6 @@ import { blogPosts, featuredBlogPost } from '../data/blogData'
 import { xunjiDaySummaries } from '../data/xunjiData'
 import { stockMeta } from '../data/stockData'
 
-const BG_IMAGE_1 =
-  'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_195923_b0ba8ace-1d1d-4f2c-9a28-1ab84b330680.png&w=1280&q=85'
-const BG_IMAGE_2 =
-  'https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260609_201152_bba90a12-bf12-459f-91f0-51f237dbaf3b.png&w=1280&q=85'
 function PersonalHero() {
   const heroRef = useRef<HTMLElement | null>(null)
   const rafRef = useRef<number | null>(null)
@@ -58,11 +54,12 @@ function PersonalHero() {
         <Link className="workspace-browse" to="/#explore">探索我的工作台<ArrowDown size={15} /></Link>
       </div>
       <aside ref={heroRef} className="workspace-hero-art" aria-label="工作台封面">
-        <div className="workspace-art-image" style={{ backgroundImage: `url(${BG_IMAGE_1})` }} aria-hidden="true" />
-        <div className="hero-reveal-layer workspace-art-image" style={{ backgroundImage: `url(${BG_IMAGE_2})` }} aria-hidden="true" />
+        <div className="workspace-art-image" aria-hidden="true" />
+        <div className="hero-reveal-layer workspace-art-image" aria-hidden="true" />
         <div className="workspace-art-shade" aria-hidden="true" />
         <div className="workspace-art-label"><span>THE LONG GAME</span><span>01 / 记录与生长</span></div>
-        <div className="workspace-art-caption"><span>一点一点，成为想成为的人。</span><p>BUILD. LEARN. REPEAT.</p></div>
+        <div className="workspace-art-center" aria-hidden="true"><span>01</span><span className="workspace-art-orbit" /><span className="workspace-art-orbit workspace-art-orbit-small" /></div>
+        <div className="workspace-art-caption"><span>一点一点，成为想成为的人。</span><p>BUILD · LEARN · REPEAT</p></div>
       </aside>
     </section>
   )
