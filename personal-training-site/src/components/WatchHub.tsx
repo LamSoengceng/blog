@@ -95,7 +95,11 @@ export function WatchHub() {
   const [scheduleState, setScheduleState] = useState(() => scheduleSnapshot.matches.length
     ? `更新于 ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(scheduleSnapshot.generatedAt))}`
     : '显示备用赛程')
-  const upcoming = matches.filter((match) => new Date(match.at).getTime() > today && (league === '全部' || match.league === league)).slice(0, 8)
+  const futureMatches = matches.filter((match) => new Date(match.at).getTime() > today)
+  const upcoming = league === '全部'
+    ? scheduleSources.flatMap((source) => futureMatches.filter((match) => match.league === source.league).slice(0, 2))
+      .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
+    : futureMatches.filter((match) => match.league === league).slice(0, 8)
 
   useEffect(() => {
     let active = true
