@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowUpRight, CalendarPlus2, Radio, Trash2 } from 'lucide-react'
 import scheduleSnapshot from '../data/sportsSchedule.json'
 import standingsSnapshot from '../data/sportsStandings.json'
+import { getTeamName } from '../data/teamNames'
 
 type League = 'NBA' | '英超' | '皇马' | 'AC 米兰' | '欧冠' | '欧联'
 type Match = { id: string; league: League; title: string; at: string; url: string }
@@ -30,6 +31,8 @@ const officialSchedules = [
   { label: '意甲赛程', url: 'https://www.legaseriea.it/en/serie-a/match-report' },
   { label: '欧冠赛程', url: 'https://www.uefa.com/uefachampionsleague/fixtures-results/' },
   { label: '欧联赛程', url: 'https://www.uefa.com/uefaeuropaleague/fixtures-results/' },
+  { label: '腾讯体育', url: 'https://sports.qq.com/' },
+  { label: '咪咕赛程', url: 'https://www.miguvideo.com/p/schedule/' },
 ]
 const starterRoom: Room = { name: '墨衣moyi', platform: '斗鱼', url: 'https://www.douyu.com/8834570' }
 const storageKey = 'lam-watch-rooms-v1'
@@ -106,6 +109,14 @@ function calendarHref(match: Match) {
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(body)}`
 }
 
+function getMatchTitle(title: string) {
+  return title
+    .replace(/\s+at\s+/i, ' vs ')
+    .split(/\s+vs\s+/i)
+    .map((part) => getTeamName(part.trim()))
+    .join(' vs ')
+}
+
 export function WatchHub() {
   const [rooms, setRooms] = useState<Room[]>(readRooms)
   const [roomInput, setRoomInput] = useState('')
@@ -162,7 +173,7 @@ export function WatchHub() {
           <div className="watch-table-head"><span>北京时间</span><span>赛事 / 对阵</span><span>日历</span></div>
           {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className="watch-match" key={match.id}>
             <time dateTime={match.at}><strong>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(match.at))}</strong><span>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(match.at))}</span></time>
-            <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{match.title}<ArrowUpRight size={14} /></a></div>
+            <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{getMatchTitle(match.title)}<ArrowUpRight size={14} /></a></div>
             <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><CalendarPlus2 size={17} /></a>
           </div>)}</div> : <p className="watch-empty">目前没有近期比赛，请查看赛事官网。</p>}
           {futureMatches.length > visibleCount && <button type="button" className="watch-more" onClick={() => setVisibleCount((count) => count + 12)}>显示更多比赛 <span>+12</span></button>}
@@ -172,7 +183,7 @@ export function WatchHub() {
           <div className="watch-standings-controls"><label htmlFor="watch-standings-league">项目</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsTables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">官方榜单<ArrowUpRight size={14} /></a>}</div>
           {standings ? <div className="watch-standings-scroll"><table>
             <thead>{standings.format === 'football' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr>}{standings.format === 'nba' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">负</th><th scope="col">胜率</th><th scope="col">净胜分</th><th scope="col">胜场差</th></tr>}{standings.format.startsWith('f1') && <tr><th scope="col">排名</th><th scope="col">{standings.format === 'f1-driver' ? '车手' : '车队'}</th><th scope="col">赛季</th><th scope="col">积分</th></tr>}</thead>
-            <tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row">{row.team}</th>{standings.format === 'football' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></>}{standings.format === 'nba' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.losses}</td><td>{row.winRate}</td><td>{row.pointDifference}</td><td>{row.gamesBehind}</td></>}{standings.format.startsWith('f1') && <><td>{row.races}</td><td><strong>{row.points}</strong></td></>}</tr>)}</tbody>
+            <tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row" title={row.team}>{getTeamName(row.team)}</th>{standings.format === 'football' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></>}{standings.format === 'nba' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.losses}</td><td>{row.winRate}</td><td>{row.pointDifference}</td><td>{row.gamesBehind}</td></>}{standings.format.startsWith('f1') && <><td>{row.races}</td><td><strong>{row.points}</strong></td></>}</tr>)}</tbody>
           </table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
           <p className="watch-note">覆盖英超、西甲、意甲、德甲、法甲、NBA，以及 F1 车手和车队；数据每日更新，详细规则以官方榜单为准。</p>
         </div>}
