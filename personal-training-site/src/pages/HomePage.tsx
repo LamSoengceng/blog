@@ -5,6 +5,7 @@ import { algorithmMeta } from '../data/algorithmMeta'
 import { blogPosts, featuredBlogPost } from '../data/blogData'
 import { xunjiDaySummaries } from '../data/xunjiData'
 import { stockMeta } from '../data/stockData'
+import { WatchHub } from '../components/WatchHub'
 
 function PersonalHero() {
   const heroRef = useRef<HTMLElement | null>(null)
@@ -136,6 +137,7 @@ export function HomePage() {
       <PersonalHero />
 
       <div className="home-after-hero">
+        <WatchHub />
         <section className="workspace-explore-heading" id="explore"><div><p className="eyebrow">Explore / 从这里开始</p><h2>今天，想做点什么？</h2></div><p>留一点时间，给长期值得做的事。</p></section>
         <section className="home-module-grid workspace-module-grid" aria-label="网站主板块">
           {homeModules.map((module) => (
