@@ -56,12 +56,15 @@ const tableRequests = standingsSources.map(async (source) => {
     ? group.standings?.entries
     : data.children?.flatMap((child) => child.standings?.entries || [])
   if (!entries?.length) throw new Error(`${source.league} standings: empty response`)
+  const entryRecords = source.format === 'nba'
+    ? data.children?.flatMap((child) => (child.standings?.entries || []).map((entry, index) => ({ entry, conference: child.name, conferenceRank: index + 1 })))
+    : entries.map((entry) => ({ entry, conference: undefined, conferenceRank: undefined }))
   return {
     league: source.league,
     format: source.format,
     url: standingsUrl(source),
-    rows: entries.map((entry, index) => {
-      const rank = stat(entry, 'rank') === '—' ? String(index + 1) : stat(entry, 'rank')
+    rows: entryRecords.map(({ entry, conference, conferenceRank }, index) => {
+      const rank = stat(entry, 'rank') === '—' ? String(source.format === 'nba' ? conferenceRank : index + 1) : stat(entry, 'rank')
       const team = entry.team?.displayName || entry.athlete?.displayName || '未知'
       if (source.format === 'nba') {
         const wins = stat(entry, 'wins')
@@ -70,6 +73,7 @@ const tableRequests = standingsSources.map(async (source) => {
         return {
           rank,
           team,
+          conference: conference?.toLowerCase().includes('east') ? '东部' : conference?.toLowerCase().includes('west') ? '西部' : conference,
           played: gamesPlayed === '—' && wins !== '—' && losses !== '—' ? String(Number(wins) + Number(losses)) : gamesPlayed,
           wins,
           losses,

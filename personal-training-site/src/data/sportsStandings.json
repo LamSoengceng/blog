@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14T11:24:06.273Z",
+  "generatedAt": "2026-10-14T14:01:25.842Z",
   "tables": [
     {
       "league": "英超",
@@ -1004,6 +1004,7 @@
         {
           "rank": "1",
           "team": "New York Knicks",
+          "conference": "东部",
           "played": "4",
           "wins": "0",
           "losses": "4",
@@ -1014,6 +1015,7 @@
         {
           "rank": "2",
           "team": "Cleveland Cavaliers",
+          "conference": "东部",
           "played": "3",
           "wins": "1",
           "losses": "2",
@@ -1024,6 +1026,7 @@
         {
           "rank": "3",
           "team": "Indiana Pacers",
+          "conference": "东部",
           "played": "3",
           "wins": "1",
           "losses": "2",
@@ -1034,6 +1037,7 @@
         {
           "rank": "4",
           "team": "Chicago Bulls",
+          "conference": "东部",
           "played": "3",
           "wins": "1",
           "losses": "2",
@@ -1044,6 +1048,7 @@
         {
           "rank": "5",
           "team": "Philadelphia 76ers",
+          "conference": "东部",
           "played": "3",
           "wins": "1",
           "losses": "2",
@@ -1054,6 +1059,7 @@
         {
           "rank": "6",
           "team": "Milwaukee Bucks",
+          "conference": "东部",
           "played": "3",
           "wins": "1",
           "losses": "2",
@@ -1064,6 +1070,7 @@
         {
           "rank": "7",
           "team": "Detroit Pistons",
+          "conference": "东部",
           "played": "2",
           "wins": "1",
           "losses": "1",
@@ -1074,6 +1081,7 @@
         {
           "rank": "8",
           "team": "Charlotte Hornets",
+          "conference": "东部",
           "played": "2",
           "wins": "1",
           "losses": "1",
@@ -1084,6 +1092,7 @@
         {
           "rank": "9",
           "team": "Miami Heat",
+          "conference": "东部",
           "played": "3",
           "wins": "2",
           "losses": "1",
@@ -1094,6 +1103,7 @@
         {
           "rank": "10",
           "team": "Washington Wizards",
+          "conference": "东部",
           "played": "3",
           "wins": "2",
           "losses": "1",
@@ -1104,6 +1114,7 @@
         {
           "rank": "11",
           "team": "Toronto Raptors",
+          "conference": "东部",
           "played": "3",
           "wins": "2",
           "losses": "1",
@@ -1114,6 +1125,7 @@
         {
           "rank": "12",
           "team": "Orlando Magic",
+          "conference": "东部",
           "played": "3",
           "wins": "2",
           "losses": "1",
@@ -1124,6 +1136,7 @@
         {
           "rank": "13",
           "team": "Boston Celtics",
+          "conference": "东部",
           "played": "2",
           "wins": "2",
           "losses": "0",
@@ -1134,6 +1147,7 @@
         {
           "rank": "14",
           "team": "Atlanta Hawks",
+          "conference": "东部",
           "played": "4",
           "wins": "3",
           "losses": "1",
@@ -1144,6 +1158,7 @@
         {
           "rank": "15",
           "team": "Brooklyn Nets",
+          "conference": "东部",
           "played": "3",
           "wins": "3",
           "losses": "0",
@@ -1152,8 +1167,9 @@
           "gamesBehind": "-"
         },
         {
-          "rank": "16",
+          "rank": "1",
           "team": "Sacramento Kings",
+          "conference": "西部",
           "played": "4",
           "wins": "0",
           "losses": "4",
@@ -1162,8 +1178,9 @@
           "gamesBehind": "3.5"
         },
         {
-          "rank": "17",
+          "rank": "2",
           "team": "San Antonio Spurs",
+          "conference": "西部",
           "played": "3",
           "wins": "0",
           "losses": "3",
@@ -1172,8 +1189,9 @@
           "gamesBehind": "3"
         },
         {
-          "rank": "18",
+          "rank": "3",
           "team": "Oklahoma City Thunder",
+          "conference": "西部",
           "played": "4",
           "wins": "1",
           "losses": "3",
@@ -1182,8 +1200,9 @@
           "gamesBehind": "2.5"
         },
         {
-          "rank": "19",
+          "rank": "4",
           "team": "Phoenix Suns",
+          "conference": "西部",
           "played": "3",
           "wins": "1",
           "losses": "2",
@@ -1192,8 +1211,9 @@
           "gamesBehind": "2"
         },
         {
-          "rank": "20",
+          "rank": "5",
           "team": "Los Angeles Lakers",
+          "conference": "西部",
           "played": "4",
           "wins": "2",
           "losses": "2",
@@ -1202,8 +1222,9 @@
           "gamesBehind": "1.5"
         },
         {
-          "rank": "21",
+          "rank": "6",
           "team": "LA Clippers",
+          "conference": "西部",
           "played": "2",
           "wins": "1",
           "losses": "1",
@@ -1212,8 +1233,9 @@
           "gamesBehind": "1.5"
         },
         {
-          "rank": "22",
+          "rank": "7",
           "team": "Houston Rockets",
+          "conference": "西部",
           "played": "2",
           "wins": "1",
           "losses": "1",
@@ -1222,8 +1244,9 @@
           "gamesBehind": "1.5"
         },
         {
-          "rank": "23",
+          "rank": "8",
           "team": "Dallas Mavericks",
+          "conference": "西部",
           "played": "2",
           "wins": "1",
           "losses": "1",
@@ -1232,8 +1255,9 @@
           "gamesBehind": "1.5"
         },
         {
-          "rank": "24",
+          "rank": "9",
           "team": "New Orleans Pelicans",
+          "conference": "西部",
           "played": "2",
           "wins": "1",
           "losses": "1",
@@ -1242,8 +1266,9 @@
           "gamesBehind": "1.5"
         },
         {
-          "rank": "25",
+          "rank": "10",
           "team": "Memphis Grizzlies",
+          "conference": "西部",
           "played": "3",
           "wins": "2",
           "losses": "1",
@@ -1252,8 +1277,9 @@
           "gamesBehind": "1"
         },
         {
-          "rank": "26",
+          "rank": "11",
           "team": "Utah Jazz",
+          "conference": "西部",
           "played": "3",
           "wins": "2",
           "losses": "1",
@@ -1262,8 +1288,9 @@
           "gamesBehind": "1"
         },
         {
-          "rank": "27",
+          "rank": "12",
           "team": "Denver Nuggets",
+          "conference": "西部",
           "played": "3",
           "wins": "2",
           "losses": "1",
@@ -1272,8 +1299,9 @@
           "gamesBehind": "1"
         },
         {
-          "rank": "28",
+          "rank": "13",
           "team": "Golden State Warriors",
+          "conference": "西部",
           "played": "5",
           "wins": "3",
           "losses": "2",
@@ -1282,8 +1310,9 @@
           "gamesBehind": "1"
         },
         {
-          "rank": "29",
+          "rank": "14",
           "team": "Minnesota Timberwolves",
+          "conference": "西部",
           "played": "4",
           "wins": "3",
           "losses": "1",
@@ -1292,8 +1321,9 @@
           "gamesBehind": "0.5"
         },
         {
-          "rank": "30",
+          "rank": "15",
           "team": "Portland Trail Blazers",
+          "conference": "西部",
           "played": "3",
           "wins": "3",
           "losses": "0",

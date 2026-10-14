@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { ArrowUpRight, CalendarPlus2, Radio, Trash2 } from 'lucide-react'
 import scheduleSnapshot from '../data/sportsSchedule.json'
 import standingsSnapshot from '../data/sportsStandings.json'
@@ -10,6 +10,7 @@ type StandingFormat = 'football' | 'nba' | 'f1-driver' | 'f1-team'
 type StandingRow = {
   rank: string | number
   team: string
+  conference?: string
   played?: string
   wins?: string
   draws?: string
@@ -183,9 +184,12 @@ export function WatchHub() {
           <div className="watch-standings-controls"><label htmlFor="watch-standings-league">项目</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsTables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">官方榜单<ArrowUpRight size={14} /></a>}</div>
           {standings ? <div className="watch-standings-scroll"><table>
             <thead>{standings.format === 'football' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr>}{standings.format === 'nba' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">负</th><th scope="col">胜率</th><th scope="col">净胜分</th><th scope="col">胜场差</th></tr>}{standings.format.startsWith('f1') && <tr><th scope="col">排名</th><th scope="col">{standings.format === 'f1-driver' ? '车手' : '车队'}</th><th scope="col">赛季</th><th scope="col">积分</th></tr>}</thead>
-            <tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row" title={row.team}>{getTeamName(row.team)}</th>{standings.format === 'football' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></>}{standings.format === 'nba' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.losses}</td><td>{row.winRate}</td><td>{row.pointDifference}</td><td>{row.gamesBehind}</td></>}{standings.format.startsWith('f1') && <><td>{row.races}</td><td><strong>{row.points}</strong></td></>}</tr>)}</tbody>
+            <tbody>{standings.rows.map((row, index) => <Fragment key={row.team}>
+              {standings.format === 'nba' && row.conference && row.conference !== standings.rows[index - 1]?.conference && <tr className="watch-standings-group"><th scope="colgroup" colSpan={8}>{row.conference}</th></tr>}
+              <tr className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row" title={row.team}>{getTeamName(row.team)}</th>{standings.format === 'football' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></>}{standings.format === 'nba' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.losses}</td><td>{row.winRate}</td><td>{row.pointDifference}</td><td>{row.gamesBehind}</td></>}{standings.format.startsWith('f1') && <><td>{row.races}</td><td><strong>{row.points}</strong></td></>}</tr>
+            </Fragment>)}</tbody>
           </table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
-          <p className="watch-note">覆盖英超、西甲、意甲、德甲、法甲、NBA，以及 F1 车手和车队；数据每日更新，详细规则以官方榜单为准。</p>
+          <p className="watch-note">覆盖英超、西甲、意甲、德甲、法甲、NBA 东西部，以及 F1 车手和车队；数据每日更新，详细规则以官方榜单为准。</p>
         </div>}
       </div>
       <aside className="watch-panel watch-side">
