@@ -45,6 +45,11 @@ const quickLinks = [
   { label: '欧冠', short: '冠', meta: '官方赛程', url: 'https://www.uefa.com/uefachampionsleague/fixtures-results/' },
   { label: '欧联', short: '联', meta: '官方赛程', url: 'https://www.uefa.com/uefaeuropaleague/fixtures-results/' },
 ]
+const followedTeams = ['Philadelphia 76ers', 'Los Angeles Lakers', 'Real Madrid', 'Manchester United', 'Manchester City']
+function hasFollowedTeam(value: string) {
+  const normalized = value.toLowerCase()
+  return followedTeams.some((team) => normalized.includes(team.toLowerCase()))
+}
 const starterRoom: Room = { name: '墨衣moyi', platform: '斗鱼', url: 'https://www.douyu.com/8834570' }
 const storageKey = 'lam-watch-rooms-v1'
 const watchUrl = 'https://www.jrkan2023.com/'
@@ -182,9 +187,9 @@ export function WatchHub() {
         {view === 'schedule' ? <div role="tabpanel">
           <p className="watch-list-intro">全部关注赛事 · 按北京时间先后排序</p>
           <div className="watch-table-head"><span>北京时间</span><span>赛事 / 对阵</span><span>日历</span></div>
-          {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className="watch-match" key={match.id}>
+          {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className={`watch-match${hasFollowedTeam(match.title) ? ' watch-followed-team' : ''}`} key={match.id}>
             <time dateTime={match.at}><strong>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(match.at))}</strong><span>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(match.at))}</span></time>
-            <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{getMatchTitle(match.title)}<ArrowUpRight size={14} /></a></div>
+            <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{getMatchTitle(match.title)}<ArrowUpRight size={14} /></a>{hasFollowedTeam(match.title) && <span className="watch-followed-label">我的主队</span>}</div>
             <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><CalendarPlus2 size={17} /></a>
           </div>)}</div> : <p className="watch-empty">目前没有近期比赛，请查看赛事官网。</p>}
           {futureMatches.length > visibleCount && <button type="button" className="watch-more" onClick={() => setVisibleCount((count) => count + 12)}>显示更多比赛 <span>+12</span></button>}
@@ -195,7 +200,7 @@ export function WatchHub() {
             <thead>{standings.format === 'football' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr>}{standings.format === 'nba' && <tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">负</th><th scope="col">胜率</th><th scope="col">净胜分</th><th scope="col">胜场差</th></tr>}{standings.format.startsWith('f1') && <tr><th scope="col">排名</th><th scope="col">{standings.format === 'f1-driver' ? '车手' : '车队'}</th><th scope="col">赛季</th><th scope="col">积分</th></tr>}</thead>
             <tbody>{standings.rows.map((row, index) => <Fragment key={row.team}>
               {standings.format === 'nba' && row.conference && row.conference !== standings.rows[index - 1]?.conference && <tr className="watch-standings-group"><th scope="colgroup" colSpan={8}>{row.conference}</th></tr>}
-              <tr className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row" title={row.team}>{getTeamName(row.team)}</th>{standings.format === 'football' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></>}{standings.format === 'nba' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.losses}</td><td>{row.winRate}</td><td>{row.pointDifference}</td><td>{row.gamesBehind}</td></>}{standings.format.startsWith('f1') && <><td>{row.races}</td><td><strong>{row.points}</strong></td></>}</tr>
+              <tr className={hasFollowedTeam(row.team) ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row" title={row.team}>{getTeamName(row.team)}{hasFollowedTeam(row.team) && <span className="watch-followed-label">主队</span>}</th>{standings.format === 'football' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></>}{standings.format === 'nba' && <><td>{row.played}</td><td>{row.wins}</td><td>{row.losses}</td><td>{row.winRate}</td><td>{row.pointDifference}</td><td>{row.gamesBehind}</td></>}{standings.format.startsWith('f1') && <><td>{row.races}</td><td><strong>{row.points}</strong></td></>}</tr>
             </Fragment>)}</tbody>
           </table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
           <p className="watch-note">覆盖英超、西甲、意甲、德甲、法甲、NBA 东西部，以及 F1 车手和车队；数据每日更新，详细规则以官方榜单为准。</p>
