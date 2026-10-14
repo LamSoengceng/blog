@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { ArrowUpRight, Plus, Radio, Trash2 } from 'lucide-react'
+import { ArrowUpRight, CalendarPlus2, Radio, Trash2 } from 'lucide-react'
+import scheduleSnapshot from '../data/sportsSchedule.json'
 
 type Match = { league: 'NBA' | '英超' | '欧冠'; title: string; at: string; url: string }
 type Room = { name: string; url: string; platform: string }
@@ -90,8 +91,10 @@ export function WatchHub() {
   const [error, setError] = useState('')
   const [league, setLeague] = useState('全部')
   const [today] = useState(() => Date.now())
-  const [matches, setMatches] = useState(fallbackMatches)
-  const [scheduleState, setScheduleState] = useState('正在同步赛程…')
+  const [matches, setMatches] = useState<Match[]>(() => scheduleSnapshot.matches.length ? scheduleSnapshot.matches as Match[] : fallbackMatches)
+  const [scheduleState, setScheduleState] = useState(() => scheduleSnapshot.matches.length
+    ? `更新于 ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(scheduleSnapshot.generatedAt))}`
+    : '显示备用赛程')
   const upcoming = matches.filter((match) => new Date(match.at).getTime() > today && (league === '全部' || match.league === league)).slice(0, 8)
 
   useEffect(() => {
@@ -100,7 +103,7 @@ export function WatchHub() {
       if (!active) return
       setMatches(items)
       setScheduleState(`已自动同步 · ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date())}`)
-    }).catch(() => { if (active) setScheduleState('自动同步暂不可用 · 显示备用赛程') })
+    }).catch(() => { /* 保留构建时生成的赛程快照。 */ })
     return () => { active = false }
   }, [])
 
@@ -120,17 +123,31 @@ export function WatchHub() {
   }
 
   return <section className="watch-hub" aria-labelledby="watch-heading">
-    <div className="watch-heading"><div><p className="eyebrow">Watch / 观赛与直播</p><h2 id="watch-heading">下一场，直接去看。</h2><p>比赛时间按北京时间显示；常看的直播间留在手边。</p></div><a className="watch-direct-link" href={watchUrl} target="_blank" rel="noopener noreferrer">打开 JRKAN<ArrowUpRight size={17} /></a></div>
+    <div className="watch-heading">
+      <div><p className="eyebrow">THE GAME DESK / 观赛中心</p><h2 id="watch-heading">比赛，就在眼前。</h2><p>接下来的比赛、常看的直播间，一个入口就够了。</p></div>
+      <span className="watch-timezone">ASIA / SHANGHAI · UTC+8</span>
+    </div>
     <div className="watch-grid">
-      <div className="watch-panel"><div className="watch-panel-title"><h3>近期比赛</h3><span role="status">{scheduleState}</span></div>
+      <div className="watch-panel watch-board">
+        <div className="watch-panel-title"><div><span className="watch-section-label">01 / MATCH SCHEDULE</span><h3>近期赛程</h3></div><span className="watch-sync" role="status"><span />{scheduleState}</span></div>
         <div className="watch-filters" aria-label="赛事筛选">{['全部', 'NBA', '英超', '欧冠'].map((item) => <button className={league === item ? 'active' : ''} type="button" key={item} onClick={() => setLeague(item)} aria-pressed={league === item}>{item}</button>)}</div>
-        {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className="watch-match" key={match.title}><time dateTime={match.at}>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(match.at))}</time><div><span>{match.league}</span><strong>{match.title}</strong></div><a href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><Plus size={17} /></a></div>)}</div> : <p className="watch-empty">当前筛选下暂无已核对的近期比赛，请查看官方赛程。</p>}
+        <div className="watch-table-head"><span>北京时间</span><span>赛事 / 对阵</span><span>日历</span></div>
+        {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className="watch-match" key={`${match.league}-${match.at}-${match.title}`}>
+          <time dateTime={match.at}><strong>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(match.at))}</strong><span>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(match.at))}</span></time>
+          <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{match.title}<ArrowUpRight size={14} /></a></div>
+          <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><CalendarPlus2 size={17} /></a>
+        </div>)}</div> : <p className="watch-empty">目前没有该赛事的近期比赛，请查看赛事官网。</p>}
         <div className="watch-official">{officialSchedules.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer">{item.label}<ArrowUpRight size={14} /></a>)}</div>
-        <p className="watch-note">赛程来自 ESPN，进入页面时自动更新；如接口异常则显示备用快照。开赛时间可能调整，以赛事官网为准。</p>
+        <p className="watch-note">赛程数据来自 ESPN，每日构建快照，并在访问时尝试刷新。比赛时间以赛事官网为准。</p>
       </div>
-      <div className="watch-panel"><div className="watch-panel-title"><h3>我的直播间</h3><Radio size={18} /></div><div className="watch-room-list">{rooms.map((room) => <div className="watch-room" key={room.url}><div><span>{room.platform}</span><strong>{room.name}</strong><small>开播状态待核实</small></div><a href={room.url} target="_blank" rel="noopener noreferrer">进入直播间<ArrowUpRight size={15} /></a>{room.url !== starterRoom.url && <button type="button" onClick={() => saveRooms(rooms.filter((item) => item.url !== room.url))} aria-label={`删除${room.name}`}><Trash2 size={15} /></button>}</div>)}</div>
-        <form className="watch-add-room" onSubmit={addRoom}><label htmlFor="watch-room-url">添加常看的直播间</label><div><input id="watch-room-url" type="url" value={roomInput} onChange={(event) => setRoomInput(event.target.value)} placeholder="粘贴 B站 / 斗鱼 / 虎牙链接" required /><button type="submit">收藏</button></div>{error && <p role="alert">{error}</p>}</form><p className="watch-note">收藏保存在当前浏览器。平台未开放可直接调用的跨域状态接口，因此暂不显示可能失准的开播标记。</p>
-      </div>
+      <aside className="watch-panel watch-side">
+        <div className="watch-panel-title"><div><span className="watch-section-label">02 / YOUR CHANNELS</span><h3>直播捷径</h3></div><Radio size={21} /></div>
+        <a className="watch-feature-link" href={watchUrl} target="_blank" rel="noopener noreferrer"><span>赛事直播入口</span><strong>打开 JRKAN</strong><ArrowUpRight size={20} /></a>
+        <div className="watch-room-heading"><span>已收藏的直播间</span><small>{rooms.length} 个</small></div>
+        <div className="watch-room-list">{rooms.map((room) => <div className="watch-room" key={room.url}><div><span>{room.platform}</span><strong>{room.name}</strong><small>点击进入查看开播状态</small></div><a href={room.url} target="_blank" rel="noopener noreferrer" aria-label={`进入${room.name}直播间`}><ArrowUpRight size={17} /></a>{room.url !== starterRoom.url && <button type="button" onClick={() => saveRooms(rooms.filter((item) => item.url !== room.url))} aria-label={`删除${room.name}`}><Trash2 size={15} /></button>}</div>)}</div>
+        <form className="watch-add-room" onSubmit={addRoom}><label htmlFor="watch-room-url">收藏直播间</label><div><input id="watch-room-url" type="url" value={roomInput} onChange={(event) => setRoomInput(event.target.value)} placeholder="B站 / 斗鱼 / 虎牙链接" required /><button type="submit">添加</button></div>{error && <p role="alert">{error}</p>}</form>
+        <p className="watch-note">收藏保存在当前浏览器；开播状态请进入直播间查看。</p>
+      </aside>
     </div>
   </section>
 }

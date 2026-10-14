@@ -5,6 +5,8 @@ on:
     branches: [main]
   workflow_dispatch:
   schedule:
+    # 每日刷新观赛赛程（北京时间 08:00）。
+    - cron: '0 0 * * *'
     # 兜底部署：sync-stock 用 GITHUB_TOKEN 推送不会触发本 workflow，
     # 定时在数据更新后（北京 18:00 = UTC 10:00，周一至周五）重新构建发布一次。
     - cron: '0 10 * * 1-5'
@@ -33,6 +35,9 @@ jobs:
       - name: Install dependencies
         working-directory: personal-training-site
         run: npm ci
+      - name: Refresh sports schedule
+        working-directory: personal-training-site
+        run: node scripts/generateSportsSchedule.mjs
       - name: Typecheck
         working-directory: personal-training-site
         run: npx tsc -b
