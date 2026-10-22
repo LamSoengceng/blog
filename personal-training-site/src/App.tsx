@@ -6,6 +6,7 @@ import { SettingsModal } from './components/SettingsModal'
 import { useDialogFocus } from './hooks/useDialogFocus'
 
 const AlgorithmPage = lazy(() => import('./pages/AlgorithmPage').then((module) => ({ default: module.AlgorithmPage })))
+const AlgorithmPracticePage = lazy(() => import('./pages/AlgorithmPracticePage').then((module) => ({ default: module.AlgorithmPracticePage })))
 const CareerPage = lazy(() => import('./pages/CareerPage').then((module) => ({ default: module.CareerPage })))
 const AlgorithmReviewPage = lazy(() =>
   import('./pages/AlgorithmReviewPage').then((module) => ({ default: module.AlgorithmReviewPage })),
@@ -190,6 +191,7 @@ function App() {
           <Route path="/algorithm" element={<AlgorithmPage />} />
           <Route path="/career" element={<CareerPage />} />
           <Route path="/algorithm/review" element={<AlgorithmReviewPage />} />
+          <Route path="/algorithm/practice/:problemSlug" element={<AlgorithmPracticePage />} />
           <Route path="/stock" element={<StockPage />} />
           <Route path="/market" element={<Navigate to="/stock" replace />} />
           <Route path="/projects" element={<ProjectsPage />} />

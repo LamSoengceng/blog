@@ -4,6 +4,7 @@ import { algorithmProblems, type AlgorithmProblem } from '../data/algorithm'
 import { AlgorithmVisualizer } from '../components/algorithmVisualization/AlgorithmVisualizer'
 import { getAlgorithmSteps } from '../components/algorithmVisualization/containerSteps'
 import { loadAlgorithmContent } from '../utils/algorithmContent'
+import { practiceSlug } from '../practice/catalog'
 
 const difficultyClass = (difficulty: string) => {
   if (difficulty === '简单') return 'easy'
@@ -101,6 +102,7 @@ export function AlgorithmDetailPage() {
           <Link className="algorithm-external-link" to={`/algorithm/review?slug=${problem.slug}`}>
             在复习模式中过这道题
           </Link>
+          {practiceSlug(problem.id) && <Link className="algorithm-external-link" to={`/algorithm/practice/${practiceSlug(problem.id)}`}>开始独立手撕训练 →</Link>}
           {problem.sourcePath ? <code>{problem.sourcePath}</code> : <code>progress only</code>}
         </aside>
       </div>

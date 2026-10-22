@@ -9,6 +9,8 @@ import {
 } from '../data/algorithm'
 import { algorithmMeta } from '../data/algorithmMeta'
 import { countDueReviews, loadReviewStore } from '../utils/reviewStore'
+import { PracticeDashboard } from '../practice/PracticeDashboard'
+import { hot100Solved } from '../practice/catalog'
 
 const difficultyClass = (difficulty: string) => {
   if (difficulty === '简单') return 'easy'
@@ -32,7 +34,7 @@ const featuredAlgorithmProblems = algorithmReviewQueue
   .filter((problem): problem is AlgorithmProblemSummary => Boolean(problem))
   .slice(0, 8)
 
-const algorithmCompletion = Math.round((algorithmMeta.solved / algorithmMeta.total) * 100)
+const algorithmCompletion = hot100Solved
 const completedProblems = algorithmProblems.filter((problem) => problem.completed)
 const leetcodeLinkedProblems = algorithmProblems.filter((problem) => problem.leetcodeUrl)
 const pendingProblems = algorithmProblems.filter((problem) => !problem.completed)
@@ -83,6 +85,8 @@ type ProgressStyle = CSSProperties & { '--progress': string }
 export function AlgorithmPage() {
   return (
     <section className="content-band page-band algorithm-section" id="algorithm">
+      <PracticeDashboard />
+      <details className="practice-legacy"><summary>题解资料库 · 本地历史进度与分类</summary>
       <div className="algorithm-workbench">
         <div className="algorithm-command-panel">
           <p className="eyebrow">Algorithm / LeetCode Hot100</p>
@@ -118,7 +122,7 @@ export function AlgorithmPage() {
           <div>
             <span>{allCleared ? '🏆 Hot 100 全通' : 'Hot100 progress'}</span>
             <strong>
-              {algorithmMeta.solved}/{algorithmMeta.total}
+              {hot100Solved}/100
             </strong>
             <p>
               {allCleared
@@ -326,6 +330,7 @@ export function AlgorithmPage() {
           </article>
         ))}
       </div>
+      </details>
     </section>
   )
 }

@@ -4,7 +4,8 @@ import { algorithmProblems, type AlgorithmProblem, type AlgorithmProblemSummary 
 import { HighlightText } from '../utils/HighlightText'
 import { FeynmanCheck } from '../components/FeynmanCheck'
 import { MarkdownContent } from '../components/MarkdownContent'
-import { loadFeynmanScore } from '../utils/feynmanStore'
+import { manualReviews } from '../practice/store'
+import { practiceSlug } from '../practice/catalog'
 import { chatCompletion, loadAiConfig } from '../utils/aiChat'
 import { loadReviewPrefs, onReviewPrefsChange, openSiteSettings, type ReviewPrefs } from '../utils/settings'
 import { loadAlgorithmContent } from '../utils/algorithmContent'
@@ -32,8 +33,8 @@ const isReReview = (problem: AlgorithmProblemSummary) =>
   problem.thoughts.some((thought) => reReviewPattern.test(thought)) ||
   problem.pitfalls.some((pitfall) => reReviewPattern.test(pitfall))
 
-const reviewPool = algorithmProblems
-  .filter(isReReview)
+const getReviewPool = () => algorithmProblems
+  .filter((problem) => isReReview(problem) || problem.pitfalls.some((p) => !/暂未提取|尚未完成/.test(p)) || manualReviews().includes(problem.id))
   .sort((first, second) => (first.lastUpdatedAt ?? '').localeCompare(second.lastUpdatedAt ?? ''))
 
 type BlankState = 'idle' | 'correct' | 'wrong' | 'revealed'
@@ -61,6 +62,7 @@ const buildAiContext = (problem: AlgorithmProblemSummary, codePreview?: string) 
 const applyQueueLimit = (slugs: string[], limit: number) => (limit > 0 ? slugs.slice(0, limit) : slugs)
 
 export function AlgorithmReviewPage() {
+  const reviewPool = getReviewPool()
   const [searchParams] = useSearchParams()
   const focusSlug = searchParams.get('slug')
   const [prefs, setPrefs] = useState<ReviewPrefs>(loadReviewPrefs)
@@ -107,8 +109,8 @@ export function AlgorithmReviewPage() {
   const againCount = Object.values(store).filter((item) => item.status === 'again').length
 
   const record = (slug: string, status: ReviewStatus) => {
-    // 费曼检验讲清楚过（≥4 分）的题按满分质量（q=5）计入 SM-2：EF 增长、间隔拉得更开
-    const next = recordReview(store, slug, status, loadFeynmanScore(slug))
+    // 回忆和解释能力分开记录，费曼评分不再提高调度质量分。
+    const next = recordReview(store, slug, status)
     setStore(next)
     saveReviewStore(next)
   }
@@ -281,7 +283,7 @@ export function AlgorithmReviewPage() {
       <article className="review-card" key={current.slug}>
         <div className="algorithm-card-topline">
           <span>
-            {current.category} · {current.lastUpdated ?? 'recent'}
+            {current.lastUpdated ?? 'recent'}
           </span>
           <b>{current.id}</b>
         </div>
@@ -290,7 +292,7 @@ export function AlgorithmReviewPage() {
         </h2>
         <div className="review-pill-row">
           <span className={`difficulty-pill ${difficultyClass(current.difficulty)}`}>{current.difficulty}</span>
-          <span className="review-pill-plain">{current.topic}</span>
+          {practiceSlug(current.id) && <Link to={`/algorithm/practice/${practiceSlug(current.id)}`}>独立手撕这道题 →</Link>}
         {current.leetcodeUrl ? (
           <a href={current.leetcodeUrl} target="_blank" rel="noreferrer">
             打开 LeetCode ↗
@@ -303,6 +305,8 @@ export function AlgorithmReviewPage() {
         ) : null}
       </div>
 
+      <div className="review-section"><label>先回忆：你会选什么方法？关键变量或递归返回值表示什么？<textarea key={current.slug} rows={3} placeholder="先用自己的话讲清方法、不变量和边界，再展开对照。" style={{ width: '100%', marginTop: 12 }} /></label></div>
+      <details key={`recall-${current.slug}`} className="review-reveal"><summary>已回忆，展开方法、旧错与本地题解</summary>
       <div className="review-glance">
         {current.ask ? (
           <div className="glance-row">
@@ -456,9 +460,10 @@ export function AlgorithmReviewPage() {
           </div>
         ) : null}
 
+        </details>
         <div className="review-actions">
           <button className="review-btn primary" type="button" onClick={() => advance('known')}>
-            记住了（1）
+            已回忆（1）
           </button>
           <button className="review-btn warn" type="button" onClick={() => advance('again')}>
             没记住（2）
@@ -516,7 +521,7 @@ export function AlgorithmReviewPage() {
       </article>
 
       <p className="review-hint">
-        快捷键：空格 = 展开/收起代码 · 1 = 记住了 · 2 = 没记住 · → = 跳过。进度保存在本机浏览器，
+        快捷键：空格 = 展开/收起代码 · 1 = 已回忆 · 2 = 没记住 · → = 跳过。回忆结果不代表独立手撕通过。进度保存在本机浏览器，
         <Link to={`/algorithm/${current.slug}`}>查看完整题解页</Link>
       </p>
     </section>

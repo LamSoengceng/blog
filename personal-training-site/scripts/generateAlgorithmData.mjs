@@ -53,9 +53,6 @@ const cleanComment = (line) =>
     .replace(/[═=\u{1F4CC}\u{26A0}\u{2705}\u{274C}\u{1F7E2}\u{1F7E1}\u{1F534}`]/gu, '')
     .trim()
 
-const isCommentHeading = (line) =>
-  /^(解题思路|思路|正确解法|解法|踩坑记录|易错点\/误区|注意事项|复杂度分析)(\s*[（(:：].*)?$/.test(line)
-
 const slugify = (id, title) =>
   `${id}-${title}`
     .toLowerCase()
@@ -182,26 +179,28 @@ const parseProblemFromFilename = (path) => {
 
 const extractCommentNotes = (source) => {
   const lines = source.split(/\r?\n/)
-  const comments = lines
-    .filter((line) => /^\s*#/.test(line))
-    .map(cleanComment)
-    .filter(Boolean)
-    .filter((line) => !isCommentHeading(line))
-    .filter((line) => !/^@lc/.test(line) && !/^\[\d+\]/.test(line))
+  const comments = []
+  let block = []
+  for (const line of [...lines, '']) {
+    if (/^\s*#/.test(line) && !/@lc/.test(line)) {
+      const clean = cleanComment(line)
+      if (clean && !/^\[\d+\]/.test(clean)) block.push(clean)
+    } else if (block.length) {
+      comments.push(block.join('\n'))
+      block = []
+    }
+  }
 
   const thoughts = comments
     .filter((line) => /思路|解法|核心|时间|空间|状态|递归|BFS|DFS|双指针|滑动窗口|单调|动态规划|哈希|堆|栈/.test(line))
-    .slice(0, 7)
 
   const pitfalls = comments
     .filter((line) => /易错|误区|踩坑|坑\d*|注意|忘|边界|越界|反了|混淆|不能|否则|防止/.test(line))
-    .slice(0, 8)
 
   const codeMatch = source.match(/# @lc code=start([\s\S]*?)# @lc code=end/)
   const codeSource = (codeMatch?.[1] ?? source)
     .split(/\r?\n/)
     .filter((line) => line.trim() && !line.trim().startsWith('# @lc'))
-    .slice(0, 90)
     .join('\n')
     .trim()
 
@@ -319,6 +318,8 @@ const parseProgress = () => {
 // 原题描述：逐题从 LeetCode 抓取，转换为纯文本并落盘缓存，避免重复请求。
 const htmlToText = (html) =>
   html
+    .replace(/<sup[^>]*>(.*?)<\/sup>/g, '^$1')
+    .replace(/<sub[^>]*>(.*?)<\/sub>/g, '_$1')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<\/(p|div|pre|li|h3)>/gi, '\n')
     .replace(/<[^>]+>/g, '')
@@ -407,9 +408,9 @@ for (const record of fileRecords) {
   }
 }
 
-const progressRows = parseProgress()
+const progressRows = [...new Map(parseProgress().map((row) => [row.id, row])).values()]
 const progressIds = new Set(progressRows.map((row) => row.id))
-const rows = [
+const rows = [...new Map([
   ...progressRows,
   ...fileRecords
     .filter((record) => !progressIds.has(record.id))
@@ -421,7 +422,7 @@ const rows = [
       topic: '本地提交',
       category: record.path.includes(`${join('hot100', '')}`) ? 'Hot100 补充' : '本地补充',
     })),
-]
+].map((row) => [row.id, row])).values()]
 
 const llmEnrichment = readJsonCache(llmEnrichmentPath) ?? {}
 

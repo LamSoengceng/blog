@@ -25,3 +25,6 @@ scripts/cache/
 *.njsproj
 *.sln
 *.sw?
+public/python/
+scripts/__pycache__/
+src/practice/__pycache__/

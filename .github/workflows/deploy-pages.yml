@@ -47,6 +47,9 @@ jobs:
       - name: Test
         working-directory: personal-training-site
         run: npm run test
+      - name: Verify Hot100 contracts and Python runtime
+        working-directory: personal-training-site
+        run: npm run test:practice
       - name: Build
         working-directory: personal-training-site
         run: npm run build:pages

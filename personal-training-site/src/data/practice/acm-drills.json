@@ -1,0 +1,930 @@
+[
+  {
+    "id": "io-fixed-t",
+    "slug": "io-fixed-t",
+    "title": "固定 T 组：A + B",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\ndef solve():\n    tokens = iter(sys.stdin.buffer.read().split())\n    first = next(tokens, None)\n    if first is None: return\n    for _ in range(int(first)): print(int(next(tokens)) + int(next(tokens)))\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex01_ab_fixed_t.py",
+    "sourceUpdatedAt": "2026-09-03T18:22:55.318472+00:00",
+    "needsRecheck": false,
+    "statement": "先读取 T，再处理恰好 T 组数据。每组结果占一行。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 01: 固定 T 组数据的 A + B\n================================================================================\n【题目描述】\n计算 a + b 的和。\n输入第一行包含一个整数 T，表示接下来有 T 组测试用例。\n随后 T 行，每行包含两个整数 a 和 b（空格隔开）。\n\n【输入格式】\n2\n1 5\n10 20\n\n【输出格式】\n对于每组数据，输出一行对应的 a + b 的值。\n6\n30\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    \"\"\"\n    请在这里编写你的输入读取、处理与输出代码。\n    提示：可以使用 sys.stdin.readline\n    \"\"\"\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "先读取 T，再处理恰好 T 组数据。每组结果占一行。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "6\n30\n",
+        "stdin": "2\n1 5\n10 20\n",
+        "stdout": "6\n30\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "",
+        "stdin": "0\n",
+        "stdout": ""
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "0\n",
+        "stdin": "1\n-5 5",
+        "stdout": "0\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "0\n-5\n300\n",
+        "stdin": "3\n0 0\n-2 -3\n100 200\n",
+        "stdout": "0\n-5\n300\n"
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "3\n7\n",
+        "stdin": "2\n  1   2\n3\t4",
+        "stdout": "3\n7\n"
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\ndef solve():\n    tokens = iter(sys.stdin.buffer.read().split())\n    first = next(tokens, None)\n    if first is None: return\n    for _ in range(int(first)): print(int(next(tokens)) + int(next(tokens)))\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "先读取 T，再处理恰好 T 组数据。每组结果占一行。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "6\n30\n",
+          "stdin": "2\n1 5\n10 20\n",
+          "stdout": "6\n30\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "",
+          "stdin": "0\n",
+          "stdout": ""
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "0\n",
+          "stdin": "1\n-5 5",
+          "stdout": "0\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "0\n-5\n300\n",
+          "stdin": "3\n0 0\n-2 -3\n100 200\n",
+          "stdout": "0\n-5\n300\n"
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "3\n7\n",
+          "stdin": "2\n  1   2\n3\t4",
+          "stdout": "3\n7\n"
+        }
+      ]
+    }
+  },
+  {
+    "id": "io-eof",
+    "slug": "io-eof",
+    "title": "读到 EOF：A + B",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\ndef solve():\n    for line in sys.stdin:\n        if not line.strip(): continue\n        a, b = map(int, line.split())\n        print(a + b)\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex02_ab_until_eof.py",
+    "sourceUpdatedAt": "2026-09-03T18:23:00.160680+00:00",
+    "needsRecheck": false,
+    "statement": "逐行处理两个整数，读到 EOF 结束。空白行应跳过，空行不是 EOF。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 02: 未知组数，读到 EOF 为止的 A + B\n================================================================================\n【题目描述】\n计算 a + b 的和。\n输入包含多组测试数据，每行包含两个整数 a 和 b（以空格隔开）。\n一直读取直到文件结束（EOF）。\n\n【输入格式】\n1 5\n10 20\n3 7\n\n【输出格式】\n对应每行输入，输出一行 a + b 的和。\n6\n30\n10\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    \"\"\"\n    请在这里编写你的输入读取、处理与输出代码。\n    提示：\n    方法一：sys.stdin.read().split() 读出所有 token 然后循环\n    方法二：while True: line = sys.stdin.readline(); if not line: break\n    \"\"\"\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "逐行处理两个整数，读到 EOF 结束。空白行应跳过，空行不是 EOF。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "6\n30\n10\n",
+        "stdin": "1 5\n10 20\n3 7",
+        "stdout": "6\n30\n10\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "",
+        "stdin": "",
+        "stdout": ""
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "3\n7\n",
+        "stdin": "\n1 2\n\n3 4\n",
+        "stdout": "3\n7\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "-3\n0\n",
+        "stdin": "-1 -2\n0 0\n",
+        "stdout": "-3\n0\n"
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "11\n15\n",
+        "stdin": "  5\t6  \r\n7 8",
+        "stdout": "11\n15\n"
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\ndef solve():\n    for line in sys.stdin:\n        if not line.strip(): continue\n        a, b = map(int, line.split())\n        print(a + b)\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "逐行处理两个整数，读到 EOF 结束。空白行应跳过，空行不是 EOF。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "6\n30\n10\n",
+          "stdin": "1 5\n10 20\n3 7",
+          "stdout": "6\n30\n10\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "",
+          "stdin": "",
+          "stdout": ""
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "3\n7\n",
+          "stdin": "\n1 2\n\n3 4\n",
+          "stdout": "3\n7\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "-3\n0\n",
+          "stdin": "-1 -2\n0 0\n",
+          "stdout": "-3\n0\n"
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "11\n15\n",
+          "stdin": "  5\t6  \r\n7 8",
+          "stdout": "11\n15\n"
+        }
+      ]
+    }
+  },
+  {
+    "id": "io-sentinel",
+    "slug": "io-sentinel",
+    "title": "结束标记：0 0",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\ndef solve():\n    for line in sys.stdin:\n        if not line.strip(): continue\n        a, b = map(int, line.split())\n        if a == b == 0: break\n        print(a + b)\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex03_ab_zero_terminate.py",
+    "sourceUpdatedAt": "2026-09-03T18:23:05.641576+00:00",
+    "needsRecheck": false,
+    "statement": "每行两个整数，遇到 0 0 立即停止，不输出结束标记，也不处理后续行。空白行跳过。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 03: 特定结束标记（如 0 0）终止的 A + B\n================================================================================\n【题目描述】\n计算 a + b 的和。\n输入包含多组测试数据，每行两个整数 a 和 b。\n当输入的 a 和 b 均为 0 时，输入结束，且该行 0 0 不做处理、不输出。\n\n【输入格式】\n1 5\n10 20\n0 0\n\n【输出格式】\n对于除 0 0 外的每行输入，输出一行求和结果。\n6\n30\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "每行两个整数，遇到 0 0 立即停止，不输出结束标记，也不处理后续行。空白行跳过。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "6\n30\n",
+        "stdin": "1 5\n10 20\n0 0\n",
+        "stdout": "6\n30\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "",
+        "stdin": "0 0\n",
+        "stdout": ""
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "0\n",
+        "stdin": "1 -1\n0 0\n5 6",
+        "stdout": "0\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "2\n2\n",
+        "stdin": "\n0 2\n2 0\n0 0\n",
+        "stdout": "2\n2\n"
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "-7\n",
+        "stdin": "-3 -4\n0 0",
+        "stdout": "-7\n"
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\ndef solve():\n    for line in sys.stdin:\n        if not line.strip(): continue\n        a, b = map(int, line.split())\n        if a == b == 0: break\n        print(a + b)\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "每行两个整数，遇到 0 0 立即停止，不输出结束标记，也不处理后续行。空白行跳过。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "6\n30\n",
+          "stdin": "1 5\n10 20\n0 0\n",
+          "stdout": "6\n30\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "",
+          "stdin": "0 0\n",
+          "stdout": ""
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "0\n",
+          "stdin": "1 -1\n0 0\n5 6",
+          "stdout": "0\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "2\n2\n",
+          "stdin": "\n0 2\n2 0\n0 0\n",
+          "stdout": "2\n2\n"
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "-7\n",
+          "stdin": "-3 -4\n0 0",
+          "stdout": "-7\n"
+        }
+      ]
+    }
+  },
+  {
+    "id": "io-counted",
+    "slug": "io-counted",
+    "title": "变长数据：N 个数求和",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\ndef solve():\n    data = iter(map(int, sys.stdin.buffer.read().split()))\n    for n in data:\n        if n == 0: break\n        print(sum(next(data) for _ in range(n)))\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex04_ab_sum_n.py",
+    "sourceUpdatedAt": "2026-09-03T18:23:10.662898+00:00",
+    "needsRecheck": false,
+    "statement": "每组以 N 开始，后面恰好 N 个整数，输出该组和。数据可跨行，遇 N=0 或 EOF 结束；结束标记不输出。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 04: 每行第一个数字为 N，后跟 N 个整数\n================================================================================\n【题目描述】\n计算每行一系列整数的和。\n每行输入若干个整数，其中第一个整数为 N，表示本行随后有 N 个整数。\n如果某行开头的 N 为 0，则表示输入结束，且不对该行做计算和输出。\n\n【输入格式】\n4 1 2 3 4\n5 1 2 3 4 5\n0\n\n【输出格式】\n对于每个非 0 开头的测试行，输出对应的求和结果。\n10\n15\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "每组以 N 开始，后面恰好 N 个整数，输出该组和。数据可跨行，遇 N=0 或 EOF 结束；结束标记不输出。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "6\n9\n",
+        "stdin": "3 1 2 3\n2 4 5\n0",
+        "stdout": "6\n9\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "",
+        "stdin": "0\n",
+        "stdout": ""
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "6\n-7\n",
+        "stdin": "3\n1\n2 3\n1 -7",
+        "stdout": "6\n-7\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "",
+        "stdin": "",
+        "stdout": ""
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "0\n9\n",
+        "stdin": "2 -5 5\n1 9\n0\n1 100",
+        "stdout": "0\n9\n"
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\ndef solve():\n    data = iter(map(int, sys.stdin.buffer.read().split()))\n    for n in data:\n        if n == 0: break\n        print(sum(next(data) for _ in range(n)))\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "每组以 N 开始，后面恰好 N 个整数，输出该组和。数据可跨行，遇 N=0 或 EOF 结束；结束标记不输出。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "6\n9\n",
+          "stdin": "3 1 2 3\n2 4 5\n0",
+          "stdout": "6\n9\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "",
+          "stdin": "0\n",
+          "stdout": ""
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "6\n-7\n",
+          "stdin": "3\n1\n2 3\n1 -7",
+          "stdout": "6\n-7\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "",
+          "stdin": "",
+          "stdout": ""
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "0\n9\n",
+          "stdin": "2 -5 5\n1 9\n0\n1 100",
+          "stdout": "0\n9\n"
+        }
+      ]
+    }
+  },
+  {
+    "id": "io-words",
+    "slug": "io-words",
+    "title": "单词排序与空白处理",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\ndef solve():\n    for line in sys.stdin:\n        words = line.split()\n        if words: print(' '.join(sorted(words)))\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex05_str_sort_space.py",
+    "sourceUpdatedAt": "2026-09-03T18:28:18.290234+00:00",
+    "needsRecheck": false,
+    "statement": "每个非空行是一组单词，按字典序排序后以单个空格输出。读到 EOF 结束，空白行跳过。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 05: 字符串按空格分割与格式化输出\n================================================================================\n【题目描述】\n对输入的多个字符串进行字典序升序排序。\n输入包含多行，每行有若干个由空格隔开的单词（直到 EOF）。\n输出：每行单词按字典序升序排序后，以空格隔开重新输出（注意：行末不要有多余空格）。\n\n【输入格式】\nc d a bb\nbanana apple orange\n\n【输出格式】\na bb c d\napple banana orange\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "每个非空行是一组单词，按字典序排序后以单个空格输出。读到 EOF 结束，空白行跳过。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "apple banana cat\n",
+        "stdin": "banana apple cat",
+        "stdout": "apple banana cat\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "a b c\n",
+        "stdin": "  b\t a   c \n",
+        "stdout": "a b c\n"
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "a a\n",
+        "stdin": "\n\na a\n",
+        "stdout": "a a\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "z\na b\n",
+        "stdin": "z\nb a",
+        "stdout": "z\na b\n"
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "",
+        "stdin": "",
+        "stdout": ""
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\ndef solve():\n    for line in sys.stdin:\n        words = line.split()\n        if words: print(' '.join(sorted(words)))\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "每个非空行是一组单词，按字典序排序后以单个空格输出。读到 EOF 结束，空白行跳过。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "apple banana cat\n",
+          "stdin": "banana apple cat",
+          "stdout": "apple banana cat\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "a b c\n",
+          "stdin": "  b\t a   c \n",
+          "stdout": "a b c\n"
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "a a\n",
+          "stdin": "\n\na a\n",
+          "stdout": "a a\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "z\na b\n",
+          "stdin": "z\nb a",
+          "stdout": "z\na b\n"
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "",
+          "stdin": "",
+          "stdout": ""
+        }
+      ]
+    }
+  },
+  {
+    "id": "io-two-sum",
+    "slug": "io-two-sum",
+    "title": "数组清洗：两数之和",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\ndef solve():\n    nums = list(map(int, sys.stdin.readline().strip().strip('[]').replace(',', ' ').split()))\n    target = int(sys.stdin.readline())\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            print(seen[target-x], i)\n            return\n        seen[x] = i\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex06_two_sum_acm.py",
+    "sourceUpdatedAt": "2026-09-03T18:23:21.822093+00:00",
+    "needsRecheck": false,
+    "statement": "第一行是逗号或空格分隔的整数，可带中括号；第二行为 target。输出唯一解的两个下标，升序、空格分隔。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 06: [LeetCode 1 实战] 两数之和的 ACM 模式\n================================================================================\n【题目描述】\n给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出和为目标值 target 的那两个整数，\n并返回它们的数组下标（升序，用空格隔开）。\n输入格式：\n- 第一行为数组元素，元素之间以逗号或空格隔开，可能带有首尾中括号（如 \"[2, 7, 11, 15]\" 或 \"2 7 11 15\"）。\n- 第二行为整数 target。\n\n【输入格式样例】\n[2, 7, 11, 15]\n9\n\n【输出格式样例】\n0 1\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    \"\"\"\n    请完成：\n    1. 读取第一行，处理括号和逗号，提取出整数列表 nums\n    2. 读取第二行 target\n    3. 哈希表算法求解\n    4. 将两个下标按空格隔开输出\n    \"\"\"\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "第一行是逗号或空格分隔的整数，可带中括号；第二行为 target。输出唯一解的两个下标，升序、空格分隔。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "0 1\n",
+        "stdin": "[2, 7, 11, 15]\n9",
+        "stdout": "0 1\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "1 2\n",
+        "stdin": "3 2 4\n6",
+        "stdout": "1 2\n"
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "0 1\n",
+        "stdin": "[3,3]\n6",
+        "stdout": "0 1\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "0 2\n",
+        "stdin": "[-3, 4, 3, 90]\n0",
+        "stdout": "0 2\n"
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "0 3\n",
+        "stdin": "0,4,3,0\n0",
+        "stdout": "0 3\n"
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\ndef solve():\n    nums = list(map(int, sys.stdin.readline().strip().strip('[]').replace(',', ' ').split()))\n    target = int(sys.stdin.readline())\n    seen = {}\n    for i, x in enumerate(nums):\n        if target - x in seen:\n            print(seen[target-x], i)\n            return\n        seen[x] = i\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "第一行是逗号或空格分隔的整数，可带中括号；第二行为 target。输出唯一解的两个下标，升序、空格分隔。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "0 1\n",
+          "stdin": "[2, 7, 11, 15]\n9",
+          "stdout": "0 1\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "1 2\n",
+          "stdin": "3 2 4\n6",
+          "stdout": "1 2\n"
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "0 1\n",
+          "stdin": "[3,3]\n6",
+          "stdout": "0 1\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "0 2\n",
+          "stdin": "[-3, 4, 3, 90]\n0",
+          "stdout": "0 2\n"
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "0 3\n",
+          "stdin": "0,4,3,0\n0",
+          "stdout": "0 3\n"
+        }
+      ]
+    }
+  },
+  {
+    "id": "io-grid",
+    "slug": "io-grid",
+    "title": "字符网格：岛屿数量",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\ndef solve():\n    m, n = map(int, sys.stdin.readline().split())\n    grid = [list(sys.stdin.readline().strip()) for _ in range(m)]\n    total = 0\n    for r in range(m):\n        for c in range(n):\n            if grid[r][c] != '1': continue\n            total += 1\n            grid[r][c] = '0'\n            stack = [(r,c)]\n            while stack:\n                x, y = stack.pop()\n                for dx,dy in ((1,0),(-1,0),(0,1),(0,-1)):\n                    nx,ny=x+dx,y+dy\n                    if 0<=nx<m and 0<=ny<n and grid[nx][ny]=='1':\n                        grid[nx][ny]='0';stack.append((nx,ny))\n    print(total)\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex07_num_islands_acm.py",
+    "sourceUpdatedAt": "2026-09-03T18:23:27.117785+00:00",
+    "needsRecheck": false,
+    "statement": "第一行为 m n；接下来 m 行为连续 0/1 字符（无空格），统计上下左右相连的陆地块数量，输出一个整数。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 07: [LeetCode 200 实战] 岛屿数量的 ACM 模式\n================================================================================\n【题目描述】\n给你一个由 '1'（陆地）和 '0'（水）组成的的二维网格，请你计算网格中岛屿的数量。\n岛屿总是被水包围，并且每座岛屿只能由水平方向和/或竖直方向上相邻的陆地连接形成。\n\n输入格式：\n- 第一行包含两个整数 m 和 n，分别表示网格的行数和列数。\n- 随后 m 行，每行一个长度为 n 的字符串，仅由 '1' 和 '0' 组成。\n\n【输入格式样例】\n4 5\n11110\n11010\n11000\n00000\n\n【输出格式样例】\n1\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    \"\"\"\n    请完成：\n    1. 读取 m, n\n    2. 读取 m 行构造二维列表 grid\n    3. 编写 DFS/BFS 遍历淹没陆地\n    4. 打印岛屿总数量\n    \"\"\"\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "第一行为 m n；接下来 m 行为连续 0/1 字符（无空格），统计上下左右相连的陆地块数量，输出一个整数。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "2\n",
+        "stdin": "3 3\n110\n010\n001",
+        "stdout": "2\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "0\n",
+        "stdin": "1 1\n0",
+        "stdout": "0\n"
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "1\n",
+        "stdin": "1 1\n1",
+        "stdout": "1\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "5\n",
+        "stdin": "3 3\n101\n010\n101",
+        "stdout": "5\n"
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "1\n",
+        "stdin": "2 4\n1111\n1111",
+        "stdout": "1\n"
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\ndef solve():\n    m, n = map(int, sys.stdin.readline().split())\n    grid = [list(sys.stdin.readline().strip()) for _ in range(m)]\n    total = 0\n    for r in range(m):\n        for c in range(n):\n            if grid[r][c] != '1': continue\n            total += 1\n            grid[r][c] = '0'\n            stack = [(r,c)]\n            while stack:\n                x, y = stack.pop()\n                for dx,dy in ((1,0),(-1,0),(0,1),(0,-1)):\n                    nx,ny=x+dx,y+dy\n                    if 0<=nx<m and 0<=ny<n and grid[nx][ny]=='1':\n                        grid[nx][ny]='0';stack.append((nx,ny))\n    print(total)\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "第一行为 m n；接下来 m 行为连续 0/1 字符（无空格），统计上下左右相连的陆地块数量，输出一个整数。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "2\n",
+          "stdin": "3 3\n110\n010\n001",
+          "stdout": "2\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "0\n",
+          "stdin": "1 1\n0",
+          "stdout": "0\n"
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "1\n",
+          "stdin": "1 1\n1",
+          "stdout": "1\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "5\n",
+          "stdin": "3 3\n101\n010\n101",
+          "stdout": "5\n"
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "1\n",
+          "stdin": "2 4\n1111\n1111",
+          "stdout": "1\n"
+        }
+      ]
+    }
+  },
+  {
+    "id": "io-linked-list",
+    "slug": "io-linked-list",
+    "title": "链表构造与格式化输出",
+    "category": "ACM 输入输出",
+    "leetcodeSlug": "",
+    "method": "solve",
+    "parameters": [],
+    "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+    "reference": "import sys\nclass ListNode:\n    def __init__(self, val=0, next=None): self.val,self.next=val,next\ndef solve():\n    nums=list(map(int,sys.stdin.readline().strip().strip('[]').replace(',',' ').split()))\n    head=tail=None\n    for x in nums:\n        node=ListNode(x)\n        if tail:tail.next=node\n        else:head=node\n        tail=node\n    prev=None\n    while head:\n        nxt=head.next;head.next=prev;prev=head;head=nxt\n    out=[]\n    while prev:out.append(str(prev.val));prev=prev.next\n    print(' -> '.join(out+['None']) if out else 'Empty List')\nif __name__ == '__main__': solve()\n",
+    "referenceSource": "supplement",
+    "sourcePath": "acm_mode/exercises/ex08_reverse_list_acm.py",
+    "sourceUpdatedAt": "2026-09-03T18:23:32.336558+00:00",
+    "needsRecheck": false,
+    "statement": "输入一行整数，可使用空格或逗号分隔、可带中括号。自己定义 ListNode、构造并反转链表，输出 v1 -> v2 -> None；空链表输出 Empty List。",
+    "solutions": [
+      {
+        "name": "本地练习原文",
+        "code": "练习 08: [LeetCode 206 实战] 反转链表的 ACM 模式\n================================================================================\n【题目描述】\n给你单链表的头节点 head，请你反转链表，并打印反转后的链表。\n\n输入格式：\n- 输入一行，包含若干个由空格或逗号隔开的整数（可能带有中括号，如 \"1 2 3 4 5\" 或 \"[1, 2, 3, 4, 5]\"）。\n- 若输入为空，输出 \"Empty List\"。\n\n输出格式：\n- 将反转后的链表按节点值以 \" -> \" 连接，末尾指向 \"None\"，例如: \"5 -> 4 -> 3 -> 2 -> 1 -> None\"。\n================================================================================"
+      },
+      {
+        "name": "本地待完成骨架",
+        "code": "def solve():\n    \"\"\"\n    请完成：\n    1. 解析标准输入的一行字符串为数字列表\n    2. 自己构建 ListNode 链表\n    3. 双指针迭代法反转链表\n    4. 遍历反转后的链表，打印成 'v1 -> v2 -> ... -> None' 格式\n    \"\"\"\n    # TODO: 请在下方编写你的代码（替换 pass）\n    pass"
+      }
+    ],
+    "recall": {
+      "signal": "输入一行整数，可使用空格或逗号分隔、可带中括号。自己定义 ListNode、构造并反转链表，输出 v1 -> v2 -> None；空链表输出 Empty List。",
+      "choice": "先明确一组数据的边界，再区分 EOF、空行、结束标记。",
+      "invariant": "每轮恰好消费一组输入，输出行与处理组一一对应；不要打印提示语。",
+      "skeleton": "读入 → 解析 → 处理 → 按格式输出；EOF 与空行分开判断。",
+      "complexity": "输入读取时间与字符数线性相关；算法部分根据实际解法分析。"
+    },
+    "mistakes": [],
+    "tests": [
+      {
+        "name": "1. 样例",
+        "args": [],
+        "expected": "5 -> 4 -> 3 -> 2 -> 1 -> None\n",
+        "stdin": "[1, 2, 3, 4, 5]",
+        "stdout": "5 -> 4 -> 3 -> 2 -> 1 -> None\n"
+      },
+      {
+        "name": "2. 输入输出边界",
+        "args": [],
+        "expected": "Empty List\n",
+        "stdin": "",
+        "stdout": "Empty List\n"
+      },
+      {
+        "name": "3. 输入输出边界",
+        "args": [],
+        "expected": "Empty List\n",
+        "stdin": "[]\n",
+        "stdout": "Empty List\n"
+      },
+      {
+        "name": "4. 输入输出边界",
+        "args": [],
+        "expected": "-1 -> None\n",
+        "stdin": "-1",
+        "stdout": "-1 -> None\n"
+      },
+      {
+        "name": "5. 输入输出边界",
+        "args": [],
+        "expected": "-2 -> 1 -> 1 -> None\n",
+        "stdin": "1, 1, -2",
+        "stdout": "-2 -> 1 -> 1 -> None\n"
+      }
+    ],
+    "related": [],
+    "acmOnly": true,
+    "acm": {
+      "template": "import sys\n\n\ndef solve():\n    # 读取标准输入，并按题目要求逐行输出。\n    pass\n\n\nif __name__ == '__main__':\n    solve()\n",
+      "reference": "import sys\nclass ListNode:\n    def __init__(self, val=0, next=None): self.val,self.next=val,next\ndef solve():\n    nums=list(map(int,sys.stdin.readline().strip().strip('[]').replace(',',' ').split()))\n    head=tail=None\n    for x in nums:\n        node=ListNode(x)\n        if tail:tail.next=node\n        else:head=node\n        tail=node\n    prev=None\n    while head:\n        nxt=head.next;head.next=prev;prev=head;head=nxt\n    out=[]\n    while prev:out.append(str(prev.val));prev=prev.next\n    print(' -> '.join(out+['None']) if out else 'Empty List')\nif __name__ == '__main__': solve()\n",
+      "inputFormat": "输入一行整数，可使用空格或逗号分隔、可带中括号。自己定义 ListNode、构造并反转链表，输出 v1 -> v2 -> None；空链表输出 Empty List。",
+      "outputFormat": "按题目描述逐行输出；忽略每行首尾及重复空白，保留分行，不允许额外提示语。",
+      "tests": [
+        {
+          "name": "1. 样例",
+          "args": [],
+          "expected": "5 -> 4 -> 3 -> 2 -> 1 -> None\n",
+          "stdin": "[1, 2, 3, 4, 5]",
+          "stdout": "5 -> 4 -> 3 -> 2 -> 1 -> None\n"
+        },
+        {
+          "name": "2. 输入输出边界",
+          "args": [],
+          "expected": "Empty List\n",
+          "stdin": "",
+          "stdout": "Empty List\n"
+        },
+        {
+          "name": "3. 输入输出边界",
+          "args": [],
+          "expected": "Empty List\n",
+          "stdin": "[]\n",
+          "stdout": "Empty List\n"
+        },
+        {
+          "name": "4. 输入输出边界",
+          "args": [],
+          "expected": "-1 -> None\n",
+          "stdin": "-1",
+          "stdout": "-1 -> None\n"
+        },
+        {
+          "name": "5. 输入输出边界",
+          "args": [],
+          "expected": "-2 -> 1 -> 1 -> None\n",
+          "stdin": "1, 1, -2",
+          "stdout": "-2 -> 1 -> 1 -> None\n"
+        }
+      ]
+    }
+  }
+]
