@@ -4,6 +4,7 @@ dist/
 dist-ssr/
 *.local
 *.log
+__pycache__/
 
 # Tool session state
 .mimosa/
@@ -11,8 +12,17 @@ dist-ssr/
 
 # video2kb 本地转录 inbox（从 hz01 拉回的原始字幕，不公开入库）
 video2kb-inbox/
-# hz01 video2kb 管线源码（服务器侧工具，不在站点仓库维护）
-/video2kb/
+# video2kb 管线源码入库，但以下运行期/密钥/产出文件不公开
+video2kb/data/
+video2kb/logs/
+video2kb/knowledge_base/
+video2kb/douyin_inbox/
+video2kb/links.txt
+video2kb/.env
+video2kb/cookies*.txt
+video2kb/cookie_header_*.txt
+video2kb/tools/
+video2kb/models/
 
 # Editor directories and files
 .vscode/*

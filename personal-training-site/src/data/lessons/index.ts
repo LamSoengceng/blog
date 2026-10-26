@@ -1,6 +1,6 @@
 import type { Lesson } from './types'
 
-// 视频课程数据：由 video2kb-lesson skill 生成，scripts/validateLessons.mjs 校验。
+// 讲义数据（原「视频课程」）：由 video2kb-lesson skill 生成，scripts/validateLessons.mjs 校验。
 // 新增课程只需把 JSON 放进本目录，下面自动收录（按加工日期倒序）。
 const modules = import.meta.glob('./*.json', { eager: true }) as Record<string, { default: Lesson }>
 
