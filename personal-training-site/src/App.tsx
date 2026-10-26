@@ -2,12 +2,14 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
 import { ArrowUpRight, Menu, Search, Settings, X } from 'lucide-react'
 import './App.css'
+import './styles/design-system.css'
 import { SettingsModal } from './components/SettingsModal'
 import { useDialogFocus } from './hooks/useDialogFocus'
 
 const AlgorithmPage = lazy(() => import('./pages/AlgorithmPage').then((module) => ({ default: module.AlgorithmPage })))
 const AlgorithmPracticePage = lazy(() => import('./pages/AlgorithmPracticePage').then((module) => ({ default: module.AlgorithmPracticePage })))
 const CareerPage = lazy(() => import('./pages/CareerPage').then((module) => ({ default: module.CareerPage })))
+const LessonDetailPage = lazy(() => import('./pages/LessonDetailPage').then((module) => ({ default: module.LessonDetailPage })))
 const AlgorithmReviewPage = lazy(() =>
   import('./pages/AlgorithmReviewPage').then((module) => ({ default: module.AlgorithmReviewPage })),
 )
@@ -190,6 +192,7 @@ function App() {
           <Route path="/xunji-log" element={<XunjiLogPage />} />
           <Route path="/algorithm" element={<AlgorithmPage />} />
           <Route path="/career" element={<CareerPage />} />
+          <Route path="/career/lessons/:lessonSlug" element={<LessonDetailPage />} />
           <Route path="/algorithm/review" element={<AlgorithmReviewPage />} />
           <Route path="/algorithm/practice/:problemSlug" element={<AlgorithmPracticePage />} />
           <Route path="/stock" element={<StockPage />} />

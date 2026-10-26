@@ -7,6 +7,12 @@ dist-ssr/
 
 # Tool session state
 .mimosa/
+.openai/
+
+# video2kb 本地转录 inbox（从 hz01 拉回的原始字幕，不公开入库）
+video2kb-inbox/
+# hz01 video2kb 管线源码（服务器侧工具，不在站点仓库维护）
+/video2kb/
 
 # Editor directories and files
 .vscode/*

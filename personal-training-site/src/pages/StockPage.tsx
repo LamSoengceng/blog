@@ -1,12 +1,9 @@
 import {
   BarChart3,
-  CalendarClock,
   DatabaseZap,
   Flame,
-  Gauge,
   LineChart,
   Rocket,
-  ShieldAlert,
   TrendingUp,
   Trophy,
   Zap,
@@ -14,17 +11,14 @@ import {
 import {
   domesticFlows,
   dragonTigerTop,
-  globalSignals,
   hotStocks,
   ladderBoards,
+  ladderDate,
   limitBreakTop,
   limitUpTop,
   sectorPulse,
   skyrockets,
   stockBreadth,
-  stockChecklist,
-  stockDataPlan,
-  stockEvents,
   stockIndices,
   stockMeta,
   type DragonTigerItem,
@@ -166,11 +160,6 @@ export function StockPage() {
         <div>
           <p className="eyebrow">A-share stock watch</p>
           <h1 className="page-title">A 股股票观察</h1>
-          <p className="market-hero-copy">
-            面向中等资金量账户的 A 股观察页：指数、涨停结构、连板高度、市场热度、龙虎榜、
-            行业板块与 ETF 行情，全部由 hithink-finance（同花顺）真实数据驱动，交易日收盘后刷新。
-            页面服务于仓位管理、风险预算和复盘，不做买卖指令。
-          </p>
         </div>
         <aside className="market-refresh-card">
           <DatabaseZap size={24} />
@@ -185,35 +174,28 @@ export function StockPage() {
           <LineChart size={22} />
           <span>Tracked indices</span>
           <strong>{stockMeta.trackedMarkets}</strong>
-          <p>A 股宽基与成长风格指数，真实收盘快照。</p>
         </article>
         <article>
           <Zap className="stock-overview-icon" size={22} />
           <span>Limit-up</span>
           <strong>{stockBreadth.limitUpCount}</strong>
-          <p>{stockBreadth.tradeDate ?? '—'} 涨停家数，含连板结构。</p>
         </article>
         <article>
           <TrendingUp size={22} />
           <span>Index breadth</span>
           <strong>{indexBreadth}</strong>
-          <p>真实快照中上涨指数数量 / 观察指数总数。</p>
         </article>
         <article>
           <BarChart3 size={22} />
           <span>Watchlist</span>
           <strong>{stockMeta.watchlistSize}</strong>
-          <p>以宽基 ETF、行业 ETF 和海外映射为主。</p>
         </article>
       </div>
 
       <section className="market-section">
         <div className="section-heading">
           <p className="eyebrow">Index pulse</p>
-          <h2>指数是股票市场的第一层坐标。</h2>
-          <p>
-            先看宽基方向、成交额和风格扩散，再进入涨停与热度结构。指数状态决定进攻还是防守。
-          </p>
+          <h2>指数行情</h2>
         </div>
         <div className="market-index-rail">
           {stockIndices.map((item) => (
@@ -257,10 +239,7 @@ export function StockPage() {
       <section className="market-section">
         <div className="section-heading">
           <p className="eyebrow">Limit-up ladder</p>
-          <h2>连板天梯：赚钱效应的高度与广度。</h2>
-          <p>
-            连板高度代表短线情绪温度，档位家数代表赚钱效应的扩散程度。高度与广度同步抬升才是健康的进攻结构。
-          </p>
+          <h2>连板天梯{ladderDate ? ` · ${ladderDate}` : ''}</h2>
         </div>
         <div className="stock-ladder">
           {ladderBoards.map((tier) => (
@@ -322,52 +301,20 @@ export function StockPage() {
         </article>
       </section>
 
-      <section className="market-lab-grid">
-        <article className="market-panel">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Domestic flows</p>
-              <h3>资金与成交结构</h3>
+      <section className="market-section">
+        <div className="section-heading">
+          <p className="eyebrow">Domestic flows</p>
+          <h2>资金与成交结构</h2>
+        </div>
+        <div className="domestic-flow-grid">
+          {domesticFlows.map((flow) => (
+            <div className="domestic-flow-card" key={flow.name}>
+              <span>{flow.name}</span>
+              <strong>{flow.value}</strong>
+              <b>{flow.state}</b>
             </div>
-            <span>A-share</span>
-          </div>
-          <div className="domestic-flow-grid">
-            {domesticFlows.map((flow) => (
-              <div className="domestic-flow-card" key={flow.name}>
-                <span>{flow.name}</span>
-                <strong>{flow.value}</strong>
-                <b>{flow.state}</b>
-                <p>{flow.note}</p>
-              </div>
-            ))}
-          </div>
-        </article>
-
-        <aside className="market-panel">
-          <div className="panel-heading">
-            <div>
-              <p className="eyebrow">Global read-through</p>
-              <h3>海外变量</h3>
-            </div>
-            <span>macro</span>
-          </div>
-          <div className="global-signal-list">
-            {globalSignals.map((signal) => (
-              <div className="global-signal-row" key={signal.name}>
-                <div>
-                  <strong>{signal.name}</strong>
-                  <span>{signal.read}</span>
-                </div>
-                <b className={isStatic(signal.value) ? 'muted' : ''}>{signal.value}</b>
-                <em
-                  className={isStatic(signal.change) ? 'muted' : isPositive(signal.change) ? 'positive' : 'negative'}
-                >
-                  {signal.change}
-                </em>
-              </div>
-            ))}
-          </div>
-        </aside>
+          ))}
+        </div>
       </section>
 
       <section className="market-lab-grid">
@@ -389,7 +336,6 @@ export function StockPage() {
                 <em>{item.category}</em>
                 <span className="watch-price">{item.price}</span>
                 <b className={isPositive(item.changePct) ? 'positive' : 'negative'}>{item.changePct}</b>
-                <p>{item.note}</p>
               </div>
             ))}
           </div>
@@ -408,13 +354,9 @@ export function StockPage() {
               <div className="sector-pulse-row" key={sector.name}>
                 <div>
                   <strong>{sector.name}</strong>
-                  <span>{sector.note}</span>
                 </div>
                 <b className={isPositive(sector.changePct) ? 'positive' : 'negative'}>{sector.changePct}</b>
-                <em
-                  className={isStatic(sector.breadth) ? 'muted' : ''}
-                  title={isStatic(sector.breadth) ? '板块内上涨家数占比：hithink 快照暂不提供' : undefined}
-                >
+                <em className={isStatic(sector.breadth) ? 'muted' : ''}>
                   {isStatic(sector.breadth) ? '—' : sector.breadth}
                 </em>
               </div>
@@ -423,61 +365,9 @@ export function StockPage() {
         </aside>
       </section>
 
-      <section className="market-support-grid">
-        <article className="market-panel">
-          <div className="market-panel-title">
-            <ShieldAlert size={22} />
-            <div>
-              <p className="eyebrow">Daily discipline</p>
-              <h3>每日股票检查清单</h3>
-            </div>
-          </div>
-          <ol className="market-check-list">
-            {stockChecklist.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ol>
-        </article>
-
-        <article className="market-panel">
-          <div className="market-panel-title">
-            <CalendarClock size={22} />
-            <div>
-              <p className="eyebrow">Calendar</p>
-              <h3>国内外事件风险</h3>
-            </div>
-          </div>
-          <div className="market-event-list">
-            {stockEvents.map((event) => (
-              <div className="market-event-row" key={`${event.date}-${event.title}`}>
-                <time>{event.date}</time>
-                <strong>{event.title}</strong>
-                <span className={`impact ${event.impact.toLowerCase()}`}>{event.impact}</span>
-                <p>{event.note}</p>
-              </div>
-            ))}
-          </div>
-        </article>
-
-        <article className="market-panel market-agent-panel">
-          <div className="market-panel-title">
-            <Gauge size={22} />
-            <div>
-              <p className="eyebrow">Agent workflow</p>
-              <h3>每日更新链路</h3>
-            </div>
-          </div>
-          <ul className="market-agent-list">
-            {stockDataPlan.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ul>
-          <p className="market-disclaimer">
-            这个页面是研究框架和复盘工具，不是荐股系统。涨停池、热榜、龙虎榜均为同花顺公开行情数据，
-            不代表买入信号。页面必须显示数据来源、更新时间和失败状态；不要在前端暴露任何 API key。
-          </p>
-        </article>
-      </section>
+      <p className="market-disclaimer">
+        本页数据来源 hithink-finance（同花顺）公开行情，更新于 {stockMeta.updatedAt}，仅供参考，不构成投资建议。
+      </p>
     </section>
   )
 }

@@ -41,6 +41,13 @@
 }
 
 :root {
+  --radius-card: 16px;
+  --radius-control: 9px;
+  --control-bg: #0c1612;
+  --border-strong: #a4c9b547;
+  --text-on-accent: #09251a;
+  --shadow-card: 0 4px 18px #00000013;
+  --content-width: 1280px;
   --font-sans:
     Inter, "Noto Sans SC", "HarmonyOS Sans SC", MiSans, "Microsoft YaHei UI", "Microsoft YaHei",
     "PingFang SC", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont,
@@ -59,23 +66,23 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --page: #050806;
-  --surface: #0b1510;
-  --surface-strong: #102018;
-  --surface-raised: #195335;
-  --text: #ddebe2;
-  --text-strong: #f3fff7;
-  --muted: #88a391;
-  --border: #244936;
-  --accent: #42c979;
-  --accent-soft: #8fffc0;
+  --page: #07100c;
+  --surface: #101b18;
+  --surface-strong: #15251e;
+  --surface-raised: #234336;
+  --text: #e1ebe7;
+  --text-strong: #f1f6f3;
+  --muted: #97aaa3;
+  --border: #a4c9b526;
+  --accent: #72dfb1;
+  --accent-soft: #a6efd0;
   --info: #75c7db;
   --signal: #e5b86f;
   --track: #173326;
   --danger: #ff7a4f;
   --success: #55e889;
   --warning: #e5b86f;
-  --focus-ring: #75c7db;
+  --focus-ring: #72dfb1;
 }
 
 * {

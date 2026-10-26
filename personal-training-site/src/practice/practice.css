@@ -81,8 +81,8 @@
 @media(max-width:760px){.mistake-code-comparison{grid-template-columns:1fr}}
 /* Algorithm workspace visual system. Scoped to preserve the rest of the site. */
 .practice-page,.practice-dashboard{
-  --practice-accent:#72dfb1;--practice-text:#e1ebe7;--practice-muted:#97aaa3;
-  --practice-border:#a4c9b51c;--practice-surface:#101b18;
+  --practice-accent:var(--accent);--practice-text:var(--text);--practice-muted:var(--muted);
+  --practice-border:var(--border);--practice-surface:var(--surface);
   color:var(--practice-text);font-feature-settings:"ss01";
 }
 .practice-page{max-width:1480px;padding-top:28px}

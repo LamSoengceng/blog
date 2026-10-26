@@ -19,6 +19,7 @@
     "enrich:llm": "node scripts/llmEnrichReview.mjs",
     "sync:xunji": "node --env-file-if-exists=.env.local scripts/sync-xunji.mjs",
     "update:stock": "node scripts/fetchHithinkData.mjs && node scripts/generateStockData.mjs",
+    "validate:lessons": "node scripts/validateLessons.mjs",
     "test": "vitest run",
     "build:pages": "vite build --base=/blog/ && node scripts/patch-gh-pages.mjs /blog/"
   },
@@ -27,6 +28,7 @@
     "@codemirror/view": "^6.43.15",
     "@uiw/react-codemirror": "^4.25.12",
     "lucide-react": "^1.24.0",
+    "mermaid": "^12.2.0",
     "pyodide": "0.27.7",
     "react": "^18.3.1",
     "react-body-highlighter": "^2.0.5",

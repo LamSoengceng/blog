@@ -6,12 +6,13 @@ import { blogPosts } from '../data/blogData'
 import { diaryEntries } from '../data/diaryData'
 import { metricCards, movementHighlights, muscleVolumes, prs } from '../data/fitnessData'
 import { projects } from '../data/projectsData'
+import { lessons } from '../data/lessons'
 import { loadJournal } from './journalStore'
 import { buildStats, scoreDoc, type Bm25Doc } from './bm25'
 
 export type KnowledgeChunk = {
   id: string
-  source: '博客' | '训练日志' | '算法题解' | '日记' | '项目' | '训练数据'
+  source: '博客' | '训练日志' | '算法题解' | '日记' | '项目' | '训练数据' | '视频课程'
   title: string
   date?: string
   text: string
@@ -47,6 +48,21 @@ const buildStaticChunks = (): KnowledgeChunk[] => {
         date: post.date,
         text: clip(section.body.join(' '), 600),
       })
+    })
+  }
+
+  for (const lesson of lessons) {
+    chunks.push({
+      id: `lesson-${lesson.slug}`,
+      source: '视频课程',
+      title: lesson.title,
+      date: lesson.date,
+      text: clip(
+        `${lesson.summary} 术语：${lesson.keyTerms.map((term) => `${term.term}（${term.text}）`).join('、')}。` +
+          `小节：${lesson.sections.map((section) => section.heading).join('、')}。` +
+          `来源视频：${lesson.source.author}，${lesson.source.url}`,
+        700,
+      ),
     })
   }
 

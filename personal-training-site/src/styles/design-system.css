@@ -1,0 +1,140 @@
+/* Shared visual language. Layout, data colours and interaction logic remain page-owned. */
+.site-shell{background:var(--page);color:var(--text)}
+.site-shell :is(h1,h2,h3,h4){color:var(--text-strong);letter-spacing:-.03em}
+.site-shell :is(h2,h3,h4){font-weight:600}
+.site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:clamp(30px,3.5vw,44px);line-height:1.25;font-weight:650;letter-spacing:-.045em;margin:8px 0 18px}
+.site-shell :is(.content-band,.detail-page,.algorithm-detail-page,.blog-detail-page,.market-page){max-width:var(--content-width);margin-inline:auto;padding-inline:40px}
+.site-shell .page-band{padding-top:112px;padding-bottom:56px}
+.site-shell :is(.section-heading,.blog-hero,.market-hero){margin-bottom:28px}
+.site-shell .section-heading h2{font-size:clamp(23px,2.5vw,30px);line-height:1.35}
+.site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size:14px;line-height:1.9;color:var(--muted);max-width:760px}
+.site-shell .eyebrow{color:var(--accent);font-size:10px;font-weight:650;letter-spacing:.15em;line-height:1.6}
+.site-shell :is(.hero-text,.hero-subtitle){color:var(--muted);font-size:14px;line-height:1.9}
+.site-shell :is(.back-link,.empty-note){color:var(--muted);font-size:13px}
+.site-shell .back-link{text-decoration:none}
+.site-shell .back-link:hover{color:var(--accent)}
+
+/* Panels use one edge, surface and shadow treatment across all modules. */
+.site-shell :is(.status-panel,.metric-card,.home-module-card,.home-feature-post,.blog-index-card,.blog-feature-card,.blog-post-card,.blog-sidebar,.blog-toc,.project-card,.detail-panel,.chart-panel,.volume-panel,.timeline-panel,.plan-panel,.workflow-grid article,.algorithm-command-panel,.algorithm-progress-panel,.algorithm-focus-panel,.algorithm-next-panel,.algorithm-category-card,.algorithm-board-card,.algorithm-recent-card,.algorithm-problem-card,.algorithm-status-card,.review-card,.review-done,.ai-panel,.market-panel,.market-index-card,.market-refresh-card,.domestic-flow-card,.career-overview a,.career-import,.career-history,.career-question,.feynman-composer,.feynman-record,.wrapped-panel,.wrapped-hero-card,.market-overview-grid article,.detail-stat-grid article,.media-placeholder,.feynman-stats>div,.highlight-card,.mind-panel,.knowledge-strip,.diary-detail,.journal-composer,.journal-entry,.xlog-trend-card,.xlog-body,.xunji-panel){
+  min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-card);box-shadow:var(--shadow-card);
+}
+.site-shell :is(.blog-post-card,.home-module-card,.project-card,.career-overview a,.algorithm-problem-card){transition:background .16s,border-color .16s}
+.site-shell :is(.blog-post-card,.home-module-card,.project-card,.career-overview a,.algorithm-problem-card):hover{background:var(--surface-strong);border-color:var(--border-strong);transform:none}
+.site-shell :is(.blog-feature-card,.home-feature-post){background:linear-gradient(135deg,var(--surface-strong),var(--surface));border-color:var(--border-strong)}
+.site-shell :is(.panel-heading h3,.market-panel-title h3,.career-section-heading h2){font-size:20px}
+.site-shell :is(.career-question h3,.blog-post-card h3,.home-module-card h3){font-size:18px;line-height:1.6}
+.site-shell :is(.blog-index-card strong,.blog-feature-card>strong){color:var(--accent);background:transparent}
+.site-shell :is(.blog-post-card p,.blog-feature-card p,.career-overview small,.career-section-heading p,.career-ranking-note,.career-history-heading p,.career-question-top,.career-empty,.market-disclaimer){color:var(--muted)}
+.site-shell :is(.blog-meta-row,.blog-card-topline,.blog-archive-list time,.blog-topic-list,.blog-result-count){color:var(--muted);font-size:12px}
+.site-shell :is(.blog-tag-row span,.project-stack-row span,.career-tags span,.review-pill-row span,.dataset-badge){background:#72dfb10c;border:1px solid var(--border);border-radius:6px;color:#a5cbb7}
+
+/* Primary, secondary and destructive actions keep their meaning on every page. */
+.site-shell :is(.primary-link,.secondary-link,.review-btn,.workspace-action-primary,.workspace-action-secondary,.career-import-actions button,.career-question-actions button,.career-history-heading button,.journal-composer-actions button,.settings-actions button){
+  border-radius:var(--radius-control);font-size:13px;font-weight:600;min-height:40px;box-shadow:none;transition:background .16s,border-color .16s;
+}
+.site-shell :is(.primary-link,.review-btn.primary,.workspace-action-primary,.career-import-actions button,.career-question-actions button:not(.career-delete),.settings-actions button[type=submit]){background:var(--accent);color:var(--text-on-accent);border:1px solid var(--accent)}
+.site-shell :is(.primary-link,.review-btn.primary,.workspace-action-primary,.career-import-actions button,.career-question-actions button:not(.career-delete)):hover:not(:disabled){background:#93eac5;border-color:#93eac5;transform:none}
+.site-shell :is(.secondary-link,.review-btn.ghost,.workspace-action-secondary,.career-history-heading button){background:#d5ead008;color:#c5d6cc;border:1px solid var(--border)}
+.site-shell :is(.secondary-link,.review-btn.ghost,.workspace-action-secondary,.career-history-heading button):hover:not(:disabled){background:#d7f6e812;border-color:var(--border-strong)}
+.site-shell :is(.review-btn.warn,.career-delete,.journal-delete){background:#ba705115;color:#edb99f;border:1px solid #cd85652a}
+.site-shell button:disabled{cursor:not-allowed}
+.site-shell :is(.blog-filter-buttons button,.career-filters button){border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:8px;font-size:12px;padding:8px 12px}
+.site-shell :is(.blog-filter-buttons button.active,.blog-filter-buttons button[aria-pressed=true],.career-filters button.active){background:var(--surface-raised);border-color:#6bd6a52e;color:var(--accent-soft)}
+.site-shell :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):not([type=color]),textarea,select){
+  background:var(--control-bg);color:var(--text);border:1px solid var(--border-strong);border-radius:var(--radius-control);font-size:14px;line-height:1.7;max-width:100%;
+}
+.site-shell :is(input,textarea)::placeholder{color:#7e9488}
+.site-shell :is(input[type=checkbox],input[type=radio],input[type=range]){accent-color:var(--accent)}
+.site-shell :is(input,textarea,select):focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+.site-shell label{color:#b9cdc1}
+.site-shell fieldset{border-color:var(--border);border-radius:var(--radius-control)}
+.site-shell :is(.ai-note,.career-notice,.settings-saved){color:var(--accent-soft)}
+.site-shell :is(.ai-error,.settings-error){color:#edb99f}
+.site-shell :is(.ai-chat,.ask-thread,.ask-preview,.career-answer,.feynman-canonical){background:var(--control-bg);border-color:var(--border);border-radius:12px}
+.site-shell :is(.ask-message.assistant,.ask-message.user){border-color:var(--border);border-radius:12px;background:var(--surface)}
+.site-shell .ask-message.user{background:var(--surface-raised)}
+.site-shell :is(.ask-sample,.career-upload){background:#72dfb106;border:1px dashed var(--border-strong);border-radius:12px;color:var(--text)}
+.site-shell .career-upload small{color:var(--muted)}
+.site-shell :is(.review-code,.code-panel pre,.career-history pre,.blog-article-body pre){background:var(--control-bg);border:1px solid var(--border);border-radius:10px;color:#b7d7c7;font-family:var(--font-mono)}
+.site-shell :is(.review-topbar,.career-section,.career-history li,.blog-article-body section,.market-watch-row,.stock-row,.sector-pulse-row){border-color:var(--border)}
+.site-shell .review-topbar-stats{color:var(--muted)}
+.site-shell .review-hint{color:var(--muted)}
+.site-shell :is(.review-glance,.review-reveal,.review-section){border-color:var(--border);border-radius:12px}
+.site-shell :is(.review-mistake,.recall-feedback){background:#d6b16709;border-color:#d6b16730;border-radius:10px}
+.site-shell .career-overview{margin-bottom:40px}
+.site-shell .career-overview a{min-height:100px;padding:20px}
+.site-shell .career-overview a>svg{color:var(--accent)}
+.site-shell .career-import{padding:24px}
+.site-shell .career-section{padding-top:28px;padding-bottom:36px}
+
+/* Navigation and overlays belong to the same surface system. */
+.site-shell .workbench-header{background:#07100cf2;border-bottom-color:var(--border);backdrop-filter:blur(14px)}
+.site-shell :is(.workbench-nav-link,.workbench-ask-link){color:var(--muted)}
+.site-shell :is(.workbench-nav-link.active,.workbench-nav-link[aria-current=page]){color:var(--accent);background:#72dfb10c;border-radius:8px}
+.site-shell .workbench-icon-button{background:transparent;border-color:var(--border);border-radius:var(--radius-control);color:#b9d3c4}
+.site-shell :is(.workbench-menu-panel,.settings-dialog){background:var(--surface);border-color:var(--border-strong);border-radius:var(--radius-card);color:var(--text)}
+.site-shell .workbench-menu-link{border-color:var(--border);color:var(--text)}
+.site-shell .workbench-menu-review{color:var(--accent);background:#72dfb10c;border-color:var(--border)}
+.site-shell .workbench-footer{border-color:var(--border);color:var(--muted)}
+.site-shell .workbench-footer a{color:#b3cebd}
+.site-shell .workspace-hero{background:var(--page)}
+.site-shell .workspace-hero-copy h1{letter-spacing:-.045em}
+.site-shell :is(.workspace-intro,.workspace-art-caption){color:var(--muted)}
+.site-shell .workspace-art-orbit{border-color:var(--border)}
+.site-shell .workspace-module-top>svg{color:var(--accent)}
+
+/* Watch tables use the same dark surfaces; charts and market gain/loss colours stay semantic. */
+.site-shell :is(.watch-board,.watch-side){background:var(--surface);color:var(--text);border-color:var(--border);border-radius:var(--radius-card);box-shadow:var(--shadow-card)}
+.site-shell :is(.watch-panel-title h3,.watch-board .watch-panel-title h3,.watch-fixture){color:var(--text-strong)}
+.site-shell :is(.watch-section-label,.watch-side .watch-section-label){color:var(--accent)!important}
+.site-shell :is(.watch-sync,.watch-list-intro,.watch-timezone,.watch-panel-title span,.watch-board .watch-note,.watch-side .watch-note,.watch-side .watch-room small){color:var(--muted)!important}
+.site-shell :is(.watch-table-head,.watch-standings-scroll thead){background:var(--surface-strong);color:var(--muted);border-color:var(--border)}
+.site-shell :is(.watch-board .watch-match,.watch-standings-scroll,.watch-standings-scroll td,.watch-standings-scroll th){border-color:var(--border);color:var(--text)}
+.site-shell :is(.watch-board .watch-match:hover,.watch-standings-scroll tbody tr:hover){background:#72dfb108}
+.site-shell .watch-standings-scroll table{color:var(--text)}
+.site-shell :is(.watch-standings-scroll tr.watch-followed-team,.watch-board .watch-match.watch-followed-team){background:#72dfb112}
+.site-shell .watch-standings-scroll td:last-child strong{color:var(--accent)}
+.site-shell :is(.watch-board .watch-match time strong,.watch-standings-scroll tbody th){color:var(--text-strong)}
+.site-shell :is(.watch-board .watch-match time span,.watch-fixture span,.watch-official a,.watch-standings-controls,.watch-standings-controls a){color:var(--muted)}
+.site-shell :is(.watch-more,.watch-view-switch){background:var(--control-bg);color:var(--muted);border-color:var(--border)}
+.site-shell :is(.watch-view-switch button,.watch-filters button){color:var(--muted);border-color:var(--border)}
+.site-shell :is(.watch-view-switch button.active,.watch-filters button.active){background:var(--surface-raised);color:var(--accent-soft);border-color:var(--border-strong)}
+.site-shell :is(.watch-direct-link,.watch-add-room button){background:var(--accent);color:var(--text-on-accent);border-radius:var(--radius-control)}
+.site-shell .watch-standings-controls select{background:var(--control-bg);color:var(--text);border-color:var(--border-strong)}
+@media(max-width:760px){
+  .site-shell :is(.content-band,.detail-page,.algorithm-detail-page,.blog-detail-page,.market-page){padding-inline:20px}
+  .site-shell .page-band{padding-top:96px;padding-bottom:36px}
+  .site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:30px;line-height:1.35;margin-bottom:14px}
+  .site-shell :is(.section-heading,.blog-hero,.market-hero){margin-bottom:24px}
+  .site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size:13px}
+  .site-shell .career-import{padding:16px}
+  .site-shell .career-overview{gap:10px;margin-bottom:30px}
+  .site-shell .career-overview a{min-height:88px;padding:16px}
+  .site-shell :is(.review-btn,.primary-link,.secondary-link){min-height:40px}
+}
+@media(prefers-reduced-motion:reduce){.site-shell *{scroll-behavior:auto!important;transition:none!important}}
+
+.site-shell .practice-page{padding-top:100px}
+.site-shell :is(.detail-page,.algorithm-detail-page,.blog-detail-page){padding-top:112px}
+@media(max-width:760px){.site-shell .practice-page{padding-top:84px}.site-shell :is(.detail-page,.algorithm-detail-page,.blog-detail-page){padding-top:96px}}
+
+.site-shell .market-page{background:transparent}
+.site-shell .blog-feature-card h2{font-size:clamp(24px,2.7vw,34px);line-height:1.45}
+.site-shell .blog-sidebar{padding:22px}
+.site-shell .blog-search-field{border-color:var(--border-strong);background:var(--control-bg);border-radius:var(--radius-control)}
+.site-shell .blog-search-field input{border:0;background:transparent;border-radius:0}
+.site-shell textarea{padding:12px 14px}
+.site-shell .ask-thread{padding:18px;border:1px solid var(--border)}
+.site-shell .feynman-input-tools button,.site-shell .feynman-draw-row button,.site-shell .feynman-draw-row label{border-radius:var(--radius-control);border-color:var(--border);color:var(--muted);background:transparent}
+
+.site-shell .mind-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr))}
+.site-shell .mind-panel{min-width:0}
+.site-shell .watch-league{color:#98b9a6}
+
+.site-shell .blog-toc{padding:20px}
+.site-shell .blog-article-body h2{font-size:clamp(23px,2.5vw,28px);line-height:1.45;margin-bottom:16px}
+.site-shell .blog-article-body p{font-size:15px;line-height:1.95;color:var(--text)}
+
+.site-shell .detail-panel .panel-heading{align-items:flex-start;flex-wrap:wrap}
+.site-shell .detail-panel .panel-heading span{overflow-wrap:anywhere;max-width:100%}
+@media(max-width:760px){.site-shell .detail-grid{grid-template-columns:minmax(0,1fr)}}

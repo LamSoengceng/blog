@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, BookOpen, BriefcaseBusiness, Code2, ImageUp, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowUpRight, BookOpen, BriefcaseBusiness, Code2, GraduationCap, ImageUp, Sparkles, Trash2 } from 'lucide-react'
 import { MarkdownContent } from '../components/MarkdownContent'
 import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
 import { extractQuestions, getLastOrganizedAt, inferQuestionCategory, isReorganizationDue, loadInterviewQuestions, loadInterviewSources, mergeInterviewSource, rankInterviewQuestions, reorganizeInterviewQuestions, saveInterviewQuestions, saveInterviewSources, setLastOrganizedAt, sourceUrl, type InterviewQuestion, type InterviewSource } from '../utils/interviewBank'
 import { openSiteSettings } from '../utils/settings'
+import { lessons } from '../data/lessons'
 
 export function CareerPage() {
   const [questions, setQuestions] = useState(loadInterviewQuestions)
@@ -124,6 +125,7 @@ export function CareerPage() {
     <div className="career-overview">
       <Link to="/algorithm"><Code2 aria-hidden="true" /><span><b>算法练习</b><small>题型地图、踩坑记录与间隔复习</small></span><ArrowUpRight aria-hidden="true" /></Link>
       <a href="#interview-bank"><BookOpen aria-hidden="true" /><span><b>面经题库</b><small>{questions.length} 道已整理问题 · 按题生成参考答案</small></span><ArrowUpRight aria-hidden="true" /></a>
+      <a href="#video-lessons"><GraduationCap aria-hidden="true" /><span><b>视频课程</b><small>{lessons.length} 篇图文课程 · 从视频转录深加工而来</small></span><ArrowUpRight aria-hidden="true" /></a>
       <a href="#work-notes"><BriefcaseBusiness aria-hidden="true" /><span><b>工作复盘</b><small>积累项目决策、协作和工程实践</small></span><ArrowUpRight aria-hidden="true" /></a>
     </div>
 
@@ -151,6 +153,21 @@ export function CareerPage() {
           {selected === question.id ? <div className="career-answer"><b>AI 参考答案</b>{answer ? <MarkdownContent text={answer} streaming={working} /> : working ? <p>正在生成…</p> : null}{working ? <button type="button" onClick={() => controller.current?.abort()}>停止生成</button> : null}</div> : question.answer ? <details className="career-answer"><summary>查看已保存的 AI 参考答案{question.answeredAt ? ` · ${new Date(question.answeredAt).toLocaleDateString('zh-CN')}` : ''}</summary><MarkdownContent text={question.answer} /></details> : null}
         </article>)}
         {!visibleQuestions.length ? <p className="career-empty">{questions.length ? '没有匹配的问题，试试其他关键词或分类。' : '题库还没有问题。添加一篇面经中的提问，开始建立自己的复习清单。'}</p> : null}
+      </div>
+    </section>
+    <section className="career-section career-video-lessons" id="video-lessons" aria-labelledby="lessons-title">
+      <div className="career-section-heading"><div><p className="eyebrow">Video lessons</p><h2 id="lessons-title">视频课程</h2></div><p>把 B站/抖音的技术视频转录，经本地 Agent 深加工成图文课程：核心结论、术语卡片、流程图、对比表与自测。每一篇都能回溯原视频。</p></div>
+      <div className="lesson-list">
+        {lessons.map((lesson) => (
+          <Link className="lesson-card" to={`/career/lessons/${lesson.slug}`} key={lesson.slug}>
+            <div className="lesson-card-top"><span>{lesson.source.platform === 'bilibili' ? 'B站' : '抖音'} · {lesson.source.author}</span><span>{lesson.date} · 约 {lesson.minutes} 分钟</span></div>
+            <h3>{lesson.title}</h3>
+            <p>{lesson.summary}</p>
+            <div className="lesson-card-tags">{lesson.tags.slice(0, 4).map((tag) => <span key={tag}>#{tag}</span>)}</div>
+            <span className="lesson-card-more">进入课程 <ArrowUpRight size={15} aria-hidden="true" /></span>
+          </Link>
+        ))}
+        {!lessons.length ? <p className="career-empty">还没有视频课程。video2kb 转录深加工后会自动出现在这里。</p> : null}
       </div>
     </section>
     <section className="career-section career-work-notes" id="work-notes"><p className="eyebrow">Work notes</p><h2>工作复盘</h2><p>未来的工作内容可以按「背景 → 我的决策 → 结果 → 下次会怎么做」记录。先从已有的项目实践开始，不虚构任职经历。</p><Link to="/projects">查看现有项目 <ArrowUpRight size={16} aria-hidden="true" /></Link></section>

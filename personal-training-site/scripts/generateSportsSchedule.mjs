@@ -35,70 +35,27 @@ if (items.length) {
   console.log(`Saved ${matches.length} matches to ${scheduleTarget}`)
 } else console.warn('No sports schedule response; retaining the previous snapshot.')
 
-const standingsSources = [
-  { league: '英超', path: 'soccer/eng.1', format: 'football', url: 'https://www.premierleague.com/en/tables' },
-  { league: '西甲', path: 'soccer/esp.1', format: 'football', url: 'https://www.laliga.com/laliga-easports/standing' },
-  { league: '意甲', path: 'soccer/ita.1', format: 'football', url: 'https://www.legaseriea.it/en/serie-a/standing' },
-  { league: '德甲', path: 'soccer/ger.1', format: 'football', url: 'https://www.bundesliga.com/en/bundesliga/table' },
-  { league: '法甲', path: 'soccer/fra.1', format: 'football', url: 'https://www.ligue1.com/classement' },
-  { league: 'NBA', path: 'basketball/nba', format: 'nba', url: 'https://www.nba.com/standings' },
-  { league: 'F1 车手', path: 'racing/f1', format: 'f1-driver', group: 'Driver Standings', url: 'https://www.formula1.com/en/results.html/2026/drivers.html' },
-  { league: 'F1 车队', path: 'racing/f1', format: 'f1-team', group: 'Constructor Standings', url: 'https://www.formula1.com/en/results.html/2026/team.html' },
-]
+const standingsSources = sources.filter((source) => !['NBA'].includes(source.league))
 const stat = (entry, name) => entry.stats?.find((item) => item.name === name)?.displayValue || '—'
-const standingsUrl = (source) => source.url
 const tableRequests = standingsSources.map(async (source) => {
   const response = await fetch(`https://site.api.espn.com/apis/v2/sports/${source.path}/standings`, { signal: AbortSignal.timeout(20000) })
   if (!response.ok) throw new Error(`${source.league} standings: HTTP ${response.status}`)
   const data = await response.json()
-  const group = source.group ? data.children?.find((child) => child.name === source.group) : null
-  const entries = group
-    ? group.standings?.entries
-    : data.children?.flatMap((child) => child.standings?.entries || [])
+  const entries = data.children?.flatMap((child) => child.standings?.entries || [])
   if (!entries?.length) throw new Error(`${source.league} standings: empty response`)
-  const entryRecords = source.format === 'nba'
-    ? data.children?.flatMap((child) => (child.standings?.entries || []).map((entry, index) => ({ entry, conference: child.name, conferenceRank: index + 1 })))
-    : entries.map((entry) => ({ entry, conference: undefined, conferenceRank: undefined }))
   return {
-    league: source.league,
-    format: source.format,
-    url: standingsUrl(source),
-    rows: entryRecords.map(({ entry, conference, conferenceRank }, index) => {
-      const rank = stat(entry, 'rank') === '—' ? String(source.format === 'nba' ? conferenceRank : index + 1) : stat(entry, 'rank')
-      const team = entry.team?.displayName || entry.athlete?.displayName || '未知'
-      if (source.format === 'nba') {
-        const wins = stat(entry, 'wins')
-        const losses = stat(entry, 'losses')
-        const gamesPlayed = stat(entry, 'gamesPlayed')
-        return {
-          rank,
-          team,
-          conference: conference?.toLowerCase().includes('east') ? '东部' : conference?.toLowerCase().includes('west') ? '西部' : conference,
-          played: gamesPlayed === '—' && wins !== '—' && losses !== '—' ? String(Number(wins) + Number(losses)) : gamesPlayed,
-          wins,
-          losses,
-          winRate: stat(entry, 'winPercent'),
-          pointDifference: stat(entry, 'pointDifferential'),
-          gamesBehind: stat(entry, 'gamesBehind'),
-        }
-      }
-      if (source.format === 'f1-driver') {
-        return { rank, team, races: '2026', points: stat(entry, 'championshipPts') }
-      }
-      if (source.format === 'f1-team') {
-        return { rank, team, races: '2026', points: stat(entry, 'points') }
-      }
-      return {
-        rank,
-        team,
-        played: stat(entry, 'gamesPlayed'),
-        wins: stat(entry, 'wins'),
-        draws: stat(entry, 'ties'),
-        losses: stat(entry, 'losses'),
-        goalDifference: stat(entry, 'pointDifferential'),
-        points: stat(entry, 'points'),
-      }
-    }),
+    league: source.league === '皇马' ? '西甲' : source.league === 'AC 米兰' ? '意甲' : source.league,
+    url: `https://www.espn.com/soccer/standings/_/league/${source.path.split('/')[1]}`,
+    rows: entries.map((entry, index) => ({
+      rank: index + 1,
+      team: entry.team?.displayName || '未知球队',
+      played: stat(entry, 'gamesPlayed'),
+      wins: stat(entry, 'wins'),
+      draws: stat(entry, 'ties'),
+      losses: stat(entry, 'losses'),
+      goalDifference: stat(entry, 'pointDifferential'),
+      points: stat(entry, 'points'),
+    })),
   }
 })
 const tableResults = await Promise.allSettled(tableRequests)

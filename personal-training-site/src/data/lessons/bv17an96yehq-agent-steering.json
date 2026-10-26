@@ -1,0 +1,92 @@
+{
+  "slug": "bv17an96yehq-agent-steering",
+  "title": "用户中途插话，为什么不该停掉正在跑的 Agent 任务",
+  "summary": "Agent 执行中用户插话时，正确做法是 steering（引导）：任务不停、方向微调，把新消息在两次请求模型之间注入，而不是粗暴中断任务。",
+  "date": "2026-10-26",
+  "minutes": 6,
+  "tags": ["Agent", "系统设计", "Claude Code", "Codex"],
+  "source": {
+    "platform": "bilibili",
+    "author": "B站-402000160",
+    "videoId": "BV17An96YEHq",
+    "url": "https://www.bilibili.com/video/BV17An96YEHq"
+  },
+  "keyTerms": [
+    { "term": "steering", "text": "用户插话时引导 agent 修正方向，而不是停止任务，已完成的进展不白费。" },
+    { "term": "tool result 间隙注入", "text": "插话消息只能在两次请求模型之间插入，不能抢在工具调用序列中间。" },
+    { "term": "interrupt behavior", "text": "工具的打断行为声明，取值 cancel（可打断转后台）或 block（继续执行、消息排队）。" },
+    { "term": "steering mode", "text": "注入策略：one at a time 每次只注入最早一条，all 一次全部注入。" },
+    { "term": "system reminder", "text": "包在插话消息外的提示标签，告诉模型「工作期间用户发了新消息，继续当前工作并回应它」。" },
+    { "term": "system notification", "text": "后台任务/外部推送消息的标记，声明「不是用户输入」，外部内容要按不可信处理。" }
+  ],
+  "sections": [
+    {
+      "heading": "一句话先说结论",
+      "blocks": [
+        { "type": "callout", "tone": "key", "text": "用户插话大多不是想让 agent 停下来，而是就地补一句需求。steering 对应的是「任务不停、只修方向」。" },
+        { "type": "p", "text": "比如你让 Claude Code 重构一个模块，它已经改了一半文件，你突然补一句「顺便把单元测试也补上」。此时如果停掉任务，已经完成的改动就白费了；把新要求注入进去继续跑，才是正确姿势。" },
+        { "type": "p", "text": "本课的判断标准很简单：插话消息不能挤进正在执行的工具调用序列里，只能等当前这批工具调用全部执行完、下一次请求模型之前注入。" }
+      ]
+    },
+    {
+      "heading": "为什么不能立刻插入，也不能等任务结束",
+      "blocks": [
+        { "type": "callout", "tone": "warn", "title": "大模型 API 的硬约束", "text": "模型的对话 API 要求每个 tool_use 后面紧跟对应的 tool_result，中间不能夹杂别的消息。在工具结果中间穿插普通用户消息，API 会直接报错。" },
+        { "type": "steps", "items": [
+          "等当前这批工具调用全部执行完（一个都不跳过）",
+          "把插话消息和刚返回的 tool_result 放在同一条 user 消息里",
+          "tool_result 排在前面，插话排在后面",
+          "送入模型，让它继续当前工作的同时回应这条消息"
+        ] },
+        { "type": "quote", "text": "插话不能抢工具的位置，只能在两次请求模型的间隙插进去。", "note": "视频对注入时机的总结" },
+        { "type": "compare", "columns": ["方案", "问题"], "rows": [
+          ["立刻插入", "违反 tool_use/tool_result 配对约束，API 直接报错"],
+          ["等任务结束", "agent 可能已经沿着错误方向走完了全程"],
+          ["等整批工具调用完再注入", "正确，进展不丢、方向能改"]
+        ] }
+      ]
+    },
+    {
+      "heading": "模型怎么识别这是一句插话",
+      "blocks": [
+        { "type": "mermaid", "title": "同一条 user 消息里的结构", "code": "flowchart LR\n  A[tool_result 工具结果] --> C[同一条 user 消息]\n  B[system reminder 包裹的插话] --> C\n  C --> D[模型继续跑]" },
+        { "type": "p", "text": "插话不是原样作为普通 user 消息发出去，而是包在一个叫 system reminder 的标签里，原文大意是「工作期间用户发来了一条新消息」，后面再要求模型在继续这一轮工作的同时回应它。" },
+        { "type": "quote", "text": "The user sent a new message while you were working.", "note": "Claude Code 对用户插话使用的提示语" },
+        { "type": "compare", "columns": ["消息来源", "标记", "目的"], "rows": [
+          ["用户插话", "the user sent a new message", "告知继续工作并回应"],
+          ["后台任务通知", "system notification, not user input", "声明不是用户输入"],
+          ["外部服务推送", "不是用户发的，按不可信内容处理", "防提示词注入"]
+        ] }
+      ]
+    },
+    {
+      "heading": "命令很慢、用户急着插话怎么办",
+      "blocks": [
+        { "type": "p", "text": "慢命令执行到一半来插话，不一定非要等或杀。Claude Code 给每个工具设计了 interrupt behavior 字段，取值 cancel 或 block。" },
+        { "type": "callout", "tone": "note", "title": "cancel 与 block", "text": "cancel 表示可打断：命令不会被杀掉，而是转到后台、模型仍能看到已输出的内容。block 表示继续执行、新消息排队等下一次注入。工具未声明时默认 block。" },
+        { "type": "compare", "columns": ["工具行为", "打断时发生的事", "适用"], "rows": [
+          ["cancel", "转后台继续跑，模型看得到已输出", "长命令、可后台执行"],
+          ["block", "命令执行完才注入新消息", "结果快返回、不易中断"]
+        ] }
+      ]
+    },
+    {
+      "heading": "连着插好几条，或任务都快结束了",
+      "blocks": [
+        { "type": "steps", "items": [
+          "看一次注入几条：steering mode 默认 one at a time，每个注入点只送最早那一条，剩下的留到下一注入点",
+          "任务结束、队列里还有消息：不会丢",
+          "Codex 会再跑一轮，Claude Code 把剩余消息自动作为下一轮提交",
+          "还没发的消息可以反悔：Claude Code 方向键上拉回输入框，Codex 可删除或关闭排队"
+        ] },
+        { "type": "quote", "text": "插话不一定要等，但打断是有代价的，这个代价由用户自己来选。", "note": "视频对打断的权衡" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "为什么不能在工具调用序列中间插入用户消息？", "a": "对话 API 要求每个 tool_use 后面紧跟对应 tool_result，中间夹其他消息会报错；所以要等整批工具调用执行完，在两次请求模型之间注入。" },
+    { "q": "interrupt behavior=cancel 和 block 分别是什么表现？", "a": "cancel 可打断，命令转后台继续跑、模型仍能看到已输出；block 是继续执行、新消息排队，工具未声明时默认 block。" },
+    { "q": "外部服务推送过来的消息为什么需要特殊标记？", "a": "它声明「不是用户输入、按不可信内容处理」，防止有人恶意借用推送通道做提示词注入。" },
+    { "q": "steering mode 的 one at a time 指什么？", "a": "每个注入点只注入队列里最早的一条消息，其余留到下一个注入点；改成 all 才一次全部注入。" }
+  ]
+}
