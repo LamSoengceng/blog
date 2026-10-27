@@ -12,7 +12,7 @@ import { buildStats, scoreDoc, type Bm25Doc } from './bm25'
 
 export type KnowledgeChunk = {
   id: string
-  source: '博客' | '训练日志' | '算法题解' | '日记' | '项目' | '训练数据' | '视频课程'
+  source: '博客' | '训练日志' | '算法题解' | '日记' | '项目' | '训练数据' | '观澜'
   title: string
   date?: string
   text: string
@@ -54,7 +54,7 @@ const buildStaticChunks = (): KnowledgeChunk[] => {
   for (const lesson of lessons) {
     chunks.push({
       id: `lesson-${lesson.slug}`,
-      source: '视频课程',
+      source: '观澜',
       title: lesson.title,
       date: lesson.date,
       text: clip(

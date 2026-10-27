@@ -17,8 +17,6 @@ const moodChart = {
   padding: { top: 16, right: 16, bottom: 30, left: 34 },
 }
 
-const moodEmoji = ['😞', '😕', '😐', '🙂', '😄']
-
 const TRACK_DAYS = 28
 
 export function MindMetricsSection() {
@@ -83,7 +81,7 @@ export function MindMetricsSection() {
                   <g key={level}>
                     <line className="chart-grid-line" x1={moodChart.padding.left} x2={moodChart.width - moodChart.padding.right} y1={y} y2={y} />
                     <text className="chart-axis-label" x={moodChart.padding.left - 6} y={y + 4} textAnchor="end">
-                      {moodEmoji[level - 1]}
+                      {level} 分
                     </text>
                   </g>
                 )

@@ -16,7 +16,13 @@ export function MermaidDiagram({ code, title }: { code: string; title?: string }
     mermaidPromise
       .then(async ({ default: mermaid }) => {
         if (cancelled) return
-        mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'strict', fontFamily: 'ui-sans-serif, system-ui, sans-serif' })
+        // 跟随全站深浅主题：浅色用 default（深色线条），深色用 dark
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: document.documentElement.dataset.theme === 'light' ? 'default' : 'dark',
+          securityLevel: 'strict',
+          fontFamily: 'ui-sans-serif, system-ui, sans-serif',
+        })
         const id = `lesson-mermaid-${Math.random().toString(36).slice(2, 9)}`
         const { svg } = await mermaid.render(id, code)
         if (cancelled || !boxRef.current) return

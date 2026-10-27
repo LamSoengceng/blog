@@ -41,10 +41,18 @@ for (const file of readdirSync(lessonsDir)) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(lesson.date || '')) where('date 需为 YYYY-MM-DD')
   if (!Number.isFinite(lesson.minutes) || lesson.minutes <= 0) where('minutes 需为正数')
   if (!Array.isArray(lesson.tags) || lesson.tags.length < 2 || lesson.tags.length > 5) where('tags 需 2~5 个')
-  if (!lesson.source || !str(lesson.source.platform) || !str(lesson.source.author) || !str(lesson.source.videoId) || !str(lesson.source.url)) {
-    where('source.platform/author/videoId/url 缺失')
-  } else if (!['bilibili', 'douyin'].includes(lesson.source.platform)) where('source.platform 需为 bilibili|douyin')
-  else if (!lesson.source.url.startsWith('http')) where('source.url 需为 http(s) 链接')
+  const src = lesson.source
+  if (!src || !str(src.platform) || !str(src.author) || !str(src.url)) {
+    where('source.platform/author/url 缺失')
+  } else if (!['bilibili', 'douyin', 'wechat'].includes(src.platform)) {
+    where('source.platform 需为 bilibili|douyin|wechat')
+  } else if (src.platform === 'wechat') {
+    if (!str(src.articleId)) where('wechat 来源需 articleId（/s/ 短链 token 或 sn 参数）')
+    if (!str(src.sourceTitle)) where('wechat 来源需 sourceTitle（原文标题）')
+  } else if (!str(src.videoId)) {
+    where(`${src.platform} 来源需 videoId`)
+  }
+  if (src && str(src.url) && !src.url.startsWith('http')) where('source.url 需为 http(s) 链接')
 
   if (!Array.isArray(lesson.keyTerms) || lesson.keyTerms.length < 3 || lesson.keyTerms.length > 8) where('keyTerms 需 3~8 条')
   else for (const term of lesson.keyTerms) {

@@ -1,16 +1,18 @@
 import type { Lesson, LessonBlock, LessonSection } from '../../data/lessons/types'
+import { platformLabels, sourceKindLabel } from '../../data/lessons/types'
 import { MermaidDiagram } from './MermaidDiagram'
 
-/** 视频课程渲染器：把结构化课程 JSON 渲染成图文并茂的学习页。 */
+/** 讲义渲染器：把结构化讲义 JSON（视频转录/公众号文章深加工产物）渲染成图文并茂的学习页。 */
 export function LessonRenderer({ lesson }: { lesson: Lesson }) {
+  const kind = sourceKindLabel(lesson.source)
   return (
     <article className="lesson-renderer">
       <header className="lesson-hero">
-        <div className="lesson-hero-meta"><span>{lesson.source.platform === 'bilibili' ? 'B站' : '抖音'} · {lesson.source.author}</span><span>{lesson.date} 加工</span><span>约 {lesson.minutes} 分钟读完</span></div>
+        <div className="lesson-hero-meta"><span>{platformLabels[lesson.source.platform]} · {lesson.source.author}</span><span>{lesson.date} 加工</span><span>约 {lesson.minutes} 分钟读完</span></div>
         <h1>{lesson.title}</h1>
         <p className="lesson-summary">{lesson.summary}</p>
         {lesson.tags.length ? <div className="lesson-tags">{lesson.tags.map((tag) => <span key={tag}>#{tag}</span>)}</div> : null}
-        <a className="lesson-source-link" href={lesson.source.url} target="_blank" rel="noopener noreferrer">观看原视频 ↗</a>
+        <a className="lesson-source-link" href={lesson.source.url} target="_blank" rel="noopener noreferrer">{kind === '原文' ? '阅读原文 ↗' : '观看原视频 ↗'}</a>
       </header>
 
       <section className="lesson-keyterms" aria-labelledby="lesson-keyterms-title">
@@ -26,6 +28,15 @@ export function LessonRenderer({ lesson }: { lesson: Lesson }) {
           <li key={index}><details><summary>{item.q}</summary><p>{item.a}</p></details></li>
         ))}</ol>
       </section>
+
+      <footer className="lesson-source-footer">
+        <p>
+          本文为个人学习笔记，由 {platformLabels[lesson.source.platform]}「{lesson.source.author}」的{kind}
+          {lesson.source.sourceTitle ? <>《{lesson.source.sourceTitle}》</> : null}
+          提炼改写而成，观点归原作者所有。
+        </p>
+        <a href={lesson.source.url} target="_blank" rel="noopener noreferrer">{kind === '原文' ? '查看原文 ↗' : '查看原视频 ↗'}</a>
+      </footer>
     </article>
   )
 }

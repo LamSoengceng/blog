@@ -34,11 +34,11 @@ it('通过折叠菜单切换页面后收起菜单，更新标题和当前导航'
   render(<MemoryRouter><App /></MemoryRouter>)
   await screen.findByRole('heading', { name: '首页测试内容' })
   fireEvent.click(screen.getByRole('button', { name: '打开菜单' }))
-  fireEvent.click(within(screen.getByRole('dialog')).getByRole('link', { name: '博客' }))
+  fireEvent.click(within(screen.getByRole('dialog')).getByRole('link', { name: '日知' }))
   await screen.findByRole('heading', { name: '博客测试内容' })
   expect(screen.queryByRole('dialog')).toBeNull()
-  expect(document.title).toBe('博客 · Lam Soengceng')
-  expect(within(screen.getByRole('navigation', { name: '主导航' })).getByRole('link', { name: '博客' }).getAttribute('aria-current')).toBe('page')
+  expect(document.title).toBe('日知 · Lam Soengceng')
+  expect(within(screen.getByRole('navigation', { name: '主导航' })).getByRole('link', { name: '日知' }).getAttribute('aria-current')).toBe('page')
 })
 
 it('首次打开带日记锚点的懒加载页面，等正文挂载后再定位', async () => {

@@ -1,11 +1,15 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, BookOpen, BriefcaseBusiness, Code2, GraduationCap, ImageUp, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowUpRight, ImageUp, Sparkles, Trash2 } from 'lucide-react'
 import { MarkdownContent } from '../components/MarkdownContent'
+import { SectionCover } from '../components/SectionCover'
 import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
 import { extractQuestions, getLastOrganizedAt, inferQuestionCategory, isReorganizationDue, loadInterviewQuestions, loadInterviewSources, mergeInterviewSource, rankInterviewQuestions, reorganizeInterviewQuestions, saveInterviewQuestions, saveInterviewSources, setLastOrganizedAt, sourceUrl, type InterviewQuestion, type InterviewSource } from '../utils/interviewBank'
 import { openSiteSettings } from '../utils/settings'
 import { lessons } from '../data/lessons'
+import { platformLabels } from '../data/lessons/types'
+import { algorithmMeta } from '../data/algorithmMeta'
+import { FeynmanSection } from './FeynmanPage'
 
 export function CareerPage() {
   const [questions, setQuestions] = useState(loadInterviewQuestions)
@@ -24,6 +28,22 @@ export function CareerPage() {
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<'hot' | 'new'>('hot')
   const controller = useRef<AbortController | null>(null)
+  const [activeSection, setActiveSection] = useState('interview-bank')
+
+  // 左侧竖直导航的高亮跟随滚动位置
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+      if (visible[0]) setActiveSection(visible[0].target.id)
+    }, { rootMargin: '-15% 0px -65% 0px' })
+    for (const id of ['interview-bank', 'video-lessons', 'feynman', 'work-notes']) {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    }
+    return () => observer.disconnect()
+  }, [])
 
   const recognizeImages = async (files: FileList | null) => {
     if (!files?.length) return
@@ -120,17 +140,32 @@ export function CareerPage() {
 
   const visibleQuestions = rankInterviewQuestions(questions, query, sort).filter((question) => category === '全部' || (question.category || inferQuestionCategory(question.text)) === category)
 
-  return <div className="career-page content-band page-band">
-    <div className="section-heading"><p className="eyebrow">Career / 软件开发</p><h1 className="page-title">职业成长</h1><p>把算法练习、真实面经和工作中的复盘放在一起。题目与已生成答案保存在当前浏览器，随时检索和重新整理。</p></div>
-    <div className="career-overview">
-      <Link to="/algorithm"><Code2 aria-hidden="true" /><span><b>算法练习</b><small>题型地图、踩坑记录与间隔复习</small></span><ArrowUpRight aria-hidden="true" /></Link>
-      <a href="#interview-bank"><BookOpen aria-hidden="true" /><span><b>面经题库</b><small>{questions.length} 道已整理问题 · 按题生成参考答案</small></span><ArrowUpRight aria-hidden="true" /></a>
-      <a href="#video-lessons"><GraduationCap aria-hidden="true" /><span><b>视频课程</b><small>{lessons.length} 篇图文课程 · 从视频转录深加工而来</small></span><ArrowUpRight aria-hidden="true" /></a>
-      <a href="#work-notes"><BriefcaseBusiness aria-hidden="true" /><span><b>工作复盘</b><small>积累项目决策、协作和工程实践</small></span><ArrowUpRight aria-hidden="true" /></a>
-    </div>
+  return (
+    <>
+      <SectionCover
+        eyebrow="Career / 软件开发"
+        title="攻玉"
+        quote="「他山之石，可以攻玉。」——《诗经·小雅·鹤鸣》"
+        intro="别人的面经、讲义和复盘，都是打磨自己的石头。把算法练习、真实面经、视频讲义、费曼练习和工作复盘放在一起，逐块琢磨；题目与已生成答案保存在当前浏览器。"
+        stats={[
+          { value: `${algorithmMeta.solved}/${algorithmMeta.total}`, label: '算法题已完成 · 含拓展' },
+          { value: questions.length, label: '道面经问题已整理' },
+          { value: lessons.length, label: '篇观澜讲义' },
+        ]}
+        cueHref="#interview-bank"
+      />
+      <div className="career-page content-band after-cover career-with-rail">
+    <nav className="career-rail" aria-label="攻玉模块导航">
+      <Link to="/algorithm"><b>运筹</b><small>算法练习 · 间隔复习</small></Link>
+      <a className={activeSection === 'interview-bank' ? 'active' : ''} href="#interview-bank"><b>问津</b><small>面经题库</small></a>
+      <a className={activeSection === 'video-lessons' ? 'active' : ''} href="#video-lessons"><b>观澜</b><small>视频与文章讲义</small></a>
+      <a className={activeSection === 'feynman' ? 'active' : ''} href="#feynman"><b>解惑</b><small>费曼技巧</small></a>
+      <a className={activeSection === 'work-notes' ? 'active' : ''} href="#work-notes"><b>省身</b><small>工作复盘</small></a>
+    </nav>
+    <div className="career-main">
 
     <section className="career-section" id="interview-bank" aria-labelledby="interview-title">
-      <div className="career-section-heading"><div><p className="eyebrow">Interview bank</p><h2 id="interview-title">面经题库</h2></div><p>上传面经截图或粘贴文字，核对识别结果后加入题库。保留来源链接以便回看；题目仅存此浏览器。</p></div>
+      <div className="career-section-heading"><div><p className="eyebrow">面经题库 · 求职问路</p><h2 id="interview-title">问津</h2></div><p>上传面经截图或粘贴文字，核对识别结果后加入题库。保留来源链接以便回看；题目仅存此浏览器。</p></div>
       <div className="career-import">
         <label className="career-upload"><ImageUp size={22} aria-hidden="true" /><span>上传面经截图</span><small>PNG / JPG 等图片，最多 4 张，每张不超过 8 MB；在浏览器内识别文字</small><input type="file" accept="image/*" multiple disabled={recognizing} onChange={(event) => { void recognizeImages(event.target.files); event.target.value = '' }} /></label>
         {recognizing ? <p className="career-ocr-status" role="status">{ocrProgress || '正在载入中文识别模型…首次使用需下载模型。'}</p> : null}
@@ -156,20 +191,27 @@ export function CareerPage() {
       </div>
     </section>
     <section className="career-section career-video-lessons" id="video-lessons" aria-labelledby="lessons-title">
-      <div className="career-section-heading"><div><p className="eyebrow">Video lessons</p><h2 id="lessons-title">视频课程</h2></div><p>把 B站/抖音的技术视频转录，经本地 Agent 深加工成图文课程：核心结论、术语卡片、流程图、对比表与自测。每一篇都能回溯原视频。</p></div>
+      <div className="career-section-heading"><div><p className="eyebrow">视频与文章讲义</p><h2 id="lessons-title">观澜</h2><p className="career-quote">「观水有术，必观其澜。」——《孟子·尽心上》</p></div><p>看视频如观水，贵在取其波澜。把 B站/抖音 的技术视频与公众号的技术文章，经本地 Agent 深加工成图文讲义：核心结论、术语卡片、流程图、对比表与自测。每一篇都标注出处，可回溯原文。</p></div>
       <div className="lesson-list">
         {lessons.map((lesson) => (
           <Link className="lesson-card" to={`/career/lessons/${lesson.slug}`} key={lesson.slug}>
-            <div className="lesson-card-top"><span>{lesson.source.platform === 'bilibili' ? 'B站' : '抖音'} · {lesson.source.author}</span><span>{lesson.date} · 约 {lesson.minutes} 分钟</span></div>
+            <div className="lesson-card-top"><span>{platformLabels[lesson.source.platform]} · {lesson.source.author}</span><span>{lesson.date} · 约 {lesson.minutes} 分钟</span></div>
             <h3>{lesson.title}</h3>
             <p>{lesson.summary}</p>
             <div className="lesson-card-tags">{lesson.tags.slice(0, 4).map((tag) => <span key={tag}>#{tag}</span>)}</div>
             <span className="lesson-card-more">进入课程 <ArrowUpRight size={15} aria-hidden="true" /></span>
           </Link>
         ))}
-        {!lessons.length ? <p className="career-empty">还没有视频课程。video2kb 转录深加工后会自动出现在这里。</p> : null}
+        {!lessons.length ? <p className="career-empty">还没有讲义。video2kb 转录深加工后会自动出现在这里。</p> : null}
       </div>
     </section>
-    <section className="career-section career-work-notes" id="work-notes"><p className="eyebrow">Work notes</p><h2>工作复盘</h2><p>未来的工作内容可以按「背景 → 我的决策 → 结果 → 下次会怎么做」记录。先从已有的项目实践开始，不虚构任职经历。</p><Link to="/projects">查看现有项目 <ArrowUpRight size={16} aria-hidden="true" /></Link></section>
-  </div>
+    <section className="career-section" id="feynman" aria-labelledby="feynman-title">
+      <div className="career-section-heading"><div><p className="eyebrow">费曼技巧</p><h2 id="feynman-title">解惑</h2><p className="career-quote">「师者，所以传道受业解惑也。」——唐·韩愈《师说》</p></div><p>把自己讲明白，才算真的解惑：从资料库随机抽一个知识点，先用自己的话讲清楚，再由大模型流式给出结构化建议——评估时会自动检索站内其他板块（博客、算法题解、观澜讲义）的相关内容作参照。</p></div>
+      <FeynmanSection />
+    </section>
+    <section className="career-section career-work-notes" id="work-notes"><div><p className="eyebrow">工作复盘 · 吾日三省</p><h2>省身</h2><p className="career-quote">「吾日三省吾身。」——《论语·学而》</p></div><p>未来的工作内容可以按「背景 → 我的决策 → 结果 → 下次会怎么做」记录。先从已有的项目实践开始，不虚构任职经历。</p><Link to="/projects">查看现有项目 <ArrowUpRight size={16} aria-hidden="true" /></Link></section>
+      </div>
+      </div>
+    </>
+  )
 }

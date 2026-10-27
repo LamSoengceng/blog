@@ -11,8 +11,8 @@ export function LessonDetailPage() {
       <section className="not-found-page">
         <p className="eyebrow">404 / Lesson not found</p>
         <h1>课程不存在</h1>
-        <p className="hero-text">这个地址没有对应的视频课程。</p>
-        <Link className="primary-link" to="/career">回到职业成长</Link>
+        <p className="hero-text">这个地址没有对应的视频讲义。</p>
+        <Link className="primary-link" to="/career">回到攻玉</Link>
       </section>
     )
   }
@@ -21,7 +21,7 @@ export function LessonDetailPage() {
   const next = lessons[index - 1]
   return (
     <div className="lesson-detail content-band page-band">
-      <Link className="lesson-back" to="/career"><ArrowLeft size={16} aria-hidden="true" />返回职业成长</Link>
+      <Link className="lesson-back" to="/career"><ArrowLeft size={16} aria-hidden="true" />返回攻玉</Link>
       <LessonRenderer lesson={lesson} />
       <nav className="lesson-pager" aria-label="课程翻页">
         {previous ? <Link to={`/career/lessons/${previous.slug}`}>上一篇：{previous.title}</Link> : <span />}

@@ -1,6 +1,5 @@
 import {
   BarChart3,
-  DatabaseZap,
   Flame,
   LineChart,
   Rocket,
@@ -8,6 +7,7 @@ import {
   Trophy,
   Zap,
 } from 'lucide-react'
+import { SectionCover } from '../components/SectionCover'
 import {
   domesticFlows,
   dragonTigerTop,
@@ -155,20 +155,20 @@ export function StockPage() {
   const indexBreadth = `${positiveIndices}/${stockIndices.length}`
 
   return (
-    <section className="market-page page-band">
-      <div className="market-hero">
-        <div>
-          <p className="eyebrow">A-share stock watch</p>
-          <h1 className="page-title">A 股股票观察</h1>
-        </div>
-        <aside className="market-refresh-card">
-          <DatabaseZap size={24} />
-          <span>Last update</span>
-          <strong>{stockMeta.updatedAt}</strong>
-          <p>{stockMeta.sourceMode} · {stockMeta.nextRefresh}</p>
-        </aside>
-      </div>
-
+    <>
+      <SectionCover
+        eyebrow="A-share stock watch"
+        title="货殖"
+        quote="「天下熙熙，皆为利来；天下攘攘，皆为利往。」——汉·司马迁《史记·货殖列传》"
+        intro="观市如观人：查看指数、行业和市场结构，结合数据日期阅读已同步的市场快照。数据来自公开行情，仅供参考，不构成投资建议。"
+        stats={[
+          { value: stockMeta.trackedMarkets, label: '个观察标的' },
+          { value: stockMeta.updatedAt, label: '数据更新于' },
+          { value: indexBreadth, label: '指数涨跌广度' },
+        ]}
+        cueHref="#market-content"
+      />
+      <section className="market-page after-cover" id="market-content">
       <div className="market-overview-grid">
         <article>
           <LineChart size={22} />
@@ -369,5 +369,6 @@ export function StockPage() {
         本页数据来源 hithink-finance（同花顺）公开行情，更新于 {stockMeta.updatedAt}，仅供参考，不构成投资建议。
       </p>
     </section>
+    </>
   )
 }

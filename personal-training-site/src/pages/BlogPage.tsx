@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, X } from 'lucide-react'
 import { blogCategories, blogPosts, featuredBlogPost } from '../data/blogData'
+import { SectionCover } from '../components/SectionCover'
 
 export function BlogPage() {
   const [query, setQuery] = useState('')
@@ -20,23 +21,19 @@ export function BlogPage() {
   }))
 
   return (
-    <section className="content-band page-band blog-page">
-      <div className="blog-hero">
-        <div>
-          <p className="eyebrow">Blog / Notes</p>
-          <h1 className="page-title">个人博客</h1>
-          <p className="hero-text">
-            记录训练、算法、Agent 开发和这个网站本身的迭代。它不是单独的文章仓库，
-            而是 LamSoengceng 的长期学习日志。
-          </p>
-        </div>
-        <aside className="blog-index-card">
-          <span>Archive</span>
-          <strong>{blogPosts.length}</strong>
-          <p>篇文章 · {blogCategories.length} 个主题</p>
-        </aside>
-      </div>
-
+    <>
+      <SectionCover
+        eyebrow="Blog / Notes"
+        title="日知"
+        quote="「日知其所亡，月无忘其所能。」——《论语·子张》"
+        intro="每天知道一点自己不知道的，每月不忘记已经掌握的。记录训练、算法、Agent 开发和这个网站本身的迭代——它不是单独的文章仓库，而是长期学习日志。"
+        stats={[
+          { value: blogPosts.length, label: '篇文章' },
+          { value: blogCategories.length, label: '个主题' },
+        ]}
+        cueHref="#blog-content"
+      />
+      <div className="content-band after-cover blog-page" id="blog-content">
       {!filtering ? <Link className="blog-feature-card" to={`/blog/${featuredBlogPost.slug}`}>
         <div>
           <p className="eyebrow">{featuredBlogPost.category}</p>
@@ -109,6 +106,7 @@ export function BlogPage() {
           </div>
         </div>
       </div>
-    </section>
+      </div>
+    </>
   )
 }

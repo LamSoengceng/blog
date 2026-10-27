@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap');
 * { font-family: var(--font-sans); }
 .font-playfair { font-family: 'Playfair Display', serif; }
 
@@ -49,12 +49,11 @@
   --shadow-card: 0 4px 18px #00000013;
   --content-width: 1280px;
   --font-sans:
-    Inter, "Noto Sans SC", "HarmonyOS Sans SC", MiSans, "Microsoft YaHei UI", "Microsoft YaHei",
-    "PingFang SC", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", sans-serif;
+    "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", SimSun, Georgia,
+    "Times New Roman", serif;
   --font-display:
-    "Noto Sans SC", Inter, "HarmonyOS Sans SC", MiSans, "Microsoft YaHei UI", "Microsoft YaHei",
-    "PingFang SC", "Noto Sans SC", system-ui, sans-serif;
+    "Playfair Display", "Noto Serif SC", "Noto Sans SC", "HarmonyOS Sans SC", MiSans,
+    "Songti SC", SimSun, serif;
   --font-mono:
     "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, Menlo, Monaco,
     monospace;
@@ -72,8 +71,8 @@
   --surface-raised: #234336;
   --text: #e1ebe7;
   --text-strong: #f1f6f3;
-  --muted: #97aaa3;
-  --border: #a4c9b526;
+  --muted: #a3b7af;
+  --border: #a4c9b538;
   --accent: #72dfb1;
   --accent-soft: #a6efd0;
   --info: #75c7db;
@@ -83,6 +82,27 @@
   --success: #55e889;
   --warning: #e5b86f;
   --focus-ring: #72dfb1;
+}
+
+/* 浅色主题：纸感浅灰绿底 + 深墨文字，强调色加深保证对比（切换见 utils/theme.ts） */
+html[data-theme='light'] {
+  --page: #eef3f0;
+  --surface: #ffffff;
+  --surface-strong: #f2f8f4;
+  --surface-raised: #d8e8df;
+  --text: #24322b;
+  --text-strong: #101b15;
+  --muted: #5d7067;
+  --border: #16412e24;
+  --border-strong: #16412e4a;
+  --control-bg: #ffffff;
+  --accent: #0f8a5f;
+  --accent-soft: #0b6e4b;
+  --text-on-accent: #f7fbf9;
+  --shadow-card: 0 4px 18px rgba(18, 44, 32, 0.08);
+  --focus-ring: #0f8a5f;
+  color: #24322b;
+  background: #eef3f0;
 }
 
 * {

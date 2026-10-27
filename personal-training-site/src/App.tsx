@@ -1,10 +1,12 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { ArrowUpRight, Menu, Search, Settings, X } from 'lucide-react'
+import { Menu, Moon, Search, Settings, Sun, X } from 'lucide-react'
 import './App.css'
 import './styles/design-system.css'
+import './styles/theme-light.css'
 import { SettingsModal } from './components/SettingsModal'
 import { useDialogFocus } from './hooks/useDialogFocus'
+import { loadTheme, toggleTheme, type SiteTheme } from './utils/theme'
 
 const AlgorithmPage = lazy(() => import('./pages/AlgorithmPage').then((module) => ({ default: module.AlgorithmPage })))
 const AlgorithmPracticePage = lazy(() => import('./pages/AlgorithmPracticePage').then((module) => ({ default: module.AlgorithmPracticePage })))
@@ -23,7 +25,6 @@ const BlogDetailPage = lazy(() =>
 const HomePage = lazy(() => import('./pages/HomePage').then((module) => ({ default: module.HomePage })))
 const StockPage = lazy(() => import('./pages/StockPage').then((module) => ({ default: module.StockPage })))
 const AskPage = lazy(() => import('./pages/AskPage').then((module) => ({ default: module.AskPage })))
-const FeynmanPage = lazy(() => import('./pages/FeynmanPage').then((module) => ({ default: module.FeynmanPage })))
 const ProjectsPage = lazy(() =>
   import('./pages/ProjectsPage').then((module) => ({ default: module.ProjectsPage })),
 )
@@ -35,14 +36,13 @@ const XunjiLogPage = lazy(() => import('./pages/XunjiLogPage').then((module) => 
 const WrappedPage = lazy(() => import('./pages/WrappedPage').then((module) => ({ default: module.WrappedPage })))
 
 const navItems = [
-  { label: '首页', to: '/' },
-  { label: '博客', to: '/blog' },
-  { label: '自我提升', to: '/training' },
-  { label: '职业成长', to: '/career' },
-  { label: '费曼练习', to: '/feynman' },
-  { label: '股票观察', to: '/stock' },
-  { label: '项目', to: '/projects' },
-  { label: '年度回顾', to: '/wrapped' },
+  { label: '首页', en: 'Home', to: '/' },
+  { label: '日知', en: 'Blog', to: '/blog' },
+  { label: '磨剑', en: 'Training', to: '/training' },
+  { label: '攻玉', en: 'Career', to: '/career' },
+  { label: '货殖', en: 'Stock', to: '/stock' },
+  { label: '营造', en: 'Projects', to: '/projects' },
+  { label: '岁晏', en: 'Wrapped', to: '/wrapped' },
 ]
 
 function ScrollManager() {
@@ -50,15 +50,25 @@ function ScrollManager() {
   const firstRender = useRef(true)
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
+    let frame = 0
+    let attempts = 0
+    const scrollNow = () => {
       if (location.hash) {
-        document.getElementById(location.hash.slice(1))?.scrollIntoView({ behavior: 'auto' })
+        const target = document.getElementById(location.hash.slice(1))
+        if (target) {
+          target.scrollIntoView({ behavior: 'auto' })
+        } else if (attempts++ < 45) {
+          // 懒加载页面的锚点元素可能还没挂载，逐帧重试约 0.7s
+          frame = window.requestAnimationFrame(scrollNow)
+          return
+        }
       } else {
         window.scrollTo({ top: 0, behavior: 'auto' })
       }
       if (!firstRender.current && !location.hash) document.getElementById('main-content')?.focus({ preventScroll: true })
       firstRender.current = false
-    })
+    }
+    frame = window.requestAnimationFrame(scrollNow)
 
     return () => window.cancelAnimationFrame(frame)
   }, [location.pathname, location.hash])
@@ -93,11 +103,18 @@ function App() {
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
+  const [theme, setTheme] = useState<SiteTheme>(loadTheme)
   const [lastLocation, setLastLocation] = useState(location)
   const menuRef = useRef<HTMLDivElement>(null)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const closeSettings = useCallback(() => setSettingsOpen(false), [])
   useDialogFocus(menuOpen, menuRef, closeMenu)
+
+  useEffect(() => {
+    const syncTheme = () => setTheme(loadTheme())
+    window.addEventListener('site-theme-changed', syncTheme)
+    return () => window.removeEventListener('site-theme-changed', syncTheme)
+  }, [])
 
   // 路由变化时收起菜单：渲染期对比 location，比 effect 里同步 setState 少一次级联渲染
   if (lastLocation !== location) {
@@ -145,6 +162,15 @@ function App() {
         <div className="workbench-header-actions">
           <NavLink className="workbench-ask-link" to="/ask"><Search size={16} /><span>问我的站</span></NavLink>
           <button
+            className="workbench-icon-button"
+            type="button"
+            aria-label={theme === 'light' ? '切换到深色' : '切换到浅色'}
+            title={theme === 'light' ? '切换到深色' : '切换到浅色'}
+            onClick={() => toggleTheme()}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+          </button>
+          <button
             className="settings-trigger workbench-icon-button"
             type="button"
             aria-label="网站设置"
@@ -169,11 +195,13 @@ function App() {
       {menuOpen ? (
         <div className="workbench-menu-overlay" onClick={closeMenu} role="presentation">
           <div className="workbench-menu-panel" id="mobile-navigation" ref={menuRef} role="dialog" aria-modal="true" aria-label="网站导航" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
-            <div className="workbench-menu-heading"><span>去哪里看看？</span><button className="workbench-icon-button" type="button" aria-label="关闭导航" onClick={closeMenu}><X size={22} /></button></div>
+            <div className="workbench-menu-heading"><span>Navigate · 去哪里看看</span><button className="workbench-icon-button" type="button" aria-label="关闭导航" onClick={closeMenu}><X size={22} /></button></div>
             <nav aria-label="折叠导航">
-              {[...navItems, { label: '问我的站', to: '/ask' }].map((item) => (
-                <NavLink className="workbench-menu-link" end={item.to === '/'} key={item.to} to={item.to}>
-                  {item.label}<ArrowUpRight size={16} />
+              {[...navItems, { label: '问我的站', en: 'Ask my site', to: '/ask' }].map((item, index) => (
+                <NavLink className="workbench-menu-link" aria-label={item.label} end={item.to === '/'} key={item.to} to={item.to}>
+                  <span className="workbench-menu-index">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="workbench-menu-label">{item.label}</span>
+                  <span className="workbench-menu-en" aria-hidden="true">{item.en}</span>
                 </NavLink>
               ))}
             </nav>
@@ -200,7 +228,7 @@ function App() {
           <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/wrapped" element={<WrappedPage />} />
           <Route path="/ask" element={<AskPage />} />
-          <Route path="/feynman" element={<FeynmanPage />} />
+          <Route path="/feynman" element={<Navigate to="/career#feynman" replace />} />
           <Route path="/training/:movementId" element={<MovementDetailPage />} />
           <Route path="/fitness/:movementId" element={<MovementDetailPage />} />
           <Route path="/algorithm/:problemSlug" element={<AlgorithmDetailPage />} />

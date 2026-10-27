@@ -1,17 +1,18 @@
+import { SectionCover } from '../components/SectionCover'
 import { projectStatusClass, projects } from '../data/projectsData'
 
 export function ProjectsPage() {
   return (
-    <section className="content-band page-band" id="projects">
-      <div className="section-heading">
-        <p className="eyebrow">Projects / Portfolio</p>
-        <h1 className="page-title">项目</h1>
-        <p>
-          这里是我在做的事情的完整清单：做了什么、怎么做的、学到什么。
-          状态和亮点随实际进展更新，不写空头支票。
-        </p>
-      </div>
-
+    <>
+      <SectionCover
+        eyebrow="Projects / Portfolio"
+        title="营造"
+        quote="「九层之台，起于累土。」——《老子·第六十四章》"
+        intro="九层之台是一筐土一筐土垒起来的。这里是我在做的事情的完整清单：做了什么、怎么做的、学到什么。状态和亮点随实际进展更新，不写空头支票。"
+        stats={[{ value: projects.length, label: '个项目 · 边做边学' }]}
+        cueHref="#projects-content"
+      />
+      <section className="content-band after-cover" id="projects-content">
       <div className="projects-grid">
         {projects.map((project, index) => (
           <article className="project-card" key={project.id}>
@@ -53,6 +54,7 @@ export function ProjectsPage() {
           </article>
         ))}
       </div>
-    </section>
+      </section>
+    </>
   )
 }

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { BodyHeatmap } from '../components/BodyHeatmap'
 import { JournalSection } from '../components/JournalSection'
 import { MindMetricsSection } from '../components/MindMetrics'
+import { SectionCover } from '../components/SectionCover'
 import { diaryEntries, diaryStats } from '../data/diaryData'
 import { xunjiDaySummaries, xunjiLastSyncedAt } from '../data/xunjiData'
 import {
@@ -64,6 +65,10 @@ const trendSeries = [
 
 export function TrainingPage() {
   const [expandedDiary, setExpandedDiary] = useState<string[]>([diaryEntries[0]?.id ?? ''])
+  // 日记与训记同步默认只展示最近几条，其余折叠，避免长列表占满整页
+  const [diaryLimit, setDiaryLimit] = useState(4)
+  const [xunjiLimit, setXunjiLimit] = useState(5)
+  const diaryExpanded = diaryLimit >= diaryEntries.length
 
   const toggleDiary = (id: string) => {
     setExpandedDiary((prev) =>
@@ -72,16 +77,20 @@ export function TrainingPage() {
   }
 
   return (
-    <section className="content-band page-band" id="training">
-      <div className="section-heading">
-        <p className="eyebrow">Growth / Body &amp; Mind</p>
-        <h1 className="page-title">自我提升</h1>
-        <p>
-          身心和肌肉一样，都是练出来的。这里记录两件事：写给自己看的日记（心迹），
-          以及身体训练的长期数据——力量趋势、肌群覆盖、训练日志和 PR 时间线。
-        </p>
-      </div>
-
+    <>
+      <SectionCover
+        eyebrow="Growth / Body & Mind"
+        title="磨剑"
+        quote="「十年磨一剑，霜刃未曾试。」——唐·贾岛《剑客》"
+        intro="剑是一天天磨出来的，身心也一样。这里记录两件事：写给自己看的日记（心迹），以及身体训练的长期数据——力量趋势、肌群覆盖、训练日志和 PR 时间线。"
+        stats={[
+          { value: xunjiDaySummaries.filter((day) => day.sessions > 0).length, label: '个训练日 · 已同步' },
+          { value: xunjiDaySummaries.reduce((sum, day) => sum + day.sessions, 0), label: '次训练记录' },
+          { value: diaryEntries.length, label: '篇心迹日记' },
+        ]}
+        cueHref="#journal"
+      />
+      <section className="content-band after-cover" id="training">
       <div className="section-heading compact-heading" id="journal">
         <p className="eyebrow">Journal · 心迹</p>
         <h2>写一篇日记</h2>
@@ -379,7 +388,7 @@ export function TrainingPage() {
       </div>
 
       <div className="diary-list">
-        {diaryEntries.map((entry, index) => {
+        {diaryEntries.slice(0, diaryLimit).map((entry, index) => {
           const expanded = expandedDiary.includes(entry.id)
           return (
             <article className={`diary-entry ${index === 0 ? 'latest' : ''}`} key={entry.id}>
@@ -427,6 +436,20 @@ export function TrainingPage() {
         })}
       </div>
 
+      {diaryEntries.length > 4 ? (
+        <div className="diary-list-more">
+          <button
+            type="button"
+            className="review-btn ghost review-btn-small"
+            onClick={() => setDiaryLimit(diaryExpanded ? 4 : diaryEntries.length)}
+          >
+            {diaryExpanded
+              ? '收起，只显示最近 4 篇'
+              : `展开更早的 ${diaryEntries.length - diaryLimit} 篇日记 ↓`}
+          </button>
+        </div>
+      ) : null}
+
       <div className="section-heading compact-heading xunji-heading">
         <p className="eyebrow">Xunji Sync · 客观记录</p>
         <h2>训记同步</h2>
@@ -440,10 +463,12 @@ export function TrainingPage() {
         <div className="xunji-panel">
           <div className="xunji-badge-row">
             <span className="xunji-badge">真实数据</span>
-            <span className="xunji-synced-at">同步于 {xunjiLastSyncedAt.slice(0, 16).replace('T', ' ')}</span>
+            <span className="xunji-synced-at">
+              共 {xunjiDaySummaries.length} 天 · 同步于 {xunjiLastSyncedAt.slice(0, 16).replace('T', ' ')}
+            </span>
           </div>
           <div className="xunji-list">
-            {xunjiDaySummaries.map((day) => (
+            {xunjiDaySummaries.slice(0, xunjiLimit).map((day) => (
               <div className="xunji-day" key={day.date}>
                 <time>{day.date.slice(5)}</time>
                 <strong>{day.types.join(' + ')}</strong>
@@ -457,6 +482,15 @@ export function TrainingPage() {
             ))}
           </div>
           <div className="xunji-list-more">
+            {xunjiDaySummaries.length > xunjiLimit ? (
+              <button
+                type="button"
+                className="review-btn ghost review-btn-small"
+                onClick={() => setXunjiLimit(xunjiDaySummaries.length)}
+              >
+                展开全部 {xunjiDaySummaries.length} 天 ↓
+              </button>
+            ) : null}
             <Link className="review-btn ghost review-btn-small" to="/xunji-log">
               查看逐组明细（动作 / 重量 / 次数）→
             </Link>
@@ -472,5 +506,6 @@ export function TrainingPage() {
         </div>
       )}
     </section>
+    </>
   )
 }

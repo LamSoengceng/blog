@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { X } from 'lucide-react'
+import { Annoyed, Frown, Laugh, Meh, Smile, X } from 'lucide-react'
 import { DictationButton } from './DictationButton'
 import {
   addJournalEntry,
@@ -14,7 +14,12 @@ import {
   type JournalKind,
 } from '../utils/journalStore'
 
-const moodEmoji = ['😞', '😕', '😐', '🙂', '😄']
+const moodIcons = [Frown, Annoyed, Meh, Smile, Laugh]
+
+function MoodIcon({ mood, size = 18 }: { mood: number; size?: number }) {
+  const Icon = moodIcons[mood - 1] ?? Meh
+  return <Icon size={size} aria-hidden="true" />
+}
 
 export function JournalSection() {
   const [entries, setEntries] = useState<JournalEntry[]>(loadJournal)
@@ -81,15 +86,15 @@ export function JournalSection() {
           <div className="journal-field">
             <span>心情</span>
             <div className="journal-mood-row">
-              {moodEmoji.map((emoji, index) => (
+              {moodIcons.map((Icon, index) => (
                 <button
                   className={`journal-mood ${mood === index + 1 ? 'active' : ''}`}
                   type="button"
-                  key={emoji}
+                  key={moodLabels[index]}
                   aria-label={`${index + 1} 分 ${moodLabels[index]}`}
                   onClick={() => setMood(index + 1)}
                 >
-                  {emoji}
+                  <Icon size={18} aria-hidden="true" />
                 </button>
               ))}
             </div>
@@ -138,7 +143,7 @@ export function JournalSection() {
                 <span className={`journal-kind-badge ${entry.kind}`}>{entry.kind}</span>
                 <time>{formatJournalDate(entry.createdAt)}</time>
                 <span className="journal-mood-badge" title={`心情 ${entry.mood} 分 ${moodLabels[entry.mood - 1]}`}>
-                  {moodEmoji[entry.mood - 1]}
+                  <MoodIcon mood={entry.mood} size={14} />
                 </span>
                 <button
                   className="journal-delete"

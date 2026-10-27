@@ -1,0 +1,100 @@
+/* 浅色主题针对性覆盖：只处理 design-system 变量覆盖不到的历史硬编码。
+   按模块分组；新增页面请优先用共享变量，不要往这里加规则。 */
+
+/* ---- 全局文字与强调色残留 ---- */
+html[data-theme='light'] .site-shell :is(.blog-tag-row span, .project-stack-row span, .career-tags span, .review-pill-row span, .dataset-badge) {
+  background: rgba(15, 138, 95, 0.07);
+  color: #35624e;
+}
+html[data-theme='light'] .site-shell :is(.secondary-link, .review-btn.ghost, .workspace-action-secondary, .career-history-heading button) {
+  background: rgba(15, 138, 95, 0.05);
+  color: #33473d;
+}
+html[data-theme='light'] .site-shell :is(.review-btn.warn, .career-delete, .journal-delete) {
+  background: rgba(178, 88, 44, 0.08);
+  color: #a34d28;
+  border-color: rgba(178, 88, 44, 0.25);
+}
+html[data-theme='light'] .site-shell :is(.primary-link, .review-btn.primary, .workspace-action-primary, .career-import-actions button, .career-question-actions button:not(.career-delete)):hover:not(:disabled) {
+  background: #0b6e4b;
+  border-color: #0b6e4b;
+}
+
+/* ---- 顶栏 ---- */
+html[data-theme='light'] .workbench-header {
+  background: rgba(250, 253, 251, 0.92);
+  border-bottom-color: rgba(22, 65, 46, 0.14);
+}
+html[data-theme='light'] .workbench-nav-link { color: #4b5f55; }
+html[data-theme='light'] .workbench-nav-link:hover { background: rgba(15, 138, 95, 0.08); color: var(--text-strong); }
+html[data-theme='light'] .workbench-nav-link[aria-current='page'] { background: rgba(15, 138, 95, 0.12); color: var(--accent-soft); }
+html[data-theme='light'] .workbench-icon-button:hover,
+html[data-theme='light'] .workbench-ask-link:hover { border-color: var(--accent); }
+html[data-theme='light'] .workbench-brand svg { fill: var(--text-strong); }
+html[data-theme='light'] .workbench-brand small { color: var(--muted); }
+
+/* ---- 全屏导航（Forge 式）---- */
+html[data-theme='light'] .workbench-menu-overlay {
+  background: radial-gradient(120% 90% at 50% 0%, #ffffff 0%, #f0f5f1 58%, #e6eee9 100%);
+}
+html[data-theme='light'] .workbench-menu-link { border-bottom-color: rgba(22, 65, 46, 0.12); }
+html[data-theme='light'] .workbench-menu-link:hover,
+html[data-theme='light'] .workbench-menu-link[aria-current='page'] { background: rgba(15, 138, 95, 0.06); }
+
+/* ---- 设置弹窗 ---- */
+html[data-theme='light'] .settings-dialog {
+  background: #ffffff;
+  border-color: rgba(22, 65, 46, 0.18);
+  box-shadow: 0 30px 90px rgba(18, 44, 32, 0.18);
+}
+
+/* ---- 首页 ---- */
+html[data-theme='light'] .home-after-hero {
+  background:
+    radial-gradient(circle at 18% 8%, rgba(15, 138, 95, 0.08), transparent 28rem),
+    radial-gradient(circle at 82% 22%, rgba(15, 138, 95, 0.05), transparent 22rem),
+    linear-gradient(180deg, #f7faf8 0%, #eef3f0 40%, #eef3f0 100%);
+}
+html[data-theme='light'] .home-after-hero::before { opacity: 0.35; }
+html[data-theme='light'] .home-module-grid {
+  border-top-color: rgba(22, 65, 46, 0.16);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(238, 243, 240, 0)),
+    radial-gradient(circle at 50% -20%, rgba(15, 138, 95, 0.06), transparent 24rem);
+}
+/* 首屏插画卡保持画作原色，仅把边框换成浅色体系 */
+html[data-theme='light'] .workspace-art-image { border-color: rgba(22, 65, 46, 0.16); }
+
+/* 首页下半段：写作/数据流/split 区块的旧深色渐变换浅色 */
+html[data-theme='light'] .home-writing-section { background: linear-gradient(180deg, #ffffff 0%, #f0f5f2 100%); }
+html[data-theme='light'] .split-section { background: linear-gradient(90deg, rgba(15, 138, 95, 0.06), rgba(0, 0, 0, 0) 44%), #fbfdfc; }
+html[data-theme='light'] .workflow-section { background: radial-gradient(circle at 12% 24%, rgba(15, 138, 95, 0.06), rgba(0, 0, 0, 0) 320px), #f4f8f5; }
+html[data-theme='light'] .home-post-list article { background: #ffffff; }
+
+/* ---- 攻玉 ---- */
+html[data-theme='light'] :is(.career-quote, .classical-quote) { color: #0b6e4b; }
+html[data-theme='light'] .career-overview a {
+  background: linear-gradient(135deg, #ffffff, #f0f6f2);
+  color: var(--text-strong);
+  border-color: rgba(22, 65, 46, 0.18);
+}
+html[data-theme='light'] .career-overview a > svg { color: #0f8a5f; }
+html[data-theme='light'] .career-overview a:hover { border-color: #0f8a5f; }
+html[data-theme='light'] .career-overview small { color: var(--muted); }
+html[data-theme='light'] .career-import { background: #ffffff; }
+html[data-theme='light'] .career-import label { color: #33473d; }
+html[data-theme='light'] .career-import input,
+html[data-theme='light'] .career-import textarea {
+  background: #fbfdfc;
+  border-color: rgba(22, 65, 46, 0.22);
+  color: var(--text-strong);
+}
+html[data-theme='light'] .career-import input:focus,
+html[data-theme='light'] .career-import textarea:focus { border-color: #0f8a5f; box-shadow: 0 0 0 2px rgba(15, 138, 95, 0.18); }
+html[data-theme='light'] .career-import-actions button,
+html[data-theme='light'] .career-question-actions button:first-child { background: #0f8a5f; color: #f7fbf9; }
+html[data-theme='light'] .career-import-actions span { color: var(--muted); }
+html[data-theme='light'] .career-notice { color: #2f6b4f; }
+html[data-theme='light'] .career-upload { border: 1px dashed rgba(22, 65, 46, 0.3); background: #f7faf8; }
+html[data-theme='light'] .career-answer { background: #f2f8f4; border-color: rgba(22, 65, 46, 0.14); }
+html[data-theme='light'] .career-history pre { background: #f5f8f6; color: var(--text); }

@@ -2,6 +2,7 @@
 // 静态数据来自 src/data，个人记录来自浏览器 localStorage；数据不足的板块如实标注。
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { SectionCover } from '../components/SectionCover'
 import { algorithmMeta } from '../data/algorithmMeta'
 import { diaryEntries } from '../data/diaryData'
 import { metricCards, prs } from '../data/fitnessData'
@@ -81,16 +82,16 @@ export function WrappedPage() {
   ]
 
   return (
-    <section className="content-band page-band wrapped-page" id="wrapped">
-      <div className="section-heading">
-        <p className="eyebrow">{year} / Wrapped</p>
-        <h1 className="page-title">这一年</h1>
-        <p>
-          把训练、算法和个人记录摊在一页上。数字来自站内数据和浏览器本机记录，
-          哪些是长期积累、哪些刚起步，一眼能看出来。
-        </p>
-      </div>
-
+    <>
+      <SectionCover
+        eyebrow={`${year} / Wrapped`}
+        title="岁晏"
+        quote="「吏禄三百石，岁晏有余粮。」——唐·白居易《观刈麦》"
+        intro="一年将尽，盘点粮仓：把训练、算法和个人记录摊在一页上。数字来自站内数据和浏览器本机记录，哪些是长期积累、哪些刚起步，一眼能看出来。"
+        cueHref="#wrapped-content"
+      />
+      <section className="content-band after-cover wrapped-page" id="wrapped">
+      <div id="wrapped-content">
       <div className="wrapped-hero-grid">
         {heroStats.map((stat) => (
           <article className="wrapped-hero-card" key={stat.label}>
@@ -218,6 +219,8 @@ export function WrappedPage() {
         页面只统计你自己的记录：算法数据来自本地题解快照，个人记录存在这台电脑的浏览器里，
         不上传任何服务器。
       </p>
+      </div>
     </section>
+    </>
   )
 }

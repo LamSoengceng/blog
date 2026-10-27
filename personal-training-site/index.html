@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/pwa/pwa-192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lam Soengceng · 训练、算法与长期记录</title>
     <meta
@@ -11,6 +12,15 @@
     />
     <meta name="author" content="Lam Soengceng" />
     <meta name="theme-color" content="#050806" />
+    <script>
+      // 首帧前定主题，避免浅色用户刷新时闪一下深底
+      try {
+        document.documentElement.dataset.theme =
+          window.localStorage.getItem('site-theme') === 'light' ? 'light' : 'dark'
+      } catch (error) {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_CN" />

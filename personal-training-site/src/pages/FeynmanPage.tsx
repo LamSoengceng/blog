@@ -9,6 +9,7 @@ import {
 } from '../utils/feynmanRecords'
 import { openSiteSettings } from '../utils/settings'
 import { parseFeynmanScore } from '../utils/feynmanStore'
+import { buildKnowledgeChunks, retrieveChunks } from '../utils/siteKnowledge'
 import { DictationButton } from '../components/DictationButton'
 import { SketchPad } from '../components/SketchPad'
 import { requestSketchExport } from '../utils/sketchExport'
@@ -19,12 +20,16 @@ import { FeynmanLibrary } from '../components/feynman/FeynmanLibrary'
 import { RubricFeedback } from '../components/feynman/RubricFeedback'
 
 // 通用费曼评估：模型不扮演特定角色，只根据用户资料与知识点给出结构化建议。
-const buildSystemPrompt = (topic: string, referenceNotes: string | null) =>
+// siteContext：从站内其他板块（博客、算法题解、观澜讲义等）检索到的相关内容节选。
+const buildSystemPrompt = (topic: string, referenceNotes: string | null, siteContext: string | null) =>
   [
     '你是费曼学习法教练。用户刚刚用自己的话解释了一个知识点。你的任务是帮助他发现理解中的缺口，而不是替他作答。',
     referenceNotes
       ? '下面附有用户上传资料中与该知识点相关的原文，请以它为主要对照依据，同时指出资料本身可能遗漏的地方。'
-      : '没有附带资料，请依据你的知识评估；不确定时明确标注，不要编造资料来源。',
+      : '没有附带用户资料，请依据你的知识评估；不确定时明确标注，不要编造资料来源。',
+    siteContext
+      ? '另外附上本站其他板块（博客、算法题解、观澜讲义等）中与该知识点相关的内容节选，作为补充参照；若它与用户讲解或上传资料冲突，以上传资料为准。'
+      : '',
     '用简体中文、严格按以下结构输出评语：',
     '✓ 讲对了：列出理解正确的要点（简短）',
     '⚠️ 错与漏：纠正讲错的内容，指出遗漏的关键机制或边界',
@@ -36,9 +41,10 @@ const buildSystemPrompt = (topic: string, referenceNotes: string | null) =>
     '',
     `知识点：${topic}`,
     referenceNotes ? `\n${referenceNotes}` : '',
+    siteContext ? `\n站内相关资料：\n${siteContext}` : '',
   ].join('\n')
 
-export function FeynmanPage() {
+export function FeynmanSection() {
   const [records, setRecords] = useState<FeynmanRecord[]>(loadFeynmanRecords)
   const [topic, setTopic] = useState('')
   const [text, setText] = useState('')
@@ -113,11 +119,19 @@ export function FeynmanPage() {
     setFeedback('')
     const controller = new AbortController()
     abortRef.current = controller
+    // 从站内其他板块（博客、算法题解、观澜讲义等）检索与知识点相关的内容，供模型对照评估
+    let siteContext: string | null = null
+    try {
+      const chunks = retrieveChunks(cleanTopic, buildKnowledgeChunks(), 3)
+      siteContext = chunks.length
+        ? chunks.map((chunk) => `【${chunk.source} · ${chunk.title}】\n${chunk.text}`).join('\n\n')
+        : null
+    } catch { siteContext = null }
     try {
       const full = await chatCompletionStream(
         aiConfig,
         [
-          { role: 'system', content: buildSystemPrompt(cleanTopic, referenceNotes) },
+          { role: 'system', content: buildSystemPrompt(cleanTopic, referenceNotes, siteContext) },
           { role: 'user', content: cleanText },
         ],
         (delta) => setFeedback((prev) => prev + delta),
@@ -146,16 +160,7 @@ export function FeynmanPage() {
   }
 
   return (
-    <section className="content-band page-band feynman-page">
-      <div className="section-heading">
-        <p className="eyebrow">Feynman Technique</p>
-        <h1 className="page-title">费曼练习</h1>
-        <p>
-          费曼学习法：从你的资料库随机抽取一个知识点，先用自己的话讲清楚，再由大模型流式给出结构化建议——
-          讲对了什么、错漏在哪、理解是否深入、下一步怎么继续练习。
-        </p>
-      </div>
-
+    <div className="feynman-embed">
       <form
         className="feynman-composer"
         onSubmit={(event) => {
@@ -310,6 +315,6 @@ export function FeynmanPage() {
           ))
         )}
       </div>
-    </section>
+    </div>
   )
 }
