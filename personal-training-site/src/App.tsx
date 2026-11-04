@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
-import { Link, Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
-import { Menu, Moon, Search, Settings, Sun, X } from 'lucide-react'
+import { Link, Navigate, NavLink, Route, Routes, useLocation, useNavigationType } from 'react-router-dom'
+import { Dumbbell, Home, Menu, MoreHorizontal, Moon, Search, Settings, Sun, TrendingUp, X } from 'lucide-react'
 import './App.css'
 import './styles/design-system.css'
 import './styles/theme-light.css'
@@ -45,15 +45,65 @@ const navItems = [
   { label: '岁晏', en: 'Wrapped', to: '/wrapped' },
 ]
 
+// 滚动位置按 pathname 存 sessionStorage，返回手势（POP）时恢复，前进导航仍回顶部。
+const SCROLL_STORAGE_KEY = 'site-scroll-positions'
+
+function readScrollMap(): Record<string, number> {
+  try {
+    return JSON.parse(sessionStorage.getItem(SCROLL_STORAGE_KEY) ?? '{}') as Record<string, number>
+  } catch {
+    return {}
+  }
+}
+
+function writeScrollPosition(pathname: string, top: number) {
+  try {
+    const map = readScrollMap()
+    map[pathname] = Math.round(top)
+    sessionStorage.setItem(SCROLL_STORAGE_KEY, JSON.stringify(map))
+  } catch {
+    // sessionStorage 不可用（隐私模式）时仅本页返回可用，静默降级
+  }
+}
+
 function ScrollManager() {
   const location = useLocation()
+  const navigationType = useNavigationType()
   const firstRender = useRef(true)
+  const latestScrollY = useRef(0)
+  const previousPathname = useRef<string | null>(null)
+
+  // 滚动时记下当前位置：离开页面的瞬间 DOM 已切换，事后读 scrollY 会被新页面钳到 0
+  useEffect(() => {
+    latestScrollY.current = window.scrollY
+    const record = () => { latestScrollY.current = window.scrollY }
+    window.addEventListener('scroll', record, { passive: true })
+    return () => window.removeEventListener('scroll', record)
+  }, [])
 
   useEffect(() => {
+    if (!firstRender.current && previousPathname.current) {
+      writeScrollPosition(previousPathname.current, latestScrollY.current)
+    }
+    previousPathname.current = location.pathname
+
+    // 安卓返回手势对应 POP；带锚点时仍走锚点定位，优先级更高
+    const savedTop = !firstRender.current && !location.hash && navigationType === 'POP'
+      ? readScrollMap()[location.pathname]
+      : undefined
+
     let frame = 0
     let attempts = 0
     const scrollNow = () => {
-      if (location.hash) {
+      if (typeof savedTop === 'number') {
+        // 懒加载正文可能还没撑开页面，逐帧等高度到位再恢复，约 0.7s 上限
+        if (document.documentElement.scrollHeight >= savedTop + window.innerHeight || attempts++ >= 45) {
+          window.scrollTo({ top: savedTop, behavior: 'auto' })
+        } else {
+          frame = window.requestAnimationFrame(scrollNow)
+          return
+        }
+      } else if (location.hash) {
         const target = document.getElementById(location.hash.slice(1))
         if (target) {
           target.scrollIntoView({ behavior: 'auto' })
@@ -71,7 +121,7 @@ function ScrollManager() {
     frame = window.requestAnimationFrame(scrollNow)
 
     return () => window.cancelAnimationFrame(frame)
-  }, [location.pathname, location.hash])
+  }, [location.pathname, location.hash, navigationType])
 
   useEffect(() => {
     const label = location.pathname.startsWith('/ask') ? '问我的站'
@@ -84,8 +134,16 @@ function ScrollManager() {
   return null
 }
 
+// 骨架屏占位：视觉块给等待感，role=status 让读屏用户仍能听到加载提示
 function PageFallback() {
-  return <div className="page-loading" role="status">正在加载页面…</div>
+  return (
+    <div className="page-skeleton" role="status" aria-label="正在加载页面">
+      <span className="skeleton-block skeleton-eyebrow" aria-hidden="true" />
+      <span className="skeleton-block skeleton-title" aria-hidden="true" />
+      <span className="skeleton-block skeleton-line" aria-hidden="true" />
+      <span className="skeleton-block skeleton-line skeleton-line-short" aria-hidden="true" />
+    </div>
+  )
 }
 
 function NotFoundPage() {
@@ -104,6 +162,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [theme, setTheme] = useState<SiteTheme>(loadTheme)
+  const [offline, setOffline] = useState(() => !window.navigator.onLine)
   const [lastLocation, setLastLocation] = useState(location)
   const menuRef = useRef<HTMLDivElement>(null)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
@@ -114,6 +173,22 @@ function App() {
     const syncTheme = () => setTheme(loadTheme())
     window.addEventListener('site-theme-changed', syncTheme)
     return () => window.removeEventListener('site-theme-changed', syncTheme)
+  }, [])
+
+  // 主题色随主题同步到状态栏：深色沿用 index.html 的首帧值，浅色取浅色主题的页面底色
+  useEffect(() => {
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'light' ? '#eef3f0' : '#050806')
+  }, [theme])
+
+  useEffect(() => {
+    const goOffline = () => setOffline(true)
+    const goOnline = () => setOffline(false)
+    window.addEventListener('offline', goOffline)
+    window.addEventListener('online', goOnline)
+    return () => {
+      window.removeEventListener('offline', goOffline)
+      window.removeEventListener('online', goOnline)
+    }
   }, [])
 
   // 路由变化时收起菜单：渲染期对比 location，比 effect 里同步 setState 少一次级联渲染
@@ -192,6 +267,8 @@ function App() {
         </div>
       </header>
 
+      {offline ? <p className="offline-banner" role="status">当前离线，部分功能不可用</p> : null}
+
       {menuOpen ? (
         <div className="workbench-menu-overlay" onClick={closeMenu} role="presentation">
           <div className="workbench-menu-panel" id="mobile-navigation" ref={menuRef} role="dialog" aria-modal="true" aria-label="网站导航" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
@@ -212,6 +289,10 @@ function App() {
 
       <main id="main-content" tabIndex={-1}>
       <Suspense fallback={<PageFallback />}>
+        {/* ScrollManager 在 Suspense 内：懒加载页解析后才挂载，锚点重试预算从正文就绪起算；
+            在 keyed div 外：实例跨路由存活，滚动位置才能写入/读回 sessionStorage */}
+        <div key={location.pathname.split('/')[1] ?? ''} className="page-transition">
+        {/* key 取路由第一段：跨栏目切换重挂载触发淡入，同栏目参数导航（如 /blog/a → /blog/b）保留页面本地 state */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/blog" element={<BlogPage />} />
@@ -234,6 +315,7 @@ function App() {
           <Route path="/algorithm/:problemSlug" element={<AlgorithmDetailPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        </div>
         <ScrollManager />
       </Suspense>
       </main>
@@ -241,6 +323,29 @@ function App() {
         <div><Link to="/" className="font-playfair">Lam Soengceng</Link><p>记录过程，也记录每一点进步。</p></div>
         <nav aria-label="页脚导航"><Link to="/blog">读博客</Link><Link to="/projects">看项目</Link><Link to="/ask">问我的站</Link></nav>
       </footer>
+      <nav className="mobile-tab-bar" aria-label="底部导航">
+        {[
+          { label: '首页', to: '/', icon: Home },
+          { label: '磨剑', to: '/training', icon: Dumbbell },
+          { label: '货殖', to: '/stock', icon: TrendingUp },
+          { label: '问我的站', to: '/ask', icon: Search },
+        ].map(({ label, to, icon: Icon }) => (
+          <NavLink className="mobile-tab-link" end={to === '/'} key={label} to={to}>
+            <Icon size={20} aria-hidden="true" />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+        <button
+          className="mobile-tab-link mobile-tab-more"
+          type="button"
+          aria-haspopup="dialog"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(true)}
+        >
+          <MoreHorizontal size={20} aria-hidden="true" />
+          <span>更多</span>
+        </button>
+      </nav>
       <SettingsModal open={settingsOpen} onClose={closeSettings} />
     </div>
   )

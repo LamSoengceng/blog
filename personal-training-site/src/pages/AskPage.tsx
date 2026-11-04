@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
 import { buildKnowledgeChunks, retrieveChunks, type KnowledgeChunk } from '../utils/siteKnowledge'
 import { buildRequestMessages } from '../utils/askContext'
@@ -26,6 +26,19 @@ export function AskPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const abortRef = useRef<AbortController | null>(null)
+  // 离线检测：navigator.onLine 配合 online/offline 事件，恢复网络后提示自动消失、可再次提问
+  const [isOnline, setIsOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine))
+
+  useEffect(() => {
+    const goOnline = () => setIsOnline(true)
+    const goOffline = () => setIsOnline(false)
+    window.addEventListener('online', goOnline)
+    window.addEventListener('offline', goOffline)
+    return () => {
+      window.removeEventListener('online', goOnline)
+      window.removeEventListener('offline', goOffline)
+    }
+  }, [])
 
   // 输入时实时显示将被检索的资料，让检索过程可见（仅随输入变化重算）
   const previewChunks = useMemo(
@@ -36,6 +49,8 @@ export function AskPage() {
   const ask = async () => {
     const question = input.trim()
     if (!question || loading) return
+    // 离线时请求注定失败，直接拦截并交给输入区旁的行内提示，而不是报一串网络错误
+    if (!isOnline) return
     const aiConfig = loadAiConfig()
     if (!aiConfig.apiKey) {
       openSiteSettings()
@@ -150,13 +165,24 @@ export function AskPage() {
               {previewChunks.map((chunk) => `【${chunk.source}】${chunk.title}`).join(' · ')}
             </p>
           ) : null}
+          {!isOnline ? (
+            <p className="ai-note ai-error" role="status">
+              当前处于离线状态，暂时无法提问；网络恢复后即可继续使用。
+            </p>
+          ) : null}
         </div>
         {loading ? (
           <button className="review-btn warn" type="button" onClick={stop}>
             停止
           </button>
         ) : (
-          <button className="review-btn primary" type="button" onClick={ask} disabled={loading}>
+          <button
+            className="review-btn primary"
+            type="button"
+            onClick={ask}
+            disabled={loading || !isOnline}
+            title={isOnline ? undefined : '当前离线，无法提问'}
+          >
             提问
           </button>
         )}

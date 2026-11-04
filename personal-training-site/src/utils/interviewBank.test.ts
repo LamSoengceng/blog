@@ -11,6 +11,13 @@ describe('面经题库', () => {
     ])
   })
 
+  it('把 OCR 挤在一行的多个问题按序号和问号分点提取', () => {
+    expect(extractQuestions('一面记录 1. 什么是 TCP 三次握手？2、如何设计缓存系统？3. 说说事件循环。4. 聊聊项目')).toEqual([
+      '什么是 TCP 三次握手？', '如何设计缓存系统？', '说说事件循环。',
+    ])
+    expect(extractQuestions('补充：浮点数 3.5 不能精确表示\n为什么需要三次握手？原因是防止旧连接')).toEqual(['为什么需要三次握手？'])
+  })
+
   it('只接受网页来源并能恢复本地题库', () => {
     expect(sourceUrl('javascript:alert(1)')).toBeNull()
     expect(sourceUrl('https://www.xiaohongshu.com/explore/123')).toBe('https://www.xiaohongshu.com/explore/123')

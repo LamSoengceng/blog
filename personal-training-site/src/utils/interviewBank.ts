@@ -5,10 +5,24 @@ const STORAGE_KEY = 'career-interview-questions-v1'
 const SOURCE_KEY = 'career-interview-sources-v1'
 const ORGANIZED_KEY = 'career-interview-organized-at-v1'
 
+// OCR 常把多个问题挤在同一行（如 “1. xxx？2. yyy？”），先在行内的序号标记和问号后断开再逐点判断
+export function splitPoints(line: string): string[] {
+  return line
+    .replace(/(^|[。；;！!？?\s])(\d{1,2}[.、)）](?=\s|[一-龥]))/g, '$1\n$2')
+    .replace(/([?？])(?=\s*\S)/g, '$1\n')
+    .split('\n')
+    .map((point) => point.replace(/^(?:[-*•]|\d{1,2}[.、)）])\s*/, '').trim())
+    .filter(Boolean)
+}
+
+export function isQuestionText(text: string): boolean {
+  return /[?？]$/.test(text) || /^(?:请|如何|怎么|为什么|什么是|说说|介绍|解释|实现|设计|手写|谈谈|讲讲|区别|有哪些)/.test(text)
+}
+
 export function extractQuestions(raw: string): string[] {
   const lines = raw.split(/\r?\n/).map((line) => line.trim()).filter(Boolean)
-  const found = lines.map((line) => line.replace(/^(?:[-*•]|\d+[.、)）])\s*/, '').trim())
-    .filter((line) => /[?？]$/.test(line) || /^(?:请|如何|怎么|为什么|什么是|说说|介绍|解释|实现|设计|手写|谈谈|讲讲|区别|有哪些)/.test(line))
+  const found = lines.flatMap(splitPoints)
+    .filter(isQuestionText)
     .map((line) => line.slice(0, 240))
   return [...new Set(found)].slice(0, 40)
 }

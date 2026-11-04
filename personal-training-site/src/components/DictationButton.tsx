@@ -34,7 +34,11 @@ export function DictationButton({ onText }: { onText: (text: string) => void }) 
       {listening ? (
         <span className="dictation-interim">{interim || '正在听…'}</span>
       ) : null}
-      {error ? <span className="dictation-error">{error}</span> : null}
+      {error ? (
+        <span className="dictation-error" role="status">
+          {error}
+        </span>
+      ) : null}
     </>
   )
 }

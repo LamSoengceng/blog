@@ -12,8 +12,12 @@ dist
 dist-ssr
 *.local
 
-# hithink-finance 取数中间缓存（每次刷新重新生成，不入库）
-scripts/cache/
+# hithink-finance 取数中间缓存（每次刷新重新生成，不入库）；
+# xunji 逐日缓存 / leetcode 题面缓存需入库（sync-xunji 工作流依赖增量提交）。
+scripts/cache/*
+!scripts/cache/xunji/
+!scripts/cache/statements/
+!scripts/cache/leetcode-question-bank.json
 
 # Editor directories and files
 .vscode/*

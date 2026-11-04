@@ -1,15 +1,51 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, ImageUp, Sparkles, Trash2 } from 'lucide-react'
+import { ArrowUpRight, ImageUp, ListPlus, Sparkles, Trash2, X } from 'lucide-react'
 import { MarkdownContent } from '../components/MarkdownContent'
 import { SectionCover } from '../components/SectionCover'
 import { chatCompletionStream, loadAiConfig } from '../utils/aiChat'
-import { extractQuestions, getLastOrganizedAt, inferQuestionCategory, isReorganizationDue, loadInterviewQuestions, loadInterviewSources, mergeInterviewSource, rankInterviewQuestions, reorganizeInterviewQuestions, saveInterviewQuestions, saveInterviewSources, setLastOrganizedAt, sourceUrl, type InterviewQuestion, type InterviewSource } from '../utils/interviewBank'
+import { extractQuestions, getLastOrganizedAt, inferQuestionCategory, isQuestionText, isReorganizationDue, loadInterviewQuestions, loadInterviewSources, mergeInterviewSource, rankInterviewQuestions, reorganizeInterviewQuestions, saveInterviewQuestions, saveInterviewSources, setLastOrganizedAt, sourceUrl, splitPoints, type InterviewQuestion, type InterviewSource } from '../utils/interviewBank'
 import { openSiteSettings } from '../utils/settings'
 import { lessons } from '../data/lessons'
 import { platformLabels } from '../data/lessons/types'
 import { algorithmMeta } from '../data/algorithmMeta'
 import { FeynmanSection } from './FeynmanPage'
+
+const SECTION_IDS = ['interview-bank', 'video-lessons', 'feynman', 'work-notes'] as const
+type CareerSectionId = (typeof SECTION_IDS)[number]
+
+const MODULES: { id: CareerSectionId; name: string; desc: string }[] = [
+  { id: 'interview-bank', name: '问津', desc: '面经题库' },
+  { id: 'video-lessons', name: '观澜', desc: '视频与文章讲义' },
+  { id: 'feynman', name: '解惑', desc: '费曼技巧' },
+  { id: 'work-notes', name: '省身', desc: '工作复盘' },
+]
+
+// 识别 / 粘贴的文字按行拆成分点，逐点确认后再入题库
+type RecognizedPoint = { id: string; text: string; include: boolean }
+
+function parsePoints(raw: string): RecognizedPoint[] {
+  return raw.split(/\r?\n/).flatMap(splitPoints)
+    .map((text) => ({ id: crypto.randomUUID(), text, include: true }))
+}
+
+// 导入历史卡片：直接展示识别出的问题列表，原文收在底部
+function SourceHistoryCard({ source, onSearch }: { source: InterviewSource; onSearch: (text: string) => void }) {
+  const extracted = extractQuestions(source.text)
+  return (
+    <li className="career-source-card">
+      <div className="career-source-head">
+        <strong>{source.title}</strong>
+        <span>{new Date(source.addedAt).toLocaleDateString('zh-CN')} · {extracted.length} 道问题</span>
+        {source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">原帖 ↗</a> : null}
+      </div>
+      {extracted.length
+        ? <ol className="career-source-questions">{extracted.map((text, index) => <li key={index}><button type="button" title="在题库中检索这道题" onClick={() => onSearch(text)}>{text}</button></li>)}</ol>
+        : <p className="career-source-empty">未从中识别出问题，可点击下方原文查看识别质量。</p>}
+      <details className="career-source-raw"><summary>查看原文</summary><pre>{source.text}</pre></details>
+    </li>
+  )
+}
 
 export function CareerPage() {
   const [questions, setQuestions] = useState(loadInterviewQuestions)
@@ -17,7 +53,9 @@ export function CareerPage() {
   const [lastOrganizedAt, setOrganizedAt] = useState(getLastOrganizedAt)
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
-  const [notes, setNotes] = useState('')
+  const [points, setPoints] = useState<RecognizedPoint[]>([])
+  const [pasteOpen, setPasteOpen] = useState(false)
+  const [pasteText, setPasteText] = useState('')
   const [notice, setNotice] = useState('')
   const [selected, setSelected] = useState<string | null>(null)
   const [answer, setAnswer] = useState('')
@@ -28,22 +66,34 @@ export function CareerPage() {
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<'hot' | 'new'>('hot')
   const controller = useRef<AbortController | null>(null)
-  const [activeSection, setActiveSection] = useState('interview-bank')
+  const [activeSection, setActiveSection] = useState<CareerSectionId>('interview-bank')
 
-  // 左侧竖直导航的高亮跟随滚动位置
+  // 模块改为点击进入：支持 #hash 深链（封面导语、外部分享）
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      const visible = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
-      if (visible[0]) setActiveSection(visible[0].target.id)
-    }, { rootMargin: '-15% 0px -65% 0px' })
-    for (const id of ['interview-bank', 'video-lessons', 'feynman', 'work-notes']) {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
+    const apply = () => {
+      const id = window.location.hash.slice(1)
+      if ((SECTION_IDS as readonly string[]).includes(id)) setActiveSection(id as CareerSectionId)
     }
-    return () => observer.disconnect()
+    apply()
+    window.addEventListener('hashchange', apply)
+    return () => window.removeEventListener('hashchange', apply)
   }, [])
+
+  // 模块条吸顶偏移跟随站头实际高度（桌面/移动端不同）
+  useEffect(() => {
+    const header = document.querySelector('.workbench-header, .site-header, header')
+    if (!header) return
+    const apply = () => document.documentElement.style.setProperty('--header-h', `${header.getBoundingClientRect().height}px`)
+    apply()
+    window.addEventListener('resize', apply)
+    return () => window.removeEventListener('resize', apply)
+  }, [])
+
+  const openSection = (id: CareerSectionId) => {
+    setActiveSection(id)
+    window.history.replaceState(null, '', `#${id}`)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   const recognizeImages = async (files: FileList | null) => {
     if (!files?.length) return
@@ -65,26 +115,37 @@ export function CareerPage() {
           results.push(result.data.text.trim())
         }
         const recognized = results.filter(Boolean).join('\n')
-        if (!recognized) setNotice('没有识别出文字。可换一张清晰截图，或直接粘贴问题。')
+        const parsed = parsePoints(recognized)
+        if (!parsed.length) setNotice('没有识别出文字。可换一张清晰截图，或直接粘贴问题。')
         else {
-          setNotes((previous) => [previous.trim(), recognized].filter(Boolean).join('\n'))
-          setNotice('截图文字已填入下方，请检查错字和问题边界，再加入题库。')
+          setPoints((previous) => [...previous, ...parsed])
+          setNotice(`识别出 ${parsed.length} 行文字，已按行分点列出。逐点勾选、改错字后，再点“加入题库”。`)
         }
       } finally { await worker.terminate() }
     } catch (error) { setNotice(error instanceof Error ? `识别失败：${error.message}` : '识别失败，请直接粘贴问题。') }
     finally { setRecognizing(false); setOcrProgress('') }
   }
 
+  const applyPaste = () => {
+    const parsed = parsePoints(pasteText)
+    if (!parsed.length) { setNotice('粘贴内容为空。'); return }
+    setPoints((previous) => [...previous, ...parsed])
+    setPasteText('')
+    setPasteOpen(false)
+    setNotice(`已解析 ${parsed.length} 行，逐点确认后加入题库。`)
+  }
+
   const addQuestions = () => {
+    const includedText = points.filter((point) => point.include).map((point) => point.text.trim()).filter(Boolean).join('\n')
     const safeUrl = sourceUrl(url)
     if (safeUrl === null) { setNotice('来源链接需要是 http 或 https 地址。'); return }
-    const extracted = extractQuestions(notes)
-    if (!extracted.length) { setNotice('未识别到问题。请每行写一个问题，以问号结尾，或以“如何 / 为什么 / 请”等开头。'); return }
-    if (sources.some((source) => source.text.trim() === notes.trim() && source.url === (safeUrl || ''))) {
+    const extracted = extractQuestions(includedText)
+    if (!extracted.length) { setNotice('勾选的条目里没有识别到问题。以问号结尾，或以“如何 / 为什么 / 请”等开头。'); return }
+    if (sources.some((source) => source.text.trim() === includedText && source.url === (safeUrl || ''))) {
       setNotice('这份内容已经导入过，未重复计入题目热度。')
       return
     }
-    const source: InterviewSource = { id: crypto.randomUUID(), title: title.trim() || '面经笔记', url: safeUrl || '', text: notes.trim(), addedAt: new Date().toISOString() }
+    const source: InterviewSource = { id: crypto.randomUUID(), title: title.trim() || '面经笔记', url: safeUrl || '', text: includedText, addedAt: new Date().toISOString() }
     const next = mergeInterviewSource(questions, source)
     const incoming = next.length - questions.length
     try {
@@ -93,7 +154,7 @@ export function CareerPage() {
       setSources([source, ...sources])
       setQuestions(next)
       setNotice(`已保存导入记录，新增 ${incoming} 道问题${extracted.length > incoming ? '；重复问题已合并来源' : ''}。`)
-      setNotes('')
+      setPoints([])
     } catch { setNotice('浏览器存储失败，请检查存储空间或隐私设置。') }
   }
 
@@ -156,26 +217,45 @@ export function CareerPage() {
       />
       <div className="career-page content-band after-cover career-with-rail">
     <nav className="career-rail" aria-label="攻玉模块导航">
-      <Link to="/algorithm"><b>运筹</b><small>算法练习 · 间隔复习</small></Link>
-      <a className={activeSection === 'interview-bank' ? 'active' : ''} href="#interview-bank"><b>问津</b><small>面经题库</small></a>
-      <a className={activeSection === 'video-lessons' ? 'active' : ''} href="#video-lessons"><b>观澜</b><small>视频与文章讲义</small></a>
-      <a className={activeSection === 'feynman' ? 'active' : ''} href="#feynman"><b>解惑</b><small>费曼技巧</small></a>
-      <a className={activeSection === 'work-notes' ? 'active' : ''} href="#work-notes"><b>省身</b><small>工作复盘</small></a>
+      <Link to="/algorithm" onClick={() => window.scrollTo({ top: 0 })}><b>运筹</b><small>算法练习 · 间隔复习</small></Link>
+      {MODULES.map((module) => <button type="button" className={activeSection === module.id ? 'active' : ''} key={module.id} onClick={() => openSection(module.id)}><b>{module.name}</b><small>{module.desc}</small></button>)}
     </nav>
     <div className="career-main">
 
-    <section className="career-section" id="interview-bank" aria-labelledby="interview-title">
-      <div className="career-section-heading"><div><p className="eyebrow">面经题库 · 求职问路</p><h2 id="interview-title">问津</h2></div><p>上传面经截图或粘贴文字，核对识别结果后加入题库。保留来源链接以便回看；题目仅存此浏览器。</p></div>
+    <nav className="career-modules" aria-label="攻玉模块">
+      <Link className="career-module" to="/algorithm"><b>运筹</b><small>算法练习 · 间隔复习</small><ArrowUpRight size={16} aria-hidden="true" /></Link>
+      {MODULES.map((module) => <button type="button" className={activeSection === module.id ? 'career-module active' : 'career-module'} key={module.id} onClick={() => openSection(module.id)}><b>{module.name}</b><small>{module.desc}</small></button>)}
+    </nav>
+
+    {activeSection === 'interview-bank' ? <section className="career-section" id="interview-bank" aria-labelledby="interview-title">
+      <div className="career-section-heading"><div><p className="eyebrow">面经题库 · 求职问路</p><h2 id="interview-title">问津</h2></div><p>上传面经截图或粘贴文字，按行分点确认后加入题库。保留来源链接以便回看；题目仅存此浏览器。</p></div>
       <div className="career-import">
         <label className="career-upload"><ImageUp size={22} aria-hidden="true" /><span>上传面经截图</span><small>PNG / JPG 等图片，最多 4 张，每张不超过 8 MB；在浏览器内识别文字</small><input type="file" accept="image/*" multiple disabled={recognizing} onChange={(event) => { void recognizeImages(event.target.files); event.target.value = '' }} /></label>
         {recognizing ? <p className="career-ocr-status" role="status">{ocrProgress || '正在载入中文识别模型…首次使用需下载模型。'}</p> : null}
         <label>来源标题<input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="例如：后端开发一面" maxLength={100} /></label>
         <label>原帖链接（可选）<input type="url" value={url} onChange={(event) => setUrl(event.target.value)} placeholder="https://www.xiaohongshu.com/..." /></label>
-        <label className="career-import-text">面试问题<textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder={'每行一个问题，例如：\n什么是 TCP 三次握手？\n如何设计一个缓存系统？'} rows={5} /></label>
-        <div className="career-import-actions"><button type="button" onClick={addQuestions} disabled={recognizing}>整理并加入题库</button><span>可修改识别文字；本站没有自动抓取小红书笔记。</span></div>
+        <div className="career-import-text career-points">
+          <div className="career-points-head">
+            <span>识别与粘贴的分点{points.length ? `（${points.filter((point) => point.include).length}/${points.length} 已勾选）` : ''}</span>
+            <button type="button" onClick={() => setPasteOpen((open) => !open)}><ListPlus size={15} aria-hidden="true" />粘贴文本</button>
+          </div>
+          {pasteOpen ? <div className="career-paste">
+            <textarea value={pasteText} onChange={(event) => setPasteText(event.target.value)} placeholder={'每行一个问题或一段原文，解析后按行分点：\n什么是 TCP 三次握手？\n如何设计一个缓存系统？'} rows={4} />
+            <div className="career-paste-actions"><button type="button" onClick={applyPaste}>解析为分点</button><button type="button" className="career-quiet" onClick={() => { setPasteOpen(false); setPasteText('') }}><X size={14} aria-hidden="true" />取消</button></div>
+          </div> : null}
+          {points.length
+            ? <ul className="career-point-list">{points.map((point) => <li className="career-point" key={point.id}>
+                <label className="career-point-include"><input type="checkbox" checked={point.include} onChange={(event) => setPoints((previous) => previous.map((item) => item.id === point.id ? { ...item, include: event.target.checked } : item))} /></label>
+                <input value={point.text} onChange={(event) => setPoints((previous) => previous.map((item) => item.id === point.id ? { ...item, text: event.target.value } : item))} aria-label="分点内容" />
+                <span className={isQuestionText(point.text.trim()) ? 'career-point-tag ok' : 'career-point-tag'}>{isQuestionText(point.text.trim()) ? '问题' : '说明'}</span>
+                <button type="button" className="career-point-remove" aria-label="删除这条分点" onClick={() => setPoints((previous) => previous.filter((item) => item.id !== point.id))}><Trash2 size={14} aria-hidden="true" /></button>
+              </li>)}</ul>
+            : <p className="career-points-empty">上传截图或粘贴文本后，识别结果会按行分点显示在这里；也可以直接补充。每点单独勾选、编辑。</p>}
+        </div>
+        <div className="career-import-actions"><button type="button" onClick={addQuestions} disabled={recognizing}>整理并加入题库</button><span>只把勾选的条目计入题库；标为“说明”的行默认也会一起保存为原文。</span></div>
       </div>
       {notice ? <p className="career-notice" role="status">{notice}</p> : null}
-      {sources.length ? <section className="career-history" aria-label="面经导入历史"><div className="career-history-heading"><div><h3>导入历史</h3><p>{sources.length} 条记录 · {lastOrganizedAt ? `上次整理：${new Date(lastOrganizedAt).toLocaleDateString('zh-CN')}` : '尚未定期整理'}{isReorganizationDue(lastOrganizedAt) ? ' · 建议重新整理' : ''}</p></div><button type="button" onClick={reorganize}>重新整理标签与热度</button></div><ul>{sources.map((source) => <li key={source.id}><details><summary><strong>{source.title}</strong><span>{new Date(source.addedAt).toLocaleDateString('zh-CN')} · {extractQuestions(source.text).length} 道识别问题</span></summary><pre>{source.text}</pre></details>{source.url ? <a href={source.url} target="_blank" rel="noopener noreferrer">原帖 ↗</a> : null}</li>)}</ul></section> : null}
+      {sources.length ? <section className="career-history" aria-label="面经导入历史"><div className="career-history-heading"><div><h3>导入历史</h3><p>{sources.length} 条记录 · {lastOrganizedAt ? `上次整理：${new Date(lastOrganizedAt).toLocaleDateString('zh-CN')}` : '尚未定期整理'}{isReorganizationDue(lastOrganizedAt) ? ' · 建议重新整理' : ''}</p></div><button type="button" onClick={reorganize}>重新整理标签与热度</button></div><ul>{sources.map((source) => <SourceHistoryCard key={source.id} source={source} onSearch={(text) => { setQuery(text); setCategory('全部') }} />)}</ul></section> : null}
       {questions.length ? <div className="career-search-row"><label>检索题目、标签与答案<input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="例如：TCP、缓存、项目表达" /></label><label>排序<select value={sort} onChange={(event) => setSort(event.target.value as 'hot' | 'new')}><option value="hot">按题目热度</option><option value="new">按导入时间</option></select></label></div> : null}
       {questions.length ? <p className="career-ranking-note">题目热度依据已导入面经中的出现次数和你的练习次数；检索时优先显示题目与标签匹配的结果。</p> : null}
       {questions.length ? <div className="career-filters" aria-label="按主题筛选问题">{['全部', '算法与数据结构', '计算机基础', '工程与设计', '项目与表达', '综合问题'].map((item) => <button type="button" className={category === item ? 'active' : ''} onClick={() => setCategory(item)} key={item}>{item}</button>)}</div> : null}
@@ -189,8 +269,8 @@ export function CareerPage() {
         </article>)}
         {!visibleQuestions.length ? <p className="career-empty">{questions.length ? '没有匹配的问题，试试其他关键词或分类。' : '题库还没有问题。添加一篇面经中的提问，开始建立自己的复习清单。'}</p> : null}
       </div>
-    </section>
-    <section className="career-section career-video-lessons" id="video-lessons" aria-labelledby="lessons-title">
+    </section> : null}
+    {activeSection === 'video-lessons' ? <section className="career-section career-video-lessons" id="video-lessons" aria-labelledby="lessons-title">
       <div className="career-section-heading"><div><p className="eyebrow">视频与文章讲义</p><h2 id="lessons-title">观澜</h2><p className="career-quote">「观水有术，必观其澜。」——《孟子·尽心上》</p></div><p>看视频如观水，贵在取其波澜。把 B站/抖音 的技术视频与公众号的技术文章，经本地 Agent 深加工成图文讲义：核心结论、术语卡片、流程图、对比表与自测。每一篇都标注出处，可回溯原文。</p></div>
       <div className="lesson-list">
         {lessons.map((lesson) => (
@@ -204,12 +284,12 @@ export function CareerPage() {
         ))}
         {!lessons.length ? <p className="career-empty">还没有讲义。video2kb 转录深加工后会自动出现在这里。</p> : null}
       </div>
-    </section>
-    <section className="career-section" id="feynman" aria-labelledby="feynman-title">
+    </section> : null}
+    {activeSection === 'feynman' ? <section className="career-section" id="feynman" aria-labelledby="feynman-title">
       <div className="career-section-heading"><div><p className="eyebrow">费曼技巧</p><h2 id="feynman-title">解惑</h2><p className="career-quote">「师者，所以传道受业解惑也。」——唐·韩愈《师说》</p></div><p>把自己讲明白，才算真的解惑：从资料库随机抽一个知识点，先用自己的话讲清楚，再由大模型流式给出结构化建议——评估时会自动检索站内其他板块（博客、算法题解、观澜讲义）的相关内容作参照。</p></div>
       <FeynmanSection />
-    </section>
-    <section className="career-section career-work-notes" id="work-notes"><div><p className="eyebrow">工作复盘 · 吾日三省</p><h2>省身</h2><p className="career-quote">「吾日三省吾身。」——《论语·学而》</p></div><p>未来的工作内容可以按「背景 → 我的决策 → 结果 → 下次会怎么做」记录。先从已有的项目实践开始，不虚构任职经历。</p><Link to="/projects">查看现有项目 <ArrowUpRight size={16} aria-hidden="true" /></Link></section>
+    </section> : null}
+    {activeSection === 'work-notes' ? <section className="career-section career-work-notes" id="work-notes"><div><p className="eyebrow">工作复盘 · 吾日三省</p><h2>省身</h2><p className="career-quote">「吾日三省吾身。」——《论语·学而》</p></div><p>未来的工作内容可以按「背景 → 我的决策 → 结果 → 下次会怎么做」记录。先从已有的项目实践开始，不虚构任职经历。</p><Link to="/projects">查看现有项目 <ArrowUpRight size={16} aria-hidden="true" /></Link></section> : null}
       </div>
       </div>
     </>

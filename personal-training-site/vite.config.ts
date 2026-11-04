@@ -17,8 +17,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'icons.svg'],
       manifest: {
-        name: 'Lam Soengceng · 训练、算法与长期记录',
-        short_name: '训记工作台',
+        name: 'Lam Soengceng · 个人工作台',
+        short_name: '个人工作台',
         description: '个人工作台：训练数据、算法复习、费曼练习和学习记录。',
         lang: 'zh-CN',
         theme_color: '#050806',

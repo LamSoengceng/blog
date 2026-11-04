@@ -7,6 +7,7 @@ import {
   removeFeynmanRecord,
   saveFeynmanRecords,
 } from '../utils/feynmanRecords'
+import { loadInterviewQuestions } from '../utils/interviewBank'
 import { openSiteSettings } from '../utils/settings'
 import { parseFeynmanScore } from '../utils/feynmanStore'
 import { buildKnowledgeChunks, retrieveChunks } from '../utils/siteKnowledge'
@@ -14,10 +15,11 @@ import { DictationButton } from '../components/DictationButton'
 import { SketchPad } from '../components/SketchPad'
 import { requestSketchExport } from '../utils/sketchExport'
 import type { FeynmanRecord } from '../utils/feynmanRecords'
-import { pickRandomPoint, splitDocIntoPoints, type KnowledgePoint } from '../utils/knowledgePool'
+import { buildSitePool, pickRandomPoint, splitDocIntoPoints, type KnowledgePoint } from '../utils/knowledgePool'
 import { useFeynmanLibrary } from '../hooks/useFeynmanLibrary'
 import { FeynmanLibrary } from '../components/feynman/FeynmanLibrary'
 import { RubricFeedback } from '../components/feynman/RubricFeedback'
+import { lessons } from '../data/lessons'
 
 // 通用费曼评估：模型不扮演特定角色，只根据用户资料与知识点给出结构化建议。
 // siteContext：从站内其他板块（博客、算法题解、观澜讲义等）检索到的相关内容节选。
@@ -56,11 +58,14 @@ export function FeynmanSection() {
   const [picked, setPicked] = useState<KnowledgePoint | null>(null)
   const { docs: library, importFiles, remove: removeDoc } = useFeynmanLibrary()
   const [libraryOpen, setLibraryOpen] = useState(false)
+  const [gradingId, setGradingId] = useState<string | null>(null) // 正在补评估的历史记录 id
+  const composerRef = useRef<HTMLFormElement | null>(null)
   const abortRef = useRef<AbortController | null>(null)
 
   const stats = feynmanStats(records)
   const canSubmit = topic.trim() && text.trim().length >= 10
   const referenceNotes = picked?.reference ?? null
+  const interviewCount = loadInterviewQuestions().length
 
   const flash = (message: string) => {
     setSavedFlash(message)
@@ -72,11 +77,14 @@ export function FeynmanSection() {
     saveFeynmanRecords(next)
   }
 
-  // 从用户上传资料中随机抽取一个知识点，避开上一题。 
+  // 随机抽取知识点：上传资料 + 面经题库 + 观澜讲义，避开上一题。
   const drawRandom = () => {
-    const pool = library.flatMap(splitDocIntoPoints)
+    const pool = [
+      ...library.flatMap(splitDocIntoPoints),
+      ...buildSitePool(loadInterviewQuestions(), lessons.map((lesson) => ({ title: lesson.title, summary: lesson.summary, tags: lesson.tags }))),
+    ]
     if (!pool.length) {
-      flash('资料库为空：请先上传 .md / .txt 文件')
+      flash('抽取池为空：上传资料，或先在面经题库 / 观澜讲义里积累内容')
       setLibraryOpen(true)
       return
     }
@@ -84,7 +92,7 @@ export function FeynmanSection() {
     setPicked(point)
     setTopic(point.topic)
     setFeedback('')
-    flash('已随机抽取一个知识点')
+    flash(point.source === '资料库' ? '已随机抽取一个知识点' : `已从${point.source}抽取知识点`)
   }
 
   const handleImportFiles = async (files: FileList | null) => {
@@ -94,14 +102,15 @@ export function FeynmanSection() {
 
   const stopGrading = () => abortRef.current?.abort()
 
-  const evaluate = async (saveOnly: boolean) => {
-    if (!canSubmit) return
-    const cleanTopic = topic.trim()
-    const cleanText = text.trim()
+  const evaluate = async (saveOnly: boolean, existing?: FeynmanRecord) => {
+    const cleanTopic = (existing?.topic ?? topic).trim()
+    const cleanText = (existing?.text ?? text).trim()
+    if (!cleanTopic || cleanText.length < 10) return
+    const activeReference = existing ? null : referenceNotes
 
-    const sketchDataUrl = showSketch ? await requestSketchExport() : ''
+    const sketchDataUrl = !existing && showSketch ? await requestSketchExport() : ''
     if (saveOnly) {
-      persist(addFeynmanRecord(records, { topic: cleanTopic, text: cleanText, score: null, feedback: '', sourceNotes: Boolean(referenceNotes), sketch: sketchDataUrl || undefined }))
+      persist(addFeynmanRecord(records, { topic: cleanTopic, text: cleanText, score: null, feedback: '', sourceNotes: Boolean(activeReference), sketch: sketchDataUrl || undefined }))
       setText('')
       flash('已保存（未评估）✓')
       return
@@ -115,6 +124,7 @@ export function FeynmanSection() {
     }
 
     setGrading(true)
+    setGradingId(existing?.id ?? null)
     setError('')
     setFeedback('')
     const controller = new AbortController()
@@ -131,30 +141,35 @@ export function FeynmanSection() {
       const full = await chatCompletionStream(
         aiConfig,
         [
-          { role: 'system', content: buildSystemPrompt(cleanTopic, referenceNotes, siteContext) },
+          { role: 'system', content: buildSystemPrompt(cleanTopic, activeReference, siteContext) },
           { role: 'user', content: cleanText },
         ],
         (delta) => setFeedback((prev) => prev + delta),
         controller.signal,
       )
       const score = parseFeynmanScore(full)
-      persist(
-        addFeynmanRecord(records, {
+      if (existing) {
+        persist(records.map((record) => record.id === existing.id
+          ? { ...record, score: score && score >= 1 ? score : null, feedback: full, sourceNotes: Boolean(activeReference) }
+          : record))
+      } else {
+        persist(addFeynmanRecord(records, {
           topic: cleanTopic,
           text: cleanText,
           score: score && score >= 1 ? score : null,
           feedback: full,
-          sourceNotes: Boolean(referenceNotes),
+          sourceNotes: Boolean(activeReference),
           sketch: sketchDataUrl || undefined,
-        }),
-      )
-      setText('')
-      flash('评估完成 ✓')
+        }))
+        setText('')
+      }
+      flash(existing ? '历史记录评估完成 ✓' : '评估完成 ✓')
     } catch (caught) {
       if (caught instanceof DOMException && caught.name === 'AbortError') flash('评估已停止（未保存）')
       else setError(caught instanceof Error ? caught.message : String(caught))
     } finally {
       setGrading(false)
+      setGradingId(null)
       abortRef.current = null
     }
   }
@@ -162,6 +177,7 @@ export function FeynmanSection() {
   return (
     <div className="feynman-embed">
       <form
+        ref={composerRef}
         className="feynman-composer"
         onSubmit={(event) => {
           event.preventDefault()
@@ -181,6 +197,7 @@ export function FeynmanSection() {
               📚 上传资料（{library.length}）
             </button>
           </div>
+          <p className="feynman-source-hint">随机范围：上传资料 · 面经题库 {interviewCount} 题 · 观澜讲义 {lessons.length} 篇</p>
 
           {libraryOpen ? (
             <FeynmanLibrary
@@ -205,7 +222,7 @@ export function FeynmanSection() {
           />
           {topic.trim() ? (
             <p className="feynman-note-state">
-              {picked ? `已从资料库抽取：${picked.topic} · 对照资料已附` : referenceNotes ? '✓ 已附资料对照' : '未选择资料对照，大模型将按自身知识评估'}
+              {picked ? `已从${picked.source}抽取：${picked.topic}${picked.reference ? ' · 对照资料已附' : ''}` : referenceNotes ? '✓ 已附资料对照' : '未选择资料对照，大模型将按自身知识评估'}
             </p>
           ) : null}
         </div>
@@ -303,11 +320,29 @@ export function FeynmanSection() {
                   ×
                 </button>
               </div>
-              <p className="feynman-record-text">{record.text}</p>
+              {record.text.length > 140 ? (
+                <details className="feynman-record-text-details">
+                  <summary>展开讲解（{record.text.length} 字）</summary>
+                  <p className="feynman-record-text">{record.text}</p>
+                </details>
+              ) : <p className="feynman-record-text">{record.text}</p>}
               {record.sketch ? <img className="feynman-sketch" src={record.sketch} alt={`${record.topic} 的小黑板草图`} /> : null}
+              <div className="feynman-record-actions">
+                <button type="button" className="journal-kind" onClick={() => {
+                  setTopic(record.topic)
+                  setPicked(null)
+                  setFeedback('')
+                  composerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                  flash('已带入知识点，再讲一遍吧')
+                }}>再讲一次</button>
+                {!record.feedback ? <button type="button" className="journal-kind" disabled={grading} onClick={() => void evaluate(false, record)}>{gradingId === record.id ? '评估中…' : '现在评估'}</button> : null}
+              </div>
+              {gradingId === record.id ? <div className="feynman-stream" aria-live="polite">
+                {feedback ? <RubricFeedback text={feedback} streaming={grading} /> : '大模型正在阅读你的讲解……'}
+              </div> : null}
               {record.feedback ? (
                 <details className="ask-sources" open={record.score == null}>
-                  <summary>{record.score ? '查看大模型评语' : '未评估'}</summary>
+                  <summary>{record.score ? '查看大模型评语' : '查看大模型评语'}</summary>
                   <RubricFeedback text={record.feedback} />
                 </details>
               ) : null}

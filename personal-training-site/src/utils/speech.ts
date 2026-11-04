@@ -31,6 +31,15 @@ const getRecognitionConstructor = (): RecognitionConstructor | null => {
 
 export const isDictationSupported = () => getRecognitionConstructor() !== null
 
+// 把浏览器识别错误码翻译成用户能看懂的中文；未知错误码保留原文，方便排查。
+export const describeSpeechError = (code: string): string => {
+  if (code === 'no-speech') return '没听到内容，再试一次。'
+  if (code === 'not-allowed' || code === 'permission-denied') return '需要麦克风权限：请在浏览器地址栏允许麦克风后重试。'
+  if (code === 'network' || code === 'service-not-allowed') return '语音服务当前不可用，请检查网络后重试。'
+  if (code === 'audio-capture') return '没有检测到麦克风设备，请检查麦克风连接。'
+  return `语音识别出错：${code}`
+}
+
 // 听写钩子：最终识别结果通过 onFinal 回调交给调用方拼进输入框；
 // 中间结果显示在按钮旁边，让「正在听」可见。
 export function useDictation(onFinal: (text: string) => void) {
@@ -58,6 +67,11 @@ export function useDictation(onFinal: (text: string) => void) {
       recognitionRef.current.stop()
       recognitionRef.current = null
     }
+    // 语音识别在浏览器里走在线服务，离线时 start 只会得到一个含糊的 network 错误，先直接提示
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+      setError('当前离线，语音识别需要联网才能使用，请检查网络。')
+      return
+    }
     setError('')
     const recognition = new Constructor()
     recognition.lang = 'zh-CN'
@@ -76,9 +90,7 @@ export function useDictation(onFinal: (text: string) => void) {
       setInterim(interimText)
     }
     recognition.onerror = (event) => {
-      if (event.error === 'no-speech') setError('没听到内容，再试一次。')
-      else if (event.error === 'not-allowed') setError('麦克风权限被拒绝，请在浏览器地址栏允许麦克风。')
-      else setError(`语音识别出错：${event.error}`)
+      setError(describeSpeechError(event.error))
     }
     recognition.onend = () => {
       setListening(false)

@@ -1,9 +1,11 @@
 // 用户资料库：只负责本地文件/文本资料的存取与知识点拆分。
-// 不再混入算法、训练或博客来源；费曼页从这里随机抽取后让大模型评估。
+// 抽取池 = 上传资料 + 站内板块（面经题库、观澜讲义）；费曼页从这里随机抽取后让大模型评估。
+import type { InterviewQuestion } from './interviewBank'
+
 export type KnowledgePoint = {
   topic: string
   reference: string
-  source: '资料库'
+  source: '资料库' | '面经题库' | '观澜讲义'
 }
 
 export type LibraryDoc = {
@@ -85,6 +87,23 @@ export const splitDocIntoPoints = (doc: LibraryDoc): KnowledgePoint[] => {
 }
 
 export const buildKnowledgePool = (docs: LibraryDoc[]): KnowledgePoint[] => docs.flatMap(splitDocIntoPoints)
+
+// 站内板块作为抽取来源：面经题库（题目 + 已生成的参考答案作对照）、观澜讲义（标题 + 摘要）。
+export const buildSitePool = (
+  questions: InterviewQuestion[],
+  lessonPoints: { title: string; summary: string; tags: string[] }[],
+): KnowledgePoint[] => [
+  ...questions.map((question) => ({
+    topic: question.text.replace(/[?？]\s*$/, '').slice(0, 60),
+    reference: question.answer ? clip(`面经题库《${question.sourceTitle}》中这道题的参考答案：\n${question.answer}`) : '',
+    source: '面经题库' as const,
+  })),
+  ...lessonPoints.map((lesson) => ({
+    topic: lesson.title.slice(0, 60),
+    reference: clip(`观澜讲义《${lesson.title}》要点：${lesson.summary}${lesson.tags.length ? `（${lesson.tags.join('、')}）` : ''}`),
+    source: '观澜讲义' as const,
+  })),
+]
 
 export const pickRandomPoint = (pool: KnowledgePoint[], avoidTopic?: string): KnowledgePoint => {
   const candidates = pool.length > 1 && avoidTopic ? pool.filter((point) => point.topic !== avoidTopic) : pool
