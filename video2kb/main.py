@@ -19,6 +19,7 @@ import json
 import re
 import shutil
 import subprocess
+import time
 from pathlib import Path
 
 import yt_dlp
@@ -57,9 +58,15 @@ def find_file(name):
 def ydl_opts(**extra):
     opts = {"quiet": True, "no_warnings": True, "retries": 3}
     # 支持 F12 复制的 Cookie 头：cookie_header_bilibili.txt / cookie_header_douyin.txt
-    # 自动转换并合并成单个 cookies.txt（Netscape 格式支持多域名）
+    # 自动转换并合并成单个 cookies.txt（Netscape 格式支持多域名）。
+    # douyin_collect_web.py 会导出最新的 cookies_douyin_web.txt（真实浏览器会话），
+    # 存在时优先于手工复制的抖音 Cookie 头（后者会过期：Fresh cookies needed）。
+    fresh_douyin = find_file("cookies_douyin_web.txt")
+    names = ["cookie_header_bilibili.txt"]
+    if fresh_douyin is None:
+        names.append("cookie_header_douyin.txt")
     headers = []
-    for n in ("cookie_header_bilibili.txt", "cookie_header_douyin.txt"):
+    for n in names:
         p = find_file(n)
         if p is not None:
             headers.append(p)
@@ -77,6 +84,9 @@ def ydl_opts(**extra):
                 if not k or any(c in k for c in "\t "):
                     continue
                 merged.append(f"{domain}\tTRUE\t/\tTRUE\t0\t{k}\t{v}")
+        if fresh_douyin is not None:
+            merged.extend(l for l in fresh_douyin.read_text(encoding="utf-8").splitlines()
+                          if l and not l.startswith("#"))
         if merged:
             (ROOT / "cookies.txt").write_text(
                 "# Netscape HTTP Cookie File\n" + "\n".join(merged) + "\n", encoding="utf-8")
@@ -124,6 +134,7 @@ def fetch_subtitle(video, dest_dir):
         subtitleslangs=["zh-CN", "zh-Hans", "zh"],
         convertsubtitles="srt",
         outtmpl=str(dest_dir / "%(id)s.%(ext)s"),
+        noplaylist=True,  # 多分P合集只取目标视频，禁止整合集下载
     )
     try:
         with yt_dlp.YoutubeDL(opts) as ydl:
@@ -140,6 +151,7 @@ def fetch_audio(video, dest_dir):
         outtmpl=str(dest_dir / "%(id)s.%(ext)s"),
         postprocessors=[{"key": "FFmpegExtractAudio", "preferredcodec": "mp3",
                          "preferredquality": "5"}],
+        noplaylist=True,  # 多分P合集只取目标视频（曾把 25P 合集全量下完 2GB）
     )
     try:
         with yt_dlp.YoutubeDL(opts) as ydl:
@@ -190,11 +202,12 @@ def _resolve_ffmpeg():
     return str(fallback) if fallback.exists() else None
 
 
-def local_transcribe_video(video, work_dir, dest_srt):
+def local_transcribe_video(video, work_dir, dest_srt, audio_path=None):
     """无 GPU/CUDA 环境下的本地转写：Const-me Whisper CLI（DirectCompute，支持 AMD）。
 
     音频 -> 16kHz 单声道 wav -> main.exe -osrt -> 复制 srt 到 inbox。
-    成功返回 True；模型/CLI/ffmpeg 缺失或转写失败返回 False（由调用方降级到服务器）。
+    audio_path 传入已有视频/音频文件时跳过 yt-dlp 下载（抖音详情 API 被风控，
+    由浏览器方案先落好本地文件）。成功返回 True；失败返回 False（由调用方降级）。
     """
     conf = CONFIG.get("local_whisper", {})
     if not conf.get("enabled"):
@@ -218,7 +231,7 @@ def local_transcribe_video(video, work_dir, dest_srt):
         print("  ffmpeg 缺失，无法转写")
         return False
 
-    audio = fetch_audio(video, work_dir)
+    audio = Path(audio_path) if audio_path else fetch_audio(video, work_dir)
     if not audio:
         return False
     wav = work_dir / f"{video['id']}.wav"
@@ -236,19 +249,15 @@ def local_transcribe_video(video, work_dir, dest_srt):
     print(f"  本地 AMD whisper 转写中（{model.name}）...")
     lang = conf.get("language", "zh")
     gpu = str(conf.get("gpu", 0))
+    # 注意：不传 --prompt。实测 Const-me 1.12.0 带「以下是普通话的句子…」提示词时，
+    # 遇到开场音乐/长静音会陷入提示词回声死循环（整段输出"请用简体中文字幕"）；
+    # 不带 prompt 则正常（-l zh 已约束中文）。faster-whisper 服务器路径不受影响（有 VAD）。
     try:
-        if conf.get("prompt"):
-            subprocess.run(
-                [str(cli), "-m", str(model), "-f", str(wav), "-l", lang,
-                 "-gpu", gpu, "-osrt", "-otxt", "--prompt", conf["prompt"]],
-                check=True, capture_output=True,
-            )
-        else:
-            subprocess.run(
-                [str(cli), "-m", str(model), "-f", str(wav), "-l", lang,
-                 "-gpu", gpu, "-osrt", "-otxt"],
-                check=True, capture_output=True,
-            )
+        subprocess.run(
+            [str(cli), "-m", str(model), "-f", str(wav), "-l", lang,
+             "-gpu", gpu, "-osrt", "-otxt"],
+            check=True, capture_output=True,
+        )
     except subprocess.CalledProcessError as e:
         err = (e.stderr or b"").decode("utf-8", "ignore").strip()
         print("  本地转写失败:", err[:300])
@@ -275,6 +284,61 @@ def srt_to_text(srt_path):
     return text.replace("\n\n", "\n").strip()
 
 
+def extract_keyframes(video_path, dest_dir, max_frames=12):
+    """从视频抽关键帧（画面变化大的场景 + 均匀兜底采样），存 dest_dir/*.jpg。
+
+    抖音浏览器链路手里有完整 mp4，转写后删视频前调用；B站链路只下音轨拿不到画面。
+    注意：ffmpeg 在 Windows 上打不开含非 ASCII 字符的路径（inbox 目录带"抖音-收藏"），
+    所以渲染一律写进 ASCII 临时目录，完成后用 Python 搬运到 dest_dir。
+    场景检测阈值 0.3；无场景切换的视频 select 会零命中（ffmpeg -22 空输出），
+    退回每 30s 采一帧。失败静默返回 0（截图是增强，不能阻断主流程）。
+    """
+    import shutil
+    import tempfile
+    ffmpeg = _resolve_ffmpeg()
+    if not ffmpeg:
+        return 0
+    dest_dir = Path(dest_dir)
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    tmp = Path(tempfile.mkdtemp(prefix="kf_", dir=WORK))  # data/ 下保证纯 ASCII
+    try:
+        src = Path(video_path)
+        if not str(src).isascii():
+            src2 = tmp / "input.mp4"
+            shutil.copy2(src, src2)
+            src = src2
+        # 场景帧；部分视频一个场景帧都选不中（ffmpeg 报 -22 空输出），降级走兜底采样
+        n = 0
+        try:
+            subprocess.run(
+                [ffmpeg, "-y", "-loglevel", "error", "-i", str(src),
+                 "-vf", "select='gt(scene,0.3)',scale=640:-2",
+                 "-fps_mode", "vfr", "-frames:v", str(max_frames),
+                 str(tmp / "scene_%03d.jpg")],
+                check=True, capture_output=True, timeout=300)
+            n = len(list(tmp.glob("scene_*.jpg")))
+        except Exception:
+            n = 0
+        if n < 3:  # 静态画面/零场景命中兜底：均匀采样补齐
+            subprocess.run(
+                [ffmpeg, "-y", "-loglevel", "error", "-i", str(src),
+                 "-vf", "fps=1/30,scale=640:-2",
+                 "-frames:v", str(max_frames - n),
+                 str(tmp / "sample_%03d.jpg")],
+                check=True, capture_output=True, timeout=300)
+            for f in tmp.glob("sample_*.jpg"):
+                if f.stat().st_size < 2048:  # 纯黑/空帧
+                    f.unlink(missing_ok=True)
+        for f in list(tmp.glob("*.jpg")):
+            shutil.move(str(f), dest_dir / f.name)
+        return len(list(dest_dir.glob("*.jpg")))
+    except Exception as e:
+        print("  关键帧抽取失败（不影响转录）:", str(e)[:100])
+        return 0
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def llm_process(creator, video, text):
     import os
     from zhipuai import ZhipuAI
@@ -298,6 +362,105 @@ def llm_process(creator, video, text):
 
 def safe_name(s):
     return re.sub(r'[\\/:*?"<>|\s]+', "-", s)[:60]
+
+
+# ---------------- 收藏知识类过滤 ----------------
+# 个人收藏混着大量娱乐内容，只收 Agent/编程相关（用户指定范围，泛学习/理论课也不收）。
+# 判定结果缓存在 data/knowledge_filter.json，标题不变就只判一次。
+FILTER_CACHE = WORK / "knowledge_filter.json"
+
+FOCUS_KEYWORDS = (
+    "agent", "智能体", "llm", "大模型", "rag", "mcp", "a2a", "function call",
+    "claude", "gpt", "openai", "gemini", "copilot", "cursor", "codex", "deepseek",
+    "qwen", "通义", "智谱", "glm", "kimi", "豆包", "文心",
+    "提示词", "prompt", "微调", "推理模型", "ai编程", "ai开发", "ai应用", "aicoding",
+    "编程", "代码", "程序", "开发", "程序员", "码农", "开源", "github", "git ",
+    "python", "javascript", "typescript", "java ", "golang", "rust", "c++", "cuda",
+    "k8s", "kubernetes", "docker", "linux", "后端", "前端", "全栈", "架构",
+    "面试", "八股", "秋招", "春招", "实习", "求职", "简历", "校招", "offer",
+    "leetcode", "刷题", "源码", "工作流", "自动化办公", "爬虫", "数据库", "sql",
+)
+
+
+def _load_filter_cache():
+    if FILTER_CACHE.exists():
+        return json.loads(FILTER_CACHE.read_text(encoding="utf-8"))
+    return {}
+
+
+def keyword_is_knowledge(title):
+    t = title.lower()
+    return any(k in t for k in FOCUS_KEYWORDS)
+
+
+def env_key():
+    """API key：环境变量优先，其次 .env（支持 KEY=... 与 export KEY=...）。"""
+    import os
+    name = CONFIG["llm"]["api_key_env"]
+    val = os.environ.get(name)
+    if val:
+        return val
+    env_file = find_file(".env")
+    if env_file:
+        for line in env_file.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line.startswith("export "):
+                line = line[len("export "):].strip()
+            if line.startswith(f"{name}="):
+                return line.split("=", 1)[1].strip().strip('"').strip("'")
+    return None
+
+
+def classify_knowledge(videos):
+    """批量判定视频是否知识类，返回 {id: bool}。LLM 优先，无 key/失败退回关键词。"""
+    videos = [v for v in videos if v.get("id")]
+    cache = _load_filter_cache()
+    todo = [v for v in videos if v["id"] not in cache]
+    if todo:
+        key = env_key()
+        verdicts = {}
+        if key:
+            try:
+                from zhipuai import ZhipuAI
+                client = ZhipuAI(api_key=key)
+                # 批量别太大：40 条/批实测触发智谱 500，15 条稳定
+                for i in range(0, len(todo), 15):
+                    batch = todo[i:i + 15]
+                    items = "\n".join(f'{v["id"]}|{v.get("title", "")[:60]}' for v in batch)
+                    prompt = f"""以下是视频清单（每行「ID|标题」）。逐条判断是否属于 Agent/编程相关内容。
+算「是」：Agent/智能体开发、大模型/LLM 应用开发、AI 编程工具（Claude Code/Cursor 等）、
+编程语言与软件工程、开发工具/框架/工作流、开源项目、程序员求职面试（算法题/八股/简历）。
+算「否」：其余一切——娱乐生活美食体育追星、剧情段子，以及纯理论课程（数学/最优化/考研升学）、
+与编程无关的知识科普、乐器/技能教学。
+只输出 JSON 数组，按输入顺序：[{{"id":"...","k":true}}]，不要其他内容。
+
+{items}"""
+                    text = None
+                    for attempt in range(2):  # 偶发 500 重试一次
+                        try:
+                            r = client.chat.completions.create(
+                                model=CONFIG["llm"]["model"],
+                                messages=[{"role": "user", "content": prompt}],
+                                temperature=0.1, max_tokens=2048,
+                            )
+                            text = r.choices[0].message.content
+                            break
+                        except Exception:
+                            if attempt == 1:
+                                raise
+                            time.sleep(3)
+                    for m in re.finditer(r'"id"\s*:\s*"(\d+|[A-Za-z0-9]+)"\s*,\s*"k"\s*:\s*(true|false)', text or ""):
+                        verdicts[m.group(1)] = m.group(2) == "true"
+                print(f"LLM 知识类判定：{len(todo)} 条 → 是 {sum(verdicts.values())} / 否 {len(verdicts) - sum(verdicts.values())}")
+            except Exception as e:
+                print("LLM 判定失败，退回关键词过滤:", str(e)[:120])
+                verdicts = {}
+        else:
+            print("无 LLM API key，用关键词过滤")
+        for v in todo:
+            cache[v["id"]] = verdicts.get(v["id"], keyword_is_knowledge(v.get("title", "")))
+        FILTER_CACHE.write_text(json.dumps(cache, ensure_ascii=False, indent=1), encoding="utf-8")
+    return {v["id"]: cache[v["id"]] for v in videos}
 
 
 def process_creator(creator, state):
@@ -429,6 +592,97 @@ def process_links_subtitles(links, state):
     return pending
 
 
+# ---------------- 用户投稿链接 ----------------
+# 用户把想收的视频链接丢进 data/user-links.txt（每行「URL | 标题(可选)」），
+# 夜间任务先 --check-links 预检（平台支持/视频存在/时长/分P/是否已处理），
+# 可行的并入 nightly-links.txt 一起转录，不可行的把原因写进当日报告。
+
+def _bili_view(bvid):
+    """查 B站视频信息（标题/时长/分P），返回 (ok, data或错误信息)。"""
+    import requests
+    h = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+         "Referer": "https://www.bilibili.com"}
+    try:
+        r = requests.get("https://api.bilibili.com/x/web-interface/view",
+                         params={"bvid": bvid}, headers=h, timeout=15)
+        d = r.json()
+    except Exception as e:
+        return False, f"查询失败: {str(e)[:120]}"
+    if d.get("code") != 0:
+        return False, f"视频不可访问 code={d.get('code')} {d.get('message', '')}"
+    return True, d.get("data") or {}
+
+
+def check_links(items, state):
+    """预检投稿链接，返回可处理清单 [(url, title)]。只查询，不下载不转写。"""
+    state = state or {}
+    inbox_root = ROOT.parent / CONFIG.get("inbox_dir", "video2kb-inbox/transcripts")
+    feasible, rejected = [], []
+    for i, item in enumerate(items, 1):
+        url, title = item
+        if "douyin.com" in url:
+            reason = "抖音直链暂不支持（API 风控），可先收藏，由每晚收藏同步任务处理"
+            print(f"[{i}/{len(items)}] ✗ {url} —— {reason}")
+            rejected.append((url, reason))
+            continue
+        m = re.search(r"(BV[0-9A-Za-z]{10})", url)
+        if not m:
+            reason = "无法识别 BV 号"
+            print(f"[{i}/{len(items)}] ✗ {url} —— {reason}")
+            rejected.append((url, reason))
+            continue
+        vid = m.group(1)
+        if vid in state or any(inbox_root.glob(f"*/{vid}/transcript.srt")):
+            print(f"[{i}/{len(items)}] ↷ 已处理过，跳过: {vid}")
+            rejected.append((url, "已处理过"))
+            continue
+        ok, data = _bili_view(vid)
+        if not ok:
+            print(f"[{i}/{len(items)}] ✗ {url} —— {data}")
+            rejected.append((url, data))
+            continue
+        title = data.get("title") or vid
+        pages = len(data.get("pages") or [1])
+        duration = data.get("duration") or 0
+        if pages > 1:
+            reason = f"多分P合集（{pages}P）不收"
+            print(f"[{i}/{len(items)}] ✗ {title} —— {reason}")
+            rejected.append((url, reason))
+        elif duration > 3600:
+            reason = f"超长（{duration // 60} 分钟 > 60 分钟）"
+            print(f"[{i}/{len(items)}] ✗ {title} —— {reason}")
+            rejected.append((url, reason))
+        else:
+            sub = "有CC字幕" if _has_cc_subtitle(vid, data.get("cid")) else "无CC字幕，将本地转写"
+            print(f"[{i}/{len(items)}] ✓ {title}（{duration // 60} 分钟，{sub}）")
+            feasible.append((url, title))
+    print(f"\n预检完成：可处理 {len(feasible)} 条，拒绝/跳过 {len(rejected)} 条")
+    for url, reason in rejected:
+        print(f"  ✗ {url} —— {reason}")
+    return feasible
+
+
+def _has_cc_subtitle(bvid, cid):
+    """查是否有 CC 字幕（仅用于预检展示；实际抓取仍由 fetch_subtitle 兜底）。"""
+    if not cid:
+        return False
+    import requests
+    h = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+         "Referer": f"https://www.bilibili.com/video/{bvid}"}
+    try:
+        cookie_p = find_file("cookie_header_bilibili.txt")
+        if cookie_p is not None:
+            h["Cookie"] = re.sub(r"^Cookie\s*:\s*", "", cookie_p.read_text(encoding="utf-8").strip(), flags=re.I)
+        r = requests.get("https://api.bilibili.com/x/player/v2",
+                         params={"bvid": bvid, "cid": cid}, headers=h, timeout=15)
+        subs = ((r.json().get("data") or {}).get("subtitle") or {}).get("subtitles") or []
+        return bool(subs)
+    except Exception:
+        return False
+
+
 def build_index(state):
     lines = ["# 知识库索引\n"]
     for vid, info in state.items():
@@ -470,6 +724,24 @@ def process_inbox(creator, state):
         print(f"  -> {md.name}")
 
 
+def parse_links_file(path):
+    """读链接文件，每行「URL | 标题(可选)」，# 开头为注释。"""
+    path = Path(path)
+    if not path.is_absolute():
+        path = Path.cwd() / path
+    items = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "|" in line:
+            url, title = [x.strip() for x in line.split("|", 1)]
+        else:
+            url, title = line, line
+        items.append((url, title))
+    return items
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--creator", type=int, help="只处理 config 中第 N 个博主（从0开始）")
@@ -478,24 +750,16 @@ def main():
     ap.add_argument("--local-subtitle", action="store_true",
                     help="本地无 GPU 模式：只抓 CC 字幕写 video2kb-inbox，无字幕的列出待服务器转写")
     ap.add_argument("--links", help="按链接文件抓字幕（每行一个 B站 链接，可选 'URL | 标题'）")
+    ap.add_argument("--check-links", dest="check_links", metavar="FILE",
+                    help="只预检链接文件（平台/存在性/时长/分P/去重），不下载")
     args = ap.parse_args()
 
     state = load_state()
+    if args.check_links:
+        check_links(parse_links_file(args.check_links), state)
+        return
     if args.links:
-        path = Path(args.links)
-        if not path.is_absolute():
-            path = Path.cwd() / path
-        items = []
-        for line in path.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if not line or line.startswith("#"):
-                continue
-            if "|" in line:
-                url, title = [x.strip() for x in line.split("|", 1)]
-            else:
-                url, title = line, line
-            items.append((url, title))
-        process_links_subtitles(items, state)
+        process_links_subtitles(parse_links_file(args.links), state)
         return
     if args.local_subtitle:
         creators = CONFIG["creators"] if args.creator is None else [CONFIG["creators"][args.creator]]
