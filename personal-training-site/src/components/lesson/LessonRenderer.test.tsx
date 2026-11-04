@@ -32,7 +32,7 @@ it('渲染标题、术语卡片、小节正文与自测', () => {
   expect(screen.getByRole('heading', { name: lesson.title })).toBeTruthy()
   expect(screen.getByText(lesson.summary)).toBeTruthy()
   expect(screen.getByRole('heading', { name: '先认几个术语' })).toBeTruthy()
-  for (const term of lesson.keyTerms.slice(0, 3)) expect(screen.getByText(term.term)).toBeTruthy()
+  for (const term of lesson.keyTerms.slice(0, 3)) expect(screen.getAllByText(term.term).length).toBeGreaterThan(0)
   for (const section of lesson.sections.slice(0, 3)) expect(screen.getByRole('heading', { name: section.heading })).toBeTruthy()
   expect(screen.getByRole('heading', { name: '理解自测' })).toBeTruthy()
   expect(screen.getByText(lesson.quiz[0].q)).toBeTruthy()

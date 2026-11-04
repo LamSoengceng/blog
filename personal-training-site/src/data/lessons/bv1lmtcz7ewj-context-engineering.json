@@ -1,0 +1,75 @@
+{
+  "slug": "bv1lmtcz7ewj-context-engineering",
+  "title": "上下文工程四策略：把 LLM 当操作系统来管理内存",
+  "summary": "LangChain 团队把上下文管理总结为四个动作——写入（存储到窗口外）、选择（检索加载）、压缩（摘要/修剪）、隔离（多 agent 分治）；类比操作系统管理 RAM，是构建 Agent 的通用框架。",
+  "date": "2026-11-03",
+  "minutes": 8,
+  "tags": ["Context Engineering", "Agent", "LangChain", "面试"],
+  "source": {
+    "platform": "bilibili",
+    "author": "每天吃透一个大模型知识点",
+    "videoId": "BV1Lmtcz7EwJ",
+    "url": "https://www.bilibili.com/video/BV1Lmtcz7EwJ"
+  },
+  "keyTerms": [
+    { "term": "上下文工程", "text": "为下一步调用往上下文窗口里填充恰到好处信息的艺术与科学，正取代「提示词工程」。" },
+    { "term": "LLM 即 OS", "text": "Andrew Ng/Karpathy 一脉的类比：模型是 CPU，上下文窗口是 RAM，容量有限须精心管理。" },
+    { "term": "Scratchpad", "text": "临时笔记本：把暂不需要但有价值的信息放在窗口外，需要时再加载回来。" },
+    { "term": "三类记忆", "text": "语义记忆（事实）、情节记忆（经验事件）、程序记忆（指令与流程），构成 Agent 记忆体系。" },
+    { "term": "上下文修剪", "text": "直接丢弃过时记录（如 100 条删 50 条）或按生命周期管理，比摘要更直接的压缩。" },
+    { "term": "上下文隔离", "text": "把上下文拆分给多个 agent/子图/沙盒并行处理，各自优化后再汇总。" }
+  ],
+  "sections": [
+    {
+      "heading": "缘起：一场「要不要多智能体」的争论",
+      "blocks": [
+        { "type": "p", "text": "Context Engineering 这个词火于一场争端：一方认为不需要多智能体、把上下文管好就行（否则 garbage in garbage out），另一方坚信多智能体才是王道——最后大家发现争论的其实是同一件事：上下文管理。Andrew Ng 由此把它框定为正式概念。" },
+        { "type": "callout", "tone": "key", "title": "LLM 即操作系统", "text": "大模型扮演 CPU，上下文窗口就是它的 RAM：速度快但容量有限。窗口里装的是指令（Instruction）、知识（Knowledge）和工具调用的输入输出三类信息。" },
+        { "type": "p", "text": "提示词只是 Instruction 的一部分；真正决定模型表现的是整个窗口里的所有内容——还包括 RAG 引入的外部知识和工具的输入输出。所以 Context Engineering 是比 Prompt Engineering 更准确的概念。" }
+      ]
+    },
+    {
+      "heading": "四策略总览：内存管理的翻版",
+      "blocks": [
+        { "type": "mermaid", "title": "上下文四策略与 OS 类比", "code": "flowchart LR\n  W[Write 写入窗口外] --> S[Select 检索加载]\n  S --> C[Compress 压缩腾空间]\n  C --> I[Isolate 隔离分治]\n  W -.-|换页到磁盘| OS[操作系统内存管理]\n  S -.-|缺页调入| OS\n  C -.-|内存整理| OS\n  I -.-|分布式计算| OS" },
+        { "type": "compare", "columns": ["策略", "做什么", "典型手段"], "rows": [
+          ["Write 写入", "把数据保存在窗口外，像内存换页到磁盘", "Scratchpad、Memory 记忆系统"],
+          ["Select 选择", "需要时把外部数据加载回窗口", "三类记忆检索、RAG、工具调用"],
+          ["Compress 压缩", "窗口快满时精简内容腾出空间", "摘要 summary、修剪 pruning"],
+          ["Isolate 隔离", "把上下文拆给多个计算单元", "子图状态隔离、文件传递、沙盒"]
+        ] }
+      ]
+    },
+    {
+      "heading": "写入与选择：从 Scratchpad 到 Memory 架构",
+      "blocks": [
+        { "type": "p", "text": "早期 ReAct Agent 用 Scratchpad（临时笔记本）保存中间信息；如今更常见的形态是 Memory——不只是短期存储，而是跨会话甚至跨模型的独立统一存储系统，保证会话间数据连贯和个性化输出。LangChain 生态把记忆分三类：语义记忆记事实、情节记忆记经验事件、程序记忆记指令与操作流程，分类清晰才能精准提取。" },
+        { "type": "p", "text": "选择侧的信息来源包括：Scratchpad、记忆系统、工具（RAG 检索召回相关信息）。Claude Code 的 CLAUDE.md 就是个例子——需要时加载文件内容作为上下文。随着可用工具数量增长，如何管理和选择合适的工具本身也成了上下文管理问题。" }
+      ]
+    },
+    {
+      "heading": "压缩：摘要与修剪两条路",
+      "blocks": [
+        { "type": "p", "text": "压缩目标是只保留执行任务所需的内容。摘要（summarize）最常用：Claude Code 会在窗口用到 95% 以上时自动触发压缩，也支持手动命令；LangGraph 的 LangMemory 工具可自动压缩对话历史。压缩不限于历史消息——工具返回的大结果也可以让模型按指令概括成指定字数的总结，或分文件压缩。" },
+        { "type": "callout", "tone": "warn", "title": "更暴力的办法：修剪", "text": "直接丢弃过时信息——比如最早的 100 条记录删掉 50 条，或按生命周期策略只留最新相关内容。修剪丢的信息不可恢复，摘要则可能丢细节；两者常配合使用。" }
+      ]
+    },
+    {
+      "heading": "隔离：多 agent 分治的三种实现",
+      "blocks": [
+        { "type": "steps", "items": [
+          "子图状态隔离：LangGraph 里用子图拆分状态，纯内存操作、不写磁盘",
+          "文件传递：把上下文写进文件，在不同 agent 之间传递",
+          "沙盒隔离：在完全隔离的环境里执行代码并回传结果，通常携带大量代码，交互比纯数据隔离更重"
+        ] },
+        { "type": "p", "text": "OpenAI 的 Swarm 等多 agent 系统都强调这一点：上下文分散到多个独立可执行单元，既保持信息完整，又让每个 agent 拿到贴合自身场景的上下文，并行执行提升整体性能。前面三个策略（写入/选择/压缩）都受资源限制，隔离是扩展系统能力的出口。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "上下文工程为什么正在取代提示词工程这个说法？", "a": "提示词只是 Instruction 的一部分；真正决定模型表现的是整个上下文窗口的内容——指令、RAG 引入的知识、工具输入输出。为窗口填充恰当信息是一整套工程问题。" },
+    { "q": "四策略分别对应操作系统的哪些内存行为？", "a": "Write=换页写磁盘（存窗口外），Select=缺页调入（检索加载），Compress=内存整理（摘要/修剪），Isolate=分布式计算（多 agent 分治）。" },
+    { "q": "Scratchpad 和 Memory 的区别是什么？", "a": "Scratchpad 是会话内的临时笔记本；Memory 是独立统一的存储系统，支持跨会话甚至跨模型的数据持久化与个性化。" },
+    { "q": "上下文隔离有哪三种常见实现？", "a": "子图状态隔离（纯内存）、文件传递（写文件在 agent 间传）、沙盒隔离（隔离环境执行代码回传结果，代码交互最多）。" }
+  ]
+}

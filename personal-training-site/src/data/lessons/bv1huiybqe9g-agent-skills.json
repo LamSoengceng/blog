@@ -1,0 +1,70 @@
+{
+  "slug": "bv1huiybqe9g-agent-skills",
+  "title": "Agent Skills：带目录的说明书，如何省下 90% 的提示词 Token",
+  "summary": "Agent Skills 把提示词拆成元数据/指令/资源三层，只有元数据常驻上下文，其余按需加载（渐进式披露）；2025 年 12 月起成为开放标准，Codex、Cursor 等工具陆续跟进。",
+  "date": "2026-11-01",
+  "minutes": 9,
+  "tags": ["Agent Skills", "Claude Code", "MCP", "提示词工程"],
+  "source": {
+    "platform": "bilibili",
+    "author": "阿水",
+    "videoId": "BV1HuiyBQE9G",
+    "url": "https://www.bilibili.com/video/BV1HuiyBQE9G"
+  },
+  "keyTerms": [
+    { "term": "Agent Skills", "text": "带目录的提示词组织机制：元数据+指令+资源三层，按需加载，已被 Anthropic 发布为开放标准。" },
+    { "term": "渐进式披露", "text": "只把技能目录常驻上下文，正文和附件按需要再加载，大幅降低 Token 消耗。" },
+    { "term": "SKILL.md", "text": "技能定义文件：front-matter 写元数据（名称+调用时机描述），正文写详细指令。" },
+    { "term": "资源层", "text": "技能文件夹里的辅助文件：scripts/ 放可执行脚本，references/ 放范文文档，assets/ 放图片等。" },
+    { "term": "MCP", "text": "标准化的工具调用协议，像工具箱；与 Skills 侧重不同，可配合使用。" }
+  ],
+  "sections": [
+    {
+      "heading": "一句话理解：三层提示词，只有目录常驻",
+      "blocks": [
+        { "type": "p", "text": "Agent Skills 起初只是 Claude Code 里的一个小功能，因为太好用，两个月内 Codex、Cursor、OpenCode 纷纷支持，Anthropic 在 2025 年 12 月 18 日把它发布成了开放标准。它把提示词分成三层：元数据（目录）、指令（正文）、资源（附录）。" },
+        { "type": "callout", "tone": "key", "text": "只有元数据必定加载进上下文，指令和资源都按需加载——像 AI 先看书目录，再决定翻不翻正文和附录。相比传统 Prompt 和 MCP，Token 消耗与提示词复杂度大幅降低。" },
+        { "type": "mermaid", "title": "Skills 的调用时序", "code": "sequenceDiagram\n  participant U as 用户\n  participant A as Agent\n  participant M as 模型\n  U->>A: 提问\n  A->>M: 问题 + 所有 SKILL.md 元数据\n  M->>A: 选中某个 Skill\n  A->>M: 加载该 Skill 指令正文\n  M->>A: 需要范文/脚本时再读资源层\n  A->>U: 生成回答" }
+      ]
+    },
+    {
+      "heading": "动手写一个 Skill：三个硬性要点",
+      "blocks": [
+        { "type": "steps", "items": [
+          "目录结构：项目下 .cloud/skills/技能名/SKILL.md（Claude Code），Codex 则是 .codex/skills/，复制过去即可迁移",
+          "文件名必须是大写 SKILL + 小写 .md；front-matter（六横杠包裹）只填名称和描述",
+          "描述里最关键的是写清「AI 应该在什么时机调用这个技能」，模型靠它决定是否选中",
+          "正文用 Markdown 写详细指令，重点加粗标记；辅助文件放进 scripts/、references/、assets/ 子目录"
+        ] },
+        { "type": "p", "text": "视频里第一个例子是「字幕转 Markdown」：指令要求把 SRT 转成笔记、禁止删减总结、在关键位置插入截图占位符。放入技能目录后，把字幕文件拖给 Claude Code，它识别出 SRT、询问是否调用该技能、按需加载指令并完成转换。放在用户配置目录 .cloud/skills/ 下还能升级为全局技能。" }
+      ]
+    },
+    {
+      "heading": "资源层：脚本不进上下文，范文按需读",
+      "blocks": [
+        { "type": "p", "text": "技能文件夹里可以放任意辅助文件。视频里给字幕转换技能加了一个 Python 截图脚本（调用 ffmpeg 对视频截图、替换占位符为真实图片链接），放进 scripts/ 子目录并在指令里追加「生成后调用该脚本」。" },
+        { "type": "callout", "tone": "note", "title": "省 Token 的关键细节", "text": "Agent 只执行脚本，脚本代码本身不进上下文；references/ 里的范文也是模型按指令判断需要时才用 read 读取——这就是资源层的按需加载。" },
+        { "type": "p", "text": "第二个例子「帮我写作」：指令写明「材料是软件/AI 相关时，先读 references/ 里的范文学习行文风格」。给它一段开源项目资料，模型选中技能、读到规则、加载范文、输出风格相近的文案。另外 GitHub 上的 Awesome Claude Skills（1.4 万星）有大量现成技能，整个文件夹拖进来就能用。" }
+      ]
+    },
+    {
+      "heading": "Skills vs MCP：说明书与工具箱",
+      "blocks": [
+        { "type": "compare", "columns": ["维度", "Agent Skills", "MCP"], "rows": [
+          ["核心机制", "提示词渐进式披露", "标准化工具调用"],
+          ["上下文占用", "只有元数据常驻，按需加载", "提示词一次性塞入"],
+          ["主体形态", "Markdown 文本，脚本为辅助", "Node.js/Python 软件包"],
+          ["编写成本", "低，一个 md 文件即可", "高，需完整开发环境"],
+          ["执行可靠性", "脚本受本机环境影响，失败率较高", "软件包执行成功率高"]
+        ] },
+        { "type": "callout", "tone": "key", "title": "两者是配合关系", "text": "视频最后用 GitHub MCP server 做工具层、Skills 做流程说明层演示了配合工作。MCP 若能吸收 Skills 的渐进式披露与低编写成本，会是很好的演进方向。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "Agent Skills 的三层结构是什么？哪层常驻上下文？", "a": "元数据（目录）、指令（正文）、资源（附录）。只有元数据必定加载，指令和资源按需加载，即渐进式披露。" },
+    { "q": "一个合法的 Skill 文件夹需要满足哪三个条件？", "a": "目录在 skills/ 下（项目级 .cloud/skills 或全局配置目录）、定义文件名为大写 SKILL.md、front-matter 含名称与调用时机描述。" },
+    { "q": "资源层的脚本为什么能省 Token？有什么坑？", "a": "Agent 只执行脚本，代码本身不进上下文；坑在于脚本依赖各台机器的运行环境（如 Python 版本），执行失败率比 MCP 软件包高。" },
+    { "q": "Skills 和 MCP 怎么分工？", "a": "Skills 管提示词的组织与按需加载（说明书），MCP 管标准化的工具调用（工具箱）；前者省 Token、编写简单，后者执行可靠，实战中常配合使用。" }
+  ]
+}

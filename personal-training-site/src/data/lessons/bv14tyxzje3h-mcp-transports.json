@@ -1,0 +1,83 @@
+{
+  "slug": "bv14tyxzje3h-mcp-transports",
+  "title": "MCP 的三种传输协议：stdio、SSE 和 Streamable HTTP 怎么选",
+  "summary": "MCP server 的传输层决定它跑在哪、能给谁用：本地 demo 用 stdio，远程部署直接上 Streamable HTTP，SSE 因单向且已被官方宣布废弃不必再学。",
+  "date": "2026-11-01",
+  "minutes": 7,
+  "tags": ["MCP", "Agent", "协议", "面试"],
+  "source": {
+    "platform": "bilibili",
+    "author": "阿水",
+    "videoId": "BV14TYxzJE3h",
+    "url": "https://www.bilibili.com/video/BV14TYxzJE3h"
+  },
+  "keyTerms": [
+    { "term": "MCP", "text": "给大模型接外部工具/数据源的标准协议，像 AI 的万能插头，可查天气、算数、控设备。" },
+    { "term": "stdio", "text": "基于操作系统标准输入/输出的本地传输，工具与大模型必须同机。" },
+    { "term": "SSE", "text": "基于 HTTP 的服务器单向推送协议，可跨机器，但客户端不能回传，官方已宣布废弃。" },
+    { "term": "Streamable HTTP", "text": "基于 HTTP 的流式双向传输，边传边收，SSE 的官方替代品。" },
+    { "term": "@mcp.tool", "text": "Python MCP 包的装饰器：套住函数后，该函数自动注册为模型可调用的工具。" },
+    { "term": "docstring", "text": "工具函数的三引号说明文字，MCP 会读取它告诉模型这个工具是干嘛的。" }
+  ],
+  "sections": [
+    {
+      "heading": "先分清楚：传输层决定 MCP server 跑在哪",
+      "blocks": [
+        { "type": "p", "text": "MCP 本身是「让模型调用工具」的协议，但工具代码和模型不一定在同一台机器上。传输层回答的就是这个问题：工具调用请求和结果走什么通道。同一个 MCP server，三种传输方式只有启动参数一行之差，能力边界却完全不同。" },
+        { "type": "callout", "tone": "key", "text": "stdio 只能本地跑（模型和工具同机）；SSE 和 Streamable HTTP 都走 HTTP，可以跨机器、分布式部署。" },
+        { "type": "mermaid", "title": "三种协议的连接拓扑", "code": "flowchart LR\n  subgraph 本地\n    M[模型] <-->|stdio| T[本地工具进程]\n  end\n  subgraph 远程\n    C[客户端] -->|HTTP 请求| S[云端 server]\n    S -->|流式响应| C\n  end" }
+      ]
+    },
+    {
+      "heading": "stdio：本地 demo 的默认选择",
+      "blocks": [
+        { "type": "p", "text": "stdio 的通信原理就是操作系统的标准输入/输出：用户程序经 stdin 传入指令，程序经 stdout 返回结果。放到 MCP 场景里，相当于模型像执行一段 cmd/PowerShell 里的 Python 脚本一样调用工具——所以工具和模型必须在同一台电脑上，换个机器就执行不了。" },
+        { "type": "cards", "items": [
+          { "term": "优势", "text": "所有操作系统和语言原生支持，零配置；本地直连延迟低；数据不出本机，无泄漏风险。" },
+          { "term": "局限", "text": "大数据频繁输入输出会成性能瓶颈；无法同时服务多个客户端；访问不了其他电脑或云端资源。" },
+          { "term": "适用", "text": "本地学习、验证工具对不对，先跑个 demo 再说。" }
+        ] }
+      ]
+    },
+    {
+      "heading": "SSE：能跨机器，但已判死刑",
+      "blocks": [
+        { "type": "p", "text": "SSE（Server-Sent Events）是基于 HTTP 的单向推送：服务器可以持续把数据推给客户端，一次请求、长连接维持，常用于股票行情、新闻推送这类实时更新场景。它跨网络、能穿代理和防火墙，开发成本低。" },
+        { "type": "callout", "tone": "warn", "title": "单向是硬伤，废弃是定局", "text": "客户端无法向服务器回传数据，限制了双向交互；多客户端同时请求还容易把服务器压垮。MCP 官方已在规范中宣布 SSE 被 Streamable HTTP 取代，新代码不值得再写。" },
+        { "type": "callout", "tone": "note", "title": "面试常问", "text": "SSE 和 WebSocket 的区别：SSE 是 HTTP 上的单向服务器推送，WebSocket 是独立协议的双向通道。MCP 选型里两者都不是答案，答案是 Streamable HTTP。" }
+      ]
+    },
+    {
+      "heading": "Streamable HTTP：远程部署的正解",
+      "blocks": [
+        { "type": "p", "text": "Streamable HTTP 同样基于 HTTP，但数据以流的形式在客户端和服务器之间传输：不必等整个响应就绪，边缓存边处理，像看视频一样边下边播。大文件和持续性数据不用干等，延迟显著降低。" },
+        { "type": "compare", "columns": ["stdio", "SSE", "Streamable HTTP"], "rows": [
+          ["双向（本地进程）", "服务器→客户端单向", "双向流式"],
+          ["不跨机器，同机才能用", "跨机器", "跨机器"],
+          ["不支持多客户端", "支持但高并发易过载", "支持多客户端"],
+          ["本地首选", "官方已废弃", "远程首选"]
+        ] },
+        { "type": "callout", "tone": "key", "title": "选型一句话", "text": "本地 demo 无脑 stdio；要连远程服务器直接 Streamable HTTP。别用 SSE——避免以后改代码返工。它的局限也只有网络相关：网络差会卡顿缓冲，实现也比前两者复杂。" }
+      ]
+    },
+    {
+      "heading": "代码层面：三种协议只差一行",
+      "blocks": [
+        { "type": "steps", "items": [
+          "导入 MCP 的 Python 包（以及工具自身需要的包），初始化 mcp 实例并命名",
+          "用 @mcp.tool 装饰器标记工具函数——没有这个标签 MCP 识别不到工具",
+          "函数内写好三引号 docstring，MCP 会读取它并向模型说明这个工具是干嘛的",
+          "启动时指定传输方式：run 里传 stdio / sse / streamable-http，其余代码完全不变",
+          "客户端配置对应连接：stdio 填命令和路径，sse/http 填 URL 和端口（如 localhost:8000，需与 server 一致）"
+        ] },
+        { "type": "p", "text": "视频里用 Cherry Studio 演示：同一个「获取本机系统信息」工具，stdio 版本直接被模型调用查出 CPU 核心数；改成 sse 启动后，在 MCP 设置里把地址指向 localhost:8000 即可远程连接，工具还能换成读写 MySQL 数据库的服务端工具。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "stdio 和另外两种协议的核心差异是什么？", "a": "stdio 基于本地操作系统的标准输入/输出，工具和模型必须在同一台机器；SSE 和 Streamable HTTP 走 HTTP，可以跨机器分布式部署。" },
+    { "q": "SSE 为什么被官方废弃？它的替代品是什么？", "a": "SSE 只能服务器向客户端单向推送，无法双向交互，且多客户端高并发容易压垮服务器；替代品是 Streamable HTTP，它支持双向流式传输，SSE 能做的它都能做。" },
+    { "q": "把一个 stdio 的 MCP server 改成 Streamable HTTP 要改多少代码？", "a": "几乎只改 mcp.run 的传输参数一行；工具定义、@mcp.tool 装饰器和 docstring 都不变，客户端侧改为配置 URL 和端口。" },
+    { "q": "@mcp.tool 装饰器和 docstring 各起什么作用？", "a": "@mcp.tool 把函数注册为 MCP 可识别的工具；docstring（三引号说明）会被 MCP 读取，用来向模型描述这个工具的功能和用法。" }
+  ]
+}
