@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { ArrowUpRight, CalendarPlus2, Radio, Trash2 } from 'lucide-react'
 import scheduleSnapshot from '../data/sportsSchedule.json'
 import standingsSnapshot from '../data/sportsStandings.json'
+import { matchTitleZh, teamZh } from '../utils/sportsZh'
 
 type League = 'NBA' | '英超' | '皇马' | 'AC 米兰' | '欧冠' | '欧联'
 type Match = { id: string; league: League; title: string; at: string; url: string }
@@ -27,6 +28,46 @@ const scheduleSources: { league: League; path: string; team?: string; url: strin
 ]
 
 type EspnEvent = { id: string; name: string; date: string; links?: { href: string }[]; competitions?: { competitors?: { team?: { displayName?: string } }[] }[] }
+type StandingsRow = { rank: number; team: string; played: string; wins: string; draws: string; losses: string; goalDifference: string; points: string }
+type StandingsTable = { league: string; url: string; rows: StandingsRow[] }
+type EspnStandingEntry = { team?: { displayName?: string }; stats?: { name?: string; displayValue?: string }[] }
+
+const standingsSources: { league: string; path: string }[] = [
+  { league: '英超', path: 'soccer/eng.1' },
+  { league: '西甲', path: 'soccer/esp.1' },
+  { league: '意甲', path: 'soccer/ita.1' },
+  { league: '欧冠', path: 'soccer/uefa.champions' },
+  { league: '欧联', path: 'soccer/uefa.europa' },
+]
+
+async function loadStandings(): Promise<StandingsTable[]> {
+  const stat = (entry: EspnStandingEntry, name: string) => entry.stats?.find((item) => item.name === name)?.displayValue || '—'
+  const requests = standingsSources.map(async (source) => {
+    const response = await fetch(`https://site.api.espn.com/apis/v2/sports/${source.path}/standings`, { signal: AbortSignal.timeout(10000) })
+    if (!response.ok) throw new Error(`积分榜请求失败：${response.status}`)
+    const data = await response.json() as { children?: { standings?: { entries?: EspnStandingEntry[] } }[] }
+    const entries = data.children?.flatMap((child) => child.standings?.entries || []) ?? []
+    if (!entries.length) throw new Error('积分榜格式不正确')
+    return {
+      league: source.league,
+      url: `https://www.espn.com/soccer/standings/_/league/${source.path.split('/')[1]}`,
+      rows: entries.map((entry, index) => ({
+        rank: index + 1,
+        team: entry.team?.displayName || '未知球队',
+        played: stat(entry, 'gamesPlayed'),
+        wins: stat(entry, 'wins'),
+        draws: stat(entry, 'ties'),
+        losses: stat(entry, 'losses'),
+        goalDifference: stat(entry, 'pointDifferential'),
+        points: stat(entry, 'points'),
+      })),
+    }
+  })
+  const results = await Promise.allSettled(requests)
+  if (results.every((result) => result.status === 'rejected')) throw new Error('积分榜源暂时不可用')
+  const loaded = results.flatMap((result) => result.status === 'fulfilled' ? [result.value] : [])
+  return standingsSources.map((source) => loaded.find((table) => table.league === source.league)).filter((table) => table !== undefined)
+}
 
 async function loadSchedule(): Promise<Match[]> {
   const now = new Date()
@@ -85,7 +126,7 @@ function parseRoomUrl(input: string): Room | null {
 function calendarHref(match: Match) {
   const date = new Date(match.at)
   const stamp = (value: Date) => value.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
-  const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Lam Watch Hub//ZH', 'BEGIN:VEVENT', `DTSTART:${stamp(date)}`, `DTEND:${stamp(new Date(date.getTime() + 2 * 60 * 60 * 1000))}`, `SUMMARY:${match.title}`, `URL:${match.url}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n')
+  const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Lam Watch Hub//ZH', 'BEGIN:VEVENT', `DTSTART:${stamp(date)}`, `DTEND:${stamp(new Date(date.getTime() + 2 * 60 * 60 * 1000))}`, `SUMMARY:${matchTitleZh(match.title)}`, `URL:${match.url}`, 'END:VEVENT', 'END:VCALENDAR'].join('\r\n')
   return `data:text/calendar;charset=utf-8,${encodeURIComponent(body)}`
 }
 
@@ -95,6 +136,10 @@ export function WatchHub() {
   const [error, setError] = useState('')
   const [view, setView] = useState<'schedule' | 'standings'>('schedule')
   const [standingsLeague, setStandingsLeague] = useState('英超')
+  const [standingsTables, setStandingsTables] = useState<StandingsTable[]>(() => standingsSnapshot.tables as StandingsTable[])
+  const [standingsSync, setStandingsSync] = useState(() => standingsSnapshot.generatedAt
+    ? `快照 ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric' }).format(new Date(standingsSnapshot.generatedAt))}`
+    : '显示备用积分榜')
   const [visibleCount, setVisibleCount] = useState(12)
   const [today] = useState(() => Date.now())
   const [matches, setMatches] = useState<Match[]>(() => scheduleSnapshot.matches as Match[])
@@ -104,7 +149,7 @@ export function WatchHub() {
   const futureMatches = matches.filter((match) => new Date(match.at).getTime() > today)
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
   const upcoming = futureMatches.slice(0, visibleCount)
-  const standings = standingsSnapshot.tables.find((table) => table.league === standingsLeague)
+  const standings = standingsTables.find((table) => table.league === standingsLeague)
 
   useEffect(() => {
     let active = true
@@ -113,6 +158,11 @@ export function WatchHub() {
       setMatches(items)
       setScheduleState(`已自动同步 · ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date())}`)
     }).catch(() => { /* 保留构建时生成的赛程快照。 */ })
+    loadStandings().then((tables) => {
+      if (!active) return
+      setStandingsTables(tables)
+      setStandingsSync(`${tables.length < standingsSources.length ? '部分联赛未能同步 · ' : '已自动同步 · '}${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date())}`)
+    }).catch(() => { /* 保留构建时生成的积分榜快照。 */ })
     return () => { active = false }
   }, [])
 
@@ -145,16 +195,16 @@ export function WatchHub() {
           <div className="watch-table-head"><span>北京时间</span><span>赛事 / 对阵</span><span>日历</span></div>
           {upcoming.length ? <div className="watch-match-list">{upcoming.map((match) => <div className="watch-match" key={match.id}>
             <time dateTime={match.at}><strong>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(match.at))}</strong><span>{new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', weekday: 'short' }).format(new Date(match.at))}</span></time>
-            <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{match.title}<ArrowUpRight size={14} /></a></div>
-            <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${match.title}添加到日历`}><CalendarPlus2 size={17} /></a>
+            <div><span className="watch-league">{match.league}</span><a className="watch-fixture" href={match.url} target="_blank" rel="noopener noreferrer">{matchTitleZh(match.title)}<ArrowUpRight size={14} /></a></div>
+            <a className="watch-calendar-add" href={calendarHref(match)} download={`match-${match.at.slice(0, 10)}.ics`} title="添加到日历" aria-label={`将${matchTitleZh(match.title)}添加到日历`}><CalendarPlus2 size={17} /></a>
           </div>)}</div> : <p className="watch-empty">目前没有近期比赛，请查看赛事官网。</p>}
           {futureMatches.length > visibleCount && <button type="button" className="watch-more" onClick={() => setVisibleCount((count) => count + 12)}>显示更多比赛 <span>+12</span></button>}
           <div className="watch-official">{officialSchedules.map((item) => <a key={item.label} href={item.url} target="_blank" rel="noopener noreferrer">{item.label}<ArrowUpRight size={14} /></a>)}</div>
           <p className="watch-note">赛程来自 ESPN，每日生成快照并在访问时尝试刷新；比赛时间以赛事官网为准。</p>
         </div> : <div className="watch-standings" role="tabpanel">
-          <div className="watch-standings-controls"><label htmlFor="watch-standings-league">联赛 / 杯赛</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsSnapshot.tables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">完整榜单<ArrowUpRight size={14} /></a>}</div>
-          {standings ? <div className="watch-standings-scroll"><table><thead><tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr></thead><tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row">{row.team}</th><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></tr>)}</tbody></table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
-          <p className="watch-note">积分榜每日更新；皇马与 AC 米兰已在对应联赛中标出。数据来自 ESPN。</p>
+          <div className="watch-standings-controls"><label htmlFor="watch-standings-league">联赛 / 杯赛</label><select id="watch-standings-league" value={standingsLeague} onChange={(event) => setStandingsLeague(event.target.value)}>{standingsTables.map((table) => <option key={table.league} value={table.league}>{table.league}</option>)}</select><span className="watch-sync" role="status"><span />{standingsSync}</span>{standings && <a href={standings.url} target="_blank" rel="noopener noreferrer">完整榜单<ArrowUpRight size={14} /></a>}</div>
+          {standings ? <div className="watch-standings-scroll"><table><thead><tr><th scope="col">排名</th><th scope="col">球队</th><th scope="col">赛</th><th scope="col">胜</th><th scope="col">平</th><th scope="col">负</th><th scope="col">净胜球</th><th scope="col">积分</th></tr></thead><tbody>{standings.rows.map((row) => <tr key={row.team} className={row.team === 'Real Madrid' || row.team === 'AC Milan' ? 'watch-followed-team' : ''}><td>{row.rank}</td><th scope="row">{teamZh(row.team)}</th><td>{row.played}</td><td>{row.wins}</td><td>{row.draws}</td><td>{row.losses}</td><td>{row.goalDifference}</td><td><strong>{row.points}</strong></td></tr>)}</tbody></table></div> : <p className="watch-empty">积分榜暂时无法更新，请查看赛事官网。</p>}
+          <p className="watch-note">积分榜在访问时自动同步，最新数据来自 ESPN；皇马与 AC 米兰已在对应联赛中标出。</p>
         </div>}
       </div>
       <aside className="watch-panel watch-side">
