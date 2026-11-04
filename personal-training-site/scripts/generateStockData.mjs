@@ -344,7 +344,7 @@ export type LimitBreakItem = {
   name: string
   price: string
   pct: string
-  openTimes: number
+  openTimes: number | string // 数据缺失时写入 '—'
   turnover: string
 }
 
