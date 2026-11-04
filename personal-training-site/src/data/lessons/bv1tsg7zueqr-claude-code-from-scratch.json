@@ -1,0 +1,298 @@
+{
+  "slug": "bv1tsg7zueqr-claude-code-from-scratch",
+  "title": "Agent 如何借助工具完成任务：从 ReAct 循环到 Plan-and-Execute",
+  "summary": "Agent 是把大模型、工具和主程序组合起来，通过思考、行动、观察的循环感知并改变外部环境。",
+  "date": "2026-11-04",
+  "minutes": 28,
+  "tags": [
+    "Agent",
+    "Claude Code",
+    "架构",
+    "ReAct",
+    "工具调用"
+  ],
+  "source": {
+    "platform": "bilibili",
+    "author": "马克的技术工作坊",
+    "videoId": "BV1TSg7zuEqR",
+    "url": "https://www.bilibili.com/video/BV1TSg7zuEqR"
+  },
+  "keyTerms": [
+    {
+      "term": "Agent",
+      "text": "把大模型和一组工具组装起来，使程序能够感知并改变外部环境。"
+    },
+    {
+      "term": "工具",
+      "text": "大模型的感官和四肢，例如读取文件、写入文件和运行终端命令的函数。"
+    },
+    {
+      "term": "ReAct",
+      "text": "Reasoning and Acting 的缩写，即思考与行动；视频中描述的核心流程是 Thought、Action、Observation 和 Final Answer。"
+    },
+    {
+      "term": "Thought",
+      "text": "Agent 根据任务和已有结果思考下一步要做什么。"
+    },
+    {
+      "term": "Action",
+      "text": "Agent 请求调用某个工具，并提供函数名和参数。"
+    },
+    {
+      "term": "Observation",
+      "text": "工具实际执行后返回的结果，随后会被加入消息历史并再次交给模型。"
+    },
+    {
+      "term": "Plan-and-Execute",
+      "text": "先由 plan 模型生成步骤，再由执行 Agent 执行，并由 replan 或 replan 模型根据结果动态调整计划。"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "Agent 解决了大模型无法操作外部环境的问题",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "普通大模型回答问题和进行逻辑推理很强，但无法感知或改变外部环境。比如让 GPT-4o 写贪吃蛇，它可以给出代码，却不能自己把代码写入文件；如果已有代码，也不能主动查到并基于它改写，除非用户把代码复制给模型。"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "核心定义",
+          "text": "给大模型接上读写文件、查看文件列表、运行终端命令等工具后，它就能查询已有文件、写入代码、运行程序。把一个大模型和一组工具组装成能感知和改变外部环境的智能程序，就称为 Agent。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            {
+              "term": "编程 Agent",
+              "text": "例如 Cursor，接收任务后使用大模型和各种工具写代码，直到任务完成。"
+            },
+            {
+              "term": "研究型 Agent",
+              "text": "例如 Manus，先生成执行计划，搜索和浏览网页，再把报告整理成页面展示给用户。"
+            },
+            {
+              "term": "其他类型",
+              "text": "还有用于制作 PPT、深度搜索等不同领域的 Agent。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "ReAct：Thought、Action、Observation 的循环",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "ReAct 是 Reasoning and Acting 的缩写，意思是思考与行动。视频将它介绍为目前使用非常广泛的 Agent 运行模式：用户先提交任务，Agent 思考是否需要工具；需要时调用工具，查看执行结果，再继续思考，直到不需要工具并给出最终答案。"
+        },
+        {
+          "type": "mermaid",
+          "title": "Agent 的 ReAct 主循环",
+          "code": "flowchart TD\n  U[用户提交任务] --> T[Thought：思考下一步]\n  T --> D{需要调用工具吗？}\n  D -->|是| A[Action：请求工具]\n  A --> O[Observation：接收工具结果]\n  O --> T\n  D -->|否| F[Final Answer：输出最终答案]"
+        },
+        {
+          "type": "compare",
+          "columns": [
+            "阶段",
+            "作用"
+          ],
+          "rows": [
+            [
+              "Thought",
+              "思考要做什么"
+            ],
+            [
+              "Action",
+              "请求调用合适的工具，例如读写文件"
+            ],
+            [
+              "Observation",
+              "查看工具执行结果，例如文件内容或写入是否成功"
+            ],
+            [
+              "Final Answer",
+              "判断信息足够后输出最终答案"
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "note",
+          "text": "模型不会直接调用工具。模型只能返回调用工具的请求，真正调用工具背后函数的是 Agent 的工具调用组件。"
+        }
+      ]
+    },
+    {
+      "heading": "系统提示词写成剧本，再到真正执行工具",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "模型拿到用户问题后为什么会先思考再行动，并不是因为模型被特别训练成了这种流程，关键通常在系统提示词。系统提示词与用户问题一起发送给模型，规定模型的角色、运行时规则和环境信息。"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "职责描述：要求模型解决任务，并把任务分解为多个步骤。",
+            "流程示例：每一步先用 Thought 思考，再用 Action 调用工具，工具结果通过 Observation 返回，持续到能给出 Final Answer。",
+            "可用工具：说明读取文件、写入文件、运行终端命令等工具。",
+            "注意事项：规定模型运行时需要遵守的约束。",
+            "环境信息：提供操作系统、当前目录和目录下文件列表等信息。"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "视频用 DeepSeek 演示了一个写贪吃蛇的任务。规范做法是把系统提示词和用户任务分开提交；由于 DeepSeek 的界面没有单独提交系统提示词的位置，演示中把两者合并成一条消息，大多数情况下模型仍能按预期运行。"
+        },
+        {
+          "type": "p",
+          "text": "在演示中，模型先用 Thought 思考，再通过 Action 请求 WriteToFile 工具写入 index.html。演示者手动回复 Observation“写入成功”，模型随后继续请求写入 CSS 和 JS，三个必要文件都完成后输出 Final Answer。这个过程展示了 ReAct 的节奏：Thought、Action、Observation 不断重复，最后是 Thought 和 Final Answer。"
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "title": "终端命令需要确认",
+          "text": "运行终端命令相对危险，因此用于编程的 Agent 通常会在执行前主动询问用户是否继续。"
+        },
+        {
+          "type": "p",
+          "text": "随后视频演示了真正可运行的简化 Agent。项目中有 Agent.py 和空的 Snake 文件夹，运行 uv run agent.py snake 后，Agent 接收“使用 HTML、CSS 和 JS 分文件实现贪吃蛇”的任务，真实调用 WriteToFile 工具写入三个文件，最后打开 index.html，游戏界面能够运行、移动、吃红色方块并显示分数。"
+        },
+        {
+          "type": "compare",
+          "columns": [
+            "演示方式",
+            "工具调用情况"
+          ],
+          "rows": [
+            [
+              "DeepSeek 对话模拟",
+              "模型请求工具，演示者假设工具完成并回复 Observation"
+            ],
+            [
+              "Agent.py 实际运行",
+              "工具调用组件真实执行 WriteToFile 函数并返回写入成功"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "简化 Agent 的代码主链路",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "代码入口接收项目目录、可用工具列表和模型。示例中工具列表包含读取文件、写入文件和运行终端命令三个函数；react-agent 类构造时需要工具列表、模型和项目目录三个参数。用户输入任务后传给 agent.run，Thought、Action、Observation 和 Final Answer 都在这个函数内部依次处理。"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "run 函数先构建 message 列表，其中包含系统提示词和用户问题。",
+            "render system prompt 根据模板填入工具列表、操作系统、当前目录下的文件列表等占位符。",
+            "call model 请求模型，提取返回内容中的 Thought 并打印。",
+            "如果内容是 Final Answer，就直接返回并结束。",
+            "如果不是，就解析 Action，提取函数名和参数列表。",
+            "执行工具，把结果包装成 Observation 放回 message 列表，再回到循环开头请求模型。"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "这个 while 循环会一直执行：请求模型、提取 Thought、检测 Final Answer、提取 Action 并执行工具，直到模型返回 Final Answer。工具结果加入历史消息后再次发送给模型，模型就能据此推测下一步。"
+        }
+      ]
+    },
+    {
+      "heading": "Plan-and-Execute：先规划，再动态执行",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "ReAct 不是唯一的 Agent 构建模式。另一类常见思路是先规划再执行，视频将其中一个较有名的实现称为 Plan-and-Execute。它不是先生成一份永远不变的计划，而是会根据每一步结果动态修改计划。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            {
+              "term": "plan 模型",
+              "text": "根据用户问题生成执行步骤。"
+            },
+            {
+              "term": "replan 模型",
+              "text": "结合最新执行结果修改执行计划；它可以和 plan 模型是同一个模型，也可以分开。"
+            },
+            {
+              "term": "执行 Agent",
+              "text": "负责完成计划中的每一步，内部可以采用 ReAct，也可以使用其他运行模式。"
+            },
+            {
+              "term": "主程序",
+              "text": "串联用户、模型和执行 Agent，控制整个流程。"
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "text": "视频用“今年澳网男子冠军的家乡”举例：plan 模型可以先安排查询当前日期，再查询对应年份的男子冠军姓名，最后根据姓名查询冠军家乡。执行 Agent 完成第一步后，主程序把用户问题、原计划和执行记录交给 replan 模型；如果已经知道是 2025 年，下一份计划就会把“查询对应日期的冠军”改成更精确的“查询 2025 年的冠军”。"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "两种返回结果",
+          "text": "replan 模型并不总是返回新计划：如果还有步骤，就返回新的执行计划；如果所有步骤已完成、问题可以回答，就直接返回最终答案。"
+        }
+      ]
+    },
+    {
+      "heading": "两种模式的对照与选择",
+      "blocks": [
+        {
+          "type": "compare",
+          "columns": [
+            "ReAct",
+            "Plan-and-Execute"
+          ],
+          "rows": [
+            [
+              "模型反复进行 Thought、Action、Observation，直到 Final Answer",
+              "先由 plan 模型生成步骤，再逐步执行并由 replan 模型调整"
+            ],
+            [
+              "主循环围绕每次工具调用展开",
+              "主循环每轮包含执行环节和 replan 环节"
+            ],
+            [
+              "适合直接根据当前观察决定下一步",
+              "适合需要多个步骤、且后续计划会受中间结果影响的任务"
+            ],
+            [
+              "工具由 Agent 主程序根据 Action 请求执行",
+              "执行 Agent 内部可以使用 ReAct，也可以采用其他运行模式"
+            ]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "视频最后强调，ReAct 是目前最常见、使用最广泛的 Agent 构建模式，但不是唯一方案。Plan-and-Execute 通过计划和动态重规划增加灵活性，具体实现可以因 Agent 而异。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "普通大模型和 Agent 的关键区别是什么？",
+      "a": "普通大模型无法主动感知或改变外部环境；Agent 把大模型与读写文件、运行命令等工具组合起来，使程序能够查询、修改并操作外部环境。"
+    },
+    {
+      "q": "ReAct 的四个核心步骤分别是什么？",
+      "a": "Thought（思考）、Action（请求调用工具）、Observation（观察工具结果）和 Final Answer（输出最终答案）。"
+    },
+    {
+      "q": "为什么说大模型本身不能调用工具？",
+      "a": "大模型只能返回调用工具的请求，真正执行工具背后函数的是 Agent 的工具调用组件；执行结果再由主程序放回消息历史交给模型。"
+    },
+    {
+      "q": "Plan-and-Execute 如何根据中间结果调整计划？",
+      "a": "执行 Agent 完成当前步骤后，主程序把用户问题、执行计划和历史执行记录交给 replan 模型，由它删除已完成步骤、补入已知信息后的更精确步骤，或在任务完成时直接返回最终答案。"
+    }
+  ]
+}

@@ -1,0 +1,211 @@
+{
+  "slug": "bv1webz6se1z-vibecoding-maintainability",
+  "title": "为什么 vibecoding 的项目很难维护：从 4000 行 HTML 到前端工程化",
+  "summary": "一个纯 vibecoding 做出来的 100% HTML 个人网站，代码堆成 4000 行改不动。这期对谈从网页三件套讲起，补齐前端框架、npm、Vite、TypeScript 的基本概念，最后落到一套可以直接抄的 vibecoding 工作流：让 AI 用框架写、拆模块、能长期维护。",
+  "date": "2026-11-05",
+  "minutes": 30,
+  "tags": [
+    "vibecoding",
+    "前端工程化",
+    "React",
+    "npm",
+    "Vite"
+  ],
+  "source": {
+    "platform": "bilibili",
+    "author": "Esther不二",
+    "videoId": "BV1webz6sE1Z",
+    "url": "https://www.bilibili.com/video/BV1webz6sE1Z"
+  },
+  "keyTerms": [
+    {
+      "term": "模块化",
+      "text": "把大文件拆成小模块，防止改一处坏全局"
+    },
+    {
+      "term": "组件",
+      "text": "页面一部分的结构、逻辑与样式的封装，可复用"
+    },
+    {
+      "term": "npm",
+      "text": "包管理平台，npm install 拉取依赖到 node_modules"
+    },
+    {
+      "term": "Vite",
+      "text": "前端构建工具，把拆开的模块打包成浏览器能跑的页面"
+    },
+    {
+      "term": "TypeScript",
+      "text": "带类型声明的 JavaScript，更严格更安全"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "现场诊断：一个 100% HTML 的个人网站",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "开场被诊断的项目全是 HTML 堆出来的：一个入口页就近 4000 行，结构、样式、逻辑混在一处，每个新页面还要和其他页面联动，越维护越头疼。博主自己有体感：改完一处，别处的功能突然就坏了。"
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "title": "vibecoding 的典型症状",
+          "text": "AI 一次性交付一个大而全的单文件，第一版很惊艳，之后每次改动都可能牵一发而动全身。大多数人 vibecoding 出的作品维护不了，基本就是这个原因。"
+        },
+        {
+          "type": "p",
+          "text": "小项目直接用 HTML 问题不大；但大项目一定要有意识：告诉 AI 用你熟悉的那套工具和技术栈来写，别让它默认给你堆一个巨型 HTML。"
+        }
+      ]
+    },
+    {
+      "heading": "网页三件套与前端框架解决什么问题",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "任何网页最终都由三样东西组成：HTML 是页面骨架，CSS 描述每个结构长什么样，JS 负责点击之类的逻辑。右键检查打开开发者工具就能看到这三层。所谓 100% HTML 的项目，其实内部也嵌着样式和逻辑。"
+        },
+        {
+          "type": "compare",
+          "columns": [
+            "古法单文件",
+            "框架工程化"
+          ],
+          "rows": [
+            [
+              "结构、样式、逻辑堆在一处",
+              "拆成组件，各自管自己的事"
+            ],
+            [
+              "几千行，改一处怕坏全局",
+              "模块化隔离，改动影响面小"
+            ],
+            [
+              "复用靠复制粘贴",
+              "组件 import 一次即可复用"
+            ],
+            [
+              "目录无约定，靠自觉",
+              "框架定好目录结构与构建方案"
+            ]
+          ]
+        },
+        {
+          "type": "quote",
+          "text": "前端框架就像一套开奶茶店的现成规则：菜单、购物车、付款各是一小块，点单后购物车数量自动更新。",
+          "context": "用奶茶店类比 React/Vue 的组件化"
+        },
+        {
+          "type": "p",
+          "text": "React 和 Vue 是两大经典前端框架，最终渲染出来的都是同样的 HTML/CSS/JS，选哪个都行。Vue 更适合新手入门，React 上手有难度但生态成熟；在 AI 辅助写码的今天，两者的体感差距已经不大。"
+        }
+      ]
+    },
+    {
+      "heading": "npm、Vite 与 TypeScript：把模块串起来",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "框架只解决了模块怎么拆，拆出来的模块怎么变成浏览器能跑的页面，靠的是构建工具链。这几个名字后面会反复遇到，先混个脸熟。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            {
+              "term": "npm",
+              "text": "给做网页的人用的应用商店：npm install xxx 把现成的包下载进项目"
+            },
+            {
+              "term": "Vite",
+              "text": "构建工具：把拆散的模块打包编译回 HTML/CSS/JS 并起本地服务"
+            },
+            {
+              "term": "TypeScript",
+              "text": "给变量声明类型的 JavaScript，限制更严格、更安全，AI 也更好维护"
+            },
+            {
+              "term": "ESLint",
+              "text": "代码风格与错误写法检查器：分号、引号、危险写法都会被拦下"
+            }
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "npm create vite 新建项目，输入项目名",
+            "选框架模板：vanilla 原生、React 或 Vue",
+            "选 TypeScript 变体，配置 lint 等选项",
+            "安装依赖后 npm run dev，浏览器打开 localhost:5173 就能看到页面"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "note",
+          "title": "依赖与 node_modules",
+          "text": "依赖记录在 package.json 的 dependencies 里，安装后落在 node_modules 文件夹。这个文件夹体积很大，不要提交到 git。npm 和 git 也不冲突：共享代码走 npm 发包，源码仓库才走 git。"
+        }
+      ]
+    },
+    {
+      "heading": "拆开目录看渲染链路",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "业务代码都在 src 目录下：main.tsx 是入口，App.tsx 是页面主组件，index.css 与 App.css 分别是入口样式和组件样式。index.html 是最终打包成品的外壳，里面只有一个空的 div#root。"
+        },
+        {
+          "type": "mermaid",
+          "code": "flowchart LR\n  I[index.html] --> R[div#root]\n  M[main.tsx 入口] --> R\n  A[App 组件] --> M\n  C[子组件] --> A"
+        },
+        {
+          "type": "p",
+          "text": "链路是这样的：index.html 引入 main.tsx；main.tsx 用 document.getElementById('root') 找到那个容器，把 App 组件渲染进去；App 里再 import 子组件层层嵌套。写新组件就是新建文件、import、放到页面里三步，上手远比想象简单。"
+        },
+        {
+          "type": "p",
+          "text": "组件内部同样是熟悉的三件套：tsx 里写结构和逻辑（onClick、setCount 这些 React 语法），样式拆在对应的 css 文件里。它和古法页面是同一套东西，只是被拆小了、装进了模块。"
+        }
+      ]
+    },
+    {
+      "heading": "给 vibecoding 的工作流建议",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "开场给 AI 定角色：你是经验丰富的前端工程师，要写一个可以长期维护的项目",
+            "明确指定技术栈：用 React 或 Vue 框架来写，而不是默认输出单文件 HTML",
+            "装上 react-practice 之类的最佳实践 skill，并要求 AI 每次写代码前先读一遍",
+            "已有烂项目不要继续堆，尽快让 AI 重构成工程化结构",
+            "目录与文件名用英文，中文命名会给 AI 维护代码添乱"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "title": "重构还是继续堆",
+          "text": "对已经 4000 行的 HTML 项目，视频给出的结论很明确：不要相信 AI 能在史山上继续叠，正确动作是趁着还来得及，赶紧用框架重构。"
+        },
+        {
+          "type": "p",
+          "text": "框架还有个隐性好处：它规定好了每个文件夹放什么，AI 拉起仓库后写出的目录结构天然一致。视频里另一个用框架写的项目，package.json、src、main.tsx 一应俱全，维护状态明显好得多——这就是借鉴前人智慧的价值。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "网页由哪三部分组成？各自负责什么？",
+      "a": "HTML 是页面骨架（结构），CSS 是样式（描述长什么样），JS 是逻辑（处理点击等交互）。任何网页最终渲染出来都是这三样。"
+    },
+    {
+      "q": "React/Vue、npm、Vite 各解决什么问题？",
+      "a": "框架把页面拆成可复用的组件模块；npm 负责下载和管理依赖包到 node_modules；Vite 负责把拆散的模块构建打包成浏览器能直接运行的 HTML/CSS/JS。"
+    },
+    {
+      "q": "index.html、main.tsx、App 组件三者是什么关系？",
+      "a": "index.html 是打包成品的外壳，含一个空的 div#root；main.tsx 是入口，找到 root 容器；它把 App 组件渲染进这个容器，App 内再嵌套子组件。"
+    }
+  ]
+}
