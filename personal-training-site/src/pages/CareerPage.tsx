@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, ImageUp, ListPlus, Sparkles, Trash2, X } from 'lucide-react'
 import { MarkdownContent } from '../components/MarkdownContent'
@@ -9,17 +9,9 @@ import { openSiteSettings } from '../utils/settings'
 import { lessons } from '../data/lessons'
 import { platformLabels } from '../data/lessons/types'
 import { algorithmMeta } from '../data/algorithmMeta'
+import { CareerChrome } from '../components/CareerChrome'
+import { CAREER_SECTION_IDS, type CareerModuleId, type CareerSectionId } from '../components/careerModules'
 import { FeynmanSection } from './FeynmanPage'
-
-const SECTION_IDS = ['interview-bank', 'video-lessons', 'feynman', 'work-notes'] as const
-type CareerSectionId = (typeof SECTION_IDS)[number]
-
-const MODULES: { id: CareerSectionId; name: string; desc: string }[] = [
-  { id: 'interview-bank', name: '问津', desc: '面经题库' },
-  { id: 'video-lessons', name: '观澜', desc: '视频与文章讲义' },
-  { id: 'feynman', name: '解惑', desc: '费曼技巧' },
-  { id: 'work-notes', name: '省身', desc: '工作复盘' },
-]
 
 // 识别 / 粘贴的文字按行拆成分点，逐点确认后再入题库
 type RecognizedPoint = { id: string; text: string; include: boolean }
@@ -65,34 +57,40 @@ export function CareerPage() {
   const [category, setCategory] = useState('全部')
   const [query, setQuery] = useState('')
   const [sort, setSort] = useState<'hot' | 'new'>('hot')
+  // 观澜讲义：检索 / 标签筛选 / 排序（lessons 本身按加工日期倒序，最早 = 反转）
+  const [lessonQuery, setLessonQuery] = useState('')
+  const [lessonTag, setLessonTag] = useState<string | null>(null)
+  const [lessonSort, setLessonSort] = useState<'new' | 'old'>('new')
   const controller = useRef<AbortController | null>(null)
   const [activeSection, setActiveSection] = useState<CareerSectionId>('interview-bank')
+  // 封面只在无深链时首次显示；一旦进入某个区块（#hash 深链、rail/封面卡片切换），直达内容不再回落到封面
+  const [coverVisible, setCoverVisible] = useState(() => !(CAREER_SECTION_IDS as readonly string[]).includes(window.location.hash.slice(1)))
 
   // 模块改为点击进入：支持 #hash 深链（封面导语、外部分享）
   useEffect(() => {
     const apply = () => {
       const id = window.location.hash.slice(1)
-      if ((SECTION_IDS as readonly string[]).includes(id)) setActiveSection(id as CareerSectionId)
+      if ((CAREER_SECTION_IDS as readonly string[]).includes(id)) {
+        setActiveSection(id as CareerSectionId)
+        setCoverVisible(false)
+      }
     }
     apply()
     window.addEventListener('hashchange', apply)
     return () => window.removeEventListener('hashchange', apply)
   }, [])
 
-  // 模块条吸顶偏移跟随站头实际高度（桌面/移动端不同）
-  useEffect(() => {
-    const header = document.querySelector('.workbench-header, .site-header, header')
-    if (!header) return
-    const apply = () => document.documentElement.style.setProperty('--header-h', `${header.getBoundingClientRect().height}px`)
-    apply()
-    window.addEventListener('resize', apply)
-    return () => window.removeEventListener('resize', apply)
-  }, [])
-
   const openSection = (id: CareerSectionId) => {
     setActiveSection(id)
+    setCoverVisible(false)
     window.history.replaceState(null, '', `#${id}`)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // 左侧竖栏里给有内容的模块带上实时计数，一眼看到题库/讲义规模
+  const railDesc: Partial<Record<CareerModuleId, string>> = {
+    'interview-bank': questions.length ? `面经题库 · ${questions.length} 题` : undefined,
+    'video-lessons': lessons.length ? `讲义库 · ${lessons.length} 篇` : undefined,
   }
 
   const recognizeImages = async (files: FileList | null) => {
@@ -201,31 +199,41 @@ export function CareerPage() {
 
   const visibleQuestions = rankInterviewQuestions(questions, query, sort).filter((question) => category === '全部' || (question.category || inferQuestionCategory(question.text)) === category)
 
+  // 观澜：出现频次最高的标签作为筛选候选；检索覆盖标题、摘要、作者与标签
+  const lessonTags = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const lesson of lessons) for (const tag of lesson.tags) counts.set(tag, (counts.get(tag) || 0) + 1)
+    return [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([tag]) => tag)
+  }, [])
+  const visibleLessons = useMemo(() => {
+    const keyword = lessonQuery.trim().toLowerCase()
+    const matched = lessons.filter((lesson) => {
+      if (lessonTag && !lesson.tags.includes(lessonTag)) return false
+      if (!keyword) return true
+      return [lesson.title, lesson.summary, lesson.source.author, ...lesson.tags].join(' ').toLowerCase().includes(keyword)
+    })
+    return lessonSort === 'new' ? matched : [...matched].reverse()
+  }, [lessonQuery, lessonTag, lessonSort])
+
   return (
     <>
-      <SectionCover
-        eyebrow="Career / 软件开发"
-        title="攻玉"
-        quote="「他山之石，可以攻玉。」——《诗经·小雅·鹤鸣》"
-        intro="别人的面经、讲义和复盘，都是打磨自己的石头。把算法练习、真实面经、视频讲义、费曼练习和工作复盘放在一起，逐块琢磨；题目与已生成答案保存在当前浏览器。"
-        stats={[
-          { value: `${algorithmMeta.solved}/${algorithmMeta.total}`, label: '算法题已完成 · 含拓展' },
-          { value: questions.length, label: '道面经问题已整理' },
-          { value: lessons.length, label: '篇观澜讲义' },
-        ]}
-        cueHref="#interview-bank"
-      />
-      <div className="career-page content-band after-cover career-with-rail">
-    <nav className="career-rail" aria-label="攻玉模块导航">
-      <Link to="/algorithm" onClick={() => window.scrollTo({ top: 0 })}><b>运筹</b><small>算法练习 · 间隔复习</small></Link>
-      {MODULES.map((module) => <button type="button" className={activeSection === module.id ? 'active' : ''} key={module.id} onClick={() => openSection(module.id)}><b>{module.name}</b><small>{module.desc}</small></button>)}
-    </nav>
-    <div className="career-main">
-
-    <nav className="career-modules" aria-label="攻玉模块">
-      <Link className="career-module" to="/algorithm"><b>运筹</b><small>算法练习 · 间隔复习</small><ArrowUpRight size={16} aria-hidden="true" /></Link>
-      {MODULES.map((module) => <button type="button" className={activeSection === module.id ? 'career-module active' : 'career-module'} key={module.id} onClick={() => openSection(module.id)}><b>{module.name}</b><small>{module.desc}</small></button>)}
-    </nav>
+      {coverVisible ? (
+        <SectionCover
+          eyebrow="Career / 软件开发"
+          title="攻玉"
+          quote="「他山之石，可以攻玉。」——《诗经·小雅·鹤鸣》"
+          intro="别人的面经、讲义和复盘，都是打磨自己的石头。选一个模块开始琢磨：算法、面经、讲义、费曼与复盘放在一起，逐块过。"
+        >
+          <div className="career-launcher" aria-label="攻玉模块入口">
+            <Link className="career-launcher-card" to="/algorithm"><b>运筹</b><small>算法练习 · 间隔复习</small><span>{algorithmMeta.solved}/{algorithmMeta.total} 题</span></Link>
+            <button type="button" className="career-launcher-card" onClick={() => openSection('interview-bank')}><b>问津</b><small>面经题库</small><span>{questions.length ? `${questions.length} 题` : '从一篇面经开始'}</span></button>
+            <button type="button" className="career-launcher-card" onClick={() => openSection('video-lessons')}><b>观澜</b><small>视频与文章讲义</small><span>{lessons.length} 篇</span></button>
+            <button type="button" className="career-launcher-card" onClick={() => openSection('feynman')}><b>解惑</b><small>费曼技巧</small><span>讲一个知识点</span></button>
+            <button type="button" className="career-launcher-card" onClick={() => openSection('work-notes')}><b>省身</b><small>工作复盘</small><span>吾日三省</span></button>
+          </div>
+        </SectionCover>
+      ) : null}
+      <CareerChrome active={activeSection} onSectionChange={openSection} railDesc={railDesc}>
 
     {activeSection === 'interview-bank' ? <section className="career-section" id="interview-bank" aria-labelledby="interview-title">
       <div className="career-section-heading"><div><p className="eyebrow">面经题库 · 求职问路</p><h2 id="interview-title">问津</h2></div><p>上传面经截图或粘贴文字，按行分点确认后加入题库。保留来源链接以便回看；题目仅存此浏览器。</p></div>
@@ -272,26 +280,37 @@ export function CareerPage() {
     </section> : null}
     {activeSection === 'video-lessons' ? <section className="career-section career-video-lessons" id="video-lessons" aria-labelledby="lessons-title">
       <div className="career-section-heading"><div><p className="eyebrow">视频与文章讲义</p><h2 id="lessons-title">观澜</h2><p className="career-quote">「观水有术，必观其澜。」——《孟子·尽心上》</p></div><p>看视频如观水，贵在取其波澜。把 B站/抖音 的技术视频与公众号的技术文章，经本地 Agent 深加工成图文讲义：核心结论、术语卡片、流程图、对比表与自测。每一篇都标注出处，可回溯原文。</p></div>
+      <div className="career-search-row lesson-search-row">
+        <label>检索讲义<input type="search" value={lessonQuery} onChange={(event) => setLessonQuery(event.target.value)} placeholder="标题、摘要、标签或作者" /></label>
+        <label>排序<select value={lessonSort} onChange={(event) => setLessonSort(event.target.value as 'new' | 'old')} aria-label="讲义排序"><option value="new">最新加工</option><option value="old">最早加工</option></select></label>
+      </div>
+      <div className="career-filters" aria-label="按标签筛选讲义">
+        <button type="button" className={lessonTag === null ? 'active' : ''} onClick={() => setLessonTag(null)}>全部</button>
+        {lessonTags.map((tag) => <button type="button" className={lessonTag === tag ? 'active' : ''} key={tag} onClick={() => setLessonTag(lessonTag === tag ? null : tag)}>#{tag}</button>)}
+      </div>
       <div className="lesson-list">
-        {lessons.map((lesson) => (
-          <Link className="lesson-card" to={`/career/lessons/${lesson.slug}`} key={lesson.slug}>
-            <div className="lesson-card-top"><span>{platformLabels[lesson.source.platform]} · {lesson.source.author}</span><span>{lesson.date} · 约 {lesson.minutes} 分钟</span></div>
+        {visibleLessons.map((lesson, index) => (
+          <Link className="lesson-card" style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }} to={`/career/lessons/${lesson.slug}`} key={lesson.slug}>
+            <div className="lesson-card-top"><span className="lesson-card-platform">{platformLabels[lesson.source.platform]}</span><span>{lesson.source.author} · {lesson.date} · 约 {lesson.minutes} 分钟</span></div>
             <h3>{lesson.title}</h3>
             <p>{lesson.summary}</p>
+            <div className="lesson-card-meta">{lesson.sections.length} 个章节 · {lesson.quiz.length} 道自测{lesson.keyTerms.length ? ` · ${lesson.keyTerms.length} 个术语` : ''}</div>
             <div className="lesson-card-tags">{lesson.tags.slice(0, 4).map((tag) => <span key={tag}>#{tag}</span>)}</div>
             <span className="lesson-card-more">进入课程 <ArrowUpRight size={15} aria-hidden="true" /></span>
           </Link>
         ))}
-        {!lessons.length ? <p className="career-empty">还没有讲义。video2kb 转录深加工后会自动出现在这里。</p> : null}
+        {!visibleLessons.length ? <p className="career-empty">{lessons.length ? '没有匹配的讲义，试试其他关键词或标签。' : '还没有讲义。video2kb 转录深加工后会自动出现在这里。'}</p> : null}
       </div>
     </section> : null}
     {activeSection === 'feynman' ? <section className="career-section" id="feynman" aria-labelledby="feynman-title">
       <div className="career-section-heading"><div><p className="eyebrow">费曼技巧</p><h2 id="feynman-title">解惑</h2><p className="career-quote">「师者，所以传道受业解惑也。」——唐·韩愈《师说》</p></div><p>把自己讲明白，才算真的解惑：从资料库随机抽一个知识点，先用自己的话讲清楚，再由大模型流式给出结构化建议——评估时会自动检索站内其他板块（博客、算法题解、观澜讲义）的相关内容作参照。</p></div>
       <FeynmanSection />
     </section> : null}
-    {activeSection === 'work-notes' ? <section className="career-section career-work-notes" id="work-notes"><div><p className="eyebrow">工作复盘 · 吾日三省</p><h2>省身</h2><p className="career-quote">「吾日三省吾身。」——《论语·学而》</p></div><p>未来的工作内容可以按「背景 → 我的决策 → 结果 → 下次会怎么做」记录。先从已有的项目实践开始，不虚构任职经历。</p><Link to="/projects">查看现有项目 <ArrowUpRight size={16} aria-hidden="true" /></Link></section> : null}
-      </div>
-      </div>
+    {activeSection === 'work-notes' ? <section className="career-section career-work-notes" id="work-notes" aria-labelledby="work-notes-title">
+      <div className="career-section-heading"><div><p className="eyebrow">工作复盘 · 吾日三省</p><h2 id="work-notes-title">省身</h2><p className="career-quote">「吾日三省吾身。」——《论语·学而》</p></div><p>未来的工作内容可以按「背景 → 我的决策 → 结果 → 下次会怎么做」记录。先从已有的项目实践开始，不虚构任职经历。</p></div>
+      <Link to="/projects">查看现有项目 <ArrowUpRight size={16} aria-hidden="true" /></Link>
+    </section> : null}
+      </CareerChrome>
     </>
   )
 }

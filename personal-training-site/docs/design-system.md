@@ -20,3 +20,18 @@
 - 手机菜单可打开与关闭；设置弹窗可打开与关闭；临时视口覆盖已恢复。
 - 修改限于视觉变量、公共样式与其入口、算法样式引用，不更改业务数据与浏览器存储格式。
 - 本轮为本地交付，未推送或触发线上部署。
+
+## 导航命名约定（2026-11-05）
+
+- 栏目名沿用文言（`navItems[].label`）：首页 / 日知 / 磨剑 / 攻玉 / 货殖 / 营造 / 岁晏。它同时是浏览器标题（`App.tsx` 的 `document.title`）和各页封面主标题，并配套古语引文、面包屑与测试断言，不要整体替换成白话。
+- `navItems[].hint` 是导航专用的白话注解：桌面顶栏作为 `title`、折叠菜单作为右侧注解。改注解只改这一处，不要在别处硬编码。
+- 手机底部 Tab 是功能入口，用白话短词（首页 / 训练 / 行情 / 问我的站 / 更多），并用 `title`、`aria-label` 带回文言原名，保证「训练 = 磨剑」可追溯。
+- 选中态语言两端统一：桌面顶栏底边 2px、手机 Tab 顶边 2px 薄荷绿指示线 + 淡绿底；浅色主题在 `theme-light.css` 以深绿覆盖。「更多」展开用独立淡底，不与当前页高亮混用。
+
+## 攻玉视觉约定（2026-11-05）
+
+- 字体：模块名（rail）、板块标题、正文统一 `--font-sans`；只保留古语引文（`.career-quote` / `.classical-quote`）用 `--font-display` 衬线作点缀。不再使用本机书法字体栈（`STXingkai` / 华文行楷 / 楷体等），避免跨机器随机回退。
+- 颜色：攻玉全部走共享变量（`--surface` / `--surface-strong` / `--control-bg` / `--border` / `--accent` / `--accent-soft` / `--text-strong` / `--muted`），深浅主题由 `index.css` 的变量自动适配；`theme-light.css` 只保留代码块底色一条特例。
+- 卡片分三层表面：导入面板 `--surface` 最实；答案与导入历史 `--surface-strong`；分点与输入框 `--control-bg`；题目卡片默认透明、hover 才浮起 `--surface`。避免整屏同重的描边框。
+- 四个板块统一 `.career-section-heading`（eyebrow + h2 + 引文 / 右侧说明），`aria-labelledby` 指向 h2；「省身」已补齐。
+- 左侧 rail 五个模块自然成组（`gap: 2px`），不再用 `100dvh + space-evenly` 铺满整屏；窄屏吸顶横条背景由 `var(--page)` 混色，深浅主题通用。

@@ -11,6 +11,7 @@ import { algorithmMeta } from '../data/algorithmMeta'
 import { countDueReviews, loadReviewStore } from '../utils/reviewStore'
 import { PracticeDashboard } from '../practice/PracticeDashboard'
 import { hot100Solved } from '../practice/catalog'
+import { CareerChrome } from '../components/CareerChrome'
 
 const difficultyClass = (difficulty: string) => {
   if (difficulty === '简单') return 'easy'
@@ -84,7 +85,8 @@ type ProgressStyle = CSSProperties & { '--progress': string }
 
 export function AlgorithmPage() {
   return (
-    <section className="content-band page-band algorithm-section" id="algorithm">
+    <CareerChrome active="algorithm">
+      <section className="algorithm-section" id="algorithm">
       <PracticeDashboard />
       <details className="practice-legacy"><summary>题解资料库 · 本地历史进度与分类</summary>
       <div className="algorithm-workbench">
@@ -331,6 +333,7 @@ export function AlgorithmPage() {
         ))}
       </div>
       </details>
-    </section>
+      </section>
+    </CareerChrome>
   )
 }

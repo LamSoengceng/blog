@@ -35,14 +35,15 @@ const TrainingPage = lazy(() => import('./pages/TrainingPage').then((module) => 
 const XunjiLogPage = lazy(() => import('./pages/XunjiLogPage').then((module) => ({ default: module.XunjiLogPage })))
 const WrappedPage = lazy(() => import('./pages/WrappedPage').then((module) => ({ default: module.WrappedPage })))
 
+// label 是栏目名，同时用于浏览器标题与各页封面，不轻易改动；hint 是给导航用的白话注解。
 const navItems = [
-  { label: '首页', en: 'Home', to: '/' },
-  { label: '日知', en: 'Blog', to: '/blog' },
-  { label: '磨剑', en: 'Training', to: '/training' },
-  { label: '攻玉', en: 'Career', to: '/career' },
-  { label: '货殖', en: 'Stock', to: '/stock' },
-  { label: '营造', en: 'Projects', to: '/projects' },
-  { label: '岁晏', en: 'Wrapped', to: '/wrapped' },
+  { label: '首页', hint: '工作台首页', to: '/' },
+  { label: '日知', hint: '博客 · 文章', to: '/blog' },
+  { label: '磨剑', hint: '训练 · 日记', to: '/training' },
+  { label: '攻玉', hint: '求职 · 课程', to: '/career' },
+  { label: '货殖', hint: '行情 · 股票', to: '/stock' },
+  { label: '营造', hint: '项目 · 作品', to: '/projects' },
+  { label: '岁晏', hint: '年度 · 回顾', to: '/wrapped' },
 ]
 
 // 滚动位置按 pathname 存 sessionStorage，返回手势（POP）时恢复，前进导航仍回顶部。
@@ -228,6 +229,7 @@ function App() {
               end={item.to === '/'}
               key={item.label}
               to={item.to}
+              title={item.hint}
             >
               {item.label}
             </NavLink>
@@ -274,11 +276,11 @@ function App() {
           <div className="workbench-menu-panel" id="mobile-navigation" ref={menuRef} role="dialog" aria-modal="true" aria-label="网站导航" tabIndex={-1} onClick={(event) => event.stopPropagation()}>
             <div className="workbench-menu-heading"><span>Navigate · 去哪里看看</span><button className="workbench-icon-button" type="button" aria-label="关闭导航" onClick={closeMenu}><X size={22} /></button></div>
             <nav aria-label="折叠导航">
-              {[...navItems, { label: '问我的站', en: 'Ask my site', to: '/ask' }].map((item, index) => (
+              {[...navItems, { label: '问我的站', hint: '站内问答', to: '/ask' }].map((item, index) => (
                 <NavLink className="workbench-menu-link" aria-label={item.label} end={item.to === '/'} key={item.to} to={item.to}>
                   <span className="workbench-menu-index">{String(index + 1).padStart(2, '0')}</span>
                   <span className="workbench-menu-label">{item.label}</span>
-                  <span className="workbench-menu-en" aria-hidden="true">{item.en}</span>
+                  <span className="workbench-menu-hint">{item.hint}</span>
                 </NavLink>
               ))}
             </nav>
@@ -325,13 +327,13 @@ function App() {
       </footer>
       <nav className="mobile-tab-bar" aria-label="底部导航">
         {[
-          { label: '首页', to: '/', icon: Home },
-          { label: '磨剑', to: '/training', icon: Dumbbell },
-          { label: '货殖', to: '/stock', icon: TrendingUp },
-          { label: '问我的站', to: '/ask', icon: Search },
-        ].map(({ label, to, icon: Icon }) => (
-          <NavLink className="mobile-tab-link" end={to === '/'} key={label} to={to}>
-            <Icon size={20} aria-hidden="true" />
+          { label: '首页', to: '/', icon: Home, title: '首页' },
+          { label: '训练', to: '/training', icon: Dumbbell, title: '磨剑 · 训练与日记' },
+          { label: '行情', to: '/stock', icon: TrendingUp, title: '货殖 · 股票行情' },
+          { label: '问我的站', to: '/ask', icon: Search, title: '问我的站 · 站内问答' },
+        ].map(({ label, to, icon: Icon, title }) => (
+          <NavLink className="mobile-tab-link" end={to === '/'} key={label} to={to} title={title} aria-label={title}>
+            <Icon size={20} strokeWidth={1.75} aria-hidden="true" />
             <span>{label}</span>
           </NavLink>
         ))}
@@ -342,7 +344,7 @@ function App() {
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(true)}
         >
-          <MoreHorizontal size={20} aria-hidden="true" />
+          <MoreHorizontal size={20} strokeWidth={1.75} aria-hidden="true" />
           <span>更多</span>
         </button>
       </nav>

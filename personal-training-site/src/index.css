@@ -1,6 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@1,400;1,500;1,600&display=swap');
-* { font-family: var(--font-sans); }
-.font-playfair { font-family: 'Playfair Display', serif; }
+.font-playfair { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
 
 @tailwind base;
 @tailwind components;
@@ -49,11 +47,10 @@
   --shadow-card: 0 4px 18px #00000013;
   --content-width: 1280px;
   --font-sans:
-    "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", SimSun, Georgia,
-    "Times New Roman", serif;
+    "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "HarmonyOS Sans SC",
+    "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display:
-    "Playfair Display", "Noto Serif SC", "Noto Sans SC", "HarmonyOS Sans SC", MiSans,
-    "Songti SC", SimSun, serif;
+    "Playfair Display", Georgia, "Noto Serif SC", "Songti SC", SimSun, serif;
   --font-mono:
     "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, Menlo, Monaco,
     monospace;
@@ -61,7 +58,7 @@
     var(--font-sans);
   color: #ddebe2;
   background: #050806;
-  font-synthesis: none;
+  font-synthesis: weight;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -117,6 +114,7 @@ body {
   min-width: 320px;
   margin: 0;
   overflow-x: hidden;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   letter-spacing: 0;
@@ -136,4 +134,11 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-mono);
 }

@@ -1,14 +1,14 @@
 /* Shared visual language. Layout, data colours and interaction logic remain page-owned. */
 .site-shell{background:var(--page);color:var(--text)}
 .site-shell :is(h1,h2,h3,h4){color:var(--text-strong);letter-spacing:-.03em}
-.site-shell :is(h2,h3,h4){font-weight:600}
+.site-shell :is(h2,h3,h4){font-weight:700}
 .site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:clamp(30px,3.5vw,44px);line-height:1.25;font-weight:650;letter-spacing:-.045em;margin:8px 0 18px}
 .site-shell :is(.content-band,.detail-page,.algorithm-detail-page,.blog-detail-page,.market-page){max-width:var(--content-width);margin-inline:auto;padding-inline:40px}
 .site-shell .page-band{padding-top:112px;padding-bottom:56px}
 .site-shell :is(.section-heading,.blog-hero,.market-hero){margin-bottom:28px}
 .site-shell .section-heading h2{font-size:clamp(23px,2.5vw,30px);line-height:1.35}
 .site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size:14px;line-height:1.9;color:var(--muted);max-width:760px}
-.site-shell .eyebrow{color:var(--accent);font-size:10px;font-weight:650;letter-spacing:.15em;line-height:1.6}
+.site-shell .eyebrow{color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.15em;line-height:1.6}
 .site-shell :is(.hero-text,.hero-subtitle){color:var(--muted);font-size:14px;line-height:1.9}
 .site-shell :is(.back-link,.empty-note){color:var(--muted);font-size:13px}
 .site-shell .back-link{text-decoration:none}
@@ -30,7 +30,7 @@
 
 /* Primary, secondary and destructive actions keep their meaning on every page. */
 .site-shell :is(.primary-link,.secondary-link,.review-btn,.workspace-action-primary,.workspace-action-secondary,.career-import-actions button,.career-question-actions button,.career-history-heading button,.journal-composer-actions button,.settings-actions button){
-  border-radius:var(--radius-control);font-size:13px;font-weight:600;min-height:40px;box-shadow:none;transition:background .16s,border-color .16s;
+  border-radius:var(--radius-control);font-size:13px;font-weight:700;min-height:40px;box-shadow:none;transition:background .16s,border-color .16s;
 }
 .site-shell :is(.primary-link,.review-btn.primary,.workspace-action-primary,.career-import-actions button,.career-question-actions button:not(.career-delete),.settings-actions button[type=submit]){background:var(--accent);color:var(--text-on-accent);border:1px solid var(--accent)}
 .site-shell :is(.primary-link,.review-btn.primary,.workspace-action-primary,.career-import-actions button,.career-question-actions button:not(.career-delete)):hover:not(:disabled){background:#93eac5;border-color:#93eac5;transform:none}
@@ -46,7 +46,7 @@
 .site-shell :is(input,textarea)::placeholder{color:#7e9488}
 .site-shell :is(input[type=checkbox],input[type=radio],input[type=range]){accent-color:var(--accent)}
 .site-shell :is(input,textarea,select):focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
-.site-shell label{color:#b9cdc1}
+.site-shell label{color:var(--muted)}
 .site-shell fieldset{border-color:var(--border);border-radius:var(--radius-control)}
 .site-shell :is(.ai-note,.career-notice,.settings-saved){color:var(--accent-soft)}
 .site-shell :is(.ai-error,.settings-error){color:#edb99f}
@@ -147,7 +147,7 @@
 .site-shell .section-cover-intro { max-width: 620px; margin: 20px 0 0; color: var(--muted); font-size: 15px; line-height: 2; }
 .site-shell .section-cover-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(30px, 5vw, 64px); margin-top: 48px; }
 .site-shell .section-cover-stats > div { display: grid; gap: 8px; }
-.site-shell .section-cover-stats b { color: var(--text-strong); font-family: var(--font-display); font-size: clamp(26px, 3vw, 38px); font-weight: 700; font-variant-numeric: tabular-nums; }
+.site-shell .section-cover-stats b { color: var(--text-strong); font-size: clamp(26px, 3vw, 38px); font-weight: 700; font-variant-numeric: tabular-nums; }
 .site-shell .section-cover-stats span { color: var(--muted); font-size: 12px; letter-spacing: .1em; }
 .site-shell .section-cover-cue { display: inline-flex; align-items: center; gap: 10px; margin-top: 56px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .3em; text-decoration: none; }
 .site-shell .section-cover-cue:hover { color: var(--accent); }
