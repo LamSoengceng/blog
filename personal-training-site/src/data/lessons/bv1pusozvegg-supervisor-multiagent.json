@@ -1,0 +1,59 @@
+{
+  "slug": "bv1pusozvegg-supervisor-multiagent",
+  "title": "LangGraph 主管模式：一个主管节点调度四个专家智能体",
+  "summary": "主管（supervisor）架构把智能体定义为图节点：主管根据用户问题决定路由给优化/研究/编码/验证哪个专家，执行完控制流回到主管，用 Command 类实现节点间跳转。",
+  "date": "2026-11-05",
+  "minutes": 7,
+  "tags": ["LangGraph", "多智能体", "Agent", "面试"],
+  "source": {
+    "platform": "bilibili",
+    "author": "每天吃透一个大模型知识点",
+    "videoId": "BV1pUsozVEgG",
+    "url": "https://www.bilibili.com/video/BV1pUsozVEgG"
+  },
+  "keyTerms": [
+    { "term": "主管模式", "text": "多智能体架构：一个 supervisor 节点决定调用哪个专家智能体，执行后控制流返回主管。" },
+    { "term": "Command", "text": "LangGraph 的路由类：根据主管的决策把执行流程跳转到合适的智能体节点（goto）或结束。" },
+    { "term": "create_react_agent", "text": "LangGraph 预设的 ReAct 图工厂：传入模型、提示词、工具即可生成一个思考-行动-观察循环的智能体节点。" },
+    { "term": "Pydantic", "text": "结构化输出库：主管的决策（路由到哪个智能体）用它定义成可校验的数据结构。" },
+    { "term": "Tavily", "text": "联网搜索工具，供研究智能体检索外部信息。" }
+  ],
+  "sections": [
+    {
+      "heading": "架构总览：主管加四个专家",
+      "blocks": [
+        { "type": "p", "text": "把每个智能体定义成图中的一个节点，再添加一个决定调用哪个节点的主管节点，用 Command 类根据主管决策把执行流程路由到合适的智能体。这就是 LangGraph 的 supervisor 多智能体系统。" },
+        { "type": "mermaid", "title": "主管模式执行流", "code": "flowchart TB\n  S[主管智能体] -->|问题不清晰| O[优化智能体]\n  O -->|提示词已优化| S\n  S -->|需要联网| R[研究智能体]\n  R -->|资料就绪| S\n  S -->|需要写代码| C[编码智能体]\n  C -->|执行结果| S\n  S -->|答案就绪| V[验证智能体]\n  V -->|检查相关性| E[结束]" }
+      ]
+    },
+    {
+      "heading": "一次完整执行的控制流",
+      "blocks": [
+        { "type": "steps", "items": [
+          "主管收到用户问题，觉得不够清晰 → 路由给优化智能体改善提示词",
+          "优化完成，控制流返回主管 → 判断是否需要联网搜索",
+          "需要则交给研究智能体（Tavily 搜索），完成后返回",
+          "需要写代码则交给编码智能体，实际执行代码并把结果返回",
+          "流程结束前，验证智能体检查最终答案与用户问题是否相关，通过才结束"
+        ] },
+        { "type": "callout", "tone": "key", "text": "每次专家执行完，控制权都回到主管——主管是唯一的状态枢纽，这正是它区别于「智能体自由对话」的多智能体模式的地方。" }
+      ]
+    },
+    {
+      "heading": "实现要点：预设图与结构化路由",
+      "blocks": [
+        { "type": "cards", "items": [
+          { "term": "导入", "text": "Pydantic（结构化输出）、HumanMessage、Tavily 搜索工具、StateGraph 与 Command。" },
+          { "term": "复用预设", "text": "不必从零写 ReAct 循环：create_react_agent 传入模型、提示词、工具，直接生成可嵌入大图的智能体节点。" },
+          { "term": "路由", "text": "主管用 Pydantic 结构化输出决策结果，再用 Command(goto=...) 跳转到对应节点或结束。" }
+        ] },
+        { "type": "callout", "tone": "note", "title": "面试怎么讲", "text": "被问「多智能体怎么协调」时：节点化 + 主管路由 + Command 控制流 + 预设 ReAct 图复用，是 LangGraph 官方推荐且可快速落地的答案。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "主管模式中控制流是怎么流转的？", "a": "主管根据决策用 Command 把控制权路由给对应专家节点；专家执行完毕控制流返回主管，由主管决定下一步，直到验证智能体确认答案与问题相关后结束。" },
+    { "q": "四个专家智能体各负责什么？", "a": "优化智能体改善提示词，研究智能体联网检索（Tavily），编码智能体编写并实际执行代码，验证智能体检查答案与用户问题的相关性。" },
+    { "q": "为什么可以直接复用 create_react_agent？", "a": "LangGraph 提供预设工厂：传入模型、提示词和工具即可生成完整的思考-行动-观察循环图结构，作为节点嵌入更大的多智能体图。" }
+  ]
+}
