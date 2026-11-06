@@ -1,0 +1,75 @@
+{
+  "slug": "bv1winh6degt-agent-backend-ddd",
+  "title": "Agent 就是个循环：从零设计可维护的 Agent 后端",
+  "summary": "Agent 后端用领域层（Session/Tool/Context 定义系统语言）、应用层（接口与编排）、适配层（翻译 OpenAI/Anthropic/Google 三协议）三层组织，依赖倒置让换模型、换存储、做测试都不动核心逻辑。",
+  "date": "2026-11-06",
+  "minutes": 8,
+  "tags": ["Agent", "后端架构", "DDD", "面试"],
+  "source": {
+    "platform": "bilibili",
+    "author": "BV1winH6DEgt UP 主",
+    "videoId": "BV1winH6DEgt",
+    "url": "https://www.bilibili.com/video/BV1winH6DEgt"
+  },
+  "keyTerms": [
+    { "term": "Agent 循环", "text": "组织上下文→调模型→有工具调用则审核→执行→结果回填→循环，直到无工具调用或达次数上限。" },
+    { "term": "领域层", "text": "定义系统自己的语言：Session、Tool、Context 等核心概念，决定系统的本质。" },
+    { "term": "应用层", "text": "编排领域概念：安排先做什么后做什么、何时继续循环何时结束；只定义接口。" },
+    { "term": "适配层", "text": "把外部世界（存储格式、模型协议）翻译成领域语言，实现应用层的接口。" },
+    { "term": "依赖倒置", "text": "应用层依赖 SessionStore/ModelClient 接口而非具体实现，换实现与测试注入假件都不改编排。" },
+    { "term": "tool call 审核", "text": "模型发出工具调用后，另起一次模型调用审核合理性，通过才执行，不通过返回拒绝。" }
+  ],
+  "sections": [
+    {
+      "heading": "先看流程：Agent 后端的八个步骤",
+      "blocks": [
+        { "type": "steps", "items": [
+          "开始新对话或恢复旧对话，接收前端发来的用户消息",
+          "把指令、可用工具、历史消息组织成上下文发给模型",
+          "收到回复后，若含工具调用，另起一次模型调用审核调用是否合理",
+          "审核通过则执行工具，结果连同上下文回传模型；不通过返回拒绝",
+          "重复直到响应中不再有工具调用，或循环次数达上限，结束并返回前端",
+          "过程中每条消息产生时都做持久化存储"
+        ] },
+        { "type": "callout", "tone": "warn", "title": "为什么不能一个步骤一个函数", "text": "不带设计地实现，换模型协议（OpenAI→Anthropic）要改多处；想测流程却得真调模型，又慢又花钱。分层是为了可维护、可测试。" }
+      ]
+    },
+    {
+      "heading": "三层分工：领域、应用、适配",
+      "blocks": [
+        { "type": "mermaid", "title": "依赖方向", "code": "flowchart TB\n  APP[应用层\\n接口+编排] --> DOM[领域层\\nSession/Tool/Context]\n  ADP[适配层\\nJSONL/三协议] --> APP\n  ADP --> DOM" },
+        { "type": "p", "text": "领域层定义系统自己的语言（什么是对话、工具、上下文），怎么定义决定系统的样子。应用层把概念编排成完整应用：先做什么后做什么、何时循环何时结束。适配层负责翻译：Session 对象存进 JSONL 要变一行行 JSON，调 OpenAI/Anthropic/Gemini 要翻译成各家参数格式——外部对概念的定义和我们不一样，流动必须经过翻译。" }
+      ]
+    },
+    {
+      "heading": "领域对象：Session、Tool、Context",
+      "blocks": [
+        { "type": "cards", "items": [
+          { "term": "Session", "text": "对话：ID + Messages 列表 + Append 方法。消息只有三种：user message（文本）、assistant message（文本+工具调用）、tool result（回填结果）。" },
+          { "term": "ToolCall / ToolResult", "text": "ToolCall 带 ID、工具名、参数；ToolResult 带 tool_call_id 说明是哪次调用的结果和 content。" },
+          { "term": "Tool", "text": "name + description + parameter 让模型理解和选参，execute 方法执行并返回结果；适配层实现具体工具（如 bash tool）。" },
+          { "term": "Context", "text": "指令 + 可用工具 + 历史消息 + 输出类型，可扩展记忆等字段；输出类型用泛型定义——回复用户是 assistant message，审核场景是审核结论。" }
+        ] }
+      ]
+    },
+    {
+      "heading": "接口与适配：换协议只动一层",
+      "blocks": [
+        { "type": "p", "text": "应用层定义 SessionStore（列出/存/取对话）和 ModelClient（generate：传入 context 与模型参数，返回输出类型指定的对象）两个接口；JSONL 实现、三协议实现都放在适配层。模型参数里「用哪个模型」和「思考多深」总是成对出现，用 ModelSetting 包装。" },
+        { "type": "compare", "columns": ["协议", "思考深度参数名"], "rows": [
+          ["本系统", "effort（六档）"],
+          ["OpenAI", "reasoning_effort"],
+          ["Anthropic", "output_config.effort"],
+          ["Gemini", "thinking_level"]
+        ] },
+        { "type": "callout", "tone": "key", "title": "适配层的价值", "text": "同一个人设参数，三家的请求格式完全不同——必须翻译。出现新协议时只需在适配层新加一个实现了 ModelClient 的类，应用层编排一行不改。测试同理：注入假 SessionStore/ModelClient 就能离线跑流程。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "Agent 主循环的终止条件有哪些？", "a": "模型响应中不再包含工具调用，或循环次数达到上限；每轮中工具调用要先经模型审核，未通过则返回拒绝结果。" },
+    { "q": "为什么 SessionStore 接口放在应用层而不是适配层？", "a": "它是应用层对存储的需求声明（依赖倒置）：编排只依赖接口，具体实现（JSONL/数据库）放适配层，换实现或测试注入假存储都不改编排逻辑。" },
+    { "q": "Context 的输出类型为什么用泛型？", "a": "同一套 Context 结构服务于不同任务：回复用户时期望 assistant message，审核工具调用时期望审核结论——输出类型参数化后一次定义多处复用。" },
+    { "q": "三家模型协议对「思考深度」的命名差异说明什么设计原则？", "a": "外部系统对同一概念的建模不同（effort/reasoning_effort/output_config.effort/thinking_level），差异必须隔离在适配层翻译，核心领域与应用层保持自己的统一语言。" }
+  ]
+}
