@@ -1,0 +1,81 @@
+{
+  "slug": "bv1hubz6wefu-agent-interview-review",
+  "title": "秋招 Agent 岗面试复盘：问题收敛到同一套能力上",
+  "summary": "几家公司业务完全不同，面试题却收敛一致：RAG 切片为什么这么切、向量库选型考 trade-off、Multi-Agent 的必要性判定、LangGraph 状态机细节、Kafka 堆积——Agent 岗比拼的是传统后端功底加边界判断。",
+  "date": "2026-11-07",
+  "minutes": 11,
+  "tags": ["面试", "Agent", "RAG", "秋招", "复盘"],
+  "source": {
+    "platform": "bilibili",
+    "author": "BV1hubZ6WEfU UP 主",
+    "videoId": "BV1hubZ6WEfU",
+    "url": "https://www.bilibili.com/video/BV1hubZ6WEfU"
+  },
+  "keyTerms": [
+    { "term": "structure-aware 切片", "text": "按文档结构（章节/故障码/标题）先切，section 过长再滑动窗口，避免每 500 token 一刀切碎语义。" },
+    { "term": "确定性不上模型", "text": "SQL 查询、脚本聚合、阈值判断是确定的，不该交给 LLM 自由发挥；LLM 只做归因与解释。" },
+    { "term": "Workflow 提供边界", "text": "核心业务逻辑用 Workflow 写死，Agent 在边界内（选工具、选信息）获得自主性——不是二选一。" },
+    { "term": "Multi-Agent 判定条件", "text": "各阶段工具不同、提示词上下文不同、路径需动态分支、节点可失败回退、职责边界清晰——满足才值得拆。" },
+    { "term": "澄清优于猜测", "text": "Text2SQL 场景里置信度高才执行，存在模糊就追问（销量最高还是销售额最高）；猜错就是错。" },
+    { "term": "感知-决策-执行-归因", "text": "能解释 Agent 是什么：可以没有聊天界面，凌晨自动跑数据、定位异常、早上发报告也是 Agent。" }
+  ],
+  "sections": [
+    {
+      "heading": "大盘观察：面试官对 Agent 项目开始祛魅",
+      "blocks": [
+        { "type": "p", "text": "作者正在秋招（Agent 开发/AI Engineer/AI Application 方向），复盘多家公司面试后发现：业务完全不同，问题却收敛到同一套能力。四月份面试官还在问 RAG、LangChain、LangGraph、MCP 是什么，秋招阶段已经变成：文档怎么切、为什么这么切、向量库为什么这么选、数据量扩大怎么办、为什么需要 Multi-Agent、Kafka 消息为什么堆积，还有现场用 AI Coding 完成系统设计的实操题。" },
+        { "type": "callout", "tone": "key", "text": "简历上写了 Agent 就一定会被深挖：哪怕写的是 LangGraph+RAG+Multi-Agent，答不出「为什么用 Multi-Agent」，前面所有技术名词在面试官眼里都只是炫技。" }
+      ]
+    },
+    {
+      "heading": "小红书场景题：把工程师的分析 workflow 交给 Agent",
+      "blocks": [
+        { "type": "p", "text": "客户端埋点能查到从启动到首刷各阶段的数据，平时靠工程师手动做环比对比、下钻定位。面试官问：如何用 Agent 把这套分析自动化？作者给出的链路是数据感知 → 异常检测 → 根因分析 → 生成报告——感知、决策、执行、归因四个词就能解释 Agent。" },
+        { "type": "mermaid", "title": "无聊天界面的分析 Agent 链路", "code": "flowchart LR\n  A[凌晨取数\\n固定SQL] --> B[异常检测\\n阈值对比]\n  B --> C[下钻定位\\n图片/网络]\n  C --> D[LLM 归因解释]\n  D --> E[早9点发报告]" },
+        { "type": "callout", "tone": "note", "title": "Agent 可以没有聊天界面", "text": "每天凌晨自动跑昨天性能数据、发现某版本下降、定位到图片加载阶段、早上九点给工程师发报告——企业真正愿意付钱的 Agent 不是因为炫，而是把工程师每天重复的 workflow 自动化。" },
+        { "type": "p", "text": "追问很关键：数据必须精确，大模型有幻觉。而 SQL 查询接口是固定的——所以用 AI 生成固定的 Python 脚本，按维度改参数执行，让大模型只负责归因和解释。重新回答的话会把系统分成两层：数据查询层（确定）+ LLM 推理层（归因解释）。" }
+      ]
+    },
+    {
+      "heading": "架构题：Multi-Agent 是不是预编排的逻辑链",
+      "blocks": [
+        { "type": "p", "text": "很多 Agent Demo 都是 A 到 B 到 C 到 Finish，严格说和传统 Workflow 有什么区别？两个极端：完全预编排——所有路径节点提前写死，稳定可控但灵活性差、Agent 自主性弱；完全动态——只给目标让模型自己规划，灵活但生产环境危险（规划能力一崩就是无限循环、成本爆炸）。" },
+        { "type": "callout", "tone": "key", "text": "认同的方案是受控自主：核心业务逻辑用 Workflow 控制，关键节点设置卡点；局部环节（选哪些工具、检索哪些信息）让 Agent 动态判断。Workflow 提供边界，Agent 在边界里获得自主性。" },
+        { "type": "p", "text": "杀手问题每场必问：「为什么一定需要 Multi-Agent？一个普通 pipeline 不行吗？」如果流程永远是输入→LLM→输出，硬拆三个 Agent 就是过度设计。拆分的合理条件：不同阶段需要完全不同的工具、不同的提示词与上下文、路径需要动态分支、某节点失败要能回退、每个角色的职责边界清晰。要证明复杂度是业务带来的，不是自己创造的。" }
+      ]
+    },
+    {
+      "heading": "阿里深挖：RAG、向量库与 LangGraph 的细节",
+      "blocks": [
+        { "type": "p", "text": "「你的文档怎么切片？」答「按文字切」不够：车辆技术手册有明显章节结构（车型/故障码/故障类型），每 500 token 一刀下去，上一段是故障现象、下一段才是解决办法，embedding 语义残缺。" },
+        { "type": "cards", "items": [
+          { "term": "切片完整答案", "text": "structure-aware 切分：按标题先切 section，section 太长再滑动窗口，chunk 上保留元数据。" },
+          { "term": "向量库选型", "text": "考 trade-off 不是谁最快：几十份手册、几万切片、内部低并发、快速迭代——轻量方案反而合理；将来多租户/高并发再换。" },
+          { "term": "判断力 > 结论", "text": "面试官原话：看重的是你对问题的判断能力，而不是你是否正确判断了这个问题——他要的是思考过程。" }
+        ] },
+        { "type": "p", "text": "LangGraph 的追问会落到状态机：Graph 里有什么 State、状态怎么流转？诊断 Agent 的 State 可能包括用户输入、检索信息、故障分析结果——状态在不同节点间被不断读取和更新，这才是 LangGraph 的核心，而不是「一个多 Agent 框架」的空话。数据库选型同理：Agent State 高度动态，Document Store 自然；存账单流水就是另一套选项。" }
+      ]
+    },
+    {
+      "heading": "Kafka 八股在 Agent 场景不是八股",
+      "blocks": [
+        { "type": "p", "text": "生产级 Agent 需要消费事件、调用十几个工具、通过消息队列编排 workflow。流量起来之后：消费堆积怎么办、消费延迟怎么办、重复消息怎么办、乱序怎么办、Exactly Once 做不到时怎么设计幂等——这些全是 Agent Engineer 要回答的问题。" },
+        { "type": "callout", "tone": "warn", "title": "别只学 LLM", "text": "数据库、Kafka、缓存、并发、线程池、网络和分布式系统这些「厚基础」在 Agent 岗绕不开，往往比多学一个框架更值钱；北美 Agent 岗也明显偏好有 Software Engineer 经验的候选人。" }
+      ]
+    },
+    {
+      "heading": "Text2SQL 与元能力：知道什么时候该拒绝",
+      "blocks": [
+        { "type": "p", "text": "让不懂数据库的人用自然语言查库：「帮我查卖得最好的商品」——系统怎么理解「卖得最好」是销量还是销售额？LLM 爱猜，而数据库场景猜错就是错。解法不是把提示词写好一点，而是分级处理：置信度足够高就执行；存在明显模糊就走 clarification 追问用户。" },
+        { "type": "quote", "text": "一个好的 agent 不应该是什么问题都回答的，他应该知道什么时候执行、什么时候拒绝、什么时候去澄清。", "note": "作者认为这个能力比回答本身更重要" },
+        { "type": "callout", "tone": "note", "title": "顺带的思维建议", "text": "AI 思考时别刷手机——去看它的思考过程：多数人的思路被 AI 的结论固定住，而看推导过程本身是一种思维训练。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "为什么 RAG 切片不能「每 500 token 一刀切」？完整答案是什么？", "a": "技术手册有章节结构，机械切分会让故障现象和解决办法分家、embedding 语义残缺；完整答案是 structure-aware 切分：按标题切 section，过长再滑动窗口，chunk 上保留元数据。" },
+    { "q": "什么情况下 Multi-Agent 才合理？", "a": "不同阶段需要不同工具、不同提示词与上下文、路径需要动态分支、节点失败需回退、角色职责边界清晰。流程只是输入→LLM→输出时，pipeline 更合适，硬拆是过度设计。" },
+    { "q": "生产 Agent 系统里为什么 Kafka 堆积、幂等这些问题绕不开？", "a": "生产 Agent 要消费事件、调用大量工具、用消息队列编排 workflow；流量上来后堆积、延迟、重复、乱序、Exactly Once 缺失时的幂等设计都是 Agent Engineer 的问题。" },
+    { "q": "Text2SQL 遇到模糊查询的正确处理是什么？", "a": "按置信度分级：足够高直接执行；明显模糊就走 clarification 追问（销量最高还是销售额最高），因为数据库场景猜错就是错，靠提示词补不了。" }
+  ]
+}
