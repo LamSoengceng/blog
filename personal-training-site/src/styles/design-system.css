@@ -21,8 +21,8 @@
 .site-shell :is(.blog-post-card,.home-module-card,.project-card,.career-overview a,.algorithm-problem-card){transition:background .16s,border-color .16s}
 .site-shell :is(.blog-post-card,.home-module-card,.project-card,.career-overview a,.algorithm-problem-card):hover{background:var(--surface-strong);border-color:var(--border-strong);transform:none}
 .site-shell :is(.blog-feature-card,.home-feature-post){background:linear-gradient(135deg,var(--surface-strong),var(--surface));border-color:var(--border-strong)}
-.site-shell :is(.panel-heading h3,.market-panel-title h3,.career-section-heading h2){font-size:20px}
-.site-shell :is(.career-question h3,.blog-post-card h3,.home-module-card h3){font-size:18px;line-height:1.6}
+.site-shell :is(.panel-heading h3,.market-panel-title h3,.career-section-heading h2){font-size: var(--text-2xl)}
+.site-shell :is(.career-question h3,.blog-post-card h3,.home-module-card h3){font-size: var(--text-xl);line-height:1.6}
 .site-shell :is(.blog-index-card strong,.blog-feature-card>strong){color:var(--accent);background:transparent}
 .site-shell :is(.blog-post-card p,.blog-feature-card p,.career-overview small,.career-section-heading p,.career-ranking-note,.career-history-heading p,.career-question-top,.career-empty,.market-disclaimer){color:var(--muted)}
 .site-shell :is(.blog-meta-row,.blog-card-topline,.blog-archive-list time,.blog-topic-list,.blog-result-count){color:var(--muted);font-size: var(--text-xs)}

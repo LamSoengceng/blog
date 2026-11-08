@@ -56,12 +56,20 @@
   --font-mono:
     "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, Menlo, Monaco,
     monospace;
-  /* 字阶 token：正文主阶 12/13/14/15/16；<12px 已按可读性下限收敛到 --text-xs */
+  /* 字阶 token：正文主阶 12/13/14/15/16；<12px 已按可读性下限收敛到 --text-xs。
+     展示阶 18-28（卡片标题→数据强调）四舍五入收敛；≥30px 的大数字（34/42/56/78 等）
+     是各统计卡的一次性展示值，暂留裸 px 待视觉判阶。 */
   --text-xs: 12px;
   --text-sm: 13px;
   --text-md: 14px;
   --text-base: 15px;
   --text-lg: 16px;
+  --text-xl: 18px;
+  --text-2xl: 20px;
+  --text-3xl: 22px;
+  --text-4xl: 24px;
+  --text-5xl: 26px;
+  --text-6xl: 28px;
   /* 字距档位：标题负字距两档 + 大写标签正字距一档（原先约 20 个手调值收敛而来） */
   --tracking-tight: -0.03em;
   --tracking-tighter: -0.045em;
