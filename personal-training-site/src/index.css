@@ -1,4 +1,6 @@
-.font-playfair { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
+/* 衬线展示字体：Playfair Display 从未实际加载（无 @font-face/外链），展示面一直渲染的是
+   后备系统衬线；收敛为显式系统衬线栈，跨机器表现一致。 */
+.font-playfair { font-family: var(--font-display); }
 
 @tailwind base;
 @tailwind components;
@@ -50,10 +52,20 @@
     "Microsoft YaHei UI", "Microsoft YaHei", "PingFang SC", "HarmonyOS Sans SC",
     "Noto Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display:
-    "Playfair Display", Georgia, "Noto Serif SC", "Songti SC", SimSun, serif;
+    Georgia, "Times New Roman", "Noto Serif SC", "Songti SC", SimSun, serif;
   --font-mono:
     "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, Menlo, Monaco,
     monospace;
+  /* 字阶 token：正文主阶 12/13/14/15/16；<12px 已按可读性下限收敛到 --text-xs */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-md: 14px;
+  --text-base: 15px;
+  --text-lg: 16px;
+  /* 字距档位：标题负字距两档 + 大写标签正字距一档（原先约 20 个手调值收敛而来） */
+  --tracking-tight: -0.03em;
+  --tracking-tighter: -0.045em;
+  --tracking-label: 0.12em;
   font-family:
     var(--font-sans);
   color: #ddebe2;
@@ -115,7 +127,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: var(--text-lg);
   line-height: 1.6;
   letter-spacing: 0;
   background:

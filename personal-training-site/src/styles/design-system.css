@@ -1,16 +1,16 @@
 /* Shared visual language. Layout, data colours and interaction logic remain page-owned. */
 .site-shell{background:var(--page);color:var(--text)}
-.site-shell :is(h1,h2,h3,h4){color:var(--text-strong);letter-spacing:-.03em}
+.site-shell :is(h1,h2,h3,h4){color:var(--text-strong);letter-spacing: var(--tracking-tight)}
 .site-shell :is(h2,h3,h4){font-weight:700}
-.site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:clamp(30px,3.5vw,44px);line-height:1.25;font-weight:650;letter-spacing:-.045em;margin:8px 0 18px}
+.site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:clamp(30px,3.5vw,44px);line-height:1.25;font-weight: 700;letter-spacing: var(--tracking-tighter);margin:8px 0 18px}
 .site-shell :is(.content-band,.detail-page,.algorithm-detail-page,.blog-detail-page,.market-page){max-width:var(--content-width);margin-inline:auto;padding-inline:40px}
 .site-shell .page-band{padding-top:112px;padding-bottom:56px}
 .site-shell :is(.section-heading,.blog-hero,.market-hero){margin-bottom:28px}
 .site-shell .section-heading h2{font-size:clamp(23px,2.5vw,30px);line-height:1.35}
-.site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size:14px;line-height:1.9;color:var(--muted);max-width:760px}
-.site-shell .eyebrow{color:var(--accent);font-size:10px;font-weight:700;letter-spacing:.15em;line-height:1.6}
-.site-shell :is(.hero-text,.hero-subtitle){color:var(--muted);font-size:14px;line-height:1.9}
-.site-shell :is(.back-link,.empty-note){color:var(--muted);font-size:13px}
+.site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size: var(--text-md);line-height:1.9;color:var(--muted);max-width:760px}
+.site-shell .eyebrow{color:var(--accent);font-size: var(--text-xs);font-weight:700;letter-spacing: var(--tracking-label);line-height:1.6}
+.site-shell :is(.hero-text,.hero-subtitle){color:var(--muted);font-size: var(--text-md);line-height:1.9}
+.site-shell :is(.back-link,.empty-note){color:var(--muted);font-size: var(--text-sm)}
 .site-shell .back-link{text-decoration:none}
 .site-shell .back-link:hover{color:var(--accent)}
 
@@ -25,12 +25,12 @@
 .site-shell :is(.career-question h3,.blog-post-card h3,.home-module-card h3){font-size:18px;line-height:1.6}
 .site-shell :is(.blog-index-card strong,.blog-feature-card>strong){color:var(--accent);background:transparent}
 .site-shell :is(.blog-post-card p,.blog-feature-card p,.career-overview small,.career-section-heading p,.career-ranking-note,.career-history-heading p,.career-question-top,.career-empty,.market-disclaimer){color:var(--muted)}
-.site-shell :is(.blog-meta-row,.blog-card-topline,.blog-archive-list time,.blog-topic-list,.blog-result-count){color:var(--muted);font-size:12px}
+.site-shell :is(.blog-meta-row,.blog-card-topline,.blog-archive-list time,.blog-topic-list,.blog-result-count){color:var(--muted);font-size: var(--text-xs)}
 .site-shell :is(.blog-tag-row span,.project-stack-row span,.career-tags span,.review-pill-row span,.dataset-badge){background:#72dfb10c;border:1px solid var(--border);border-radius:6px;color:#a5cbb7}
 
 /* Primary, secondary and destructive actions keep their meaning on every page. */
 .site-shell :is(.primary-link,.secondary-link,.review-btn,.workspace-action-primary,.workspace-action-secondary,.career-import-actions button,.career-question-actions button,.career-history-heading button,.journal-composer-actions button,.settings-actions button){
-  border-radius:var(--radius-control);font-size:13px;font-weight:700;min-height:40px;box-shadow:none;transition:background .16s,border-color .16s;
+  border-radius:var(--radius-control);font-size: var(--text-sm);font-weight:700;min-height:40px;box-shadow:none;transition:background .16s,border-color .16s;
 }
 .site-shell :is(.primary-link,.review-btn.primary,.workspace-action-primary,.career-import-actions button,.career-question-actions button:not(.career-delete),.settings-actions button[type=submit]){background:var(--accent);color:var(--text-on-accent);border:1px solid var(--accent)}
 .site-shell :is(.primary-link,.review-btn.primary,.workspace-action-primary,.career-import-actions button,.career-question-actions button:not(.career-delete)):hover:not(:disabled){background:#93eac5;border-color:#93eac5;transform:none}
@@ -38,10 +38,10 @@
 .site-shell :is(.secondary-link,.review-btn.ghost,.workspace-action-secondary,.career-history-heading button):hover:not(:disabled){background:#d7f6e812;border-color:var(--border-strong)}
 .site-shell :is(.review-btn.warn,.career-delete,.journal-delete){background:#ba705115;color:#edb99f;border:1px solid #cd85652a}
 .site-shell button:disabled{cursor:not-allowed}
-.site-shell :is(.blog-filter-buttons button,.career-filters button){border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:8px;font-size:12px;padding:8px 12px}
+.site-shell :is(.blog-filter-buttons button,.career-filters button){border:1px solid var(--border);background:transparent;color:var(--muted);border-radius:8px;font-size: var(--text-xs);padding:8px 12px}
 .site-shell :is(.blog-filter-buttons button.active,.blog-filter-buttons button[aria-pressed=true],.career-filters button.active){background:var(--surface-raised);border-color:#6bd6a52e;color:var(--accent-soft)}
 .site-shell :is(input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]):not([type=color]),textarea,select){
-  background:var(--control-bg);color:var(--text);border:1px solid var(--border-strong);border-radius:var(--radius-control);font-size:14px;line-height:1.7;max-width:100%;
+  background:var(--control-bg);color:var(--text);border:1px solid var(--border-strong);border-radius:var(--radius-control);font-size: var(--text-md);line-height:1.7;max-width:100%;
 }
 .site-shell :is(input,textarea)::placeholder{color:#7e9488}
 .site-shell :is(input[type=checkbox],input[type=radio],input[type=range]){accent-color:var(--accent)}
@@ -78,7 +78,7 @@
 .site-shell .workbench-footer{border-color:var(--border);color:var(--muted)}
 .site-shell .workbench-footer a{color:#b3cebd}
 .site-shell .workspace-hero{background:var(--page)}
-.site-shell .workspace-hero-copy h1{letter-spacing:-.045em}
+.site-shell .workspace-hero-copy h1{letter-spacing: var(--tracking-tighter)}
 .site-shell :is(.workspace-intro,.workspace-art-caption){color:var(--muted)}
 .site-shell .workspace-art-orbit{border-color:var(--border)}
 .site-shell .workspace-module-top>svg{color:var(--accent)}
@@ -106,7 +106,7 @@
   .site-shell .page-band{padding-top:96px;padding-bottom:36px}
   .site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:30px;line-height:1.35;margin-bottom:14px}
   .site-shell :is(.section-heading,.blog-hero,.market-hero){margin-bottom:24px}
-  .site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size:13px}
+  .site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size: var(--text-sm)}
   .site-shell .career-import{padding:16px}
   .site-shell .career-overview{gap:10px;margin-bottom:30px}
   .site-shell .career-overview a{min-height:88px;padding:16px}
@@ -133,7 +133,7 @@
 
 .site-shell .blog-toc{padding:20px}
 .site-shell .blog-article-body h2{font-size:clamp(23px,2.5vw,28px);line-height:1.45;margin-bottom:16px}
-.site-shell .blog-article-body p{font-size:15px;line-height:1.95;color:var(--text)}
+.site-shell .blog-article-body p{font-size: var(--text-base);line-height:1.95;color:var(--text)}
 
 .site-shell .detail-panel .panel-heading{align-items:flex-start;flex-wrap:wrap}
 .site-shell .detail-panel .panel-heading span{overflow-wrap:anywhere;max-width:100%}
@@ -143,12 +143,12 @@
 .site-shell .section-cover { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: calc(100dvh - 76px); padding: 110px 32px 48px; }
 .site-shell .section-cover .eyebrow { margin: 0; }
 .site-shell .section-cover .page-title { margin: 14px 0 0; font-size: clamp(56px, 8vw, 104px); line-height: 1.05; }
-.site-shell .section-cover .classical-quote { margin-top: 18px; font-size: 15px; }
-.site-shell .section-cover-intro { max-width: 620px; margin: 20px 0 0; color: var(--muted); font-size: 15px; line-height: 2; }
+.site-shell .section-cover .classical-quote { margin-top: 18px; font-size: var(--text-base); }
+.site-shell .section-cover-intro { max-width: 620px; margin: 20px 0 0; color: var(--muted); font-size: var(--text-base); line-height: 2; }
 .site-shell .section-cover-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(30px, 5vw, 64px); margin-top: 48px; }
 .site-shell .section-cover-stats > div { display: grid; gap: 8px; }
 .site-shell .section-cover-stats b { color: var(--text-strong); font-size: clamp(26px, 3vw, 38px); font-weight: 700; font-variant-numeric: tabular-nums; }
-.site-shell .section-cover-stats span { color: var(--muted); font-size: 12px; letter-spacing: .1em; }
-.site-shell .section-cover-cue { display: inline-flex; align-items: center; gap: 10px; margin-top: 56px; color: var(--muted); font-size: 11px; font-weight: 700; letter-spacing: .3em; text-decoration: none; }
+.site-shell .section-cover-stats span { color: var(--muted); font-size: var(--text-xs); letter-spacing: var(--tracking-label); }
+.site-shell .section-cover-cue { display: inline-flex; align-items: center; gap: 10px; margin-top: 56px; color: var(--muted); font-size: var(--text-xs); font-weight: 700; letter-spacing: .3em; text-decoration: none; }
 .site-shell .section-cover-cue:hover { color: var(--accent); }
 .site-shell .after-cover { padding-top: 30px; }
