@@ -7337,7 +7337,7 @@ button.workspace-action-secondary { cursor: pointer; }
 .career-with-rail { display: grid; grid-template-columns: 248px minmax(0, 1fr); gap: 48px; align-items: start; }
 .career-rail { position: sticky; top: 104px; display: flex; flex-direction: column; gap: 2px; padding-top: 8px; }
 .career-rail a { display: grid; gap: 6px; padding: 14px 20px; border-left: 2px solid var(--border); text-decoration: none; transition: border-color .18s, background .18s; }
-.career-rail a b, .career-rail button b { font-family: var(--font-sans); font-size: var(--text-5xl); font-weight: 700; line-height: 1.2; letter-spacing: 0; color: var(--text-strong); }
+.career-rail a b, .career-rail button b { font-family: var(--font-xingkai); font-size: 34px; font-weight: 400; line-height: 1.2; letter-spacing: 0; color: var(--text-strong); }
 .career-rail a small, .career-rail button small { font-size: var(--text-xs); letter-spacing: var(--tracking-label); color: var(--muted); }
 .career-rail a:hover { border-left-color: var(--accent); }
 .career-rail a.active { border-left-color: var(--accent); background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 9%, transparent), transparent); }

@@ -56,6 +56,10 @@
   --font-mono:
     "JetBrains Mono", "Cascadia Code", "SFMono-Regular", Consolas, Menlo, Monaco,
     monospace;
+  /* 行楷书法栈：攻玉左栏古语名专用；本机装有华文行楷等，无外部字体加载 */
+  --font-xingkai:
+    "STXingkai", "华文行楷", "STXinwei", "STKaiti", "华文楷体", KaiTi,
+    "楷体", "FZShuTi", "方正舒体", serif;
   /* 字阶 token：正文主阶 12/13/14/15/16；<12px 已按可读性下限收敛到 --text-xs。
      展示阶 18-28（卡片标题→数据强调）四舍五入收敛；≥30px 的大数字（34/42/56/78 等）
      是各统计卡的一次性展示值，暂留裸 px 待视觉判阶。 */
