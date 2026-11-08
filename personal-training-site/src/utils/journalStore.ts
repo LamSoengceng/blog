@@ -5,6 +5,8 @@ export type JournalKind = '随笔' | '身体' | '内心'
 export type JournalEntry = {
   id: string
   createdAt: string // ISO
+  /** 最近一次编辑时间（ISO）；从未编辑过的条目没有此字段 */
+  updatedAt?: string
   kind: JournalKind
   mood: number // 1-5
   title: string
@@ -58,6 +60,16 @@ export const addJournalEntry = (
 
 export const removeJournalEntry = (entries: JournalEntry[], id: string): JournalEntry[] =>
   entries.filter((entry) => entry.id !== id)
+
+/** 编辑一篇日记：只覆盖传入的字段，createdAt 保留原值（改日期由调用方算好放进来），并记录 updatedAt。 */
+export const updateJournalEntry = (
+  entries: JournalEntry[],
+  id: string,
+  patch: Partial<Omit<JournalEntry, 'id'>>,
+): JournalEntry[] =>
+  entries.map((entry) =>
+    entry.id === id ? { ...entry, ...patch, updatedAt: new Date().toISOString() } : entry,
+  )
 
 export const todayInputValue = () => {
   const now = new Date()

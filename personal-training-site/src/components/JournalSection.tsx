@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Annoyed, Frown, Laugh, Meh, Smile, X } from 'lucide-react'
+import { Annoyed, Frown, Laugh, Meh, Pencil, Smile, X } from 'lucide-react'
 import { DictationButton } from './DictationButton'
 import {
   addJournalEntry,
@@ -10,11 +10,20 @@ import {
   removeJournalEntry,
   saveJournal,
   todayInputValue,
+  updateJournalEntry,
   type JournalEntry,
   type JournalKind,
 } from '../utils/journalStore'
 
 const moodIcons = [Frown, Annoyed, Meh, Smile, Laugh]
+
+/** 本地时区的 YYYY-MM-DD（编辑回填与日期改动比较都用本地口径，和列表显示一致） */
+const localDateValue = (iso: string) => {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return todayInputValue()
+  const pad = (value: number) => String(value).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
 
 function MoodIcon({ mood, size = 18 }: { mood: number; size?: number }) {
   const Icon = moodIcons[mood - 1] ?? Meh
@@ -29,26 +38,76 @@ export function JournalSection() {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [savedFlash, setSavedFlash] = useState(false)
+  const [editingId, setEditingId] = useState<string | null>(null)
 
   const canSave = body.trim().length > 0
 
-  const save = () => {
-    if (!canSave) return
-    const next = addJournalEntry(entries, {
-      kind,
-      mood,
-      title: title.trim() || `${kind} · ${date}`,
-      body: body.trim(),
-    })
-    setEntries(next)
-    saveJournal(next)
+  const resetComposer = () => {
+    setDate(todayInputValue())
+    setKind('随笔')
+    setMood(3)
     setTitle('')
     setBody('')
+  }
+
+  const save = () => {
+    if (!canSave) return
+    const nextTitle = title.trim() || `${kind} · ${date}`
+    if (editingId) {
+      const original = entries.find((entry) => entry.id === editingId)
+      const patch: Parameters<typeof updateJournalEntry>[2] = {
+        kind,
+        mood,
+        title: nextTitle,
+        body: body.trim(),
+      }
+      // 用户改了日期时，保留原有的时分秒（本地时区），只换日期部分（createdAt 不再撒谎）
+      if (original) {
+        if (date && date !== localDateValue(original.createdAt)) {
+          const orig = new Date(original.createdAt)
+          const next = Number.isNaN(orig.getTime())
+            ? new Date(`${date}T00:00:00`)
+            : new Date(
+                Number(date.slice(0, 4)),
+                Number(date.slice(5, 7)) - 1,
+                Number(date.slice(8, 10)),
+                orig.getHours(),
+                orig.getMinutes(),
+                orig.getSeconds(),
+              )
+          if (!Number.isNaN(next.getTime())) patch.createdAt = next.toISOString()
+        }
+        const updated = updateJournalEntry(entries, editingId, patch)
+        setEntries(updated)
+        saveJournal(updated)
+      }
+      setEditingId(null)
+    } else {
+      const next = addJournalEntry(entries, { kind, mood, title: nextTitle, body: body.trim() })
+      setEntries(next)
+      saveJournal(next)
+    }
+    resetComposer()
     setSavedFlash(true)
     setTimeout(() => setSavedFlash(false), 1800)
   }
 
+  const startEdit = (entry: JournalEntry) => {
+    setEditingId(entry.id)
+    setDate(localDateValue(entry.createdAt))
+    setKind(entry.kind)
+    setMood(entry.mood)
+    setTitle(entry.title)
+    setBody(entry.body)
+  }
+
+  const cancelEdit = () => {
+    setEditingId(null)
+    resetComposer()
+  }
+
   const remove = (id: string) => {
+    if (editingId === id) cancelEdit()
     const next = removeJournalEntry(entries, id)
     setEntries(next)
     saveJournal(next)
@@ -122,10 +181,24 @@ export function JournalSection() {
             placeholder="今天练了什么、想了什么、情绪怎么样——写给未来的自己。"
           />
         </div>
+        {editingId ? (
+          <p className="journal-editing-note">正在编辑一篇旧日记，改完点「保存修改」，或取消回到新写。</p>
+        ) : null}
         <div className="journal-composer-actions">
-          <button className="review-btn primary" type="submit" disabled={!canSave}>
-            写下这一篇
-          </button>
+          {editingId ? (
+            <>
+              <button className="review-btn primary" type="submit" disabled={!canSave}>
+                保存修改
+              </button>
+              <button className="review-btn ghost" type="button" onClick={cancelEdit}>
+                取消
+              </button>
+            </>
+          ) : (
+            <button className="review-btn primary" type="submit" disabled={!canSave}>
+              写下这一篇
+            </button>
+          )}
           <span className="journal-char-count">{body.length} 字</span>
           {savedFlash ? <span className="settings-saved">已保存到本机 ✓</span> : null}
         </div>
@@ -138,13 +211,22 @@ export function JournalSection() {
           </p>
         ) : (
           entries.map((entry) => (
-            <article className="journal-entry" key={entry.id}>
+            <article className={`journal-entry ${editingId === entry.id ? 'editing' : ''}`} key={entry.id}>
               <div className="journal-entry-head">
                 <span className={`journal-kind-badge ${entry.kind}`}>{entry.kind}</span>
                 <time>{formatJournalDate(entry.createdAt)}</time>
+                {entry.updatedAt ? <span className="journal-edited">已编辑</span> : null}
                 <span className="journal-mood-badge" title={`心情 ${entry.mood} 分 ${moodLabels[entry.mood - 1]}`}>
                   <MoodIcon mood={entry.mood} size={14} />
                 </span>
+                <button
+                  className="journal-edit"
+                  type="button"
+                  aria-label="编辑这篇日记"
+                  onClick={() => startEdit(entry)}
+                >
+                  <Pencil size={14} />
+                </button>
                 <button
                   className="journal-delete"
                   type="button"

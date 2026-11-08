@@ -5320,11 +5320,35 @@ main {
   font-size: var(--text-base);
 }
 
-.journal-delete {
+.journal-edit {
   display: grid;
   width: 26px;
   height: 26px;
   margin-left: auto;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.journal-entry:hover .journal-edit,
+.journal-entry.editing .journal-edit {
+  opacity: 1;
+}
+
+.journal-edit:hover {
+  border-color: var(--border-strong);
+  color: var(--accent-soft);
+}
+
+.journal-delete {
+  display: grid;
+  width: 26px;
+  height: 26px;
   place-items: center;
   border: 1px solid transparent;
   border-radius: 6px;
@@ -5342,6 +5366,21 @@ main {
 .journal-delete:hover {
   border-color: rgba(255, 122, 79, 0.45);
   color: #ffb0a5;
+}
+
+.journal-edited {
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.journal-editing-note {
+  margin: 0 0 12px;
+  color: var(--accent-soft);
+  font-size: var(--text-sm);
+}
+
+.journal-entry.editing {
+  border-color: var(--accent);
 }
 
 .journal-kind-badge {
