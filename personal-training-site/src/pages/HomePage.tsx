@@ -1,7 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, BookOpen, CalendarDays } from 'lucide-react'
-import { WatchHubModal } from '../components/WatchHubModal'
+
+// 观赛弹窗及其 127KB 赛程/积分榜 JSON 拆成独立 chunk，首次点开才下载（快照结构与同步逻辑不变）
+const WatchHubModal = lazy(() => import('../components/WatchHubModal').then((m) => ({ default: m.WatchHubModal })))
 
 function PersonalHero() {
   const heroRef = useRef<HTMLElement | null>(null)
@@ -61,7 +63,11 @@ function PersonalHero() {
         <div className="workspace-art-center" aria-hidden="true"><span>01</span><span className="workspace-art-orbit" /><span className="workspace-art-orbit workspace-art-orbit-small" /></div>
         <div className="workspace-art-caption"><span>一点一点，成为想成为的人。</span><p>BUILD · LEARN · REPEAT</p></div>
       </aside>
-      <WatchHubModal open={watchOpen} onClose={() => setWatchOpen(false)} />
+      {watchOpen && (
+        <Suspense fallback={null}>
+          <WatchHubModal onClose={() => setWatchOpen(false)} />
+        </Suspense>
+      )}
     </section>
   )
 }

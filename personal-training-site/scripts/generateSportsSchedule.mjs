@@ -1,5 +1,9 @@
-import { writeFile } from 'node:fs/promises'
+import { readFile, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
+
+async function readJson(target) {
+  try { return JSON.parse(await readFile(target, 'utf8')) } catch { return null }
+}
 
 const scheduleTarget = fileURLToPath(new URL('../src/data/sportsSchedule.json', import.meta.url))
 const standingsTarget = fileURLToPath(new URL('../src/data/sportsStandings.json', import.meta.url))
@@ -30,9 +34,19 @@ const results = await Promise.allSettled(requests)
 for (const result of results) if (result.status === 'rejected') console.warn(result.reason)
 const items = results.flatMap((result) => result.status === 'fulfilled' ? result.value : [])
 if (items.length) {
+  const okLeagues = new Set(items.map((item) => item.league))
+  const previous = await readJson(scheduleTarget)
+  const previousCount = Array.isArray(previous?.matches) ? previous.matches.length : 0
+  // 护栏：抓取残缺时中止写入（CI step 失败、不部署），避免残缺快照覆盖全量数据。
+  if (okLeagues.size < Math.ceil(sources.length / 2)) {
+    throw new Error(`赛程抓取成功源不足（${okLeagues.size}/${sources.length} 联赛）；中止写入，保留旧快照。`)
+  }
+  if (previousCount && items.length < previousCount * 0.5) {
+    throw new Error(`赛程抓取数量掉幅异常（${items.length} 场，上次快照 ${previousCount} 场）；中止写入，保留旧快照。`)
+  }
   const matches = [...new Map(items.map((item) => [item.id, item])).values()].sort((a, b) => Date.parse(a.at) - Date.parse(b.at))
   await writeFile(scheduleTarget, `${JSON.stringify({ generatedAt: now.toISOString(), matches }, null, 2)}\n`)
-  console.log(`Saved ${matches.length} matches to ${scheduleTarget}`)
+  console.log(`Saved ${matches.length} matches from ${okLeagues.size} leagues to ${scheduleTarget}`)
 } else console.warn('No sports schedule response; retaining the previous snapshot.')
 
 const standingsSources = sources.filter((source) => !['NBA'].includes(source.league))
@@ -62,6 +76,18 @@ const tableResults = await Promise.allSettled(tableRequests)
 for (const result of tableResults) if (result.status === 'rejected') console.warn(result.reason)
 const tables = tableResults.flatMap((result) => result.status === 'fulfilled' ? [result.value] : [])
 if (tables.length) {
+  if (tables.length < Math.ceil(standingsSources.length / 2)) {
+    throw new Error(`积分榜抓取成功源不足（${tables.length}/${standingsSources.length} 联赛）；中止写入，保留旧快照。`)
+  }
+  const previous = await readJson(standingsTarget)
+  const previousRows = new Map((Array.isArray(previous?.tables) ? previous.tables : []).map((table) => [table.league, table.rows?.length || 0]))
+  const shrunk = tables.find((table) => {
+    const count = previousRows.get(table.league)
+    return count !== undefined && table.rows.length < count * 0.5
+  })
+  if (shrunk) {
+    throw new Error(`积分榜「${shrunk.league}」行数掉幅异常（${shrunk.rows.length} 行，上次快照 ${previousRows.get(shrunk.league)} 行）；中止写入，保留旧快照。`)
+  }
   await writeFile(standingsTarget, `${JSON.stringify({ generatedAt: now.toISOString(), tables }, null, 2)}\n`)
   console.log(`Saved ${tables.length} standings tables to ${standingsTarget}`)
 } else console.warn('No standings response; retaining the previous snapshot.')

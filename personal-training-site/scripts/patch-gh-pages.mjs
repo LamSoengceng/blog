@@ -1,7 +1,7 @@
 // GitHub Pages 的 SPA 深链兜底：GH Pages 对未知路径只会返回 404.html。
 // 所以把 index.html 复制成 404.html 并注入「记下真实路径 → 跳回 base」脚本；
 // index.html 注入「读回路径 → replaceState 还原」脚本，随后 React Router 按 basename 正常接管。
-// 用法：node scripts/patch-gh-pages.mjs /xunji/   （参数 = 部署子路径，与 build:pages 里 --base 一致）
+// 用法：node scripts/patch-gh-pages.mjs /blog/   （参数 = 部署子路径，与 build:pages 里 --base 一致）
 import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -9,7 +9,12 @@ import { fileURLToPath } from 'node:url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const projectRoot = join(__dirname, '..')
 const distDir = join(projectRoot, 'dist')
-const base = process.argv[2] ?? '/xunji/'
+// 部署子路径必填：默认值容易在手动裸跑时产出错误子路径的兜底页
+const base = process.argv[2]
+if (!base || !base.startsWith('/') || !base.endsWith('/')) {
+  console.error('用法：node scripts/patch-gh-pages.mjs /blog/   （参数 = 部署子路径，与 build:pages 里 --base 一致）')
+  process.exit(1)
+}
 const storageKey = 'xunji-gh-redirect'
 
 const indexPath = join(distDir, 'index.html')

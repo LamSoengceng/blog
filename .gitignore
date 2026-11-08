@@ -9,6 +9,10 @@ __pycache__/
 # Tool session state
 .mimosa/
 .openai/
+.workbuddy/
+.zcode/
+.vite/
+.sites-checkouts/
 
 # video2kb 本地转录 inbox（从 hz01 拉回的原始字幕，不公开入库）
 video2kb-inbox/

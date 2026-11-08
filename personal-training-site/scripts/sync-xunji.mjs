@@ -111,7 +111,7 @@ const toTrainShape = (train) => ({
   })),
 })
 
-const fetchDate = async (dateKey) => {
+const fetchDate = async (dateKey, retryCount = 0) => {
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: { 'content-type': 'application/json', authorization: `Bearer ${apiKey}` },
@@ -129,14 +129,15 @@ const fetchDate = async (dateKey) => {
   } catch {
     payload = null
   }
-  // 限频/维护提示可能以纯文本或 JSON 错误返回；按提示等待后重试一次
+  // 限频/维护提示可能以纯文本或 JSON 错误返回；按提示等待后重试，封顶 3 次防无限递归烧配额
   const retryAfter = payload?.retry_after_ms ?? Number(text.match(/(\d+)\s*s/i)?.[1]) * 1000
   if (!payload?.res?.trains) {
     if (retryAfter) {
+      if (retryCount >= 3) throw new Error(`限频重试 ${retryCount} 次仍未成功，放弃 ${dateKey}`)
       const waitMs = Number(retryAfter) + 2000
-      console.log(`  限频提示，等待 ${Math.round(waitMs / 1000)}s 后重试…`)
+      console.log(`  限频提示，等待 ${Math.round(waitMs / 1000)}s 后重试（第 ${retryCount + 1}/3 次）…`)
       await sleep(waitMs)
-      return fetchDate(dateKey)
+      return fetchDate(dateKey, retryCount + 1)
     }
     throw new Error(`非预期响应：${text.slice(0, 160)}`)
   }

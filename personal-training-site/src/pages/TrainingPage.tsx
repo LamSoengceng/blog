@@ -69,6 +69,7 @@ export function TrainingPage() {
   const [diaryLimit, setDiaryLimit] = useState(4)
   const [xunjiLimit, setXunjiLimit] = useState(5)
   const diaryExpanded = diaryLimit >= diaryEntries.length
+  const xunjiExpanded = xunjiLimit >= xunjiDaySummaries.length
 
   const toggleDiary = (id: string) => {
     setExpandedDiary((prev) =>
@@ -482,13 +483,15 @@ export function TrainingPage() {
             ))}
           </div>
           <div className="xunji-list-more">
-            {xunjiDaySummaries.length > xunjiLimit ? (
+            {xunjiDaySummaries.length > 5 ? (
               <button
                 type="button"
                 className="review-btn ghost review-btn-small"
-                onClick={() => setXunjiLimit(xunjiDaySummaries.length)}
+                onClick={() => setXunjiLimit(xunjiExpanded ? 5 : xunjiDaySummaries.length)}
               >
-                展开全部 {xunjiDaySummaries.length} 天 ↓
+                {xunjiExpanded
+                  ? '收起，只显示最近 5 天'
+                  : `展开全部 ${xunjiDaySummaries.length} 天 ↓`}
               </button>
             ) : null}
             <Link className="review-btn ghost review-btn-small" to="/xunji-log">

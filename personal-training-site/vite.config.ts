@@ -35,9 +35,21 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // 把 Pyodide 运行时（~20MB，含 10MB wasm）也纳入预缓存，离线可用
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}', 'python/**'],
-        maximumFileSizeToCacheInBytes: 25 * 1024 * 1024,
+        // Pyodide 运行时（~11MB）不进 precache，改在首次进入练习页时由 runtimeCaching 缓存：
+        // 预缓存曾让首访者后台下载 ~24.7MB（实测 145 entries / 24688 KiB），费曼页用户完全用不到
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        runtimeCaching: [
+          {
+            urlPattern: /\/python\//,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'python-runtime',
+              expiration: { maxEntries: 32, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              cacheableResponse: { statuses: [200] },
+            },
+          },
+        ],
       },
     }),
   ],

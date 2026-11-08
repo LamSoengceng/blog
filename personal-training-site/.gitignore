@@ -32,3 +32,7 @@ scripts/cache/*
 public/python/
 scripts/__pycache__/
 src/practice/__pycache__/
+
+# Vite 本地缓存与 .sites 镜像 checkout（均不入库）
+.vite/
+.sites-checkouts/

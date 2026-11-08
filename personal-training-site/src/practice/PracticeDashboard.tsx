@@ -52,7 +52,7 @@ export function PracticeDashboard() {
   for (const a of failed) for (const tag of a.tags) frequencies.set(tag,(frequencies.get(tag) ?? 0)+1)
   const rows = mixed.length ? mixed.map((id) => hot100.find((q) => q.id === id)!) : today
   return <section className="practice-dashboard">
-    <header className="practice-header"><div><p className="eyebrow">RECALL → CODE → VERIFY</p><h1>算法面试训练</h1><p>把做过的题，变成能独立写出来的代码。</p></div><Link className="practice-quick" to="/algorithm/review">快速回忆 →</Link></header>
+    <header className="practice-header career-section-heading"><div><p className="eyebrow">算法练习 · 间隔复习</p><h1>运筹</h1><p className="career-quote">「运筹帷幄之中，决胜千里之外。」——《史记·高祖本纪》</p></div><div className="practice-header-side"><p>把做过的题，变成能独立写出来的代码。题单来自 Hot100 与 ACM 专项，题解复盘来自本地代码和注释；训练记录保存在当前浏览器。</p><Link className="practice-quick" to="/algorithm/review">快速回忆 →</Link></div></header>
     {message && <p role="status">{message}</p>}
     <div className="practice-overview"><span>官方 Hot100 <b>{hot100Solved}/100</b> 已有本地作答</span>{(['core','acm'] as PracticeMode[]).map((mode) => <span key={mode}>{mode === 'core' ? '核心代码' : 'ACM'} 独立完成 <b>{[...latestByMode.values()].filter((a) => hot100Ids.has(a.id) && (a.mode ?? 'core') === mode && a.outcome === 'independent').length}</b> 题</span>)}</div>
     <nav className="practice-mode-switch" aria-label="今日训练模式"><button aria-pressed={trainingMode === 'core'} onClick={() => setTrainingMode('core')}>核心代码训练</button><button aria-pressed={trainingMode === 'acm'} onClick={() => setTrainingMode('acm')}>ACM 完整程序训练</button><span>当前队列按{trainingMode === 'acm' ? ' ACM' : '核心代码'}模式的复习记录安排。</span></nav>

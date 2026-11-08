@@ -1,9 +1,10 @@
+import type { ReactNode } from 'react'
 import type { Lesson, LessonBlock, LessonSection } from '../../data/lessons/types'
 import { platformLabels, sourceKindLabel } from '../../data/lessons/types'
 import { MermaidDiagram } from './MermaidDiagram'
 
 /** 讲义渲染器：把结构化讲义 JSON（视频转录/公众号文章深加工产物）渲染成图文并茂的学习页。 */
-export function LessonRenderer({ lesson }: { lesson: Lesson }) {
+export function LessonRenderer({ lesson, tocSlot }: { lesson: Lesson; tocSlot?: ReactNode }) {
   const kind = sourceKindLabel(lesson.source)
   return (
     <article className="lesson-renderer">
@@ -15,14 +16,16 @@ export function LessonRenderer({ lesson }: { lesson: Lesson }) {
         <a className="lesson-source-link" href={lesson.source.url} target="_blank" rel="noopener noreferrer">{kind === '原文' ? '阅读原文 ↗' : '观看原视频 ↗'}</a>
       </header>
 
-      <section className="lesson-keyterms" aria-labelledby="lesson-keyterms-title">
+      {tocSlot}
+
+      <section className="lesson-keyterms" id="lesson-keyterms" aria-labelledby="lesson-keyterms-title">
         <h2 id="lesson-keyterms-title">先认几个术语</h2>
         <ul>{lesson.keyTerms.map((term) => <li key={term.term}><b>{term.term}</b><span>{term.text}</span></li>)}</ul>
       </section>
 
       {lesson.sections.map((section) => <LessonSectionView key={section.heading} section={section} />)}
 
-      <section className="lesson-quiz" aria-labelledby="lesson-quiz-title">
+      <section className="lesson-quiz" id="lesson-quiz" aria-labelledby="lesson-quiz-title">
         <h2 id="lesson-quiz-title">理解自测</h2>
         <ol>{lesson.quiz.map((item, index) => (
           <li key={index}><details><summary>{item.q}</summary><p>{item.a}</p></details></li>

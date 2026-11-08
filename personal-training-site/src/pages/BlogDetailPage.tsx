@@ -1,9 +1,17 @@
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { blogPosts } from '../data/blogData'
+import { scrollToAnchor, useScrollSpy } from '../hooks/useScrollSpy'
+
+// 锚点 id 不能含空格（浏览器会把空格编码成 %20，getElementById 匹配不到）；与讲义页同一转换
+const headingId = (heading: string) => `blog-heading-${heading.replace(/\s+/g, '-')}`
 
 export function BlogDetailPage() {
   const { postSlug } = useParams()
   const post = blogPosts.find((item) => item.slug === postSlug)
+
+  // hook 需在提前 return 之前无条件调用；post 不存在时给空目录
+  const tocItems = post ? post.sections.map((section) => ({ id: headingId(section.heading), label: section.heading })) : []
+  const activeId = useScrollSpy(tocItems.map((item) => item.id))
 
   if (!post) {
     return <Navigate to="/blog" replace />
@@ -37,9 +45,17 @@ export function BlogDetailPage() {
         <aside className="blog-toc" aria-label="文章目录">
           <p className="eyebrow">Contents</p>
           <ol>
-            {post.sections.map((section) => (
-              <li key={section.heading}>
-                <a href={`#${section.heading}`}>{section.heading}</a>
+            {tocItems.map((item) => (
+              <li key={item.id}>
+                <a
+                  href={`#${item.id}`}
+                  className={activeId === item.id ? 'active' : ''}
+                  aria-current={activeId === item.id ? 'location' : undefined}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    scrollToAnchor(item.id)
+                  }}
+                >{item.label}</a>
               </li>
             ))}
           </ol>
@@ -47,7 +63,7 @@ export function BlogDetailPage() {
 
         <div className="blog-article-body">
           {post.sections.map((section) => (
-            <section id={section.heading} key={section.heading}>
+            <section id={headingId(section.heading)} key={section.heading}>
               <h2>{section.heading}</h2>
               {section.body.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>

@@ -3,12 +3,10 @@ import { X } from 'lucide-react'
 import { useDialogFocus } from '../hooks/useDialogFocus'
 import { WatchHub } from './WatchHub'
 
-// 赛程中心浮层：首页保持单屏，点击「赛程中心」按钮时以弹层展开完整 WatchHub。
-export function WatchHubModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+// 赛程中心浮层：首页保持单屏，点击「赛程中心」按钮时懒加载本模块并以弹层展开完整 WatchHub。
+export function WatchHubModal({ onClose }: { onClose: () => void }) {
   const dialogRef = useRef<HTMLDivElement>(null)
-  useDialogFocus(open, dialogRef, onClose)
-
-  if (!open) return null
+  useDialogFocus(true, dialogRef, onClose)
 
   return (
     <div className="settings-overlay" onClick={onClose} role="presentation">

@@ -549,6 +549,15 @@ p {
   color: var(--accent-soft);
 }
 
+.blog-toc a.active {
+  color: var(--accent);
+}
+
+/* 锚点定位时给吸顶站头留出空间（同讲义页） */
+.blog-article-body section {
+  scroll-margin-top: 92px;
+}
+
 .blog-article-body section {
   padding: 34px 0;
   border-top: 1px solid var(--border);

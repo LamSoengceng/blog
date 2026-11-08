@@ -69,7 +69,7 @@ async function loadStandings(): Promise<StandingsTable[]> {
   return standingsSources.map((source) => loaded.find((table) => table.league === source.league)).filter((table) => table !== undefined)
 }
 
-async function loadSchedule(): Promise<Match[]> {
+async function loadSchedule(): Promise<{ matches: Match[]; partial: boolean }> {
   const now = new Date()
   const months = [0, 1].map((offset) => {
     const date = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + offset, 1))
@@ -90,11 +90,11 @@ async function loadSchedule(): Promise<Match[]> {
     }))
   }))
   const results = await Promise.allSettled(requests)
-  if (results.some((result) => result.status === 'rejected')) throw new Error('部分赛程未能同步')
   const loaded = results.flatMap((result) => result.status === 'fulfilled' ? result.value : [])
   if (!loaded.length) throw new Error('赛程源暂时不可用')
-  return [...new Map(loaded.map((match) => [match.id, match])).values()]
+  const matches = [...new Map(loaded.map((match) => [match.id, match])).values()]
     .sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime())
+  return { matches, partial: results.some((result) => result.status === 'rejected') }
 }
 
 function readRooms(): Room[] {
@@ -153,11 +153,11 @@ export function WatchHub() {
 
   useEffect(() => {
     let active = true
-    loadSchedule().then((items) => {
+    loadSchedule().then(({ matches: items, partial }) => {
       if (!active) return
       setMatches(items)
-      setScheduleState(`已自动同步 · ${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date())}`)
-    }).catch(() => { /* 保留构建时生成的赛程快照。 */ })
+      setScheduleState(`${partial ? '部分赛程未能同步 · ' : '已自动同步 · '}${new Intl.DateTimeFormat('zh-CN', { timeZone: 'Asia/Shanghai', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date())}`)
+    }).catch(() => { if (active) setScheduleState((state) => `赛程未能同步 · ${state}`) })
     loadStandings().then((tables) => {
       if (!active) return
       setStandingsTables(tables)

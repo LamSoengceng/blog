@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-04T17:54:04.224Z",
+  "generatedAt": "2026-11-08T21:31:51.946Z",
   "matches": [
     {
       "id": "401882819",
@@ -230,14 +230,14 @@
       "league": "欧冠",
       "title": "Real Madrid at AEK Athens",
       "at": "2026-11-04T17:45Z",
-      "url": "https://www.espn.com/soccer/match/_/gameId/401915383"
+      "url": "https://www.espn.com/soccer/match/_/gameId/401915383/real-madrid-aek-athens"
     },
     {
       "id": "401915382",
       "league": "欧冠",
       "title": "Liverpool at Fenerbahce",
       "at": "2026-11-04T17:45Z",
-      "url": "https://www.espn.com/soccer/match/_/gameId/401915382"
+      "url": "https://www.espn.com/soccer/match/_/gameId/401915382/liverpool-fenerbahce"
     },
     {
       "id": "401915304",
@@ -720,7 +720,7 @@
       "league": "NBA",
       "title": "Philadelphia 76ers at Chicago Bulls",
       "at": "2026-11-08T20:30Z",
-      "url": "https://www.espn.com/nba/game/_/gameId/401909945/76ers-bulls"
+      "url": "https://www.espn.com/nba/game?gameId=401909945"
     },
     {
       "id": "401909946",
@@ -1423,6 +1423,13 @@
       "url": "https://www.espn.com/soccer/match/_/gameId/401878752/aston-villa-ipswich-town"
     },
     {
+      "id": "401882789",
+      "league": "皇马",
+      "title": "Alavés at Real Madrid",
+      "at": "2026-11-28T20:00Z",
+      "url": "https://www.espn.com/soccer/match/_/gameId/401882789/alaves-real-madrid"
+    },
+    {
       "id": "401879229",
       "league": "英超",
       "title": "Liverpool at Everton",
@@ -1463,13 +1470,6 @@
       "title": "Manchester City at Arsenal",
       "at": "2026-11-29T16:30Z",
       "url": "https://www.espn.com/soccer/match/_/gameId/401878753/manchester-city-arsenal"
-    },
-    {
-      "id": "401882789",
-      "league": "皇马",
-      "title": "Alavés at Real Madrid",
-      "at": "2026-11-29T20:00Z",
-      "url": "https://www.espn.com/soccer/match/_/gameId/401882789/alaves-real-madrid"
     },
     {
       "id": "401875019",
@@ -1540,6 +1540,13 @@
       "title": "Utah Jazz at Golden State Warriors",
       "at": "2026-12-02T04:00Z",
       "url": "https://www.espn.com/nba/game/_/gameId/401910075/jazz-warriors"
+    },
+    {
+      "id": "401882698",
+      "league": "皇马",
+      "title": "Real Madrid at Real Sociedad",
+      "at": "2026-12-02T18:00Z",
+      "url": "https://www.espn.com/soccer/match/_/gameId/401882698/real-madrid-real-sociedad"
     },
     {
       "id": "401879222",
@@ -1955,6 +1962,13 @@
       "url": "https://www.espn.com/soccer/match/_/gameId/401915495/celta-vigo-marseille"
     },
     {
+      "id": "401915487",
+      "league": "欧联",
+      "title": "Olympiacos at NK Celje",
+      "at": "2026-12-10T17:45Z",
+      "url": "https://www.espn.com/soccer/match/_/gameId/401915487/olympiacos-nk-celje"
+    },
+    {
       "id": "401915498",
       "league": "欧联",
       "title": "Celtic at Omonia Nicosia",
@@ -2016,13 +2030,6 @@
       "title": "Union St.-Gilloise at Lyon",
       "at": "2026-12-10T20:00Z",
       "url": "https://www.espn.com/soccer/match/_/gameId/401915485/union-st-gilloise-lyon"
-    },
-    {
-      "id": "401915487",
-      "league": "欧联",
-      "title": "Olympiacos at NK Celje",
-      "at": "2026-12-10T20:00Z",
-      "url": "https://www.espn.com/soccer/match/_/gameId/401915487/olympiacos-nk-celje"
     },
     {
       "id": "401915489",
