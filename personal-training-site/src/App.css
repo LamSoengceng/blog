@@ -5905,6 +5905,7 @@ main {
   gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 22px;
+  justify-content: center;
 }
 
 .ask-sample {
@@ -5984,7 +5985,9 @@ main {
   display: flex;
   align-items: flex-end;
   gap: 12px;
+  width: 100%;
   max-width: 980px;
+  margin-inline: auto;
 }
 
 .ask-input-row textarea {
