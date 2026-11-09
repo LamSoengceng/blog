@@ -7212,6 +7212,13 @@ main {
 .career-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 28px; }
 .career-section-heading h2 { margin: 8px 0 0; font-family: var(--font-sans); font-size: clamp(28px, 3vw, 40px); font-weight: 700; letter-spacing: var(--tracking-tight); }
 .career-section-heading > p { max-width: 500px; color: var(--muted); font-size: var(--text-md); line-height: 1.8; }
+/* 攻玉子区标题：从「左题右述」水平行改为居中竖排迷你封面（eyebrow→古语名→引文→简介），
+   对齐全站居中节奏；限定 .career-with-rail 以免波及复用该类的练习页头部。
+   提权到 .site-shell 前缀，压过 design-system 把这里 h2 归入 20px 档的规则。 */
+.site-shell .career-with-rail .career-section-heading:not(.practice-header) { flex-direction: column; align-items: center; text-align: center; gap: 10px; }
+.site-shell .career-with-rail .career-section-heading:not(.practice-header) > div { display: grid; justify-items: center; }
+.site-shell .career-with-rail .career-section-heading:not(.practice-header) > p { max-width: 640px; margin: 0; }
+.site-shell .career-with-rail .career-section-heading:not(.practice-header) h2 { font-size: clamp(26px, 3vw, 40px); }
 /* 第一层：导入面板，最实的表面 */
 .career-import { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius-card); background: var(--surface); }
 .career-import label { display: grid; gap: 8px; color: var(--text-strong); font-size: var(--text-sm); font-weight: 700; }
