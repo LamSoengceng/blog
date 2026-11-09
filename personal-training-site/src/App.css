@@ -308,11 +308,11 @@ p {
 
 .blog-feature-card {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 180px;
-  gap: 24px;
-  align-items: end;
-  min-height: 320px;
-  padding: 30px;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 28px;
+  align-items: center;
+  min-height: 220px;
+  padding: 28px 34px;
   color: inherit;
   text-decoration: none;
 }
@@ -328,12 +328,13 @@ p {
 
 .blog-feature-card > strong {
   display: grid;
-  min-height: 160px;
+  min-height: 110px;
   place-items: center;
-  border: 1px solid rgba(48, 242, 123, 0.18);
-  background: rgba(48, 242, 123, 0.08);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
   color: var(--accent-soft);
-  font-size: 42px;
+  font-size: 30px;
   line-height: 1;
 }
 
