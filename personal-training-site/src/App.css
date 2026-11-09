@@ -761,13 +761,17 @@ p {
   line-height: 1.08;
 }
 
+/* 区块标题：限宽并整体居中（对齐封面屏的居中语言），不再在 1200px 内容带里靠左贴边 */
 .section-heading {
   max-width: 820px;
+  margin-inline: auto;
   margin-bottom: 34px;
+  text-align: center;
 }
 
 .section-heading p:not(.eyebrow) {
   color: var(--muted);
+  margin-inline: auto;
 }
 
 .highlight-rail {
@@ -5158,6 +5162,9 @@ main {
 .journal-shell {
   display: grid;
   gap: 28px;
+  /* 收成居中阅读列：1200px 整带下写日记行长过宽，观感也偏离全站居中语言 */
+  max-width: 920px;
+  margin-inline: auto;
   margin-bottom: 40px;
 }
 
@@ -6022,6 +6029,8 @@ main {
 }
 
 .xunji-panel {
+  max-width: 920px;
+  margin-inline: auto;
   padding: 20px 22px;
   border: 1px solid var(--border);
   border-radius: 12px;
