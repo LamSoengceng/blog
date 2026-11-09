@@ -47,6 +47,12 @@ export function BlogPage() {
         <strong>{featuredBlogPost.heroMetric}</strong>
       </Link> : null}
 
+      <div className="section-heading compact-heading">
+        <p className="eyebrow">Directory · 目录</p>
+        <h2>文章目录</h2>
+        <p>按主题和归档翻一遍，也可以直接搜标题、摘要、标签。</p>
+      </div>
+
       <div className="blog-directory-layout">
         <aside className="blog-sidebar" aria-label="博客索引">
           <div>

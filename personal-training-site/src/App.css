@@ -363,8 +363,9 @@ p {
 }
 
 .blog-post-grid {
+  /* 目录列 ~896px 下 3 列每张仅 287px，收成 2 列更舒展（详情页 related 的 .compact 保持 3 列） */
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
