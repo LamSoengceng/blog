@@ -1,0 +1,72 @@
+{
+  "slug": "bv1124a6qepn-computer-use-codex",
+  "title": "Codex Computer Use：为什么让模型写 JS 脚本而不是点鼠标",
+  "summary": "Codex 的 Computer Use 用一个 CUA REPL（MCP 服务）向模型暴露 JS 工具：一次调用批量编排桌面动作省掉逐点击的推理开销，配合四级确认策略、黑白名单和 Guardian 审查模型解决安全与劫持问题。",
+  "date": "2026-11-09",
+  "minutes": 8,
+  "tags": ["Computer Use", "Codex", "Agent", "安全"],
+  "source": {
+    "platform": "bilibili",
+    "author": "BV1124A6QEpn UP 主",
+    "videoId": "BV1124A6QEpn",
+    "url": "https://www.bilibili.com/video/BV1124A6QEpn"
+  },
+  "keyTerms": [
+    { "term": "CUA REPL", "text": "Codex 内置的 MCP 服务，只暴露一个 JS 工具（title + code），模型写 JavaScript 调用全局 CUA 对象操作桌面。" },
+    { "term": "Browser Use vs Computer Use", "text": "前者靠网页无障碍树拿元素编号精准点击；后者面对无统一接口的原生软件，必须结合屏幕画面与系统状态。" },
+    { "term": "按需文档注入", "text": "系统提示词不塞 API 文档（保护 KVCache），模型写错方法名触发报错时，才把完整文档拼到报错末尾。" },
+    { "term": "四级确认策略", "text": "密码/支付禁碰 → 发送/删除须实时确认 → 常规修改可预授权 → 截屏滚动免确认。" },
+    { "term": "Elicitation Create", "text": "脚本运行中途触发桌面动作时，REPL 反向发审批请求；敏感动作挂起弹窗，普通点击静默放行。" },
+    { "term": "Guardian 审查", "text": "截图与输出存入 8MB 证据缓冲区，打上不可信标签交给审查模型核对点击目标是否符合用户本意。" }
+  ],
+  "sections": [
+    {
+      "heading": "核心设计：一个 JS 工具替代一堆原子点击",
+      "blocks": [
+        { "type": "p", "text": "如果以为 Computer Use 就是给模型拆出 click/move/type 原子工具、看一张截图点一下鼠标，就没抓住核心。Codex 源码里内置插件挂载了 CUA REPL 这个 MCP 服务，只暴露一个 JS 工具：参数是动作意图的 title 和要执行的 JavaScript 代码，模型在代码里调用全局 CUA 对象（如 await cua.getState() 拿桌面状态、点击、输入、截屏）。" },
+        { "type": "compare", "columns": ["方案", "代价"], "rows": [
+          ["原子工具逐次点击", "每个动作一轮模型推理 + 重传高清截图，延迟和 Token 消耗不可承受"],
+          ["持久化 REPL 写 JS", "一次调用执行完整动作序列，返回文本输出 + Base64 截图"]
+        ] },
+        { "type": "callout", "tone": "key", "title": "顺手的两个细节", "text": "Codex 读取 title 把连续操作折叠成摘要展示；回合结束或中断时钩子自动调 Turn Ended 释放桌面焦点。" }
+      ]
+    },
+    {
+      "heading": "权限控制：按操作系统标识做黑白名单",
+      "blocks": [
+        { "type": "p", "text": "桌面上同时开着浏览器、编辑器、聊天软件和终端，怎么控制 Agent 能访问哪些应用？不是在系统提示词里「叮嘱」，也不是整机丢进虚拟机，而是在 Computer Use 配置块里：先用 Default App Access 设默认 Allow/Deny，再按每个软件的系统唯一标识逐个控制——macOS 用 Bundle IDs（如 com.apple.safari 设 Allow、com.apple.terminal 设 Deny），Windows 用 AUMIDs 和可执行文件签名。" }
+      ]
+    },
+    {
+      "heading": "四级确认：普通动作静默放行，高危中途挂起",
+      "blocks": [
+        { "type": "compare", "columns": ["级别", "动作类型", "策略"], "rows": [
+          ["一级", "密码/银行卡/验证码/签署协议", "严禁 Agent 触碰，移交用户"],
+          ["二级", "发消息/付款/删文件/改安全设置", "动作发生前一刻必须确认，不接受提前授权"],
+          ["三级", "常规修改", "允许预先授权"],
+          ["四级", "截屏/滚动/切窗口", "只读操作，免确认"]
+        ] },
+        { "type": "p", "text": "脚本运行中途即将触发桌面动作时，CUA REPL 会反向给 Codex 发 Elicitation Create 审批请求，检查其中的敏感动作标记：普通点击自动 Accept 静默放行不打断用户；标记为敏感动作立刻挂起脚本，弹窗让用户确认或转交安全围栏——流畅与安全各取所需。" }
+      ]
+    },
+    {
+      "heading": "防屏幕注入：证据缓冲区加自适应审查",
+      "blocks": [
+        { "type": "p", "text": "屏幕上的网页或文档可能藏着攻击者伪造的恶意指令（截图是模型唯一直观输入，被劫持风险真实存在）。Codex 的做法：CUA REPL 返回的文本和 PNG 截图全部存入上限 8MB 的证据缓冲区（超限先淘汰旧图保文本），审查下一步操作时把这些历史证据打上「不可信」标签，连同原图交给 Guardian 模型核对点击目标是否符合用户本意。" },
+        { "type": "steps", "items": [
+          "会话第一次调用 JS 工具时，上下文还没有外部截图进入，不存在屏幕注入可能，走快速通道直接放行",
+          "同时在后台启动会话风险评分器，对会话打分：低风险 0、高风险 1",
+          "评分持续为低风险时，后续操作异步快速放行不卡顿",
+          "一旦某张截图触发高风险评分，立刻切换为同步阻塞审查"
+        ] },
+        { "type": "callout", "tone": "key", "title": "对照记忆", "text": "Browser Use 靠无障碍树引用编号精准操控网页；Computer Use 靠 CUA REPL 脚本编排桌面动作。前者有结构化接口可用，后者必须「看屏幕 + 防注入」，安全设计复杂度完全不同。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "为什么 Codex 用 JS 工具而不是拆分的点击/输入原子工具？", "a": "桌面操作是连续动作序列，逐动作走一轮模型推理并重传截图，延迟与 Token 不可承受；持久化 REPL 一次调用执行完整序列，且系统提示词不塞 API 文档（保护 KVCache），写错才按需注入。" },
+    { "q": "Codex 如何限制 Agent 能访问哪些桌面应用？", "a": "按操作系统原生标识做黑白名单：配置 Default App Access 定默认策略，macOS 按 Bundle IDs、Windows 按 AUMIDs 和可执行文件签名逐个 Allow/Deny。" },
+    { "q": "脚本运行中途要付款/删文件，Codex 怎么防止先斩后奏？", "a": "REPL 通过 Elicitation Create 反向发审批请求，检查敏感动作标记：普通点击静默放行，敏感动作立刻挂起脚本弹窗确认——四级确认策略决定分级。" },
+    { "q": "屏幕截图可能携带恶意指令，Codex 怎么防劫持？", "a": "文本与截图存入 8MB 证据缓冲区打上不可信标签，交 Guardian 模型核对点击目标是否符合用户本意；首次调用走免审快速通道，后台风险评分低则异步放行，高风险触发同步阻塞审查。" }
+  ]
+}
