@@ -130,7 +130,7 @@
 .practice-editor .cm-scroller{font-family:var(--font-mono);line-height:1.85}
 .practice-editor .cm-selectionBackground,.practice-editor .cm-focused .cm-selectionBackground{background:#32634e!important}
 .practice-editor .practice-button-row{margin:14px 0 10px;align-items:center}
-.practice-page .practice-results{background:#0d1713;border-style:solid}
+.practice-page .practice-results{background:color-mix(in srgb,var(--surface-strong) 86%,transparent);border-style:solid}
 .practice-page .practice-results h2:before{content:"";display:inline-block;width:6px;height:6px;background:#6b8a79;border-radius:50%;margin-right:9px;vertical-align:middle}
 .practice-page .practice-results:has(.practice-result-summary) h2:before{background:var(--practice-accent)}
 .practice-page pre,.mistake-card pre{background:#0a1410;color:#b7d7c7;border:1px solid #a4c9b512;border-radius:9px;line-height:1.8}
@@ -141,7 +141,7 @@
 .practice-page summary,.practice-dashboard details>summary{color:var(--text)}
 .practice-hints>summary>span,.practice-recap-form>summary>span,.practice-dashboard details>summary>span{color:var(--muted);font-size: var(--text-xs)}
 .practice-page summary::marker,.practice-dashboard summary::marker{color:#688774;font-size: var(--text-xs)}
-.practice-page .practice-more[open]>div{background:#15251d;border-color:#a4c9b528;box-shadow:0 16px 40px #0006}
+.practice-page .practice-more[open]>div{background:var(--surface-strong);border-color:var(--practice-border);box-shadow:0 16px 40px #0006}
 .practice-acm-contract h3{color:var(--text-strong);font-weight: 700}
 .practice-acm-contract p{font-size: var(--text-xs)}
 .practice-page .practice-alert{background:#ba705115;border:1px solid #cd85652a;color:#edb99f}
@@ -178,8 +178,8 @@
   .practice-page .practice-header h1{font-size: var(--text-4xl)}
   .practice-page .practice-mode-switch{width:100%}
   .practice-page .practice-mode-switch button{padding:8px 10px}
-  .practice-page .practice-tabs{background:#07110c;gap:4px;border-bottom:1px solid var(--practice-border)}
-  .practice-page .practice-tabs button[aria-pressed=true]{background:#72dfb112;color:#9ee1bd}
+  .practice-page .practice-tabs{background:var(--page);gap:4px;border-bottom:1px solid var(--practice-border)}
+  .practice-page .practice-tabs button[aria-pressed=true]{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
   .practice-page .practice-panel{border-radius:12px;padding:14px}
   .practice-page .practice-panel-head{gap:6px;padding-bottom:10px}
   .practice-page .practice-editor .cm-content{min-height:360px}
