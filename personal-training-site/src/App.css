@@ -5757,6 +5757,7 @@ main {
   gap: 20px;
   max-width: 1120px;
   margin-top: 28px;
+  margin-inline: auto;
 }
 
 .wrapped-panel {
@@ -5881,10 +5882,11 @@ main {
 
 .wrapped-footer {
   max-width: 720px;
-  margin: 32px 0 0;
+  margin: 32px auto 0;
   color: var(--muted);
   font-size: var(--text-xs);
   line-height: 1.7;
+  text-align: center;
 }
 
 /* ---------- Ask My Site ---------- */
