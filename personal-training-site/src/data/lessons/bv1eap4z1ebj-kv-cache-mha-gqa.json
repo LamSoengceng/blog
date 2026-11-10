@@ -1,0 +1,58 @@
+{
+  "slug": "bv1eap4z1ebj-kv-cache-mha-gqa",
+  "title": "KV Cache 初探：为什么缓存 KV 不缓存 Q，MHA 到 GQA 的演进",
+  "summary": "自回归生成中每个 token 的 K/V 被反复重算，KV Cache 把它们缓存复用；显存吃紧后 MQA 全头共享一套 KV（降到 1/H 但太粗暴），GQA 分组共享成为折中——Llama3 等主流模型取 8 组，兼顾卡间通信。",
+  "date": "2026-11-11",
+  "minutes": 7,
+  "tags": ["KV Cache", "推理优化", "Attention", "面试"],
+  "source": {
+    "platform": "bilibili",
+    "author": "B站-Agent面试 UP 主",
+    "videoId": "BV1EAp4z1EbJ",
+    "url": "https://www.bilibili.com/video/BV1EAp4z1EbJ"
+  },
+  "keyTerms": [
+    { "term": "自回归 AR", "text": "源自时间序列分析：每个 token 由之前的 token 条件生成（Next Token Prediction）。" },
+    { "term": "因果掩码", "text": "盖住未来的词，只用前文预测当前词——所以前 T 个 token 的 K/V 在生成第 T+1 个时依然有效。" },
+    { "term": "KV Cache", "text": "缓存历史 token 的 K/V 供后续复用；Q 不缓存——每步只算当前一个 Q，不存在重复计算。" },
+    { "term": "MHA", "text": "多头注意力：单头重复做 H 次再拼接，每个头独立一套 K/V。" },
+    { "term": "MQA", "text": "Multi-Query Attention：所有头共用一套 K/V，显存直接降到 1/H，效果损失有限但太粗暴。" },
+    { "term": "GQA", "text": "分组查询注意力：H 个头分 G 组共享 K/V，G=H 退化为 MHA、G=1 退化为 MQA；主流模型常取 G=8。" }
+  ],
+  "sections": [
+    {
+      "heading": "追根溯源：为什么会有 KV Cache",
+      "blocks": [
+        { "type": "p", "text": "LLM 的本质是 Next Token Prediction，源于时间序列的自回归模型：每个 token 由之前的所有 token 条件生成。实现手段是因果掩码——盖住后面的词，只用前文预测当前。（字节 2025 年 9 月的论文开始探索让模型适度「偷看」后文，属于新动向。）" },
+        { "type": "p", "text": "以单头注意力为例：最后一个 token 经矩阵运算生成 Q_T，前 T 个 token 生成 K 和 V；Q_T 与每个 K_i 求内积得关注度，算出权重后对 V_i 加权求和，输出上下文。多头注意力就是把这套动作重复 H 次再拼接。" },
+        { "type": "callout", "tone": "key", "title": "重复计算的账", "text": "生成第 1000 个 token 时，第 1 个 token 的 K/V 已经被重复计算了 999 次，第 2 个 998 次……解决办法就是把算过的 K/V 缓存起来复用——这就是 KV Cache。" },
+        { "type": "callout", "tone": "note", "title": "为什么只缓存 KV 不缓存 Q", "text": "每一步只计算当前这一个 token 的 Q，Q 从来没有被重复计算；而前文所有 token 的 K/V 在后续每一步都会用到，这才是浪费所在。" }
+      ]
+    },
+    {
+      "heading": "问题：显存是有限的",
+      "blocks": [
+        { "type": "p", "text": "GPU 每张卡显存有限。KV Cache 太大，直接把显存占满——模型的参数和前向激活值就没地方放了。所以必须优化 KV Cache 的体积，这就是 MHA→MQA→GQA 演进的全部动机。" }
+      ]
+    },
+    {
+      "heading": "优化演进：MQA 简单粗暴，GQA 折中胜出",
+      "blocks": [
+        { "type": "mermaid", "title": "三代注意力共享策略", "code": "flowchart LR\n  MHA[MHA\\nH 头各一套 KV] -->|全部共享| MQA[MQA\\n共用 1 套 KV]\n  MHA -->|分组共享| GQA[GQA\\n分 G 组共用]\n  GQA -.->|G=H| MHA2[退化为 MHA]\n  GQA -.->|G=1| MQA2[退化为 MQA]" },
+        { "type": "compare", "columns": ["方案", "KV 缓存量", "特点"], "rows": [
+          ["MHA", "H 套", "效果最好，显存最大"],
+          ["MQA", "1 套", "降到 1/H，效果损失有限但过于激进"],
+          ["GQA（G=8）", "8 套", "主流选择：保 KV 多样性，适配 8 卡训练分组"]
+        ] },
+        { "type": "p", "text": "GQA 把 H 个头分成 G 组（G 整除 H），每组共享一对 K/V：G=H 就是 MHA，G=1 就是 MQA。Llama3、DeepSeek V1 等主流模型大多取 G=8——因为 8 卡训练时每张卡正好负责一个组的 Attention Head，在保证 KV 多样性的同时尽量减少卡间通信。" },
+        { "type": "callout", "tone": "warn", "title": "通信带宽的层级", "text": "卡内通信带宽 > 卡间通信带宽 > 机间通信带宽——能单卡就单卡、能同机就同机，这是推理/训练分组的底层约束，也是 GQA 取 8 的深层原因。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "KV Cache 解决什么问题？", "a": "自回归生成时，历史 token 的 K/V 在每一步都被重复计算（第 1000 个 token 时第 1 个的 KV 已算 999 次），缓存起来复用可消除这部分浪费。" },
+    { "q": "为什么不缓存 Q？", "a": "每一步只计算当前一个 token 的 Q，Q 没有重复计算；被反复使用的是历史 token 的 K 和 V。" },
+    { "q": "MQA 和 GQA 的关系？主流模型为什么选 G=8？", "a": "GQA 是 MHA 与 MQA 的折中：H 个头分 G 组共享 KV，G=H 退化成 MHA、G=1 退化成 MQA。取 8 是配合 8 卡训练（每卡一个组），减少卡间通信。" },
+    { "q": "KV Cache 过大会有什么后果？", "a": "占满 GPU 显存，模型参数和前向激活值没地方放——这是 MHA→MQA→GQA 演进的直接动机。" }
+  ]
+}
