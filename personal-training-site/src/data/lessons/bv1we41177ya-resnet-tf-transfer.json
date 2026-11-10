@@ -1,0 +1,90 @@
+{
+  "slug": "bv1we41177ya-resnet-tf-transfer",
+  "title": "用 TensorFlow 搭 ResNet：BasicBlock/Bottleneck 实现与迁移学习训练",
+  "summary": "用 Keras 实现 BasicBlock（expansion=1）与 Bottleneck（expansion=4）拼出 ResNet 全系网络，冻结 feature 部分只训新加的全连接层，减 ImageNet RGB 均值做与预训练一致的预处理，两个 epoch 即可达 85%+ 的迁移学习准确率。",
+  "date": "2026-11-11",
+  "minutes": 11,
+  "tags": ["深度学习", "TensorFlow", "ResNet", "迁移学习"],
+  "source": {
+    "platform": "bilibili",
+    "author": "霹雳吧啦Wz",
+    "videoId": "BV1WE41177Ya",
+    "url": "https://www.bilibili.com/video/BV1WE41177Ya"
+  },
+  "keyTerms": [
+    { "term": "expansion", "text": "残差块内卷积核个数的变化系数：BasicBlock 为 1，Bottleneck 第三层卷积核是前两层的 4 倍。" },
+    { "term": "Bottleneck", "text": "1x1 → 3x3 → 1x1 的瓶颈结构：256 进 64 出再回 256，两头粗中间细，供 50/101/152 层网络使用。" },
+    { "term": "downsample 参数", "text": "捷径分支上的 1x1 卷积函数：虚线残差块传入它来对齐主分支与捷径输出的 shape，实线块默认 None。" },
+    { "term": "include_top", "text": "是否包含网络末端的全局平均池化与全连接层；迁移学习时设 False，自己在后面接新层。" },
+    { "term": "training 与 trainable", "text": "training 控制单层（BN）在训练/验证时的行为；trainable 控制参数是否被冻结——trainable=False 时 BN 层整体冻结，传 training=True 也不起作用。" },
+    { "term": "Global Average Pooling2D", "text": "一步做两件事：把任意高宽的特征矩阵池化成 1x1，并做展平处理。" }
+  ],
+  "sections": [
+    {
+      "heading": "网络骨架与两个残差块类",
+      "blocks": [
+        { "type": "p", "text": "ResNet 全系的骨架一致：7x7 卷积（64 核、stride=2，高宽减半）→ BN → ReLU → 3x3 最大池化（stride=2）→ conv2_x 到 conv5_x 四段残差结构 → 全局平均池化 → 全连接层 → softmax。代码里用 _resnet 函数统一生成：传 BasicBlock 定义 18/34 层，传 Bottleneck 定义 50/101/152 层；block_num 列表对应 conv2~conv5 每段的残差块个数——34 层传 [3,4,6,3]，101 层传 [3,4,23,3]。" },
+        { "type": "p", "text": "BasicBlock 继承 layers.Layer，对应两个 3x3 卷积的残差块（18/34 层用）。第一层卷积的 stride 是传入参数：默认 1 对应实线块，传 2 就是虚线块（高宽减半）；第二层 stride 固定为 1。use_bias 全部设为 False——上一课讲过，用 BN 层时卷积不需要偏置。BN 传了 momentum（默认 0.99）和防分母为 0 的小数两个参数，这是按 PyTorch 默认设置改的：直接用 Keras BN 默认参数训练效果不好。" },
+        { "type": "callout", "tone": "key", "title": "给每层起名字不是随意的", "text": "代码里每个卷积层、BN 层都传入固定名称（如 conv1、block1）：这是为了迁移学习载权重时，能与预训练模型每一层的参数名对得上。" }
+      ]
+    },
+    {
+      "heading": "Bottleneck：为什么叫瓶颈，stride 放在哪一层",
+      "blocks": [
+        { "type": "p", "text": "Bottleneck 对应 1x1 → 3x3 → 1x1 结构，名字来自形状：输入深度 256，第一层 1x1 卷积压成 64，最后一层 1x1 卷积再还原回 256——两头粗中间细，像个瓶颈。它的 expansion=4：第三层卷积核个数是第一、二层（都是传入的 out_channel）的 4 倍。" },
+        {
+          "type": "compare",
+          "columns": ["维度", "BasicBlock", "Bottleneck"],
+          "rows": [
+            ["expansion", "1", "4"],
+            ["stride 位置", "第一个 3x3 卷积（stride=2 时即虚线块）", "第二个 3x3 卷积；第一层 1x1 只降维不动高宽"],
+            ["第三层", "无", "1x1 卷积，核个数 = out_channel × 4"],
+            ["适用网络", "18 / 34 层", "50 / 101 / 152 层"]
+          ]
+        },
+        { "type": "p", "text": "两个类的正向传播流程一致：把 input 赋给 identity（捷径输出）；若 downsample 函数不为 None，input 先过它得到捷径输出（虚线块）；主分支依次过各卷积层与 BN，注意两个块里最后一个卷积层后都没有激活函数——要与捷径相加之后再过 ReLU。forward 里还传入 training 参数交给 BN，控制训练/验证两种状态。" }
+      ]
+    },
+    {
+      "heading": "make_layer：什么条件下要生成下采样函数",
+      "blocks": [
+        { "type": "p", "text": "make_layer 函数生成每一段残差结构。判断是否需要 downsample 的条件是：stride 不等于 1，或者输入特征矩阵深度不等于该段第一层卷积核个数的 expansion 倍。stride≠1 覆盖 conv3~conv5 的第一层（都要减半高宽）；第二个条件专门为深层网络 conv2_x 服务——50/101/152 层经 max pooling 后是 56x56x64，而 Bottleneck 期望输入 56x56x256，64 ≠ 64×4 成立，于是也生成 downsample；18/34 层 expansion=1，64=64×1 不成立，conv2_x 全是实线块。" },
+        { "type": "p", "text": "下采样函数用 1x1 卷积实现，核个数 = channel × expansion：BasicBlock 等于 channel，Bottleneck 是 4 倍；stride 取传入值——conv2_x 不传（默认 1，只调深度不动高宽），conv3~conv5 传 2（深度、高宽都调）。shortcut 用 Sequential 把 1x1 卷积和 BN 组合起来并命名为 shortcut。段内只有第一层是虚线块，其余通过循环创建实线块（无 downsample），最后 Sequential 组合整段并命名（block1~block4）。" },
+        { "type": "callout", "tone": "note", "title": "include_top 的两个取值", "text": "True 时输出接全局平均池化（顺带展平）→ 全连接层 → softmax；False 时直接把 conv5 输出传出去，方便在模型后面自己添加层——迁移学习正是用这个口子。" }
+      ]
+    },
+    {
+      "heading": "迁移学习训练：冻结、接层与两个易混参数",
+      "blocks": [
+        { "type": "p", "text": "训练脚本延续之前 AlexNet/VGG/GoogLeNet 的写法，不同点有三。第一是预处理：定义 ImageNet 全部图片 R、G、B 三通道的均值，在 ImageDataGenerator 的自定义 preprocessing_function 里把每个通道减去对应均值——因为要用的预训练权重基于 ImageNet 训练且做了同样的预处理，不一致就训不出来；验证集生成器同样要用这个函数，预测时也要减。" },
+        { "type": "p", "text": "第二是搭模型：官方只找到 ResNet50 和 101 的权重，选较小的 ResNet50，分类数先初始化为 50，include_top=False，feature.trainable=False 冻结全部参数；再用 Sequential 在后面接全局平均池化、Dropout、1024 节点全连接层、Dropout、5 节点全连接层（自己的分类数）和 softmax，只训练最后两个全连接层。" },
+        { "type": "callout", "tone": "key", "title": "training 与 trainable 的区别", "text": "trainable 是冻结开关：设 False 后 feature 里所有 BN 层被冻结，即使 forward 传 training=True 也不处理；不冻结时 BN 层默认 trainable=True，才由 training 参数控制训练/验证两种状态。另外用 fit 训练时底层会自动处理 training 传参，只有手写底层 API 训练才需要自己传。" },
+        { "type": "p", "text": "第三是训练时手动传 training=True、验证时传 False。实测（花 5 分类）：第一个 epoch 准确率 85.2%，第二个 88.79%；作者此前去掉最后的 softmax 层训练时能到 89%~91%，怀疑是 softmax 在数值计算上不太稳定导致略降。预测脚本同样要减 RGB 均值、冻结 feature、载入训练好的权重，郁金香图片预测概率接近 100%——迁移学习确实能极快得到理想模型。" }
+      ]
+    },
+    {
+      "heading": "官方权重从哪来：slim 框架与 ckpt 转换",
+      "blocks": [
+        { "type": "p", "text": "权重来自 TensorFlow 官方 GitHub models 仓库下的 slim 框架：官方实现了很多模型（inception v1~v4、ResNet 系列、mobileNet 等）并在 ImageNet 上预训练。视频用的是 resnet_v1_50 的 ckpt 文件。" },
+        {
+          "type": "steps",
+          "items": [
+            "下载 resnet_v1_50 的 ckpt 权重文件",
+            "用 read_ckpt.py 遍历权重每个名称，except_list 里的层直接跳过",
+            "重点筛除最后针对 1000 类的全连接层权重与偏置（自己只要 5 类）",
+            "把官方权重的层名称替换成自定义模型各层的名称",
+            "按 Bottleneck 输出节点 2048 新定义 5 节点的全连接层权重",
+            "重新保存成可被 train.py 调用的权重文件"
+          ]
+        },
+        { "type": "p", "text": "预处理的依据也能在 slim 里查证：preprocessing 文件夹的预处理 factory 里，resnet_v1_50 映射到 VGG 的预处理方法；打开 vgg_preprocessing.py 就能看到那个把 RGB 三通道分别减去三个均值的函数。想用其他模型的权重，同样先查 factory 里它对应的预处理方法并保持一致即可。作者自评这个转换方法比较笨（Keras 官方预训练模型链接一直打不开），但现在可用。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "BasicBlock 和 Bottleneck 的 stride 分别放在哪一层？为什么？", "a": "BasicBlock 的 stride 在第一个 3x3 卷积上；Bottleneck 的第一层 1x1 卷积只降维不动高宽，stride=2 放在第二个 3x3 卷积上——让高宽减半只发生在计算量可控的那一层。" },
+    { "q": "make_layer 里生成下采样函数的两个条件是什么？各自覆盖哪些情况？", "a": "stride≠1：覆盖 conv3~conv5 的第一层（高宽要减半）；输入深度≠第一层卷积核个数×expansion：覆盖深层网络（50/101/152）conv2_x 的第一层，只调深度 64→256、不改高宽。" },
+    { "q": "trainable=False 和传 training=False/True 有什么区别？", "a": "trainable 是冻结开关，False 时该模型内所有参数（包括 BN 的 μ/σ 统计与 γ/β 更新）都不动，training 传 True 也没用；不冻结时 BN 默认 trainable=True，才由 training 参数区分训练（统计当前 batch）与验证（用历史统计）两种状态。" },
+    { "q": "迁移学习时为什么要减 ImageNet 的 RGB 均值？在哪里查证？", "a": "预训练权重是在减过这些均值的图像上训练的，输入分布不一致就无法成功训练（验证集与预测都要同样处理）。查证方法：slim 框架 preprocessing 的 factory 里查目标模型映射到的预处理方法（resnet_v1_50 对应 VGG 预处理），再到对应文件里看具体操作。" }
+  ]
+}

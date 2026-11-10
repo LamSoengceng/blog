@@ -1,0 +1,104 @@
+{
+  "slug": "bv1l8411y7th-stl-competitive",
+  "title": "算法竞赛常用 STL 用法",
+  "summary": "竞赛 STL 的主线是容器加算法：vector 可当万能数组，stack/queue 只露两端，priority_queue 二叉堆取最值，set/map 负责去重与映射，再配上 sort、二分和去重三件套就能覆盖大部分场景。",
+  "date": "2026-11-11",
+  "minutes": 12,
+  "tags": ["C++", "STL", "算法竞赛", "数据结构"],
+  "source": {
+    "platform": "bilibili",
+    "author": "ChrisKim_ZHT",
+    "videoId": "BV1L8411y7th",
+    "url": "https://www.bilibili.com/video/BV1L8411y7th"
+  },
+  "keyTerms": [
+    { "term": "STL", "text": "标准模板库，基于模板语法写成，四组件：算法、容器、仿函数、迭代器，竞赛主要用前两个。" },
+    { "term": "vector", "text": "长度可变的顺序数组，数据存在堆空间，可用构造函数指定长度和初值，可嵌套成多维。" },
+    { "term": "priority_queue", "text": "优先队列，底层二叉堆，常数时间查最值、对数时间插入提取，默认大顶堆。" },
+    { "term": "set / map", "text": "底层有序的关联容器，增删查均为 O(log n)；set 存单值，map 存键值对，键默认升序。" },
+    { "term": "迭代器", "text": "统一的遍历抽象，begin/end 分别指向首元素与末元素的后一位；end 指向的位置不可访问。" },
+    { "term": "lower_bound / upper_bound", "text": "在有序序列上二分找第一个 ≥x 与第一个 >x 的位置，返回迭代器，减头迭代器转下标。" },
+    { "term": "erase(unique(…))", "text": "去重固定套路：先 sort 让相同元素相邻，unique 把重复压到前面，再 erase 掉尾部无效数据。" }
+  ],
+  "sections": [
+    {
+      "heading": "STL 是什么，比赛为什么值得用它",
+      "blocks": [
+        { "type": "p", "text": "STL 全称标准模板库：符合 C++ 标准的编译器都能用；「模板」意味着快速排序既能排 int、也能排 double 和自定义类。它包含四个组件——算法、容器、仿函数（重载了小括号运算符的类）、迭代器，竞赛里 90% 的使用集中在算法和容器上。" },
+        { "type": "compare", "columns": ["维度", "手写", "STL"], "rows": [
+          ["代码量", "快速排序 19 行", "sort(a.begin(), a.end()) 一行"],
+          ["调试", "每一行都是自己敲的，都可能出错", "只要传参和调用方式对，内部必然正确"],
+          ["性能", "可针对题目特化，常数最小", "通用结构有常数开销，极端卡常时可能吃亏"]
+        ] },
+        { "type": "callout", "tone": "key", "text": "卡常指算法复杂度正确但常数太大被卡：比如你的 3n² 撞上评测要求的 n²。平时放心用 STL，真正卡常的题再考虑手写针对性实现。" }
+      ]
+    },
+    {
+      "heading": "vector：可当万能数组用",
+      "blocks": [
+        { "type": "p", "text": "vector 是长度可变的顺序结构，声明写作 vector<int> a。构造函数可传长度和初值：vector<int> a(100, 3) 就是 100 个 3。二维是「一维数组的数组」——vector<vector<int>> a(n, vector<int>(m)) 表示 n 行 m 列，初值填一个行向量；三维再套一层即可。这种写法在 DP 开高维数组时很常用。" },
+        { "type": "p", "text": "常用成员函数：push_back 尾接、pop_back 尾删、size 取长度、clear 一键清空、empty 判空、resize 改长度（改长会补初值、改短直接截断）。它存在堆空间，声明在函数里也不会像超大普通数组那样爆栈。" },
+        { "type": "compare", "columns": ["写法", "耗时（1e8 个数）", "原因"], "rows": [
+          ["声明后逐个 push_back", "约 500ms", "填满即扩容翻倍并整体搬迁，触发多次重分配"],
+          ["构造时指定长度再赋值", "约 250ms", "无重分配开销"]
+        ] },
+        { "type": "p", "text": "所以能提前知道规模就先 resize。另一个易错点：size() 返回的是 size_t（无符号），65536 × 65536 正好溢出 2³² 变成 0，程序直接 WA——涉及乘法比较时先转成 long long。它还有个不可替代的场景：题目给 n、m 均到 1e6 但 n×m ≤ 1e6，普通数组开 1e6×1e6 直接爆内存，二维 vector 读入 n、m 后再生成，内存刚好够用。" }
+      ]
+    },
+    {
+      "heading": "stack、queue、priority_queue：只露两端的容器",
+      "blocks": [
+        { "type": "compare", "columns": ["容器", "规则", "取元素"], "rows": [
+          ["stack 栈", "先进后出", "top 看栈顶，适合括号匹配、深度优先"],
+          ["queue 队列", "先进先出", "front 队首 / back 队尾，适合广度优先"],
+          ["priority_queue", "堆顶永远是最值", "top 取堆顶，适合动态插入 + 反复取最值"]
+        ] },
+        { "type": "p", "text": "三者进出都是 push / pop，另有 size 与 empty。priority_queue 默认是大顶堆；要小顶堆写 priority_queue<int, vector<int>, greater<int>>——第二参数显式给出底层容器（默认就是 vector），第三参数 greater<int> 是个现成仿函数，照抄即可。" },
+        { "type": "p", "text": "为什么不用「每次操作后快排」维护最值？n 个元素 k 次操作，快排一次 O(n log n)，总复杂度 k·n·log n 在 1e6 级别会超时；堆的插入和弹出都是 O(log n)，k 次也只有 k log n。" },
+        { "type": "callout", "tone": "warn", "title": "三个共同限制", "text": "它们都不能访问内部元素：stack/queue 不许用中括号下标，priority_queue 不许下标也不许改堆顶（pq.top() = 1 编译不过）。想改堆顶只能曲线救国：top 取出 → pop 弹掉 → push 压入修改后的新值。" },
+        { "type": "p", "text": "另外 stack 可以用 vector 顶替：push_back 进栈、back 看栈顶、pop_back 出栈，行为完全一致——所以题目不卡常时甚至不必专门用 stack。" }
+      ]
+    },
+    {
+      "heading": "set 与 map：有序的关联容器",
+      "blocks": [
+        { "type": "p", "text": "set 有集合三性质中的两个：互异性（重复插入只存一份）与确定性，但无序性不成立——它自动按升序排好（想真无序用 unordered_set，可重复用 multiset）。核心操作是 insert 插入（注意不是 push）、erase 删除、find 查找（返回迭代器，找不到返回 end()）、count 计数（普通 set 只会返回 0 或 1，multiset 里才返回真实个数）。增删查都是 O(log n)，size 是 O(1)。遍历要用迭代器或 C++11 基于范围的 for 循环，它没有下标索引。" },
+        { "type": "p", "text": "map 是「任意类型到任意类型」的映射：普通数组只能 int 下标，map<string, int> 可以拿字符串当下标，键默认按字典序升序。用法和数组最像——m[\"apple\"] = 3 直接建立映射、再赋值即修改、erase 删除键。统计文章词频就是一遍循环 m[word[i]]++ 的事。" },
+        { "type": "callout", "tone": "warn", "title": "中括号访问不存在键的副作用", "text": "用 m[key] 访问一个不存在的键时，map 会自动创建这个键并赋初值 0。哪怕你只是「查一下」，之后再 count 这个键也会变成存在——判断存在性请用 count 或 find，别随手写 m[key]。" },
+        { "type": "mermaid", "title": "按需求选容器", "code": "flowchart LR\n  Q[需要什么] --> R[随机访问/顺序表] --> V[vector]\n  Q --> S[只动一端] --> ST[stack/queue]\n  Q --> M[反复取最值] --> PQ[priority_queue]\n  Q --> U[去重/有序/大值域标记] --> SE[set]\n  Q --> MP[任意类型映射] --> MA[map]" },
+        { "type": "p", "text": "set 的杀手级用法是标记大值域：元素范围 ±1e18 而个数只有 1e6 时，bool 数组根本开不出来，改用 set——出现过就 insert，查询就 count，空间和复杂度都扛得住。" }
+      ]
+    },
+    {
+      "heading": "string 与 pair：两个省事的小件",
+      "blocks": [
+        { "type": "p", "text": "string 头文件是 <string>，别写成 <cstring>（那是 C 的 string.h）。cin/cout 直接读写，== 判等、+ 与 += 拼接、[] 改单字符。substr(pos, len) 从起点下标取指定长度的子串——第二个参数是长度不是终点，参数设计很特殊要留意；find 返回子串起始下标，找不到返回 string::npos。" },
+        { "type": "callout", "tone": "warn", "title": "string 两个性能坑", "text": "尾接字符串一定用 +=：s = s + t 会先构造临时对象再赋值，5×10⁵ 次拼接要 15 秒，+= 几乎瞬时。另外 find 不是 KMP，内部是 O(n²) 的暴力匹配，别指望它过字符串匹配题。" },
+        { "type": "p", "text": "字符串与数字互转有现成函数：stoi/stoll/stof/stod 把字符串转成数值，to_string 反向转换。如果实在想混用 printf，得用 s.c_str() 返回 C 风格字符数组——但既然用 C++，直接 cin/cout 就好。" },
+        { "type": "p", "text": "pair 是二元组：p.first、p.second 访问，== 可直接判等，{1, 2} 列表构造是 C++11 语法，老 OJ（如 POJ）要用 make_pair(1, 2)。它和自己定义 struct 二元组效率相当；三元组可以 pair<int, pair<char, char>> 套娃实现，但套多了可读性很差。" }
+      ]
+    },
+    {
+      "heading": "迭代器与常用算法",
+      "blocks": [
+        { "type": "p", "text": "数组内存连续，a[4] 就是首地址偏移 4，所以下标够用；set 这类非线性结构没有「第 4 个」的意义，遍历方式要靠迭代器定义（如中序遍历）。固定套路：it 从 begin() 出发，到 != end() 停止（end 是末元素后一位，指向的位置不可访问），++it 后移，*it 解引用取值。rbegin/rend 反向遍历；vector 支持迭代器相减求距离，set/map 不支持——各容器迭代器能力不同，没必要时尽量别用迭代器去操作容器。" },
+        { "type": "callout", "tone": "warn", "title": "迭代器删元素的悬垂陷阱", "text": "在遍历 vector 时 erase 当前元素，后面元素整体前移，迭代器已指向下一个元素，再 ++it 就会跳过一个；若删的是最后一个元素，it 已等于 end()，再自增直接越界 RE。要删就用 erase(unique(b, e)) 或 remove 类套路，别手写「边遍历边删」。" },
+        { "type": "compare", "columns": ["算法函数", "作用", "关键细节"], "rows": [
+          ["sort(b, e[, cmp])", "排序，第二参数是终点后一位", "cmp 是 bool 函数：返回 true 表示 A 排在 B 前不用换；相等元素必须返回 false（别带等号），否则可能 RE"],
+          ["lower_bound / upper_bound", "有序序列上二分找第一个 ≥x / >x 的位置", "必须先有序；返回迭代器，减头迭代器转下标；找不到返回 end()"],
+          ["reverse(b, e)", "反转区间", "第二参数同样是终点后一位"],
+          ["unique(b, e)", "消除相邻重复", "只压相邻重复且长度不变，先 sort 再 erase(unique(b,e), e) 才是真去重"],
+          ["max / min / swap", "取最值、交换", "C++11 起 max({1, 3, 2}) 可直接比多个"]
+        ] },
+        { "type": "p", "text": "数学函数要防浮点误差：abs/exp/log（e 为底）/pow/sqrt/ceil/floor/round 都在，但操作数全是整数时改用整数写法更稳——a/b 向下取整就是整除，向上取整写 (a + b - 1) / b；√a 别用 sqrt 再取整（可能返回 1.999…），用二分求；a 的 b 次方用快速幂不用 pow；以 2 为底的对数用内置 __lg 而不是 log2（后者受浮点误差影响）。C++17 起标准库自带 gcd/lcm，GNU 编译器也内置 __gcd，当然手写六行也很快。" },
+        { "type": "p", "text": "最后一点学习方法：本课只覆盖最核心的一层，容器库还有 deque、list 等，cppreference 有中文版，遇到不确定的函数直接查手册比背快得多。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "为什么往 vector 里逐个 push_back 比先 resize 再赋值慢？", "a": "vector 底层空间填满时会触发重分配：申请更大的空间（翻倍）、把旧数据整体复制过去。逐个 push_back 会触发多次这样的搬迁；构造时指定长度就没有重分配开销，实测 1e8 个数快了一倍。" },
+    { "q": "priority_queue 怎么变成小顶堆？它和 stack/queue 共同的限制是什么？", "a": "写成 priority_queue<int, vector<int>, greater<int>>，第二参数显式传底层容器，第三参数传 greater 仿函数。共同限制是不能访问内部元素：不许下标访问，堆顶也不许直接赋值，改堆顶只能取出、弹出、再压入。" },
+    { "q": "map 用中括号访问一个不存在的键会发生什么？判断键是否存在该用什么？", "a": "map 会自动创建这个键并赋初值 0，副作用是后续 count 会认为它存在。判断存在性应该用 count（返回 0 或 1）或 find（与 end() 比较），不要随手写 m[key]。" },
+    { "q": "sort 的自定义比较器里，两个相等的元素为什么必须返回 false？", "a": "比较器约定返回 true 表示两元素当前顺序正确、无需交换。相等元素返回 true 会破坏排序实现的前提，可能导致 runtime error；所以写严格小于/大于，不要带等号。" }
+  ]
+}

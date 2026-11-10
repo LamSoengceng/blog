@@ -1,0 +1,90 @@
+{
+  "slug": "bv1wkav6beb-xai-agent-trust",
+  "title": "一个月 2000 个 PR：React 核心成员的 Agent 信任搭建法",
+  "summary": "高产不靠并行开一百个 agent，而是先搭好信任：让 agent 能自己验证工作（CLI + feature map），再用代码库、静态分析、规则与技能四层把错误模式堵死，人只做真正的架构决策。",
+  "date": "2026-11-11",
+  "minutes": 10,
+  "tags": ["Agent", "工程效率", "Claude Code", "系统设计"],
+  "source": {
+    "platform": "bilibili",
+    "author": "ChHsich",
+    "videoId": "BV1WKaV6bEBB",
+    "url": "https://www.bilibili.com/video/BV1WKaV6bEBB"
+  },
+  "keyTerms": [
+    { "term": "信任阶梯", "text": "从盯 1~5 个 agent 到并行上百个 agent，卡点是信任；没有信任就只有一堆垃圾 PR 和回归。" },
+    { "term": "verification skill", "text": "教 agent 自己跑应用、用 Chrome DevTools 协议采性能 trace 和堆快照的技能，产出经验证据。" },
+    { "term": "feature map", "text": "记录应用有哪些功能、用户如何触达、对应什么 DOM 元素与快捷键的物料化记忆，随技能存放并由自动化维护。" },
+    { "term": "categorically impossible", "text": "用更好的数据结构、算法和架构让某类错误写法在代码库里根本写不出来，是最高效的纠偏手段。" },
+    { "term": "单一铺设路径", "text": "每种事情只有一个受认可的做法，agent 无需猜测；用约定、lint 与 CI 把人引到这条路上。" },
+    { "term": "gardener", "text": "团队里专门盯住反模式、趁其蔓延前拔掉的角色，像打理花园一样维护代码库。" },
+    { "term": "outer loop", "text": "把 agent 接到 Slack、Sentry、Datadog 等外部事件源，事件触发 agent 自动建任务、复现 bug、开 PR。" }
+  ],
+  "sections": [
+    {
+      "heading": "两千个 PR 的由来：把人从瓶颈变成环境设计者",
+      "blocks": [
+        { "type": "p", "text": "演讲者 Lauren（X 上叫 potato）原是 React 核心成员，后随团队加入 xAI 做 Grok 客户端。她在 Cursor 负责 agent 窗口性能时，最初只能手工开着 Chrome DevTools 采 trace、截堆快照，而 PR 的合入速度像一面不断长高的墙，她根本无法确认性能是否在被回退。" },
+        { "type": "p", "text": "转折点是换思路：与其自己盯，不如把这些验证工作教给 agent。她从未把「月产两千 PR」设为目标——技能、工具和代码库改造一层层叠加，最终都汇聚到同一件事：对 agent 工作的信任。两千 PR 只是信任建立后的副产品。" },
+        { "type": "quote", "text": "我是瓶颈，我必须把自己掌握的工程知识传授给我的 agent 团队，这样我才不用事事把关。", "note": "演讲者对自己早期心态的描述" },
+        { "type": "mermaid", "title": "信任阶梯", "code": "flowchart LR\n  A[盯 1~5 个 agent] -->|验证技能| B[agent 自验工作]\n  B -->|四层防护| C[信任环境]\n  C --> D[并行上百个 agent]" }
+      ]
+    },
+    {
+      "heading": "第一层信任：让 agent 自己验证工作",
+      "blocks": [
+        { "type": "p", "text": "信任的起点是验证（verification）。它的谱系很宽：一端是验证技能——教 agent 跑应用、用 Chrome DevTools 协议调试、采性能 trace 和堆快照；另一端是用 Lean、TLA+ 这类形式化方法验证业务不变量。绝大多数团队做不了后者，但只靠前者已经能走很远。" },
+        { "type": "p", "text": "她写的第一个验证技能包含两个关键组件。一是 CLI：与其让每次 agent 会话现写脚本（每次写法都可能不同），不如在技能目录里放一个打磨好的 CLI，保证「跑应用、采证据」可复现。二是 feature map：最初用户发来一张模糊截图加三个问号，agent 能跑应用却猜不出诉求——于是她参考 sitemap 做了一张地图，写清每个功能是什么、用户怎么到达、要点什么 DOM、按什么快捷键，由自动化持续维护。" },
+        { "type": "compare", "columns": ["组件", "解决的问题", "维护方式"], "rows": [
+          ["CLI", "每次会话脚本不同，验证不可复现", "当关键基础设施投入人力打磨"],
+          ["feature map", "agent 看不懂含糊的用户反馈", "自动化随代码库更新"]
+        ] },
+        { "type": "callout", "tone": "key", "text": "验证解决的是正确性：结账按钮真的会结账吗？它给不出性能与代码质量的答案，那是工程技能要补的课。" },
+        { "type": "p", "text": "正确性之外还有质量。她把调试、功能开发、原型这些自己多年的工程 playbook 做成技能集（P-Stack），团队里资深工程师把经验沉淀成共享技能库，再与验证技能叠加——agent 不只验证「功能对」，还能用真实性能数字验证「做得好」。" }
+      ]
+    },
+    {
+      "heading": "四层防护：把错误模式从「劝」变成「不可能」",
+      "blocks": [
+        { "type": "p", "text": "纠正 agent 时，别只停在口头纠偏，应按效果从强到弱选一层落地。最强的是代码库与架构本身：agent 爱扩展现有模式，改用更好的数据结构或算法，让错误写法根本写不出来；其次是静态分析（lint、编译器诊断、CI），发现 agent 反复犯同一类错就写成 lint 规则；再次是规则、Bugbot 和技能这类引导层，agent 多数时候会遵守但可能漏读；最后才是风格指南——它只能靠人肉 code review 兜底，以 PR 的涌入速度根本盯不住。" },
+        { "type": "compare", "columns": ["层级", "强度", "手段"], "rows": [
+          ["代码库/架构", "最强：错误模式不可能出现", "数据结构、算法、架构约束"],
+          ["静态分析", "强：违规直接拦下", "lint 规则、编译器诊断、CI"],
+          ["规则/技能/Bugbot", "中：引导但可能被忽略", "规则文件、技能、Bugbot"],
+          ["风格指南", "最弱：只能靠人 review", "人工评审，别只依赖它"]
+        ] },
+        { "type": "callout", "tone": "warn", "title": "反模式会像病毒一样传播", "text": "一个看似无害的 workaround 注释，几天内就会被 agent 到处复制，变成全代码库的事实标准。发现坏模式的第一反应应是写 lint 规则止损——先止血，再让 agent 去清理存量。" },
+        { "type": "steps", "items": [
+          "看到 agent 犯错：先判断属于哪一层能解决",
+          "优先改架构/数据结构，让错误写法不可能",
+          "做不到就写 lint 规则，先止住蔓延",
+          "再配规则与技能做引导",
+          "回头安排 agent 清理存量坏模式"
+        ] }
+      ]
+    },
+    {
+      "heading": "Dune：为 agent 重写整个框架",
+      "blocks": [
+        { "type": "p", "text": "在 Grok 代码库里，团队把这套理念落成了名为 Dune 的 agent 友好框架。核心原则：agent 爱走捷径，那就把捷径设计成正确路径。结果是一个对人类不太自由、处处受限的代码库，却让上下文极少、甚至由设计师、产品经理、CEO 驾驶的 agent 也能默认写出合格代码。" },
+        { "type": "p", "text": "三条支柱：删掉存量技术债；每个受认可做法只保留一条「铺设好的路径」，agent 无需猜；看到坏模式先写 lint 规则止血。Dune 里还有大量从 Cursor agent 窗口性能教训来的硬边界——比如主进程代码禁止被渲染线程 import（渲染线程长任务必须小于 16ms 才能保 60fps），这类约束直接由 import 依赖图强制执行。" },
+        { "type": "callout", "tone": "key", "title": "Dune 禁用了代码注释", "text": "agent 会把注释当成「不用真修」的借口，用注释解释一下就贴创可贴走人。为了不让这种模式被复制传播，Dune 干脆全面禁注释。团队需要一个 gardener 角色，像除杂草一样在反模式扩散前拔掉它。" },
+        { "type": "quote", "text": "代码库是 agent 记忆的物料化快照——你要让下一个 agent 来时，最可能的动作就是把好模式延续下去。", "note": "演讲者对「代码库即记忆」的表述" }
+      ]
+    },
+    {
+      "heading": "外环自动化：事件驱动而不是人驱动",
+      "blocks": [
+        { "type": "p", "text": "最后一层是 outer loop：把 agent 接到 Slack、Sentry、Datadog、PlanetScale 这些日常工具上，事件自动触发动作——有人报 bug 就自动复现、自动开 PR。有人把这叫「公司大脑」，但演讲者认为不需要那么复杂的基建：agent 本来就擅长用工具，配上 Routines（订阅 Slack 线程和 Sentry 告警）加 cloud agent，个人也能搭出自己的「米其林厨房」。" },
+        { "type": "mermaid", "title": "事件驱动的自动化闭环", "code": "flowchart LR\n  A[Slack/Sentry/Datadog] --> B[外环事件]\n  B --> C[Grok 自动接单]\n  C --> D[cloud agent 干活]\n  D --> E[自动开 PR]\n  E --> F[验证技能把关]\n  F --> A" },
+        { "type": "p", "text": "回顾整场分享：两千 PR 的秘密不是某个技巧，而是五件事按序投入——用架构让错误不可能、用静态分析拦截、用规则与技能引导、用工程技能管质量、用验证技能拿证据。她自己的总结是：这不算秘密，是大量艰苦的工作。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "为什么大多数团队卡在只能盯 1~5 个 agent？", "a": "卡点不是工具而是信任。没有验证手段就并行开上百个 agent，只会得到一堆垃圾 PR 和线上回归；先让 agent 能自证工作正确，才敢放开并行。" },
+    { "q": "feature map 解决了什么问题？为什么放在技能目录里？", "a": "它记录应用的功能清单、用户到达路径、DOM 元素和快捷键，解决 agent 看不懂模糊用户反馈的问题。放在技能目录随代码库存放，并由自动化维护，相当于给 agent 的物料化记忆。" },
+    { "q": "agent 反复犯同一类错误，最有效的两种根治手段是什么？", "a": "一是重构架构/数据结构让该错误根本写不出来（categorically impossible）；二是写 lint 规则由 CI 拦截。两者都比在规则文件里写一句提醒、或靠人肉 review 强。" },
+    { "q": "为什么 Dune 框架要禁用代码注释？", "a": "agent 会把注释当成不真正解决问题的正当理由：贴个创可贴、留句注释就走。禁掉注释是为了防止这个坏模式被 agent 复制并在全库蔓延。" }
+  ]
+}

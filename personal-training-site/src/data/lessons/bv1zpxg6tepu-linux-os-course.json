@@ -1,0 +1,118 @@
+{
+  "slug": "bv1zpxg6tepu-linux-os-course",
+  "title": "一口气速通 Linux 操作系统",
+  "summary": "Linux 的主干是六件事：内核与发行版体系、磁盘分区与启动流程、一切皆文件的目录树与 inode、重定向管道加文本三剑客、用户权限模型，以及进程服务与日常运维命令。",
+  "date": "2026-11-11",
+  "minutes": 13,
+  "tags": ["Linux", "操作系统", "运维", "Shell"],
+  "source": {
+    "platform": "bilibili",
+    "author": "橙子粉972",
+    "videoId": "BV1zpxg6tEpU",
+    "url": "https://www.bilibili.com/video/BV1zpxg6tEpU"
+  },
+  "keyTerms": [
+    { "term": "GNU/Linux", "text": "Linux 本身只是内核，配上 GNU 的 GCC、Bash 等工具才构成完整系统，严格说应叫 GNU/Linux。" },
+    { "term": "GPL", "text": "著作权（copyleft）许可证：可自由使用修改甚至收费，但发布修改版必须同样开放源码。" },
+    { "term": "VFS", "text": "虚拟文件系统，内核用它统一管理 EXT4、XFS 等各种文件系统。" },
+    { "term": "inode", "text": "存文件类型、权限、属主、时间与数据块位置，唯独不存文件名；文件名记录在目录里。" },
+    { "term": "运行级别 / target", "text": "System V 用 0~6 七个运行级别描述系统状态，systemd 改用 target，如 3 对应 multi-user.target。" },
+    { "term": "umask", "text": "决定新建文件默认权限：文件从 666、目录从 777 出发，按位去掉 umask 里的权限位。" },
+    { "term": "守护进程", "text": "以后台服务形式长期运行的程序，名字常以 d 结尾，由 1 号进程 systemd 统一管理。" }
+  ],
+  "sections": [
+    {
+      "heading": "从 UNIX 到发行版：Linux 的家谱",
+      "blocks": [
+        { "type": "steps", "items": [
+          "1969：贝尔实验室的 Thompson 与 Ritchie 在 PDP-7 上写出 UNIX，1973 年用 C 重写",
+          "UNIX 商业化分裂出 BSD、System V 等分支，IEEE 制定 POSIX 统一接口",
+          "1983：斯托曼发起 GNU 计划，产出 GCC、Bash、EMACS 与 GPL 许可证",
+          "1991：托瓦兹参考 MINIX 写出 Linux 内核，1992 年改用 GPL，与 GNU 组成完整系统",
+          "2005：托瓦兹为管理内核代码又写出了 Git"
+        ] },
+        { "type": "quote", "text": "这只是个业余爱好，不会像 GNU 那样大而专业。", "note": "1991 年 8 月林纳斯在新闻组发帖对 Linux 内核的定位" },
+        { "type": "p", "text": "UNIX 留下的设计哲学贯穿全课：一个程序只做一件事并做好，程序间用文本流协作，一切皆文件。Linux 本身只是内核，负责进程、内存、文件系统（经 VFS 统一）、设备驱动和 TCP/IP 五大块；内核加上 Shell、包管理器、桌面环境和应用打包在一起才是发行版。" },
+        { "type": "compare", "columns": ["维度", "红帽系", "Debian 系"], "rows": [
+          ["包格式", "RPM", "DEB"],
+          ["管理工具", "yum / dnf（dpkg 之外还有 rpm 裸装）", "apt / dpkg"],
+          ["代表发行版", "RHEL（商业）、Fedora（试验田）、CentOS（已停维，继任 Rocky/AlmaLinux）", "Debian（以稳著称）、Ubuntu（每两年 4 月出 LTS）、Deepin"],
+          ["本课示例", "CentOS 7 / RHEL 系", "Ubuntu 24.04"]
+        ] },
+        { "type": "callout", "tone": "key", "title": "内核态与用户态", "text": "CPU 分两种运行状态：内核态可执行任何指令，用户态程序不能直接碰硬件，读文件、建网络、创建进程都必须通过 open/read/write/fork 等系统调用请内核代办。Linux 是宏内核，但支持运行时用 modprobe/rmmod 加载卸载模块。" }
+      ]
+    },
+    {
+      "heading": "磁盘、分区与启动流程",
+      "blocks": [
+        { "type": "p", "text": "磁盘在 /dev 下都是文件：第一块 SATA/SCSI 盘是 sda、分区加数字；NVMe 盘是 nvme0n1、分区 nvme0n1p1；虚拟机常是 vda。传统 MBR 分区占第一个扇区 512 字节（446 引导 + 64 分区表 + 55AA 结尾），最多 4 个主分区，逻辑分区从 5 开始编号，最大 2TB；新方案 GPT 配 UEFI，默认 128 个分区、支持大硬盘且末尾有分区表备份。" },
+        { "type": "mermaid", "title": "Linux 启动五步", "code": "flowchart LR\n  A[BIOS/UEFI\n加电自检] --> B[引导程序 GRUB2\n载入内核与 initramfs]\n  B --> C[内核初始化\n挂载根文件系统]\n  C --> D[启动 1 号进程\nsystemd]\n  D --> E[并行启动服务\n到登录界面]" },
+        { "type": "p", "text": "安装时最基本的分区是 /boot（约 1G 放内核引导）、swap（内存小时传统取 2 倍内存）和根分区，UEFI 还要 /boot/efi。老系统用 7 个运行级别（0 关机、1 单用户维护、3 字符多用户、5 图形、6 重启），systemd 改用 target 对应，如 systemctl set-default multi-user.target 设置开机进字符界面。" },
+        { "type": "callout", "tone": "warn", "title": "两个易错点", "text": "init 0 是关机、init 6 才是重启；服务器不能直接断电——内存里的缓冲数据来不及写盘可能损坏文件系统，要用 shutdown/poweroff 正常关机。" }
+      ]
+    },
+    {
+      "heading": "一切皆文件：目录树、inode 与常用命令",
+      "blocks": [
+        { "type": "p", "text": "Windows 每个盘一棵树，Linux 只有一棵从 / 出发的树，FHS 规定各目录用途：配置在 /etc、设备在 /dev、日志在 /var/log、内核在 /boot、普通用户家在 /home（root 的家是 /root）、临时文件在 /tmp、进程信息是内存虚拟的 /proc、第三方软件放 /opt、自编译软件放 /usr/local。路径分绝对（/ 开头）与相对（. 当前、.. 上一级、~ 家、- 上次所在）。" },
+        { "type": "p", "text": "ext4 把磁盘分成 inode 表和数据块：每个文件一个 inode，记录属性和数据块位置，唯独不存文件名——文件名记在目录里，目录本质是「文件名 → inode 号」的表。硬链接就是再加一个名字指向同一 inode（不跨文件系统、不能链目录，删原名不影响）；软链接是独立的新文件、存目标路径，原文件一删就失效。inode 数量格式化时就定死，海量小文件会耗光 inode，出现 df -h 有空间却建不了文件的怪象，要用 df -i 查看。" },
+        { "type": "cards", "items": [
+          { "term": "文件操作", "text": "mkdir -p 建多级、cp -r 复制目录、mv 移动/改名、rm -rf 强制递归删——命令行没有回收站，回车前再看一眼路径。" },
+          { "term": "查看内容", "text": "cat/tac、分页 more/less、head/tail（tail -f 盯实时日志）、wc -l 数行、stat 看属性。" },
+          { "term": "find", "text": "从哪找 + 什么条件（-name/-type/-size/-mtime/-user）+ 怎么处理（-exec {} \\;），-o 表示或、! 取反。" },
+          { "term": "三个时间", "text": "atime 最后读取、mtime 内容最后修改（ls -l 显示它）、ctime 属性最后改变——ctime 不是创建时间。" },
+          { "term": "vim 三模式", "text": "命令模式（dd/yy/p/u、/查找）、插入模式（i/a/o 进入，Esc 返回）、末行模式（:wq、:q!、:set nu、:%s/old/new/g）。" }
+        ] },
+        { "type": "callout", "tone": "warn", "title": "能不能删除一个文件，看的是目录", "text": "删除看的不是文件自身权限，而是它所在目录的写权限：只要对目录有 w 和 x，只读文件也能被删掉。另外通配符里的 * 匹配任意字符串但不匹配以点开头的隐藏文件。" }
+      ]
+    },
+    {
+      "heading": "重定向、管道与文本三剑客",
+      "blocks": [
+        { "type": "p", "text": "每个进程自带三个数据流：0 标准输入、1 标准输出、2 标准错误。> 输出重定向（存在即清空）、>> 追加、2> 收错误、&> 收全部，顺序很关键：>file 2>&1 两种输出都进文件，2>&1 >file 的错误仍留在屏幕上。> /dev/null 2>&1 是黑洞丢弃写法，< 输入重定向，<<（heredoc）在脚本里一次写入一段配置。" },
+        { "type": "p", "text": "管道 | 只传标准输出，把前一个命令的输出接到后一个的输入；tee 像 T 型三通一路存文件一路往下传，xargs 把输入转成命令参数（find … | xargs rm），$( ) 或反引号做命令替换。" },
+        { "type": "compare", "columns": ["工具", "分工", "常用写法"], "rows": [
+          ["grep", "找行", "-r 递归 -v 反选 -n 行号；'\\^$' 匹配空行，配合 -v 过滤注释与空行"],
+          ["sed", "改行", "流编辑逐行处理，默认不改原文件；-i 直接改文件并可用 -i.bak 留备份"],
+          ["awk", "切列", "模式+动作，-F 指定分隔符，$1 第一列、$NF 最后一列、NR 行号，BEGIN/END 块"]
+        ] },
+        { "type": "callout", "tone": "key", "title": "正则的星号 ≠ 通配符的星号", "text": "通配符里 * 单独就是任意字符串；正则里 * 只是前一个字符重复 0 到多次，任意字符串要写 .*。模式记得用单引号包住，防止被 shell 提前展开。" },
+        { "type": "p", "text": "经典面试题：统计日志里访问最多的三个 IP——awk '{print $1}' access.log | sort | uniq -c | sort -rn | head -3。配套小工具：cut -d: -f1 按分隔符切列、sort -nrk2 按数值倒序排第二列、uniq 只去相邻重复所以几乎总要先 sort、tr 替换或删除字符。口诀：grep 找行、sed 改行、awk 切列。" }
+      ]
+    },
+    {
+      "heading": "用户、权限与软件管理",
+      "blocks": [
+        { "type": "p", "text": "系统认数字不认名字：uid 0 是 root，1~999 是系统账号，普通用户从 1000 开始。账号信息在 /etc/passwd（7 字段，密码位只剩 x 占位），真密码在只有 root 可读写的 /etc/shadow（9 字段），组信息在 /etc/group。useradd/usermod/userdel 管用户，usermod -aG 组名 用户 追加附加组（不带 -a 会覆盖）；切换身份 su - 用户 会加载对方环境，日常更推荐 sudo，由 /etc/sudoers（visudo 编辑）决定谁能用。" },
+        { "type": "compare", "columns": ["机制", "作用对象", "典型场景"], "rows": [
+          ["SUID（4）", "二进制程序，执行时获程序属主权限", "/usr/bin/passwd：普通用户改密码时临时获得 root 权限写 shadow"],
+          ["SGID（2）", "程序或目录，目录内新文件继承目录属组", "团队共享目录"],
+          ["Sticky（1）", "仅目录，只有属主和 root 能删", "/tmp 的 rwxrwxrwt，谁都能放、不能删别人的"],
+          ["ACL", "突破一属主一属组的限制", "setfacl -m u:www-data:rw file，getfacl 查看，权限位末尾出现 +"]
+        ] },
+        { "type": "p", "text": "权限按身份顺序匹配（属主 → 属组 → 其他人），rwx 对目录是列文件名/增删改名/进入访问。数字法 r=4 w=2 x=1；umask 从 666（文件）/777（目录）出发按位去掉，不是减法。隐藏属性 chattr +i 连 root 都改不了文件，+a 只许追加适合保护日志。打包压缩是两件事：tar 负责打包（-c 创建 -x 解开 -t 查看 -v 显示 -f 指定文件名且必须放最后），gzip/bzip2/xz 负责压缩；装软件红帽用 rpm -ivh 与 yum（自动解依赖），Debian 用 dpkg 与 apt，源码安装经典三步 configure && make && make install。" },
+        { "type": "callout", "tone": "warn", "title": "安全习惯", "text": "find / -perm /4000 可列出系统里所有 SUID 程序排查提权风险；带 SUID 的 root 程序有漏洞就可能被用来提权。RAID 也不能替代备份——误删的文件在每块盘上被同时删掉。" }
+      ]
+    },
+    {
+      "heading": "进程、服务与日常运维",
+      "blocks": [
+        { "type": "p", "text": "进程是程序的一次运行：fork 复制出子进程（父进程返回值是子进程 PID、子进程返回 0），再 exec 换成新程序，1 号进程 systemd 是所有进程祖先。连续 n 次 fork 产生 2^n 个进程，两次 fork 后 printf 打印 4 次。ps aux 看进程（状态 R 运行、S 睡眠、D 不可中断、T 暂停、Z 僵尸），僵尸是子进程结束而父进程没 wait 回收；父进程先死则子进程成孤儿被 1 号收养。kill 默认发 15 号 SIGTERM 请其退出，-9 SIGKILL 才是强杀；nice 值 -20~19，越小优先级越高，普通用户只能调大自己的。" },
+        { "type": "compare", "columns": ["场景", "一次性", "周期性"], "rows": [
+          ["工具", "at（atq 查看、atrm 删除，atd 服务）", "crontab（-e 编辑 -l 查看 -r 删除，crond 服务）"],
+          ["时间写法", "at 22:00、at now + 5 minutes", "五个字段：分 时 日 月 周"],
+          ["示例", "——", "30 2 * * * 每天 2:30；*/10 * * * * 每 10 分钟；0 9,18 * * * 每天 9 点和 18 点各一次"]
+        ] },
+        { "type": "p", "text": "服务管理靠 systemctl：start 是现在启动（重启机器后消失），enable 是设开机自启（现在并不启动），两者都要就 enable --now。单元文件管理员版本放 /etc/systemd/system 优先于包自带版本，改完要 daemon-reload；日志用 journalctl -u 服务名 -f 跟踪。命令末尾 & 进后台，Ctrl+Z 暂停、jobs/bg/fg 管作业，退出登录还想跑就用 nohup 或 screen/tmux。" },
+        { "type": "p", "text": "加新硬盘四步：fdisk 分区 → mkfs.ext4/mkfs.xfs 格式化 → mount 挂载（写 /etc/fstab 六字段永久生效，先用 mount -a 测试）→ df/du 检查空间。LVM 用 PV→VG→LV 三层让存储像水池，在线扩容后别忘了扩文件系统（xfs_growfs / resize2fs）。网络用 ip addr/ss -tunlp/ping/traceroute 排查，ssh-keygen 加 ssh-copy-id 免密登录，防火墙 firewall-cmd --permanent 后必须 --reload 才生效。" },
+        { "type": "p", "text": "Shell 脚本三件套：#!/bin/bash 开头；变量赋值等号两边不能有空格，单引号原样、双引号替换变量；[ ] 两侧必须留空格，整数比较用 -eq/-ne/-gt/-lt/-ge/-le；if…then…fi、for…do…done、case…esac；$? 上一条命令退出状态，0 为成功。gcc 四阶段口诀：选项 E S C 连成 ESC，后缀 i s o 连成 ISO；makefile 命令行必须以 Tab 开头；gdb 编译时加 -g 才能调试。最后是排障思路：磁盘满 df 找分区 du 找大目录，CPU 高 top 按 P 找进程，内存看 free 的 available 而不是 free，端口占用 ss 找进程，服务起不来 systemctl status + journalctl。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "硬链接和软链接的区别是什么？", "a": "硬链接与原文件共用 inode，不跨文件系统、不能链目录，删掉原文件数据还在（链接数减到 0 才释放）；软链接是独立新文件、存的是目标路径，能跨分区能链目录，原文件一删就失效。" },
+    { "q": "为什么普通用户能用 passwd 改自己的密码，尽管 /etc/shadow 只有 root 能写？", "a": "因为 /usr/bin/passwd 设置了 SUID：任何人执行它时进程临时拥有程序属主（root）的权限，所以能写 shadow。SUID 只对二进制程序有效，对脚本无效。" },
+    { "q": "systemctl start 和 systemctl enable 有什么区别？", "a": "start 是现在立即启动服务，重启机器后就没了；enable 是设置以后开机自动启动，但现在并不启动。两者都要就用 enable --now。" },
+    { "q": "free 里 free 很小，是否说明内存不够？", "a": "不一定。Linux 会把空闲内存拿来做磁盘缓存（buff/cache），真正可分给新程序的是 available 列，看它才是判断内存是否吃紧的依据。" }
+  ]
+}

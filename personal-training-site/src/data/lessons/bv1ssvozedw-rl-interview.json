@@ -1,0 +1,103 @@
+{
+  "slug": "bv1ssvozedw-rl-interview",
+  "title": "面试官聊强化学习：GAE、PPO、GRPO、DAPO 的主线与学习顺序",
+  "summary": "大模型 RL 面试基本功是一条主线：从 GAE 的倒序实现，到 PPO 的策略梯度加重要性采样加 clip，再到 GRPO/DAPO/VAPO 对优势估计的改造，最后是 MDP→贝尔曼方程→REINFORCE→TRPO→PPO 的完整学习顺序。",
+  "date": "2026-11-11",
+  "minutes": 9,
+  "tags": ["强化学习", "PPO", "GAE", "大模型RL", "面试"],
+  "source": {
+    "platform": "bilibili",
+    "author": "happy魇",
+    "videoId": "BV1sSVozpEDw",
+    "url": "https://www.bilibili.com/video/BV1sSVozpEDw"
+  },
+  "keyTerms": [
+    { "term": "优势函数 A", "text": "最简定义 A(s,a)=Q(s,a)−V(s)，衡量动作比平均水平好多少；PPO 里最常用 GAE 来估。" },
+    { "term": "GAE", "text": "广义优势估计，TD error 一步估计与 k 步估计的加权平均：δ^GAE = Σ (γλ)^l · δ_{t+l}，λ 平衡偏差与方差。" },
+    { "term": "重要性采样", "text": "用旧策略采的样本更新新策略时必须乘的概率比值，是 PPO 公式里 ratio 的来源。" },
+    { "term": "GRPO", "text": "组内优势估计：同一 state 采多个回答，对 reward 减均值除方差作为优势，外加对参考策略的 KL 约束。" },
+    { "term": "DAPO", "text": "GRPO 的改进：Clip-Higher 鼓励探索、token 级损失归一化、动态采样过滤全对全错样本、超长输出惩罚。" },
+    { "term": "Bradley-Terry 损失", "text": "训练 reward model 的对比损失，DPO 的目标函数本质上就是它。" }
+  ],
+  "sections": [
+    {
+      "heading": "GAE：优势估计的偏差-方差权衡与倒序实现",
+      "blocks": [
+        { "type": "p", "text": "PPO 里最常用的优势估计是广义优势估计（GAE）。它是一步 TD error 与 k 步 TD error 的结合：一步估计 δ_t 有偏但方差小，k 步展开后偏差越来越小、方差越来越大。GAE 就是在两者之间做指数加权平均。" },
+        { "type": "p", "text": "推导只需三步：先记住 δ^GAE = Σ (γλ)^l · δ_{t+l} 这个形式；把每个 δ_t 按 r + γV(s') − V(s) 展开，相同的 V(s) 项提出来，里面就是高中就学过的等比数列求和；最后配上 (γλ) 的系数把多余项消掉。这就是为什么公式前面要乘 γλ 因子。" },
+        {
+          "type": "steps",
+          "items": [
+            "输入是每一步的 TD error δ 序列",
+            "倒着循环（从后往前求比正着求快）",
+            "advantage = γλ * 上一时刻的 advantage + 当前 δ",
+            "累乘得到每步的 GAE 值",
+            "因为是倒序计算，最后把结果列表 reverse 一下"
+          ]
+        },
+        { "type": "callout", "tone": "key", "text": "GAE 的代码核心只有一行递推：adv = γλ * adv_next + δ_t。倒序累乘后反转即可，不需要任何额外数据结构。" }
+      ]
+    },
+    {
+      "heading": "PPO：策略梯度、重要性采样与 clip",
+      "blocks": [
+        { "type": "p", "text": "PPO 的公式推导有一条清晰的链路。第一站是强化学习里的策略梯度；求出策略梯度后会发现有一项采不到——你想用已有策略采新样本去更新当前策略，这里必须做重要性采样，于是公式里出现了新旧策略的概率比值。PPO 再在此基础上限制更新幅度，引入 clip 操作。" },
+        { "type": "p", "text": "直观理解 PPO：采一组样本，发现优势函数为正、这个动作是好的，就提高该策略下选它的概率，往好的方向多学；优势为负就压低概率，尽量少往那个方向学。核心是理解公式，代码反而不难写。" },
+        {
+          "type": "mermaid",
+          "title": "从策略梯度到 PPO",
+          "code": "flowchart LR\n  A[策略梯度] --> B[重要性采样]\n  B --> C[新旧策略比值]\n  C --> D[clip 限制更新]\n  D --> E[PPO 目标函数]"
+        }
+      ]
+    },
+    {
+      "heading": "GRPO 与 DAPO：大模型 RL 对优势估计的改造",
+      "blocks": [
+        { "type": "p", "text": "GRPO 的核心改动只在优势估计这一处：对一个 state 采出多个回答（多个 action），得到多个 reward，对 reward 减均值、除方差，把这个归一化值当作优势，其余与 PPO 相同。注意它先对每个回答的 token 做平均——回答无论长短一视同仁，每个回答地位相同，这是 GRPO 级别的平均。此外它加了 KL 散度项，限制与参考策略（ref）的距离；不过不少实验（包括 DAPO）认为这个 ref 约束未必有好处。GRPO 求 KL 用的公式也是一篇论文专门提出的，号称无偏且方差较小。" },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "Clip-Higher", "text": "上 clip 范围放宽（ε-low 0.2、ε-high 0.28），鼓励探索，让策略熵保持较高水准。" },
+            { "term": "token 级归一化", "text": "把按回答平均的 sigma 挪到外层，token 地位相同、回答长短不再被拉平。" },
+            { "term": "动态采样", "text": "全对或全错的组减完均值全是 0、没有更新动力，训练时只挑非全 1 非 全 0 的数据，稳定训练。" },
+            { "term": "超长惩罚", "text": "语言任务没有环境失败的天然负信号，对超出长度上限的输出施加逐渐增大的惩罚。" }
+          ]
+        },
+        { "type": "callout", "tone": "note", "title": "DAPO 的四个操作", "text": "DAPO 是 GRPO 的更新版：Clip-Higher、token 级损失归一化、动态采样、超长惩罚。前两个改 clip 与平均方式，后两个分别解决「没梯度」和「该罚什么」的采样与奖励问题。" }
+      ]
+    },
+    {
+      "heading": "VAPO 与 DPO：回到价值函数与离线路线",
+      "blocks": [
+        { "type": "p", "text": "VAPO 相当于走回 PPO 那一套，认为显式的 value function 指导更好。它先解决 value model 的初始化问题：reward 只在整句输出完才给（这是 outcome reward model，不是 process reward model），中间过程监督太少，所以先用固定的策略（如 SFT 后的策略）不断采样，用蒙特卡洛 return 把 value model 训到 loss 和方差足够低，再拿它去辅助策略训练。" },
+        { "type": "p", "text": "VAPO 还有两个细节：GAE 的 λ 对策略和价值取不同值——策略用 0.95 以加速收敛，训练 value 时用 1（此时估计无偏，value 学得准）；另外在 PPO loss 上再加一项对正样本的模仿 loss，加强对正例的学习。" },
+        { "type": "p", "text": "DPO 则是另一条路。它的 loss 可拆成两半：本质是 Bradley-Terry 损失，也就是训练 reward model 用的那个对比损失（含正例与负例）；另一半来自 RL 里常见的最优策略表达式——对 reward 做反表达，代回 Bradley-Terry 损失就得到 DPO 的 loss。" },
+        { "type": "callout", "tone": "warn", "title": "DPO 的已知问题", "text": "DPO 损失里的 logistic 函数恒为正：两个样本哪怕非常接近，也始终存在一个 loss。基于这一点衍生出大量改进工作。另外 DPO 更像 offline RL，天然存在数据偏移；作者观点是如果有好的仿真环境，online RL 性能会优于 DPO——这是个人判断，不必上纲上线。" }
+      ]
+    },
+    {
+      "heading": "学习路线：从 MDP 到 PPO 的完整顺序",
+      "blocks": [
+        { "type": "p", "text": "真正想掌握强化学习，按概念依赖顺序走效率最高。强化学习的代码没有那么多需要精读的——把公式背好，代码自然简单。" },
+        {
+          "type": "steps",
+          "items": [
+            "MDP：定义问题，引出 value function 与 Q function",
+            "贝尔曼方程与最优贝尔曼方程",
+            "价值迭代（用最优贝尔曼方程）与策略迭代（贝尔曼方程先收敛价值再提取策略），对比两者全局最优与泛化性的差异",
+            "value function 估计：蒙特卡洛法与 TD error（一阶、高阶）",
+            "策略梯度（推导中用到重要性采样）→ REINFORCE → 优势函数 → TRPO → PPO",
+            "Actor-Critic 系列 → SAC（最大熵 RL）→ 经典算法 DDPG、TD3，再看 Diffusion 与 RL 结合的算法"
+          ]
+        },
+        { "type": "callout", "tone": "note", "text": "策略迭代容易收敛到局部最优但泛化性更强；价值迭代更容易找到全局最优但泛化性弱一些。REINFORCE++ 这类大模型 RL 变体都从 REINFORCE 这套推导出来，TRPO 建议直接读原论文，证明非常漂亮。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "GAE 为什么倒着算？写出那行核心递推。", "a": "因为 δ^GAE = Σ (γλ)^l · δ_{t+l} 是对后续 TD error 的指数加权求和，从后往前累乘复用中间结果比正着求快：adv = γλ * adv_next + δ_t，循环结束后把结果 reverse 即可。" },
+    { "q": "GRPO 的优势是怎么算出来的？和 PPO 差在哪？", "a": "同一个 state 采多个回答得到多个 reward，减均值、除方差作为该回答的优势。其余与 PPO 相同，只多了对参考策略的 KL 约束（DAPO 的实验认为这一项未必有益）。" },
+    { "q": "DAPO 针对哪些 GRPO 的问题做了什么？", "a": "四个：Clip-Higher（ε-low 0.2 / ε-high 0.28）防策略熵塌缩；按 token 而非按回答做归一化，长短回答不再一视同仁；动态采样过滤全对/全错组（减均值后无梯度）；对超长输出加递增惩罚补上语言任务缺失的负信号。" },
+    { "q": "DPO 的 loss 为什么说它本质是 Bradley-Terry？它有什么问题？", "a": "DPO = RL 最优策略表达式对 reward 做反表达后，代回训练 reward model 用的 Bradley-Terry 对比损失。问题是 logistic 项恒正：两个样本再接近也存在 loss；且 DPO 偏 offline RL，有数据偏移问题。" }
+  ]
+}

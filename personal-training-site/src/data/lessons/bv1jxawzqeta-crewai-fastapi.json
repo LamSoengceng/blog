@@ -1,0 +1,157 @@
+{
+  "slug": "bv1jxawzqeta-crewai-fastapi",
+  "title": "CrewAI + FastAPI：把多智能体协作应用对外提供 API 服务",
+  "summary": "CrewAI 用 Agent/Task/Process/Crew 四个概念组织多智能体协作，官方模板跑通\"研究员+报告分析员\"流水线后，再用 FastAPI 包一层 POST 接口把 Crew.kickoff 暴露成服务；三种模型实测里本地 7B 模型任务完成质量明显掉队。",
+  "date": "2026-11-11",
+  "minutes": 9,
+  "tags": ["CrewAI", "FastAPI", "多智能体", "LangChain生态"],
+  "source": {
+    "platform": "bilibili",
+    "author": "大模型基础",
+    "videoId": "BV1JXawzqEtA",
+    "url": "https://www.bilibili.com/video/BV1JXawzqEtA"
+  },
+  "keyTerms": [
+    { "term": "Agent", "text": "CrewAI 中自主执行任务的单元，有角色、目标、背景故事三个核心属性。" },
+    { "term": "Task", "text": "分配给某个 Agent 的具体任务，含描述、期望输出、可用工具列表等。" },
+    { "term": "Process", "text": "协调任务执行的机制：顺序流程按列表依次执行，分层流程由管理者 Agent 动态分配。" },
+    { "term": "Crew", "text": "一组协作完成一系列任务的 Agent 集合，定义执行策略与整体工作流。" },
+    { "term": "Pipeline", "text": "多个 Crew 顺序或并行执行的结构化流水线，一个阶段的输出作为下一阶段输入。" },
+    { "term": "kickoff", "text": "Crew 的启动方法，触发整个多智能体协作流程执行。" }
+  ],
+  "sections": [
+    {
+      "heading": "CrewAI 的四个核心概念",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "CrewAI 是构建多智能体系统的框架：把复杂任务拆解分配给不同角色和目标的 Agent，各自借助技能和工具完成职责，最终汇总成整体目标。理解它只需要抓住四个概念和它们之间的关系。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "Agent", "text": "角色、目标、背景故事定义一个成员；背景故事为 Agent 提供上下文。" },
+            { "term": "Task", "text": "任务描述、分配的 Agent、期望输出、工具列表；输出可以是 JSON 或写入指定格式文件。" },
+            { "term": "Process", "text": "类似项目经理：顺序流程按预定顺序执行，上一个任务的输出作为下一个的上下文；分层流程由管理者 Agent 计划、授权、验证。" },
+            { "term": "Crew / Pipeline", "text": "Crew 是执行单元（任务列表+Agent 列表+流程策略+可选管理者 LLM）；Pipeline 让多个 Crew 顺序或并行接力。" }
+          ]
+        },
+        {
+          "type": "mermaid",
+          "title": "顺序流程下的 Crew 执行",
+          "code": "flowchart LR\n    A[研究 Task] --> B[研究员 Agent]\n    B --> C[要点清单输出]\n    C --> D[报告 Task]\n    D --> E[报告分析员 Agent]\n    E --> F[完整报告]"
+        },
+        {
+          "type": "callout",
+          "tone": "note",
+          "text": "Crew 还可指定语言（默认英文，改中文需提供语言文件）和 verbose 开关——调试信息是否打印就由它控制。完整属性以官方文档为准。"
+        }
+      ]
+    },
+    {
+      "heading": "官方案例：研究员 + 报告分析员",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "官方入门案例定义了两个 Agent 和两个 Task：研究员负责对一个主题做深入研究，目标是探索该主题的前沿发展，期望输出一份 10 个要点的清单；报告分析员拿到这份清单，把每个要点扩展成完整章节，产出一份 Markdown 报告。"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "用户传入主题（topic）作为输入参数。",
+            "研究员 Agent 检索该主题的最新相关信息，输出要点清单。",
+            "要点清单作为上下文传给下一个任务。",
+            "报告分析员 Agent 基于清单写完整报告。",
+            "结果输出为 report.md 文件（顺序流程下第一个任务结束后第二个才启动）。"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "跑一遍就能看到协作的全过程：先打印研究员的开始工作与思考链，它给出找到的信息条目后任务结束；接着报告分析员接手，基于上下文写报告；最终文件落盘。这套模板跑通后，就可以直接在里面替换成自己的业务。"
+        }
+      ]
+    },
+    {
+      "heading": "接入大模型的三条路线",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "案例支持 GPT、非 GPT 国产模型、本地开源模型三类接入，关键是统一成 OpenAI 兼容接口后，切换模型只需改配置。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "GPT（代理）", "text": "走代理方式访问 OpenAI 接口，配置 API URL、Key 和模型名。" },
+            { "term": "OneAPI（国产）", "text": "OpenAI 接口的管理分发系统：创建渠道绑定通义千问等模型并填入对应厂商的 Key，再创建令牌当 API Key 用。" },
+            { "term": "Ollama（本地）", "text": "本地部署运行开源模型：官网下载安装，ollama pull 拉取模型（如 Qwen、Llama3.1），ollama run 启动交互。" }
+          ]
+        },
+        {
+          "type": "steps",
+          "items": [
+            "OneAPI：下载编译好的 release 包上传服务器，一条命令启动，IP+3000 端口访问管理页。",
+            "创建渠道：选择模型类型（如通义千问），粘贴在阿里云百炼申请的 API Key。",
+            "创建令牌：生成自己的 API Key，代码里用它请求 OneAPI 统一入口。",
+            "Ollama：终端执行 ollama run 模型名，本地没有会先下载再启动，直接可对话验证。"
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "从模板工程到 FastAPI 服务",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "工程搭建的路径：Conda 建 Python 3.11 虚拟环境（PyCharm 里选自定义环境），下载源码拷进项目，安装 crewai、crewai-tools、fastapi 等依赖。之后可以用 crewai create 命令生成官方模板工程（含 configs 下的 agents/tasks 两份 YAML 配置、main.py 入口），改 .env 填 API URL、Key 和模型名，crewai install 装依赖后 crewai run 启动。"
+        },
+        {
+          "type": "mermaid",
+          "title": "FastAPI 封装后的请求链路",
+          "code": "flowchart LR\n    A[客户端 POST] --> B[FastAPI 接口]\n    B --> C[解析 topic]\n    C --> D[Crew.kickoff]\n    D --> E[研究员+分析员执行]\n    E --> F[流式或 JSON 返回]"
+        },
+        {
+          "type": "p",
+          "text": "FastAPI 封装的核心改动在 main.py：lifespan 启动钩子按标志位初始化对应模型配置（OpenAI、OneAPI、Ollama 三选一），POST 接口解析请求体里的 topic 后调用 Crew 的 kickoff 方法拿到结果，再转成流式或非流式响应返回。Agent 和 Task 的定义则通过 @agent、@task 注解从 YAML 配置读入，最后由 Crew 按 process 顺序调度执行。"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "text": "配置与代码分离是这套结构的关键：换模型只改 .env 或配置里的 MODEL 标志位，Agent 角色和任务描述全在 YAML 里改，代码不动。"
+        }
+      ]
+    },
+    {
+      "heading": "三种模型实测对比与教训",
+      "blocks": [
+        {
+          "type": "compare",
+          "columns": ["模型", "表现", "适用性"],
+          "rows": [
+            ["GPT-4o mini", "速度较快，按要求准确选出 10 条信息，报告完整", "效果与速度平衡好，优先推荐"],
+            ["通义千问 Max", "结果可用，速度略慢于 GPT-4o mini", "国产替代可接受"],
+            ["Llama3.1 8B（本地）", "要点只找出 3 条且与任务要求不符，报告质量差，还遇到偶发 500 错误", "小参数本地模型跑多智能体吃力"]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "text": "实测教训：用 Agent 前一定要评估模型能力。同一个 10 条要点任务，GPT-4o mini 按要求完成，本地 7B 模型只给出 3 条且结果跑偏——多智能体场景对模型指令遵循能力的要求比单轮对话高得多。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "CrewAI 的顺序流程和分层流程有什么区别？",
+      "a": "顺序流程按任务列表预定顺序执行，上一个任务的输出作为下一个任务的上下文；分层流程允许指定一个管理者角色的 Agent 负责监督执行，任务不预先分配，而是根据 Agent 能力动态分配、审核并评估，需要给管理者配置独立的 LLM。"
+    },
+    {
+      "q": "通过 OneAPI 接国产大模型，渠道和令牌分别起什么作用？",
+      "a": "渠道绑定真实的大模型服务：选择模型类型（如通义千问）并填入对应厂商申请的 API Key，负责实际调用；令牌是 OneAPI 自己生成的 API Key，代码里用它请求 OneAPI 的统一入口，由 OneAPI 转发到渠道对应的模型。这样切换模型只需改渠道配置，代码不动。"
+    },
+    {
+      "q": "FastAPI 封装层主要做了哪几件事？",
+      "a": "一是 lifespan 启动钩子里按标志位初始化所选模型的环境变量配置（OpenAI/OneAPI/Ollama 三套）；二是定义 POST 接口，解析请求体中的 topic；三是调用 Crew 类的 kickoff 方法执行多智能体流程；四是把结果对象转换后以流式或非流式两种方式返回给请求端。"
+    }
+  ]
+}

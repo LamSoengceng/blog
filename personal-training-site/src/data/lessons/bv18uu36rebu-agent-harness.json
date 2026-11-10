@@ -1,0 +1,203 @@
+{
+  "slug": "bv18uu36rebu-agent-harness",
+  "title": "手撕 Claude Code 源码：从零理解 Agent Harness",
+  "summary": "Harness 是包住 LLM、让它能多轮调用工具完成任务的执行框架；看懂 Claude Code 的 API 请求循环、工具与权限层、上下文构建和 compact 压缩，就看懂了绝大多数 Coding Agent 的骨架。",
+  "date": "2026-11-11",
+  "minutes": 28,
+  "tags": ["Agent", "Claude Code", "源码解析", "系统设计"],
+  "source": {
+    "platform": "bilibili",
+    "author": "清华大学计算机系科协",
+    "videoId": "BV18Uu36rEbu",
+    "url": "https://www.bilibili.com/video/BV18Uu36rEbu"
+  },
+  "keyTerms": [
+    { "term": "Harness", "text": "包住 LLM 的执行框架：管理请求与重试、构建上下文、注册与执行工具、控制权限、记录轨迹和用量。" },
+    { "term": "ReAct Agent Loop", "text": "每轮根据当前观察决定下一步动作，执行结果回传后再做下一轮判断，直到模型不再请求工具。" },
+    { "term": "tool use", "text": "模型输出的结构化工具调用请求（name + input），由 harness 校验、授权后执行，结果转为下一轮 user message。" },
+    { "term": "system reminder", "text": "harness 在用户消息里附加的注入内容，如 CLAUDE.md 正文、当前日期等，随请求一起发给模型。" },
+    { "term": "CLAUDE.md", "text": "跨会话的项目级记忆文件：放可复用的 prompt、约束与项目结构，每次新对话自动加载。" },
+    { "term": "MCP", "text": "Model Context Protocol：外部服务通过固定端点暴露工具列表与调用入口，被映射成内部工具后统一调用。" },
+    { "term": "async generator", "text": "一边等模型和工具、一边持续 yield 中间事件的函数；让 REPL/UI 在任务未结束时也能实时渲染。" },
+    { "term": "compact", "text": "上下文接近上限时，让模型把历史对话总结成摘要，用摘要替换掉旧轨迹以腾出空间。" }
+  ],
+  "sections": [
+    {
+      "heading": "Harness 是什么：四种控制流形态",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Harness 就是\"我们如何控制 LLM\"：它替模型处理多轮工具调用，负责请求管理、流式响应、超时重试、上下文构建、工具注册校验执行、权限控制以及轨迹与用量记录。市面上 Harness 很多，但当前最主流的 Coding Agent 仍是 Codex 和 Claude Code，所以拿 Claude Code 当解剖标本最划算。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "简易问答式", "text": "用户提问、模型直接回答，无工具与反馈循环。实现简单延迟低，只适合知识问答、摘要类任务。" },
+            { "term": "Workflow", "text": "预先定义步骤、分支和依赖（DAG 或固定流水线）。执行路线稳定，适合审批流等固定业务。" },
+            { "term": "ReAct Agent Loop", "text": "每轮根据当前观察决定下一步动作。代码任务没法预先写成固定流程，所以 Claude Code 的核心是这种循环。" },
+            { "term": "Multi-Agent", "text": "多个 agent 按角色分工、消息共享或任务委派。适合边界清晰可并行的任务，但有通信成本和冲突修改的风险。" }
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "为什么代码任务必须用循环",
+          "text": "模型需要先搜索、再根据结果选文件、修改后还要看测试结果决定结束还是继续修——每一步都依赖上一步的真实执行结果，无法提前编排成静态流程。"
+        }
+      ]
+    },
+    {
+      "heading": "预备知识：一个 prompt 是怎么变成工具调用的",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "在 Claude Code 里输入一句话，harness 会先构造一个结构化 JSON 请求：system 字段放系统提示词，messages 放对话历史，tools 列出所有可用工具。请求发到模型后端后，chat template 把它序列化成训练时的格式，模型做 next token prediction 生成 token 流，harness 解析出 tool use 就去实际调用工具。"
+        },
+        {
+          "type": "compare",
+          "columns": ["API 格式", "输入字段", "典型使用方"],
+          "rows": [
+            ["Chat Completions", "messages", "智谱等多数国内厂商"],
+            ["Responses API", "input", "Codex"],
+            ["Anthropic Messages API", "messages + system 分离", "Claude Code"]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "title": "三种 API 互不兼容",
+          "text": "字段结构不同（input vs messages 等），Codex 直接接只提供 Chat Completions 的模型会用不了；需要一个中转代理做格式转换。Claude Code 用的是 Anthropic API。"
+        }
+      ]
+    },
+    {
+      "heading": "抓一条真实轨迹：ReAct 循环长什么样",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "给 Claude Code 一个\"随机串行调用三个工具\"的小任务并抓包，能看到完整的循环：模型先思考，输出 thinking、文本和第一个 tool use；harness 把这个 response 拼进历史、执行工具、把结果也拼进去，再打包发给模型拿下一轮输出。三轮之后模型返回一条只有 thinking 和 text、不带 tool use 的消息，harness 据此判断任务结束。"
+        },
+        {
+          "type": "mermaid",
+          "title": "Agent Loop 一次迭代的流水线",
+          "code": "flowchart LR\n  A[组装上下文] --> B[检查容量阈值]\n  B --> C[请求模型 API]\n  C --> D{有 tool use?}\n  D -- 否 --> E[返回文本 结束]\n  D -- 是 --> F[查找与校验工具]\n  F --> G[权限检查]\n  G --> H[执行 收集结果]\n  H --> I[结果转 user message]\n  I --> A"
+        },
+        {
+          "type": "callout",
+          "tone": "note",
+          "title": "你只发了一句话，请求里却多了东西",
+          "text": "harness 会自动附加 system reminder：CLAUDE.md 的内容、当前日期、可用 agent 类型等。CLAUDE.md 是跨会话记忆——把可复用 prompt、项目结构和约束写进去，每次新对话自动加载。"
+        }
+      ]
+    },
+    {
+      "heading": "源码分层与职责边界：main、run、query loop",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Claude Code 源码可粗分五层：入口与界面层（main、REPL、print/SDK 等非交互入口、IDE/远程连接）、应用编排层（配置加载、斜杠命令、plugins/skills 扩展、多 agent 协作管理）、核心运行时（query loop、上下文管理、模型客户端、hooks、权限）、状态与横切服务（会话保存恢复、记忆与历史），以及外部宿主（模型服务、shell、MCP server）。"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "main 函数：进程级准备——记录启动状态、设置安全环境、注册退出与中断处理器、解析命令行参数",
+            "run 函数：准备 agent 可用环境——读配置建立认证与 session，加载 cwd 与 CLAUDE.md、git 状态，收集 skill，连接 MCP 并把外部工具转成内部工具",
+            "根据运行模式（直接启动 / print / SDK）决定进入 REPL 交互还是非交互",
+            "REPL 收到用户输入后，收集历史、可用工具、权限上下文，组装成 query params",
+            "调用 query（agent loop）开始迭代，REPL 消费事件流更新 UI"
+          ]
+        },
+        {
+          "type": "p",
+          "text": "REPL 是 read-eval-print loop：读输入，斜杠开头走本地命令，否则构建 query params 传给 query。query 是一个异步生成器（async generator），一边等待模型和工具、一边持续 yield 事件——新文本、工具启动等。REPL 用 for await 消费事件流实时渲染。这个事件流是核心循环和不同交互界面（REPL、print mode、SDK）之间的边界，UI 不会和循环状态强耦合。"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "记住这组职责划分",
+          "text": "main 和 run 只负责准备环境；query loop 才是真正执行循环的东西。query params 是循环开始时拿到的全部依赖（消息、工具、模型、预算），query loop state 则在迭代过程中不断更新——两者别混淆。"
+        },
+        {
+          "type": "callout",
+          "tone": "note",
+          "title": "工具并发有安全边界",
+          "text": "loop 里创建了支持并发执行的 tool executor，但不是所有工具都能并行——比如同时写同一个文件就是不安全的，harness 会区分并发安全的工具。"
+        }
+      ]
+    },
+    {
+      "heading": "tool 层与权限系统：让模型意图受控执行",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "tool 不只是个函数，它同时面向模型和 harness 两方。面向模型要提供 name、description 和 input schema（例如 edit 工具声明 file_path 必须是 string、replace_all 是 bool、哪些参数必填）；面向 harness 则带上一组元信息：是否放进可用工具池、是否并发安全、是否只读、是否破坏性、权限校验流程，以及最核心的 call 实现，执行后产出 tool result。"
+        },
+        {
+          "type": "compare",
+          "columns": ["视角", "关注什么"],
+          "rows": [
+            ["面向模型", "名称、描述、参数 schema；用于构建请求上下文，让模型正确生成 tool use"],
+            ["面向 harness", "是否启用、并发安全性、只读/破坏性、checkPermissions、call 执行体、tool use context（工具池、MCP 连接、可委派的子 agent）"]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "MCP 解决的是外部工具的统一发现与调用：本地配置 MCP server 的地址和认证 key，Claude Code 启动时自动连接，拉取 tools/list 拿到工具列表，把远程工具映射为内部工具合并进 tool pool。模型像调内部工具一样生成 tool use，harness 转发到 MCP server 的调用端点，拿回 response 转成 tool result 进入消息历史。权限系统则位于模型意图与真实执行之间：每次疑似调用先查工具、做 schema 校验，再分类只读还是破坏性，按规则决定自动放行还是询问用户，外加沙箱和网络限制。"
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "title": "无法解析的命令要保守处理",
+          "text": "以 Bash 类工具为例：先用 schema 校验参数，再用静态分析判断命令是否只读；只有明确安全的才当只读工具放行，解析不了的复合命令宁可先不执行。"
+        }
+      ]
+    },
+    {
+      "heading": "上下文构建与 compact：有限窗口里塞什么",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "system prompt 里有版本号、角色声明（Anthropic 官方 CLI、交互式软件工程 agent），还有 harness 自动收集的环境信息：cwd、是否 git 仓库、分支、最近提交、平台 shell 和 OS 版本。这里的原则很朴素——系统已经知道的信息就别再让模型自己跑命令查一遍。messages 里除了你的 prompt，还有 system reminder 注入的 CLAUDE.md、日期和可用 agent 类型（如 explore、plan）。"
+        },
+        {
+          "type": "p",
+          "text": "skill 的加载是按需路由的：harness 扫描项目目录和用户目录，把每个 skill 的 name 和简介放进上下文，模型判断某个 skill 契合当前任务时，才通过 Skill 工具加载那个 markdown 的正文（里面可以有约束、工作流、脚本和参考资料）。因为上下文有限，不可能把所有 skill 全文塞进去——简介做索引、正文按需加载，这就是一种 context engineering。"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "每轮开始前检查上下文容量，超过阈值（如 90%）触发 auto compact",
+            "手动 compact 时，harness 在历史末尾追加一段要求 summarize 的 prompt",
+            "模型产出 analysis 与 summary，旧轨迹被替换成 summary 开头的续接消息",
+            "compact 前最后一次 assistant 输出会保留，以保证连续性",
+            "摘要里提示细节可去对应文件查原始 JSON，后续对话从摘要状态继续"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "multi-agent 也只是工具",
+          "text": "子 agent 通过 Agent 工具启动（description + prompt + subagent_type），在后台跑，完成后触发通知主模型。multi-agent 协作在 Claude Code 里不是独立框架，就是 tool 层的一种用法。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "模型返回什么信号时，agent loop 才会结束？",
+      "a": "模型返回的响应里不再包含 tool use，只有 thinking 和文本——说明它认为任务完成。只要有 tool use，harness 就会执行工具、把结果转成下一轮 user message 继续循环。"
+    },
+    {
+      "q": "query params 和 query loop state 的区别是什么？",
+      "a": "query params 是 agent loop 开始时传入的全部依赖（历史消息、系统提示、可用工具、权限回调、模型、最大轮数、预算等），循环中不变；query loop state 是循环过程中不断更新的运行状态（messages、tool use 上下文、checkpoint 等）。"
+    },
+    {
+      "q": "为什么 skill 只把简介放进上下文，而不是全文？",
+      "a": "上下文窗口有限，skill 数量又多，全文常驻不现实。Claude Code 的做法是简介当索引常驻，模型判断契合任务时再通过 Skill 工具按需加载正文，是一种选择性的 context engineering。"
+    },
+    {
+      "q": "Codex 为什么可能接不上只提供 Chat Completions 的模型？",
+      "a": "Responses API、Chat Completions API、Anthropic API 三者请求格式互不兼容（如 input 字段 vs messages 字段）。Codex 使用 Responses API，直连只有 Chat Completions 的后端会失败，需要中转代理做格式转换。"
+    }
+  ]
+}

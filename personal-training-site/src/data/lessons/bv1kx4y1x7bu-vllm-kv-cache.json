@@ -1,0 +1,106 @@
+{
+  "slug": "bv1kx4y1x7bu-vllm-kv-cache",
+  "title": "VLLM 为什么能快 24 倍：先算清 KV Cache 这笔账",
+  "summary": "自回归生成里每个新 token 的 K/V 会因旧 token 的注意力结果不受新 token 影响而无需重算，这就是 KV Cache；但按最大长度预分配让 13B 模型 30% 的显存只有 20%~40% 真正被利用，VLLM 用 PagedAttention 治理这种浪费来换吞吐。",
+  "date": "2026-11-11",
+  "minutes": 6,
+  "tags": ["VLLM", "KV Cache", "推理优化", "面试"],
+  "source": {
+    "platform": "bilibili",
+    "author": "RethinkFun",
+    "videoId": "BV1kx4y1x7bu",
+    "url": "https://www.bilibili.com/video/BV1kx4y1x7bu"
+  },
+  "keyTerms": [
+    { "term": "自回归生成", "text": "每步把已生成的 token 拼回输入，只预测下一个 token，逐个往外吐。" },
+    { "term": "KV Cache", "text": "缓存已生成 token 每层的 K/V 向量避免重算，是长输出不减速的原因。" },
+    { "term": "预分配", "text": "按生成参数里的最大 token 数一次性预留 KV Cache 显存，不管实际生成多长。" },
+    { "term": "显存碎片", "text": "请求长度不一导致释放的缓存块放不下下一个更大的请求，形成用不上的空洞。" },
+    { "term": "PagedAttention", "text": "VLLM 的核心优化，借鉴分页思想管理 KV Cache 显存，消灭预分配浪费。" },
+    { "term": "吞吐量", "text": "系统每秒能输出的 token 总量，Batch Size 越大吞吐越高。" }
+  ],
+  "sections": [
+    {
+      "heading": "回顾：自回归生成与 Self-Attention",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "大模型生成文本是逐 token 进行的：输入\"中国的历史\"先切分成三个 token，生成下一个 token，再把它拼回输入预测再下一个，如此往复。每一步的注意力机制里，每个 token 只和它前面的 token 做注意力——第一个 token 只看自己，后面的 token 用自己的 Q 去查询前面所有 token 的 K，得到注意力权重后，对前面各 token 的 V 加权求和，多层解码后输出下一个 token。"
+        },
+        {
+          "type": "mermaid",
+          "title": "自回归循环",
+          "code": "flowchart LR\n    A[输入 token 序列] --> B[预测下一个 token]\n    B --> C[拼回输入]\n    C --> B\n    B --> D[输出结束符时停止]"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "text": "关键观察：因为每个 token 只和它前面的 token 做注意力，旧 token 每层的 K/V 不受新 token 影响——算过一次就永远不用重算。"
+        }
+      ]
+    },
+    {
+      "heading": "KV Cache：旧 token 的 K/V 算一次就缓存",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "这就是 KV Cache 的原理：生成新 token 时，只用前面 token 已缓存的 K/V 向量算注意力，新 token 自己每层的 K/V 也随算随存。transformers 框架的 generate 方法默认就保存已生成 token 的 K 和 V。正因为有它，你和模型对话时输出越长也不会感觉明显变慢——每次只算当前这一个 token 的开销。"
+        },
+        {
+          "type": "p",
+          "text": "代价是显存。以 13B 模型为例：参数占约 26G（约 65% 显存），KV Cache 占约 12G（约 30%），剩下是系统开销。更糟的是，这 12G 里实际利用率只有 20%~40%，大部分显存被白白浪费。"
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "text": "KV Cache 占用的显存比例随上下文变长而升高，在高并发推理场景它才是显存的第二大头——优化它比优化参数更现实。"
+        }
+      ]
+    },
+    {
+      "heading": "显存浪费的三个来源",
+      "blocks": [
+        {
+          "type": "cards",
+          "items": [
+            { "term": "过度预留", "text": "模型不知道会生成多少 token，只能按设置的最大 token 数预分配。上限 1000 但第 100 个 token 就出了结束符，剩下 900 个 token 的缓存全浪费。" },
+            { "term": "预占挡道", "text": "即使真要生成 1000 个 token，开始时其余显存已被预占，别的请求无法响应——而被挡住的请求可能只需输出 10 个 token，本可以并行处理。" },
+            { "term": "碎片空洞", "text": "prompt 长度不同导致每次预分配大小不同；上一个请求释放的缓存，下一个更大的请求放不进去，这块缓存就成了用不上的碎片。" }
+          ]
+        },
+        {
+          "type": "p",
+          "text": "三个来源的共同根因是\"按最大长度整块预分配\"这种粗放管理方式。VLLM 要解决的正是这个：把 KV Cache 的显存管细，就能在同一块卡上塞进更大的 Batch Size 并行处理请求，从而抬高吞吐。"
+        }
+      ]
+    },
+    {
+      "heading": "VLLM 的解法方向与收益量级",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "视频里给出的对比量级：原始系统 Batch Size 为 8，经 VLLM 优化后可以增大到 40；原来每秒响应约 300 个 token，优化后约 900 个。核心手段就是第一个优化——PagedAttention：把浪费的 KV Cache 显存收回来，换成更大的并发批次。"
+        },
+        {
+          "type": "callout",
+          "tone": "note",
+          "text": "本课基于视频转录的前半部分，重点讲清 KV Cache 的原理与浪费成因；PagedAttention 内部的分页管理细节在转录中未完整覆盖，可回原视频后半段补齐。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "为什么已生成 token 的 K/V 缓存后就不需要重算？",
+      "a": "Self-Attention 中每个 token 只和它前面的 token 做注意力计算，结果不受之后新 token 的影响。所以旧 token 每一层的 K/V 向量算过一次就固定不变，新 token 只需用它的 Q 查询缓存里的 K/V，并保存自己的 K/V 供后续使用。"
+    },
+    {
+      "q": "13B 模型推理时显存大概怎么分布？KV Cache 利用率为什么低？",
+      "a": "参数约占 26G（约 65%），KV Cache 约 12G（约 30%），其余是系统占用。利用率低只有 20%~40%，因为按最大生成长度预分配：生成提前结束的部分浪费、开始阶段未用到的部分挡住其他请求、prompt 长度不一还会产生放不下新请求的碎片。"
+    },
+    {
+      "q": "VLLM 提高吞吐的逻辑链条是什么？",
+      "a": "治理 KV Cache 显存浪费（过度预留、预占挡道、碎片）→ 同样显存能服务更多请求 → Batch Size 从约 8 提到约 40 → 每秒输出 token 量从约 300 提到约 900。核心优化手段是 PagedAttention。"
+    }
+  ]
+}

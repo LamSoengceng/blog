@@ -1,0 +1,125 @@
+{
+  "slug": "751305739103-git-commit-convention",
+  "title": "如何规范提交代码",
+  "summary": "提交代码要走分支命名、commit 信息、PR/MR 描述三层规范：分支用 feature/release/bugfix 前缀，commit 做到原子且描述清楚（type: subject），PR 控制体量方便别人 review。",
+  "date": "2026-11-11",
+  "minutes": 4,
+  "tags": ["Git", "工程规范", "协作"],
+  "source": {
+    "platform": "douyin",
+    "author": "抖音-收藏",
+    "videoId": "7513057391039106339",
+    "url": "https://www.douyin.com/video/7513057391039106339"
+  },
+  "keyTerms": [
+    { "term": "MR / PR", "text": "Merge Request 与 Pull Request，不同平台的叫法，含义相同：把分支合回主干的申请。" },
+    { "term": "feature 分支", "text": "开发新功能时从主分支 check out 出来的功能分支。" },
+    { "term": "release 分支", "text": "发布分支，如 release-4.9.6，标记某个待发布版本。" },
+    { "term": "bugfix 分支", "text": "线上修 bug 时拉出的修复分支。" },
+    { "term": "原子 commit", "text": "一个 commit 只做一件事，降低 review 复杂度。" },
+    { "term": "type: subject", "text": "commit 信息的通用格式：类型前缀加简短描述，如 feat: support Spring Boot 3。" }
+  ],
+  "sections": [
+    {
+      "heading": "提交代码的三件事",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "提交代码不等于 add、commit、push 三连。公司里的标准做法是：从主分支 check out 一个新分支开发，完成后通过 MR/PR 合回主分支。这条流程里每个环节都有规范可循。"
+        },
+        {
+          "type": "mermaid",
+          "title": "功能分支开发流程",
+          "code": "flowchart LR\n  M[主分支] -->|check out| F[feature 分支]\n  F -->|开发| C[规范 commit]\n  C -->|提 MR/PR| R[review]\n  R -->|合并| M"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "第一原则：follow 组里的规范",
+          "text": "分支命名、commit 格式、PR 描述都没有全行业统一标准，每个组可能不同。入职第一件事就是拉一下所有分支看规律、找组内规范；组里没有才退而求其次用通用规范。"
+        }
+      ]
+    },
+    {
+      "heading": "分支怎么命名",
+      "blocks": [
+        {
+          "type": "cards",
+          "items": [
+            { "term": "feature-xxx", "text": "功能分支，开发一个新功能，如 feature-local-boot（本地启动调试）。" },
+            { "term": "release-xxx", "text": "发布分支，如 RocketMQ 的 release-4.9.6，一眼看出要发哪个版本。" },
+            { "term": "bugfix-xxx", "text": "线上修复分支，如 bugfix-xxx，标明修的是哪个问题。" }
+          ]
+        },
+        {
+          "type": "p",
+          "text": "按这套前缀命名后，拉出分支列表扫一眼，就知道谁在开发什么功能、修哪些 bug、准备发哪些版本。此外还有 develop、master 等分支，各组叫法不尽相同，以组内规范为准。"
+        }
+      ]
+    },
+    {
+      "heading": "commit 怎么写",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "两个反面案例：一是描述模糊，修了 bug 就写 fix some bug，别人看你提交历史完全不知道修了什么；二是同一个功能测试没做好就连着提两个一模一样的 commit，别人不知道该看哪个。"
+        },
+        {
+          "type": "compare",
+          "columns": ["原则", "含义", "收益"],
+          "rows": [
+            ["原子性", "一个 commit 只做一件事", "上下文少，review 复杂度低"],
+            ["描述清晰", "写清楚到底做了什么，拒绝模糊措辞", "历史可检索，出问题好回溯"]
+          ]
+        },
+        {
+          "type": "p",
+          "text": "commit 信息常用 type: subject 格式（阿里出的规范，业界普遍遵循）：type 标明这次改动是什么性质，subject 是简短描述，scope 一般可省略。例如支持 Spring Boot 3 是新功能，就写 feat: support Spring Boot 3。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "feat", "text": "新增功能。" },
+            { "term": "fix", "text": "修复问题。" },
+            { "term": "docs", "text": "只改了文档。" },
+            { "term": "refactor", "text": "重构代码，不改行为。" },
+            { "term": "test", "text": "增加测试。" }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "PR/MR 怎么写",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "PR/MR 分两部分：title 简单描述这个 PR 干什么；description（或 message）做详细描述。如果 PR 很简单、只有一个 commit，title 写清楚即可，description 可以不写；一个 PR 修了好几个问题时，按 commit 罗列每个改动。"
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "title": "不要提几千行的大 PR",
+          "text": "PR 是给别人 review 的。改动几千行、上下文太长，别人单看一屏根本看不清楚，等于没法 review。把改动拆小，是让代码能被合入的前提。"
+        },
+        {
+          "type": "p",
+          "text": "前两步（分支命名清晰、commit 清晰）本身就是好 PR 的基础：reviewer 一看标题和提交历史就知道你在干什么。总结成一句话——有规范就遵循规范，没有就遵循普遍规范。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "commit 的两个基本原则是什么？各解决什么问题？",
+      "a": "原子性：一个 commit 只做一件事，降低 review 复杂度；描述清晰：写明具体做了什么，避免 fix some bug 这类模糊信息，让提交历史可读可回溯。"
+    },
+    {
+      "q": "commit 信息 type: subject 里的 type 有哪些常见取值？",
+      "a": "feat（新功能）、fix（修 bug）、docs（文档）、refactor（重构）、test（测试）等，type 标明改动性质，subject 是简短描述。"
+    },
+    {
+      "q": "为什么不能提交几千行的大 PR？",
+      "a": "PR 需要别人 review，几千行改动上下文太长，reviewer 无法在一屏内看清改动逻辑，实际等于没有 review；应把改动拆成多个小 PR。"
+    }
+  ]
+}

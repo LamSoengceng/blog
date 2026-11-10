@@ -1,0 +1,101 @@
+{
+  "slug": "bv1thrcbpetz-agent-roadmap",
+  "title": "我的 Agent 学习路线：后端工程师转 AI 应用的四阶段走法",
+  "summary": "AI 应用工程师就是传统后端加一层 LLM 接入，Agent = LLM 大脑 + 工具手脚 + 记忆规划；学习路线按「AI 扫盲 → 应用基础（Prompt / Function Calling / RAG）→ 多智能体与 Harness」分阶段推进，编程语言不是门槛。",
+  "date": "2026-11-11",
+  "minutes": 8,
+  "tags": ["Agent", "学习路线", "RAG", "后端转型"],
+  "source": {
+    "platform": "bilibili",
+    "author": "要睡觉dame",
+    "videoId": "BV1thRcBpEtZ",
+    "url": "https://www.bilibili.com/video/BV1thRcBpEtZ"
+  },
+  "keyTerms": [
+    { "term": "Agent", "text": "能思考、能调用工具、能执行任务的程序系统，可拆成大脑（LLM）、手脚（Tools/MCP）、记忆与规划四部分。" },
+    { "term": "AI 应用工程师", "text": "在传统后端能力（并发、一致性）之上接入 LLM 的工程师角色，后端基本功完全复用。" },
+    { "term": "Function Calling", "text": "让 LLM 从纯聊天变成能调用 API 的机制，是 Agent 的核心能力。" },
+    { "term": "RAG", "text": "用外置知识库给 LLM 补私有数据与实时信息，是 Agent 技术栈中商业化最广泛的技术。" },
+    { "term": "幻觉", "text": "LLM 训练数据有截止时间且一本正经胡说的现象，靠外置知识库或工具调用缓解。" },
+    { "term": "Vibe Coding", "text": "用 coding agent 代写大部分代码、自己只把控实现效果的编程方式。" }
+  ],
+  "sections": [
+    {
+      "heading": "Agent 与 AI 应用工程师到底是什么",
+      "blocks": [
+        { "type": "p", "text": "这两年校招面试里，Agent 已经是毫无疑问的热点。去年秋招时懂 Agent 只是加分项，到今年它已变成必须会的知识。对后端工程师来说不必恐惧：AI 应用工程师本质是在传统后端基础上接入 LLM，并发、一致性这些老基本功一个都不少。" },
+        { "type": "p", "text": "Agent 的定义可以拆成一句话：一个能思考、能调用工具、能执行任务的程序系统。它的结构是一个大脑加三样配套，理解了这个拆解，后续所有概念都能挂上去。" },
+        {
+          "type": "mermaid",
+          "title": "Agent 的结构拆解",
+          "code": "flowchart LR\n  A[Agent] --> B[大脑 LLM]\n  A --> C[手脚 Tools/MCP]\n  A --> D[记忆 Memory]\n  A --> E[规划 Planning]"
+        },
+        { "type": "callout", "tone": "key", "title": "一句话记牢", "text": "Agent = 大脑（LLM）+ 手脚（Tools / MCP）+ 记忆（Memory）+ 规划。之后学 Function Calling、RAG、多智能体，都是在给这套骨架装零件。" }
+      ]
+    },
+    {
+      "heading": "语言不重要：别再纠结学 Python 还是 Java",
+      "blocks": [
+        { "type": "p", "text": "很多人问做 Agent 要不要专门学 Python、要不要再补 Java。在 AI 时代语言的学习成本被大幅压低：掌握基础语法后，后续编写交给 coding agent 已经非常顺畅。" },
+        { "type": "p", "text": "建议是不要手写整段工程代码，用 vibe coding 把精力放在实现效果上——最后能跑通你要的效果，就算合格。语言只是目前所有约束里最小的那一个。" },
+        { "type": "callout", "tone": "note", "text": "视频原话是「千万不要手写，vibe coding 就够了」。对求职者更稳妥的读法是：概念与系统设计靠手，实现细节可以借力 coding agent，二者不冲突。" }
+      ]
+    },
+    {
+      "heading": "阶段一：AI 扫盲，把 LLM 的基本认知补齐",
+      "blocks": [
+        { "type": "p", "text": "第一阶段解决「和 LLM 打交道的基础词汇」。核心概念不多：token（大家每天都在花钱买的东西）、上下文窗口、temperature 与采样参数、幻觉（为什么模型会一本正经地胡说）。" },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "token", "text": "LLM 计费与计长的最小文本单位，理解它才能算成本与窗口占用。" },
+            { "term": "上下文窗口", "text": "模型一次能「看到」的最大文本长度，决定了单次对话能装多少历史与资料。" },
+            { "term": "temperature / top-p", "text": "采样参数，控制输出随机性：调低更稳定可控，调高更多样。" },
+            { "term": "幻觉", "text": "模型不知道却硬编答案的现象，是引出 RAG 与工具调用的直接原因。" }
+          ]
+        },
+        { "type": "p", "text": "这一阶段配一份提示工程指南通读即可，不必深入展开。目标是之后看到这些词不再发怵，能判断问题出在窗口、采样还是知识层面。" }
+      ]
+    },
+    {
+      "heading": "阶段二：AI 应用基础三件套",
+      "blocks": [
+        { "type": "p", "text": "第二阶段是 AI 应用开发的核心，共三件事：Prompt 工程、Function Calling、RAG。顺序建议按此推进，因为 Prompt 是接口协议，Function Calling 依赖它，RAG 在两者之上补知识。" },
+        { "type": "p", "text": "Prompt 工程不是「写提示词」，而是写接口协议——类比后端给前端写 swagger：目的是控制 LLM 的输出。重点是结构化输出（JSON），用 Role + Task + 约束把输出格式钉死。" },
+        {
+          "type": "compare",
+          "columns": ["能力", "解决什么", "关键点"],
+          "rows": [
+            ["Prompt 工程", "控制 LLM 输出格式与行为", "结构化 JSON 输出；像写 API 契约一样写提示词"],
+            ["Function Calling", "让 LLM 从聊天变成调 API", "Agent 核心能力，工具调用的地基"],
+            ["RAG", "让 Agent 拥有你才有的知识", "外置知识库；商业化最广泛、落地最多"]
+          ]
+        },
+        { "type": "p", "text": "为什么需要 RAG：LLM 不知道你的私有数据，且有幻觉、无法实时更新。比如让一个训练好的大模型报今天的 NBA 比赛结果，它答不上来——训练数据截止在训练时刻，必须靠外置知识库检索或调用工具实时查询。" },
+        { "type": "callout", "tone": "key", "text": "RAG 是目前 Agent 技术栈中使用最广、商业化最多的技术，优先投入。" }
+      ]
+    },
+    {
+      "heading": "自测项目与后续路线",
+      "blocks": [
+        { "type": "p", "text": "阶段二的验收标准很具体：做一个知识问答 Agent。功能链路是上传文档、选中文档做向量化，再交给 LLM 基于文档回答问题。这是一个最小可用的 RAG 工程，用 DeepSeek 这类模型加 vibe coding 就能完成。" },
+        {
+          "type": "steps",
+          "items": [
+            "实现文档上传与选择功能",
+            "对文档内容做向量化与相似检索",
+            "把检索结果拼进 Prompt 交给 LLM 回答",
+            "用 coding agent 迭代，直到效果达标"
+          ]
+        },
+        { "type": "p", "text": "跑通这个项目后进入阶段三：多智能体 Agent，以及更进一步的 Agent Harness——即最近热门的 Harness Engineer 方向。这些留待后续分阶段展开。" }
+      ]
+    }
+  ],
+  "quiz": [
+    { "q": "用「大脑、手脚、记忆」拆解 Agent 时，LLM、Tools/MCP、Memory 各对应什么角色？", "a": "LLM 是大脑，负责思考与决策；Tools/MCP 是手脚，负责真正执行动作（调 API、操作外部系统）；Memory 负责记住上下文与历史，配合规划让任务可以多步推进。" },
+    { "q": "为什么说 Prompt 工程是在「写接口协议」而不是写提示词？", "a": "因为目标不是文学表达而是控制 LLM 的输出：像后端给前端写 swagger 一样约定格式，重点是结构化 JSON 输出，用 Role + Task + 约束钉死行为。" },
+    { "q": "LLM 训练数据截止后答不了今天的比赛结果，有哪些补救路径？", "a": "两条：一是外置知识库（RAG），把最新或私有数据检索出来拼进上下文；二是工具调用，让模型实时查询外部数据源。" },
+    { "q": "阶段二的自测项目为什么选「知识问答 Agent」？", "a": "它一次性覆盖了三件套：Prompt 要组织成结构化输出，检索依赖向量化，回答要基于文档内容——等于一个最小 RAG 工程，工作量小但链路完整。" }
+  ]
+}

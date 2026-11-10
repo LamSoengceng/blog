@@ -1,0 +1,114 @@
+{
+  "slug": "768598852342-agent-arch-3layers",
+  "title": "好的 Agent 项目必备的架构",
+  "summary": "好的 Agent 项目必备三层架构：数据层（RAG/MCP/Memory/Skill）决定什么信息进上下文，Agent Runtime 层用 Tool Calling 循环和 Harness 驱动执行，最常被漏掉的第三层是 Eval——没有评测标准，自进化只会乱进化。",
+  "date": "2026-11-11",
+  "minutes": 5,
+  "tags": ["Agent", "系统设计", "Harness", "Eval"],
+  "source": {
+    "platform": "douyin",
+    "author": "抖音-收藏",
+    "videoId": "7685988523422167898",
+    "url": "https://www.douyin.com/video/7685988523422167898"
+  },
+  "keyTerms": [
+    { "term": "数据层", "text": "知识库（RAG/LLM Wiki）、MCP/CLI 外部交互、API/Memory/Skill，负责决定什么数据进上下文" },
+    { "term": "Agent Runtime", "text": "把 Tool Calling 放进有状态的多步循环里跑的执行层" },
+    { "term": "Tool Calling", "text": "模型按工具 Schema 选工具并生成结构化参数，系统校验执行后把结果返回模型" },
+    { "term": "Harness", "text": "Runtime 中最难的部分：每轮给模型组装什么上下文、暴露哪些工具、Session Checkpoint 怎么设置" },
+    { "term": "Good/Bad Case", "text": "结合真实业务定义的「什么结果算对」，是场景化评测的基础" },
+    { "term": "Agent 自进化", "text": "系统持续自我优化；前提是有评测标准，否则只会乱进化" }
+  ],
+  "sections": [
+    {
+      "heading": "两个通病：同质化与玩具化",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "看多了简历和公司侧筛简历，会看到两个普遍问题：一是项目太同质化，很多人都在做电商客服 Agent；二是做得太玩具。真正好的 Agent 项目应该具备三层：数据层、Agent Runtime 层，以及真实企业落地中最常被漏掉的一层——Agent Eval（评测与自进化）。"
+        },
+        {
+          "type": "mermaid",
+          "title": "三层架构总览",
+          "code": "flowchart LR\n  D[数据层\nRAG/MCP/Memory] --> R[Agent Runtime\nTool Calling循环+Harness]\n  R --> E[Eval 评测\nGood/Bad Case]\n  E -->|反馈优化| R"
+        }
+      ]
+    },
+    {
+      "heading": "第一层：数据层——决定什么进上下文",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "数据层的职责是控制什么样的数据、什么样的信息应该交给 Agent Runtime 的上下文。它由几块组成：知识库建设用 RAG 或 LLM Wiki 相关技术；与外部系统交互走 MCP 和 CLI；剩下比较杂的是 API 和 Memory，再加上 Skill。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "知识库", "text": "RAG 或 LLM Wiki，为上下文提供文档类知识" },
+            { "term": "MCP / CLI", "text": "与外部系统交互的通道，决定 Agent 能触达哪些外部能力" },
+            { "term": "API / Memory", "text": "杂项数据来源与跨会话记忆，同样服务于上下文质量" },
+            { "term": "Skill", "text": "沉淀下来的任务流程封装，按需注入上下文" }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "第二层：Agent Runtime——从 Tool Calling 到 Harness",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "Agent Runtime 的最小单元是 Tool Calling：并不是模型直接执行函数，而是模型根据工具 Schema 选择一个 Tool 并生成结构化参数，系统校验并执行工具后，把结果返回给模型。Tool Calling 本身并不是 Agent——它只是大模型在和真实世界做交互；Runtime 做的事是把 Tool Calling 放进一个有状态的多步循环。"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "最难的是 Harness",
+          "text": "Harness 和 Runtime 的边界业界没有完全统一，有些产品甚至混用。Harness 负责的是：每一轮给模型组装什么上下文、到底暴露哪些工具、Session Checkpoint 怎么设置——这是一个相当复杂的工程问题。"
+        },
+        {
+          "type": "mermaid",
+          "title": "Tool Calling 循环",
+          "code": "flowchart LR\n  M[模型按Schema\n选工具+生成参数] --> V[系统校验执行]\n  V -->|结果回传| M\n  M -->|任务完成| E[结束]"
+        }
+      ]
+    },
+    {
+      "heading": "第三层：Eval——自进化的前提",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "没有业务经验的人做 Eval 只能从通用指标入手：任务成功率（Task Success）、工具调用准确性、Skill 命中率、中间耗费。这些指标做评测当然是对的，但更重要的是在场景上做评测：搞清在具体场景（比如电商客服）下什么样的结果反馈算正确、什么样的路径算正确，把 Good Case 定义好。"
+        },
+        {
+          "type": "steps",
+          "items": [
+            "结合真实业务测试经验，定义清楚 Good Case 和 Bad Case",
+            "定义评审器（judge），用来评判 Agent 表现优劣",
+            "通过大模型评分或人工参与评分执行评测",
+            "依据制定好的 Benchmark 不断优化，直到 Agent 在该场景表现达标"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "Eval 是自进化的标尺",
+          "text": "没有一个真正的评测标准，就谈不上 Agent 自进化——就算能进化也是乱进化，越进化越不好用。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "为什么说 Tool Calling 本身不是 Agent？",
+      "a": "Tool Calling 只是大模型和真实世界交互的单次动作：按 Schema 选工具、生成参数、校验执行、结果返回。Agent 的本质是 Runtime 把 Tool Calling 放进有状态的多步循环里持续运行。"
+    },
+    {
+      "q": "Harness 负责什么？它和 Runtime 的关系是什么？",
+      "a": "Harness 负责每一轮给模型组装什么上下文、暴露哪些工具、Session Checkpoint 怎么设置；它与 Agent Runtime 的边界业界没有统一口径，有的产品甚至混用，但公认这是 Runtime 中最复杂、最值得投入的工程部分。"
+    },
+    {
+      "q": "为什么 Eval 被称为「自进化的标准」？",
+      "a": "因为自我优化必须有标尺：先结合真实业务定义 Good/Bad Case，再配评审器和 Benchmark 持续评分优化。没有评测标准的进化没有方向，只会越进化越不好用。"
+    }
+  ]
+}

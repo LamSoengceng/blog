@@ -1,0 +1,153 @@
+{
+  "slug": "739799099999-backend-crash-course",
+  "title": "30 分钟后端程序员速成",
+  "summary": "后端就是替用户把数据存起来、做处理并给前端提供接口的那一层；用 Node.js + Express + PostgreSQL 可以在半小时内跑通「前端请求 → 后端接口 → 数据库落盘」的最小完整链路。",
+  "date": "2026-11-11",
+  "minutes": 9,
+  "tags": ["后端", "Node.js", "Express", "数据库"],
+  "source": {
+    "platform": "douyin",
+    "author": "抖音-收藏",
+    "videoId": "7397990999991078207",
+    "url": "https://www.douyin.com/video/7397990999991078207"
+  },
+  "keyTerms": [
+    { "term": "客户端 / 服务端", "text": "手机电脑是客户端；背后通过网络请求提供服务的机器是服务端。" },
+    { "term": "Request / Response", "text": "客户端发请求要数据，服务端处理后返回回复，是前后端协作的基本单元。" },
+    { "term": "框架", "text": "把后端开发中反复出现的通用问题做成软件库，省去重复劳动，如 Express。" },
+    { "term": "Node.js", "text": "JavaScript 的运行环境，让 JS 脱离浏览器在服务器上跑。" },
+    { "term": "npm", "text": "Node Package Manager，Node.js 的包管理器，管理第三方依赖。" },
+    { "term": "路由", "text": "URL 路径到处理函数的映射，如根路由 / 与子路由 /a/b。" },
+    { "term": "RESTful API", "text": "用 HTTP 方法（GET/POST/DELETE）加资源名设计接口的常见模式。" }
+  ],
+  "sections": [
+    {
+      "heading": "什么是后端：软件是一整套系统",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "一个思维实验：你在电脑上把商品加入购物车、砸了电脑，换手机重新装同一个 App，购物车居然还在。说明「软件」不只是手机上跑的那段代码，还包括背后一整套服务——手机上跑的只是很小一部分。"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "两个关键词",
+          "text": "客户端：你的手机或电脑；服务端：背后一大堆通过网络请求给你提供服务的电脑。购物车里的商品不是代码，是数据——每个人跑同一份代码，但数据各不相同。"
+        },
+        {
+          "type": "p",
+          "text": "以数据为核心看分工：前端是对数据的展示，并提供用户与数据交互的按钮；后端帮用户把数据存起来、做处理，并给前端提供访问数据的接口。服务端背后还有数据库（另一台电脑上部署的软件），后端自己解决不了时会再去问它。"
+        }
+      ]
+    },
+    {
+      "heading": "前后端与数据库怎么协作",
+      "blocks": [
+        {
+          "type": "mermaid",
+          "title": "一次完整请求的链路",
+          "code": "flowchart LR\n  F[前端 客户端] -->|request| B[后端服务器]\n  B -->|SQL 查询| D[(数据库)]\n  D -->|数据| B\n  B -->|response| F"
+        },
+        {
+          "type": "p",
+          "text": "客户端想要数据时发一个 request，通过网络找到服务端；服务端这台电脑上跑的后端软件可能还要向数据库发请求、做计算，最后把 response 返回，前端再展示给用户。最简单的「一台后端服务器 + 一个数据库」结构，已足够独立开发者做出自己的 App。"
+        }
+      ]
+    },
+    {
+      "heading": "技术选型：语言、框架与数据库",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "几乎所有语言都能写后端，常见的有 Java、JavaScript、Python、C# 等。框架是别人沉淀的通用工具库，2024 年的统计里 Node.js、ASP.NET Core、Next.js、Spring Boot、Flask、Django 都是主流。会一个基本一通百通，换框架会发现都差不多。本课选 JavaScript 的 Express 加 PostgreSQL。"
+        },
+        {
+          "type": "cards",
+          "items": [
+            { "term": "Node.js", "text": "让 JavaScript 脱离浏览器运行的环境，官网 nodejs.org 下载即用。" },
+            { "term": "Express", "text": "Node.js 后端框架，用 npm install express 安装。" },
+            { "term": "npm", "text": "Node 包管理器，依赖装进 node_modules，并记录在 package.json。" },
+            { "term": "PostgreSQL", "text": "本课选用的关系型数据库，本地安装，需设置密码。" },
+            { "term": "pg 库", "text": "Node 里访问 PostgreSQL 的第三方库，npm install pg。" }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "动手：从 Hello World 到 Todo API",
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            "安装 Node.js，命令行里能跑 node 命令即成功；新建项目目录后 npm install express。",
+            "写 server.js：引入 Express、创建实例、app.listen 监听端口（如 8989），用 res.send 返回内容，浏览器访问 localhost:8989 验证。",
+            "给 Todo 应用设计 API：获取所有 / 获取单个（GET /todos、GET /todos/:id）、创建（POST /todos）、删除特定（DELETE /todos/:id）。",
+            "在 Express 里用 app.get/app.post/app.delete 注册路由，:id 是框架的路径参数约定，从 req.params 里取。",
+            "实现处理逻辑：先用内存数组加 nextId 存 Todo；POST 时从请求 body 取 title（缺失返回 400），DELETE 按 id 删除。",
+            "用浏览器控制台的 fetch 发 POST：method、Content-Type 头与 JSON.stringify 的 body 三者都要给，前端就用这种方式和后端交互。"
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "note",
+          "title": "浏览器地址栏只会发 GET",
+          "text": "在 URL 里回车一定是 GET 请求；要发 POST/DELETE，需要用 JavaScript（fetch）或专门的工具，所以测试接口通常打开 DevTools 的 Network 面板看请求与响应。"
+        }
+      ]
+    },
+    {
+      "heading": "RESTful API 设计要点",
+      "blocks": [
+        {
+          "type": "compare",
+          "columns": ["接口", "构成", "用途"],
+          "rows": [
+            ["GET /todos", "GET + 资源名", "返回所有 todo"],
+            ["GET /todos/:id", "GET + 资源名 + 参数", "返回单个 todo"],
+            ["POST /todos", "POST + 资源名", "创建 todo，数据放 body"],
+            ["DELETE /todos/:id", "DELETE + 资源名 + 参数", "删除特定 todo"]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "warn",
+          "title": "别提供 DELETE /todos",
+          "text": "一个请求删光所有人的 todo 显然不合理。RESTful 里 HTTP 方法只能从 GET、POST、DELETE 等固定集合里选，但资源路径要精确到具体对象，只开放「删除特定 todo」这类接口。"
+        }
+      ]
+    },
+    {
+      "heading": "持久化演进：内存、文件到数据库",
+      "blocks": [
+        {
+          "type": "p",
+          "text": "数据存在内存变量里，服务一重启就清空——这是第一版最严重的问题。第一步升级是存本地文件：启动时读文件恢复数据，每次变更后写回，重启后数据还在。"
+        },
+        {
+          "type": "p",
+          "text": "真正的做法是存数据库：用 pg 库建立连接池（Pool），启动时执行建表 SQL（id 主键、title 文本非空、completed 布尔），把之前对内存或文件的操作全部换成 SQL。到此客户端、后端、数据库整条链路就完整连通了。"
+        },
+        {
+          "type": "callout",
+          "tone": "key",
+          "title": "学习方式",
+          "text": "教程的思路是先搭框架、跑通链路，遇到不会的细节再问 AI 精准补齐——先掌握知识的大体框架，需要时再深入，不必把所有细节背下来。"
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "q": "为什么把电脑砸了换手机登录，购物车数据还在？",
+      "a": "因为数据不存在客户端本地，而是存在服务端。手机上跑的只是软件很小的一部分（前端），真正的购物车数据在后端的数据库里，换设备登录后重新拉取即可。"
+    },
+    {
+      "q": "用 fetch 发 POST 创建 todo 时哪三个要素缺一不可？",
+      "a": "method: 'post'、headers 里声明 Content-Type 为 application/json（告诉服务端 body 的数据格式）、body 用 JSON.stringify 序列化后的 JSON 字符串。"
+    },
+    {
+      "q": "Todo 数据存内存有什么问题？教程给出了哪两级升级？",
+      "a": "服务端程序一停内存就清空，数据全丢。第一级升级是存本地文件（启动读、变更写），第二级是存 PostgreSQL 数据库，用连接池加 SQL 读写。"
+    }
+  ]
+}
