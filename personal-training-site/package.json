@@ -20,6 +20,7 @@
     "sync:xunji": "node --env-file-if-exists=.env.local scripts/sync-xunji.mjs",
     "update:stock": "node scripts/fetchHithinkData.mjs && node scripts/generateStockData.mjs",
     "validate:lessons": "node scripts/validateLessons.mjs",
+    "deploy:branch": "node scripts/push-gh-pages.mjs",
     "test": "vitest run",
     "build:pages": "vite build --base=/blog/ && node scripts/patch-gh-pages.mjs /blog/"
   },
