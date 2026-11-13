@@ -1,0 +1,3 @@
+import{r as c}from"./index-BJvzwDIk.js";function w(e){const t=e.join(`
+`),[a,l]=c.useState(()=>e[0]??"");return c.useEffect(()=>{const o=t.split(`
+`),n=()=>{const u=window.innerHeight*.18;let r=o[0]??"";for(const s of o){const i=document.getElementById(s);if(!i||i.getBoundingClientRect().top>u)break;r=s}l(r)},d=requestAnimationFrame(n);return window.addEventListener("scroll",n,{passive:!0}),window.addEventListener("resize",n),()=>{cancelAnimationFrame(d),window.removeEventListener("scroll",n),window.removeEventListener("resize",n)}},[t]),a}function p(e){var t;(t=document.getElementById(e))==null||t.scrollIntoView({behavior:"smooth",block:"start"}),window.history.replaceState(null,"",`#${e}`)}export{p as s,w as u};

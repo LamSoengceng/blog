@@ -1,0 +1,912 @@
+const n={"53-最大子数组和":{codePreview:`# 📌 需二刷：Kadane 算法（动态规划思想）
+#
+# 思路：遍历数组，维护"以当前元素结尾的最大子数组和"(current_sum)
+#       每一步做决策：是把当前元素加入之前的子数组，还是从当前元素重新开始
+#       如果之前的累积和是负数 → 拖后腿 → 从当前元素重新开始
+#       同时用 max_sum 追踪全局最大值
+#
+# 时间 O(n)，空间 O(1)
+#
+# ⚠️ 易错点/误区：
+# 1. max_sum 不能初始化为 0，否则全负数数组（如 [-3,-2,-1]）会返回 0
+#    → 应该初始化为 nums[0] 或 float('-inf')
+# 2. max_sum = max(current_sum, num) 是错的！current_sum >= num 恒成立
+#    这样等于每次都覆盖，没有在追踪"全局"最大值
+#    → 应该是 max_sum = max(max_sum, current_sum)
+class Solution:
+    # ✅ 面试推荐写法
+    def maxSubArray(self, nums: List[int]) -> int:
+        current_sum = nums[0]  # 以当前元素结尾的最大子数组和
+        max_sum = nums[0]      # 全局最大子数组和
+        for num in nums[1:]:   # 从第二个元素开始
+            # 核心决策：加入之前的子数组 vs 从自己重新开始
+            current_sum = max(num, current_sum + num)
+            # 更新全局最大值
+            max_sum = max(max_sum, current_sum)
+        return max_sum`,statement:`给你一个整数数组 nums ，请你找出一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
+
+子数组 是数组中的一个连续部分。
+
+ 
+
+示例 1：
+
+输入：nums = [-2,1,-3,4,-1,2,1,-5,4]
+输出：6
+解释：连续子数组 [4,-1,2,1] 的和最大，为 6 。
+
+示例 2：
+
+输入：nums = [1]
+输出：1
+
+示例 3：
+
+输入：nums = [5,4,-1,7,8]
+输出：23
+
+ 
+
+提示：
+
+- 1 <= nums.length <= 10^5
+
+- -10^4 <= nums[i] <= 10^4
+
+ 
+
+进阶：如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的 分治法 求解。`},"70-爬楼梯":{codePreview:`# 📌 需二刷：动态规划入门题，理解状态转移方程
+#
+# 思路：到第 n 阶的方法 = 到第 n-1 阶的方法 + 到第 n-2 阶的方法
+#       因为最后一步要么跨 1 阶，要么跨 2 阶
+#
+# ⚠️ 易错点/误区：
+# 1. dp[2] 赋值不能放在 n==1 判断之前，否则 n=1 时 dp 数组只有 2 个元素，dp[2] 越界
+# 2. return 要放在循环外面，不能在循环内 if i==n 时 return（此时 dp[n] 还没算）
+# 3. == 是比较运算符（返回 True/False），= 才是赋值，不要混淆
+# 4. for 循环会自动递增 i，不需要手动 i += 1
+class Solution:
+    # 方法一：dp 数组（标准写法）
+    # 时间 O(n)，空间 O(n)
+    def climbStairs(self, n: int) -> int:
+        if n <= 2:
+            return n
+        # 创建 dp 数组，dp[i] 表示爬到第 i 阶的方法数
+        dp = [0] * (n + 1)
+        # base case：爬到第 1 阶有 1 种，第 2 阶有 2 种
+        dp[1] = 1
+        dp[2] = 2
+        # 从第 3 阶开始，逐步递推
+        for i in range(3, n + 1):
+            dp[i] = dp[i-1] + dp[i-2]  # 状态转移方程
+        return dp[n]
+    # 方法二：滚动变量（空间优化）
+    # 时间 O(n)，空间 O(1)
+    # 因为每次只用到前两个值，所以不需要整个数组
+    def climbStairs_optimized(self, n: int) -> int:
+        if n <= 2:
+            return n
+        a, b = 1, 2  # a = dp[i-2], b = dp[i-1]
+        for i in range(3, n + 1):
+            a, b = b, a + b  # 同时更新：a 前移，b 变成新值
+        return b`,statement:`假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+
+每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+
+ 
+
+示例 1：
+
+输入：n = 2
+输出：2
+解释：有两种方法可以爬到楼顶。
+1. 1 阶 + 1 阶
+2. 2 阶
+
+示例 2：
+
+输入：n = 3
+输出：3
+解释：有三种方法可以爬到楼顶。
+1. 1 阶 + 1 阶 + 1 阶
+2. 1 阶 + 2 阶
+3. 2 阶 + 1 阶
+
+ 
+
+提示：
+
+- 1 <= n <= 45`},"118-杨辉三角":{codePreview:`# 思路：逐行构建，每行首尾为1，中间元素 = 上一行相邻两数之和
+# 时间 O(n²)，空间 O(n²) —— 总共生成 n(n+1)/2 个元素
+#
+# ⚠️ 易错点/误区：
+# 1. 初始化应该是 result = [[1]]，不是 [[]]（第一行是 [1] 不是空列表）
+# 2. 外层循环 range(1, numRows) 从1开始，不是从2开始，否则 numRows=2 时循环不执行
+# 3. 内层循环 range(1, i)，不是 range(1, i-1)。第 i 行有 i-1 个中间元素（位置1到i-1）
+# 4. 注意 Python 负数索引：j=0 时 result[i-1][-1] 会取最后一个元素而不是报错，容易产生隐蔽bug
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        result = [[1]]  # 第0行固定为 [1]
+        for i in range(1, numRows):  # 从第1行开始逐行生成
+            rows = [1]  # 每行第一个元素固定为 1
+            for j in range(1, i):  # 生成中间元素（位置1到i-1）
+                # 中间元素 = 上一行的 [j-1] + [j]
+                rows.append(result[i-1][j-1] + result[i-1][j])
+            rows.append(1)  # 每行最后一个元素固定为 1
+            result.append(rows)
+        return result`,statement:`给定一个非负整数 numRows，生成「杨辉三角」的前 numRows 行。
+
+在「杨辉三角」中，每个数是它左上方和右上方的数的和。
+
+ 
+
+示例 1:
+
+输入: numRows = 5
+输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+示例 2:
+
+输入: numRows = 1
+输出: [[1]]
+
+ 
+
+提示:
+
+- 1 <= numRows <= 30`},"198-打家劫舍":{codePreview:`# 📌 需二刷：线性 DP（和爬楼梯同一类型）
+#
+# 思路：dp[i] = 偷前 i 间房能获得的最大金额
+#       对第 i 间房，选择偷或不偷，取较大值
+#       转移方程：dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+# 时间 O(n)，空间 O(n)
+#
+# ⚠️ 易错点/误区：
+# 1. 边界处理：nums 只有 1 个元素时，dp[1] 会越界，需提前返回
+# 2. dp[i] 记录的是"最优值"，不是"偷了哪间"，所以不存在"推翻前面决定"的问题
+# 3. dp[1] = max(nums[0], nums[1])，不是直接 nums[1]（要从前两间选最优）
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        # 边界：只有一间房，直接偷
+        if len(nums) == 1:
+            return nums[0]
+        dp = [0] * len(nums)
+        dp[0] = nums[0]                    # 只有第 0 间，偷它
+        dp[1] = max(nums[0], nums[1])      # 前两间，选金额大的那间
+        for i in range(2, len(nums)):
+            # 偷第 i 间：dp[i-2] + nums[i]
+            # 不偷第 i 间：dp[i-1]
+            dp[i] = max(dp[i-2] + nums[i], dp[i-1])
+        return dp[-1]
+# ————————————————————————————————————
+# ✅ 面试推荐写法（空间优化 O(1)）：
+#
+# 因为 dp[i] 只依赖 dp[i-1] 和 dp[i-2]，
+# 所以不需要整个数组，只用两个变量即可：
+#
+# def rob(self, nums):
+#     prev2 = 0  # dp[i-2]
+#     prev1 = 0  # dp[i-1]
+#     for num in nums:
+#         curr = max(prev1, prev2 + num)
+#         prev2 = prev1
+#         prev1 = curr
+#     return prev1
+#
+# 👆 推荐原因：
+# - 空间从 O(n) 优化到 O(1)，面试加分
+# - 不需要处理边界（prev2=0, prev1=0 自然覆盖所有情况）
+# - 和爬楼梯的空间优化写法完全一样的套路
+# ————————————————————————————————————`,statement:`你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
+
+给定一个代表每个房屋存放金额的非负整数数组，计算你 不触动警报装置的情况下 ，一夜之内能够偷窃到的最高金额。
+
+ 
+
+示例 1：
+
+输入：[1,2,3,1]
+输出：4
+解释：偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
+     偷窃到的最高金额 = 1 + 3 = 4 。
+
+示例 2：
+
+输入：[2,7,9,3,1]
+输出：12
+解释：偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。
+     偷窃到的最高金额 = 2 + 9 + 1 = 12 。
+
+ 
+
+提示：
+
+- 1 
+
+- 0`},"300-最长递增子序列":{codePreview:`from typing import List
+import bisect
+class Solution:
+    # 📌 需二刷：动态规划经典基础题（子序列类 DP 状态定义范式：dp[i] 以 nums[i] 结尾）
+    #
+    # 思路：
+    # 1. 状态定义：dp[i] 表示以 nums[i] 结尾的最长严格递增子序列长度。
+    # 2. 初始状态：每个元素单独构成长度为 1 的子序列，初始化 dp = [1] * n。
+    # 3. 状态转移：双层循环，外层固定结尾 i，内层遍历历史起点 j (0 <= j < i)。
+    #    若 nums[i] > nums[j]，则 nums[i] 可接在 nums[j] 后面，转移方程：dp[i] = max(dp[i], dp[j] + 1)。
+    # 4. 最终结果：最长子序列不一定以末尾元素结尾，返回 max(dp)。
+    #
+    # 时间 O(n²)，空间 O(n)
+    #
+    # ⚠️ 易错点/误区：
+    # 1. 【历史状态污染】：实战曾写 \`dp[j] += 1\`，这是严重错误。dp[j] 记录的是历史定值，随意修改会破坏后续所有参考 j 的计算；只需用 \`dp[j] + 1\` 竞争更新 \`dp[i]\`。
+    # 2. 【严格递增要求】：条件必须是 \`nums[i] > nums[j]\`，不能带等号（若允许非降序列才带等号）。
+    # 3. 【返回值取错】：不能直接返回 \`dp[-1]\`，因为全局最长递增子序列的结尾元素可能出现在数组中间任意位置，必须返回 \`max(dp)\`。
+    def lengthOfLIS(self, nums: List[int]) -> int:
+# 动态规划法
+        # if not nums:
+        #     return 0
+        # # 初始化：每个元素单独成序列，初始长度均为 1
+        # dp = [1] * len(nums)
+        # # 外层循环固定当前子序列的结尾位置 i
+        # for i in range(len(nums)):
+        #     # 内层循环扫描 i 之前所有可能的前驱位置 j
+        #     for j in range(i):
+        #         if nums[i] > nums[j]:
+        #             dp[i] = max(dp[i], dp[j] + 1)
+        # # 返回全局所有结尾中的最大值
+        # return max(dp)
+# 贪心+二分
+        if not nums:
+            return 0
+        tails = []
+        for x in nums:
+            idx = bisect.bisect_left(tails, x)
+            if idx  == len(tails):
+                tails.append(x)
+            else:
+                tails[idx] = x
+        return len(tails)`,statement:`给你一个整数数组 nums ，找到其中最长严格递增子序列的长度。
+
+子序列 是由数组派生而来的序列，删除（或不删除）数组中的元素而不改变其余元素的顺序。例如，[3,6,2,7] 是数组 [0,3,1,6,2,2,7] 的子序列。
+
+ 
+
+示例 1：
+
+输入：nums = [10,9,2,5,3,7,101,18]
+输出：4
+解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。
+
+示例 2：
+
+输入：nums = [0,1,0,3,2,3]
+输出：4
+
+示例 3：
+
+输入：nums = [7,7,7,7,7,7,7]
+输出：1
+
+ 
+
+提示：
+
+- 1 <= nums.length <= 2500
+
+- -10^4 <= nums[i] <= 10^4
+
+ 
+
+进阶：
+
+- 你能将算法的时间复杂度降低到 O(n log(n)) 吗?`},"322-零钱兑换":{codePreview:`from typing import List
+class Solution:
+    # 📌 需二刷：完全背包最值问题（自底向上 DP 状态转移）
+    #
+    # 思路：
+    # 1. 状态定义：dp[i] 表示凑齐总金额 i 所需的最少硬币枚数。
+    # 2. 初始状态：
+    #    - dp[0] = 0（凑齐 0 元需要 0 枚硬币）。
+    #    - 其余金额 dp[1...amount] 初始化为 float('inf')，表示尚未计算或无法凑出。
+    # 3. 状态转移：
+    #    - 对于目标金额 i，尝试使用手中的每一枚面额为 coin 的硬币（前提：i >= coin）。
+    #    - 拿出一枚 coin 后，剩余金额 i - coin 所需的最少硬币数为 dp[i - coin]。
+    #    - 此时凑齐金额 i 需要的硬币数就是 dp[i - coin] + 1。
+    #    - 转移方程：dp[i] = min(dp[i], dp[i - coin] + 1)。
+    # 4. 最终结果：若 dp[amount] 仍为 float('inf') 说明无法凑出，返回 -1；否则返回 dp[amount]。
+    #
+    # 时间 O(amount * len(coins))，空间 O(amount)
+    #
+    # ⚠️ 易错点/误区：
+    # 1. 【数组长度越界】：金额范围是 0 ~ amount，共 amount + 1 种状态，必须初始化 \`dp = [float('inf')] * (amount + 1)\`，若只开 amount 大小会导致 dp[amount] 越界报 IndexError。
+    # 2. 【循环区间】：金额应从 1 递推至 amount，需用 \`range(1, amount + 1)\`；若写 \`range(amount)\` 则只算到 amount - 1。
+    # 3. 【负索引静默取值】：必须加入 \`if i >= coin:\` 守卫，否则 \`i - coin < 0\` 会被 Python 解释为负下标读取数组尾部，产生难以察觉的隐蔽 bug。
+    # 4. 【初始值设置】：求最小值问题必须初始化为正无穷大（或 amount + 1），唯独 dp[0] 设为 0 作为递推起点。
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        # dp[i] 表示凑成金额 i 所需的最少硬币数
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0  # 凑 0 元需要 0 枚硬币
+        # 从小到大依次计算凑齐每个金额 1...amount 的最少硬币数
+        for i in range(1, amount + 1):
+            for coin in coins:
+                if i >= coin:
+                    dp[i] = min(dp[i], dp[i - coin] + 1)
+        # 如果 dp[amount] 依然是无穷大，说明无法凑出目标金额
+        return -1 if dp[amount] == float('inf') else dp[amount]`,statement:`给你一个整数数组 coins ，表示不同面额的硬币；以及一个整数 amount，表示总金额。
+
+计算并返回可以凑成总金额所需的 最少 的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1 。
+
+你可以认为每种硬币的数量是无限的。
+
+ 
+
+示例 1：
+
+输入：coins = [1, 2, 5], amount = 11
+输出：3 
+解释：11 = 5 + 5 + 1
+
+示例 2：
+
+输入：coins = [2], amount = 3
+输出：-1
+
+示例 3：
+
+输入：coins = [1], amount = 0
+输出：0
+
+ 
+
+提示：
+
+- 1 <= coins.length <= 12
+
+- 1 <= coins[i] <= 2^31 - 1
+
+- 0 <= amount <= 10^4`},"139-单词拆分":{codePreview:`from typing import List
+# 📌 需二刷：字符串完全背包 DP / 前缀分割转移
+#
+# 思路：
+# 1. 将 wordDict 转为哈希集合 word_set，使单词查找降至 O(1)。
+# 2. 定义 dp[i] 表示字符串 s 的前 i 个字符 s[0:i] 是否能被字典单词拼出。
+# 3. 基础状态 dp[0] = True（空字符串默认合法，作为递推起点）。
+# 4. 外层遍历长度 i (1..n)，内层遍历分割点 j (0..i)：
+#    若 dp[j] is True 且 s[j:i] in word_set，则 dp[i] = True 并 break。
+# 5. 最终返回 dp[n]（或 dp[-1]）。
+#
+# 时间 O(n^2 * L)，其中 n 是字符串长度，L 是子串切片比较长度；空间 O(n + M)，M 为词典字符总和。
+#
+# ⚠️ 易错点/误区：
+# 1. 列表查找慢：wordDict 是 List，直接 in 会遍历整个列表 O(K)；必须用 set(wordDict) 优化为 O(1)。
+# 2. 循环上界 off-by-one：外层考查前 i 个字符，range 必须写到 range(1, n + 1)，写成 range(1, n) 会漏判整个字符串。
+# 3. 状态转移切分点：切分点为 j 时，前半段状态是 dp[j]，后半段匹配的是切片 s[j:i]，切勿误写为 s[0:j]。
+# 4. 初始化基准：dp 数组长度为 n + 1，dp[0] 必须置为 True，否则后续所有状态均无法被激活为 True。
+class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        word_set = set(wordDict)
+        n = len(s)
+        dp = [False] * (n + 1)
+        dp[0] = True
+        for i in range(1, n + 1):
+            for j in range(0, i):
+                if dp[j] and s[j:i] in word_set:
+                    dp[i] = True
+                    break
+        return dp[-1]`,statement:`给你一个字符串 s 和一个字符串列表 wordDict 作为字典。如果可以利用字典中出现的一个或多个单词拼接出 s 则返回 true。
+
+注意：不要求字典中出现的单词全部都使用，并且字典中的单词可以重复使用。
+
+ 
+
+示例 1：
+
+输入: s = "leetcode", wordDict = ["leet", "code"]
+输出: true
+解释: 返回 true 因为 "leetcode" 可以由 "leet" 和 "code" 拼接成。
+
+示例 2：
+
+输入: s = "applepenapple", wordDict = ["apple", "pen"]
+输出: true
+解释: 返回 true 因为 "applepenapple" 可以由 "apple" "pen" "apple" 拼接成。
+     注意，你可以重复使用字典中的单词。
+
+示例 3：
+
+输入: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+输出: false
+
+ 
+
+提示：
+
+- 1 <= s.length <= 300
+
+- 1 <= wordDict.length <= 1000
+
+- 1 <= wordDict[i].length <= 20
+
+- s 和 wordDict[i] 仅由小写英文字母组成
+
+- wordDict 中的所有字符串 互不相同`},"416-分割等和子集":{codePreview:`from typing import List
+# 📌 需二刷：0-1 背包问题（子集和恰为 target = sum // 2），空间优化为一维数组时的倒序遍历
+#
+# 思路：
+# 1. 数组求和为 total，若为奇数或 max(nums) > total // 2 则无法分割直接返回 False。
+# 2. 转化问题为 0-1 背包：判断能否选出若干数，使其和恰好为 target = total // 2。
+# 3. 定义布尔数组 dp[j] 表示是否能凑出和为 j。初始化 dp[0] = True，其余为 False。
+# 4. 外层遍历物品 num，内层倒序遍历容量 j（从 target 递减至 num），状态转移 dp[j] = dp[j] or dp[j - num]。
+#
+# 时间 O(n * target)，空间 O(target)，其中 target = sum(nums) // 2
+#
+# ⚠️ 易错点/误区：
+# 1. 倒序遍历原因：0-1 背包压缩为一维后，内层必须从 target 倒序遍历到 num。若正序遍历，同一数字会被重复使用（退化为完全背包）。
+# 2. 初始状态：dp[0] 必须设为 True（和为 0 天然可达），作为所有有效转移的源头。
+# 3. 循环结构：外层遍历物品 num，内层遍历容量 j；不可漏掉外层或混淆顺序。
+# 4. 奇偶特判：total % 2 != 0 必不可分，提前返回 False 避免无效计算。
+class Solution:
+    def canPartition(self, nums: List[int]) -> bool:
+        total = sum(nums)
+        # 奇数不可能拆分为两个相等的整数和
+        if total % 2 != 0:
+            return False
+        target = total // 2
+        # 若最大数大于 target，其余所有数之和必定小于 target
+        if max(nums) > target:
+            return False
+        # dp[j] 表示能否选出子集使其和恰好为 j
+        dp = [False] * (target + 1)  
+        dp[0] = True  # 和为 0 不选任何元素即可实现
+        # 0-1 背包：外层物品，内层容量（倒序）
+        for num in nums:
+            for j in range(target, num - 1, -1):
+                dp[j] = dp[j] or dp[j - num]
+        return dp[target]`,statement:`给你一个 只包含正整数 的 非空 数组 nums 。请你判断是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
+
+ 
+
+示例 1：
+
+输入：nums = [1,5,11,5]
+输出：true
+解释：数组可以分割成 [1, 5, 5] 和 [11] 。
+
+示例 2：
+
+输入：nums = [1,2,3,5]
+输出：false
+解释：数组不能分割成两个元素和相等的子集。
+
+ 
+
+提示：
+
+- 1 
+
+- 1`},"152-乘积最大子数组":{codePreview:`from typing import List
+# 📌 需二刷：双状态动态规划（同时维护以当前元素结尾的最大乘积与最小乘积）
+#
+# 思路：
+# 1. 连续子数组乘积具有「负负得正」特性：前一步的极小负数乘以当前负数可能变为极大正数。
+# 2. 状态定义：
+#    - max_dp[i] 表示以 nums[i] 结尾的连续子数组的最大乘积。
+#    - min_dp[i] 表示以 nums[i] 结尾的连续子数组的最小乘积。
+# 3. 状态转移：当前位置的最值只能由三种情况产生（单独成段、接在前驱最大值后、接在前驱最小值后）：
+#    - max_dp[i] = max(nums[i], nums[i] * max_dp[i-1], nums[i] * min_dp[i-1])
+#    - min_dp[i] = min(nums[i], nums[i] * max_dp[i-1], nums[i] * min_dp[i-1])
+# 4. 全局最大乘积即为 max(max_dp)。
+#
+# 时间 O(n)，空间 O(n)（可通过滚动变量优化至 O(1)）
+#
+# ⚠️ 易错点/误区：
+# 1. 单状态陷阱：若只维护最大值，遇到当前为负数时无法通过负负得正翻转出全局最大值。
+# 2. 变量覆盖 bug：初始化列表后，注意下标赋值 min_dp[0] = nums[0]，若误写为 min_dp = nums[0] 会将列表覆盖为 int 导致下标索引报错。
+# 3. 必须纳入 nums[i] 本身：参与比较的三者包含 nums[i]，代表「以当前元素重新开始」的情况（如前驱乘积为 0 或不利时）。
+# 4. 空间优化注意：若压缩为 O(1) 变量 cur_max / cur_min，更新时需用临时变量暂存旧的 cur_max，避免更新 min 时使用了新算出的 max。
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        n = len(nums)
+        # 初始化双状态 DP 数组
+        max_dp = [0] * n
+        min_dp = [0] * n 
+        max_dp[0] = nums[0]
+        min_dp[0] = nums[0]
+        # 线性扫描，以当前元素结尾的最值只依赖前一个位置的最值
+        for i in range(1, n):
+            num = nums[i]
+            max_dp[i] = max(num, num * max_dp[i-1], num * min_dp[i-1])
+            min_dp[i] = min(num, num * max_dp[i-1], num * min_dp[i-1])
+        # 全局最大乘积可能以数组中的任意元素结尾
+        return max(max_dp)`,statement:`给你一个整数数组 nums ，请你找出数组中乘积最大的非空连续 子数组（该子数组中至少包含一个数字），并返回该子数组所对应的乘积。
+
+测试用例的答案是一个 32-位 整数。
+
+请注意，一个只包含一个元素的数组的乘积是这个元素的值。
+
+ 
+
+示例 1:
+
+输入: nums = [2,3,-2,4]
+输出: 6
+解释: 子数组 [2,3] 有最大乘积 6。
+
+示例 2:
+
+输入: nums = [-2,0,-1]
+输出: 0
+解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
+
+ 
+
+提示:
+
+- 1 <= nums.length <= 2 * 10^4
+
+- -10 <= nums[i] <= 10
+
+- nums 的任何子数组的乘积都 保证 是一个 32-位 整数`},"5-最长回文子串":{codePreview:`class Solution:
+    def longestPalindrome(self, s: str) -> str:
+        n = len(s)
+        # 辅助函数：从 [left, right] 开始向左右两边扩散寻找最长回文串
+        def expand(left: int, right: int) -> str:
+            while 0 <= left and right < n and s[left] == s[right]:
+                left -= 1
+                right += 1
+            # 退出循环时 left 和 right 均多走了一步，有效区间为 [left + 1, right - 1]
+            return s[left + 1 : right]
+        res = ""
+        for i in range(n):
+            ji = expand(i, i)        # 以 s[i] 为中心的奇数长度回文串
+            ou = expand(i, i + 1)    # 以 s[i], s[i+1] 为中心的偶数长度回文串
+            # 更新全局最长回文子串
+            if len(ji) > len(res):
+                res = ji
+            if len(ou) > len(res):
+                res = ou
+        return res`,statement:`给你一个字符串 s，找到 s 中最长的 回文 子串。
+
+ 
+
+示例 1：
+
+输入：s = "babad"
+输出："bab"
+解释："aba" 同样是符合题意的答案。
+
+示例 2：
+
+输入：s = "cbbd"
+输出："bb"
+
+ 
+
+提示：
+
+- 1 <= s.length <= 1000
+
+- s 仅由数字和英文字母组成`},"279-完全平方数":{codePreview:`class Solution:
+    def numSquares(self, n: int) -> int:
+        dp = [float('inf')] * (n + 1)
+        dp[0] = 0
+        # 遍历背包容量 1 到 n
+        for i in range(1, n + 1):
+            j = 1
+            # 枚举所有不超过当前容量 i 的完全平方数 j*j
+            while j * j <= i:
+                dp[i] = min(dp[i], dp[i - j * j] + 1)
+                j += 1
+        return dp[n]`,statement:`给你一个整数 n ，返回 和为 n 的完全平方数的最少数量 。
+
+完全平方数 是一个整数，其值等于另一个整数的平方；换句话说，其值等于一个整数自乘的积。例如，1、4、9 和 16 都是完全平方数，而 3 和 11 不是。
+
+ 
+
+示例 1：
+
+输入：n = 12
+输出：3 
+解释：12 = 4 + 4 + 4
+
+示例 2：
+
+输入：n = 13
+输出：2
+解释：13 = 4 + 9
+
+ 
+
+提示：
+
+- 1 <= n <= 10^4`},"32-最长有效括号":{codePreview:`class Solution:
+    def longestValidParentheses(self, s: str) -> int:
+        n = len(s)
+        if n < 2:
+            return 0
+        dp = [0] * n
+        for i in range(1, n):
+            if s[i] == ')':
+                if s[i - 1] == '(':
+                    # 情况 1：形如 ...()
+                    dp[i] = (dp[i - 2] if i >= 2 else 0) + 2
+                else:
+                    # 情况 2：形如 ...))
+                    pre_idx = i - dp[i - 1] - 1
+                    if pre_idx >= 0 and s[pre_idx] == '(':
+                        dp[i] = dp[i - 1] + 2 + (dp[pre_idx - 1] if pre_idx >= 1 else 0)
+        return max(dp)`,statement:`给你一个只包含 '(' 和 ')' 的字符串，找出最长有效（格式正确且连续）括号 子串 的长度。
+
+左右括号匹配，即每个左括号都有对应的右括号将其闭合的字符串是格式正确的，比如 "(()())"。
+
+ 
+
+示例 1：
+
+输入：s = "(()"
+输出：2
+解释：最长有效括号子串是 "()"
+
+示例 2：
+
+输入：s = ")()())"
+输出：4
+解释：最长有效括号子串是 "()()"
+
+示例 3：
+
+输入：s = ""
+输出：0
+
+ 
+
+提示：
+
+- 0 <= s.length <= 3 * 10^4
+
+- s[i] 为 '(' 或 ')'`},"1143-最长公共子序列":{codePreview:`# 📌 需二刷：双字符串二维动态规划模型（LCS 标准范式）
+#
+# 思路：
+# 1. 定义 dp[i][j] 为 text1 前 i 个字符与 text2 前 j 个字符的最长公共子序列长度。
+# 2. 开 (m+1) x (n+1) 维度，第 0 行/列代表空串情况，天然为 0 避免边界越界。
+# 3. 状态转移：
+#    - 若 text1[i-1] == text2[j-1]：当前字符匹配，dp[i][j] = dp[i-1][j-1] + 1
+#    - 否则：当前字符不匹配，取放弃其中一个字符的最优解 dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+# 4. 最终结果汇聚在右下角 dp[m][n]。
+#
+# 时间复杂度：O(m * n)，双重循环遍历整个网格
+# 空间复杂度：O(m * n)，二维 DP 数组（可空间压缩至 O(min(m, n))）
+#
+# ⚠️ 易错点/误区：
+# 1. Python 二维数组浅拷贝：切勿使用 \`[[0] * n] * m\`，这会产生同一行的多次引用，需用列表推导式 \`[[0] * (n+1) for _ in range(m+1)]\`。
+# 2. 状态转移来源：相等时是取左上角状态 + 1（即 \`dp[i-1][j-1] + 1\`），而非原地 \`+= 1\`；不等时是上方与左方取 max。
+# 3. 返回值类型：不要写成 \`return max(dp)\`，二维 list 的 max 会按行字典序比较返回整行列表，应返回右下角标量 \`dp[m][n]\`。
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        m = len(text1)
+        n = len(text2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1, m + 1):
+            for j in range(1, n + 1):
+                if text1[i - 1] == text2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1] + 1
+                else:
+                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j])
+        return dp[m][n]`,statement:`给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
+
+一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+
+- 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde" 的子序列。
+
+两个字符串的 公共子序列 是这两个字符串所共同拥有的子序列。
+
+ 
+
+示例 1：
+
+输入：text1 = "abcde", text2 = "ace" 
+输出：3  
+解释：最长公共子序列是 "ace" ，它的长度为 3 。
+
+示例 2：
+
+输入：text1 = "abc", text2 = "abc"
+输出：3
+解释：最长公共子序列是 "abc" ，它的长度为 3 。
+
+示例 3：
+
+输入：text1 = "abc", text2 = "def"
+输出：0
+解释：两个字符串没有公共子序列，返回 0 。
+
+ 
+
+提示：
+
+- 1 
+
+- text1 和 text2 仅由小写英文字符组成。`},"72-编辑距离":{codePreview:`# 📌 需二刷：双字符串二维动态规划（编辑距离经典模型）
+#
+# 思路：
+# 1. 定义 dp[i][j] 为 word1 前 i 个字符转换成 word2 前 j 个字符的最少操作数。
+# 2. 开 (m+1) x (n+1) 数组，初始化边界：
+#    - dp[i][0] = i（word1 长度为 i 变空串，需删除 i 次）
+#    - dp[0][j] = j（空串变 word2 长度为 j，需插入 j 次）
+# 3. 状态转移：
+#    - 当 word1[i-1] == word2[j-1]：字符相同，无需额外操作，dp[i][j] = dp[i-1][j-1]
+#    - 当 word1[i-1] != word2[j-1]：考虑三种操作取最小值 + 1：
+#      * 替换 word1[i-1]：dp[i-1][j-1] + 1
+#      * 删除 word1[i-1]：dp[i-1][j] + 1
+#      * 插入 word2[j-1]：dp[i][j-1] + 1
+#      => dp[i][j] = min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
+# 4. 最终返回右下角 dp[m][n]。
+#
+# 时间复杂度：O(m * n)，双重循环遍历整个网格
+# 空间复杂度：O(m * n)，二维 DP 数组（可使用滚动数组压缩至 O(min(m, n))）
+#
+# ⚠️ 易错点/误区：
+# 1. DP 决策思路：不要试图用 if 逻辑去人为预测/特判具体执行哪种操作，DP 本质是对【替换、删除、插入】三种合法转移分支全部计算并取 min。
+# 2. 括号优先级与加一范围：min(...) + 1 切勿写成 min(a, b, c + 1)，否则前两项未计入操作代价 1 会导致错误低值传递。
+# 3. 边界初始化赋值：dp[i][0] 应赋值为动态的 i（删除 i 次），dp[0][j] 赋为 j（插入 j 次），不能赋固定总长度 m/n。
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        m = len(word1)
+        n = len(word2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(1,m+1):
+            dp[i][0] = i
+        for j in range(1, n+1):
+            dp[0][j] = j
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                if word1[i-1] == word2[j-1]:
+                    dp[i][j] = dp[i-1][j-1]
+                else:
+                    dp[i][j] = min(dp[i-1][j-1], dp[i-1][j], dp[i][j-1]) + 1
+        return dp[m][n]`,statement:`给你两个单词 word1 和 word2， 请返回将 word1 转换成 word2 所使用的最少操作数  。
+
+你可以对一个单词进行如下三种操作：
+
+- 插入一个字符
+
+- 删除一个字符
+
+- 替换一个字符
+
+ 
+
+示例 1：
+
+输入：word1 = "horse", word2 = "ros"
+输出：3
+解释：
+horse -> rorse (将 'h' 替换为 'r')
+rorse -> rose (删除 'r')
+rose -> ros (删除 'e')
+
+示例 2：
+
+输入：word1 = "intention", word2 = "execution"
+输出：5
+解释：
+intention -> inention (删除 't')
+inention -> enention (将 'i' 替换为 'e')
+enention -> exention (将 'n' 替换为 'x')
+exention -> exection (将 'n' 替换为 'c')
+exection -> execution (插入 'u')
+
+ 
+
+提示：
+
+- 0 <= word1.length, word2.length <= 500
+
+- word1 和 word2 由小写英文字母组成`},"647-回文子串":{codePreview:`# 📌 需二刷：中心扩展法（奇偶中心枚举与边界控制）
+#
+# 思路：枚举所有可能的奇数中心 (i, i) 和偶数中心 (i, i+1)，以双指针向两端扩散。
+#      每次字符匹配成功，说明找到一个新的合法回文子串，count 计数加 1。
+# 时间 O(n²)，空间 O(1)
+#
+# ⚠️ 易错点/误区：
+# 1. 奇数中心起点：奇数中心应从自身 (i, i) 开始扩散（单字符也是合法回文串），
+#    若误写为 (i-1, i+1) 会漏掉所有长度为 1 的回文子串且在 i=0 时越界。
+# 2. 右边界越界：有效下标为 0 到 n-1，while 条件必须是 right < n（或 right <= n - 1），
+#    写成 right <= n 会在访问 s[right] 时触发 IndexError。
+# 3. Python 变量作用域：嵌套函数 expand 内部直接修改外部局部变量 count 时，
+#    必须显式声明 nonlocal count，否则会报 UnboundLocalError。
+class Solution:
+    def countSubstrings(self, s: str) -> int:
+        n = len(s)
+        count = 0
+        def expand(left: int, right: int) -> None:
+            nonlocal count
+            while 0 <= left and right < n and s[left] == s[right]:
+                left -= 1
+                right += 1
+                count += 1
+        for i in range(n):
+            expand(i, i)      # 奇数长度回文中心（以 s[i] 为中心）
+            expand(i, i + 1)  # 偶数长度回文中心（以 s[i] 与 s[i+1] 为中心）
+        return count`,statement:`给你一个字符串 s ，请你统计并返回这个字符串中 回文子串 的数目。
+
+回文字符串 是正着读和倒过来读一样的字符串。
+
+子字符串 是字符串中的由连续字符组成的一个序列。
+
+ 
+
+示例 1：
+
+输入：s = "abc"
+输出：3
+解释：三个回文子串: "a", "b", "c"
+
+示例 2：
+
+输入：s = "aaa"
+输出：6
+解释：6个回文子串: "a", "a", "a", "aa", "aa", "aaa"
+
+ 
+
+提示：
+
+	1 <= s.length <= 1000
+
+	s 由小写英文字母组成`},"221-最大正方形":{codePreview:`from typing import List
+# 📌 需二刷：二维网格 DP + 木桶短板原理
+#
+# 思路：
+# 定义 dp[i][j] 为以 matrix[i-1][j-1] 为右下角的最大全 1 正方形的边长。
+# 状态转移：若当前格为 '1'，则受左、上、左上三方最短木桶制约：
+# dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1
+# 遍历过程中用 max_side 实时维护全局最大边长，最终返回面积 max_side * max_side。
+#
+# 时间 O(m * n)，空间 O(m * n)（可空间压缩至 O(n)）
+#
+# ⚠️ 易错点/误区：
+# 1. 索引映射（Off-by-one）：dp 数组开 (m+1) x (n+1) 带哨兵边界时，对应 matrix 下标应为 matrix[i-1][j-1]，误写 matrix[i][j] 导致 IndexError 越界。
+# 2. 答案收集位置：最大正方形可能出现在矩阵中间任意位置，返回 dp[m][n] 只代表以右下角结尾的正方形，必须在循环内用 max_side 实时取全局最大。
+# 3. 返回类型：题目求的是正方形面积而非边长，最终需返回 max_side * max_side。
+class Solution:
+    def maximalSquare(self, matrix: List[List[str]]) -> int:
+        m = len(matrix)
+        n = len(matrix[0])
+        max_side = 0
+        dp = [[0] * (n+1) for _ in range(m+1)]
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                if matrix[i-1][j-1] == '1':
+                    dp[i][j] = min(dp[i-1][j], dp[i][j-1], dp[i-1][j-1]) + 1
+                    max_side = max(dp[i][j], max_side)
+        return max_side * max_side`,statement:`在一个由 '0' 和 '1' 组成的二维矩阵内，找到只包含 '1' 的最大正方形，并返回其面积。
+
+ 
+
+示例 1：
+
+输入：matrix = [["1","0","1","0","0"],["1","0","1","1","1"],["1","1","1","1","1"],["1","0","0","1","0"]]
+输出：4
+
+示例 2：
+
+输入：matrix = [["0","1"],["1","0"]]
+输出：1
+
+示例 3：
+
+输入：matrix = [["0"]]
+输出：0
+
+ 
+
+提示：
+
+	m == matrix.length
+
+	n == matrix[i].length
+
+	1 
+
+	matrix[i][j] 为 '0' 或 '1'`}};export{n as categoryContent};

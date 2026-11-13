@@ -1,0 +1,195 @@
+const n={"121-买卖股票的最佳时机":{codePreview:`# 📌 需二刷：DP 思维——用历史最低价推导当前最大利润
+#
+# 思路：遍历价格，维护"到目前为止的最低买入价"，
+#       每天都算"今天卖出的利润"，取全局最大值
+# 时间 O(n)，空间 O(1)
+#
+# ⚠️ 易错点/误区：
+# 1. Python 中 ^ 是异或运算，不是次方！10^5=15，应该用 10**5 或 float('inf')
+# 2. income 必须初始化为 0（最差情况不交易，利润为 0）
+# 3. return 不要写在 for 循环里面，否则第一轮就返回了
+# 4. 不需要 if/else 分支，每天同时做两件事：更新最低价 + 更新最大利润
+#
+# 💡 知识点：float('inf') 表示正无穷，比任何数字都大；float('-inf') 表示负无穷
+#    需要"最大初始值"用 float('inf')，需要"最小初始值"用 float('-inf')
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        buy = float('inf')   # 历史最低买入价，初始为正无穷
+        income = 0           # 最大利润，初始为 0（最差情况：不交易）
+        for num in prices:
+            buy = min(num, buy)            # 更新历史最低价
+            income = max(num - buy, income) # 今天卖出 vs 之前的最优利润
+        return income`,statement:`给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+
+你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+
+返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+
+ 
+
+示例 1：
+
+输入：[7,1,5,3,6,4]
+输出：5
+解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+
+示例 2：
+
+输入：prices = [7,6,4,3,1]
+输出：0
+解释：在这种情况下, 没有交易完成, 所以最大利润为 0。
+
+ 
+
+提示：
+
+- 1 
+
+- 0`},"55-跳跃游戏":{codePreview:`from typing import List
+class Solution:
+    # 📌 需二刷：基础贪心模式
+    #
+    # 思路：贪心算法。遍历数组，维护一个“最远可达位置”。如果当前下标超过了历史最远可达位置，说明中途断档，无法到达终点；否则用当前位置能跳的距离更新最远可达位置。
+    # 时间 O(N)，空间 O(1)
+    #
+    # ⚠️ 易错点/误区：
+    # 1. 导包错误：List 应该从 typing 导入，而不是 collections (\`from typing import List\`)。
+    # 2. 更新最远距离时，用的是相对起点计算出来的绝对下标 (\`i + nums[i]\`)，不要错写成只加 \`nums[i]\`。
+    def canJump(self, nums: List[int]) -> bool:
+        max_reach = 0
+        for i in range(len(nums)):
+            if i > max_reach:
+                return False
+            max_reach = max((i + nums[i]), max_reach)
+            if max_reach >= len(nums) - 1:
+                return True
+        return True`,statement:`给你一个非负整数数组 nums ，你最初位于数组的 第一个下标 。数组中的每个元素代表你在该位置可以跳跃的最大长度。
+
+判断你是否能够到达最后一个下标，如果可以，返回 true ；否则，返回 false 。
+
+ 
+
+示例 1：
+
+输入：nums = [2,3,1,1,4]
+输出：true
+解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
+
+示例 2：
+
+输入：nums = [3,2,1,0,4]
+输出：false
+解释：无论怎样，总会到达下标为 3 的位置。但该下标的最大跳跃长度是 0 ， 所以永远不可能到达最后一个下标。
+
+ 
+
+提示：
+
+- 1 <= nums.length <= 10^4
+
+- 0 <= nums[i] <= 10^5`},"45-跳跃游戏-ii":{codePreview:`from typing import List
+class Solution:
+    # 📌 需二刷：贪心 BFS 覆盖范围模型
+    #
+    # 思路：贪心算法。用 end 记录当前跳跃能到达的最远边界，用 max_reach 记录遍历过程中能探到的最远位置。
+    # 当遍历到 end 时，说明必须跳一步了，此时步数 +1，并将 end 更新为 max_reach。
+    # 巧妙点：循环只到 len(nums) - 1，因为只要到了终点前，如果还没跳，终点也能被覆盖到（题目保证能到达）。
+    # 时间 O(N)，空间 O(1)
+    #
+    # ⚠️ 易错点/误区：
+    # 1. 遍历的边界是 \`len(nums) - 1\`，如果遍历到最后一个元素，会多跳一次（因为只要到了 n-1 前面就一定能覆盖，如果在 n-1 处正好触发 i == end，就会错误地多加一次步数）。
+    def jump(self, nums: List[int]) -> int:
+        max_reach = 0
+        steps = 0
+        end = 0
+        for i in range(len(nums) - 1):
+            max_reach = max(max_reach, (nums[i] + i))
+            if i == end:
+                steps += 1
+                end = max_reach
+        return steps`,statement:`给定一个长度为 n 的 0 索引整数数组 nums。初始位置在下标 0。
+
+每个元素 nums[i] 表示从索引 i 向后跳转的最大长度。换句话说，如果你在索引 i 处，你可以跳转到任意 (i + j) 处：
+
+- 0 <= j <= nums[i] 且
+
+- i + j < n
+
+返回到达 n - 1 的最小跳跃次数。测试用例保证可以到达 n - 1。
+
+ 
+
+示例 1:
+
+输入: nums = [2,3,1,1,4]
+输出: 2
+解释: 跳到最后一个位置的最小跳跃数是 2。
+     从下标为 0 跳到下标为 1 的位置，跳 1 步，然后跳 3 步到达数组的最后一个位置。
+
+示例 2:
+
+输入: nums = [2,3,0,1,4]
+输出: 2
+
+ 
+
+提示:
+
+- 1 <= nums.length <= 10^4
+
+- 0 <= nums[i] <= 1000
+
+- 题目保证可以到达 n - 1`},"763-划分字母区间":{codePreview:`from typing import List
+class Solution:
+    # 📌 需二刷：贪心覆盖范围（跳跃游戏变体）
+    #
+    # 思路：贪心算法。核心思想是“如果把某字母划入当前片段，那么这个片段至少要延伸到该字母最后一次出现的位置”。
+    # 第一遍遍历：记录每个字符最后出现的位置；
+    # 第二遍遍历：用 end 维护当前片段的必达边界，当遍历指针 i == end 时，说明当前片段已经完全囊括了内部所有字母，可以切分。
+    # 时间 O(N)，空间 O(Σ) (字符集大小，最多26)
+    #
+    # ⚠️ 易错点/误区：
+    # 1. 两次遍历。第一次用于收集情报，第二次用于滑动。不要试图在一次遍历里解决。
+    # 2. 算长度时是 \`end - start + 1\`，并且切分完之后 \`start\` 必须跳到 \`i + 1\`，而不是 \`i\`。
+    def partitionLabels(self, s: str) -> List[int]:
+        last_occ = {}
+        for i, char in enumerate(s):
+            last_occ[char] = i
+        res = []
+        start = 0
+        end = 0
+        for i, char in enumerate(s):
+            end  = max(end, last_occ[char])
+            if i == end:
+                res.append(end - start + 1)
+                start = i + 1
+        return res`,statement:`给你一个字符串 s 。我们要把这个字符串划分为尽可能多的片段，同一字母最多出现在一个片段中。例如，字符串 "ababcc" 能够被分为 ["abab", "cc"]，但类似 ["aba", "bcc"] 或 ["ab", "ab", "cc"] 的划分是非法的。
+
+注意，划分结果需要满足：将所有划分结果按顺序连接，得到的字符串仍然是 s 。
+
+返回一个表示每个字符串片段的长度的列表。
+
+ 
+
+示例 1：
+
+输入：s = "ababcbacadefegdehijhklij"
+输出：[9,7,8]
+解释：
+划分结果为 "ababcbaca"、"defegde"、"hijhklij" 。
+每个字母最多出现在一个片段中。
+像 "ababcbacadefegde", "hijhklij" 这样的划分是错误的，因为划分的片段数较少。 
+
+示例 2：
+
+输入：s = "eccbbbbdec"
+输出：[10]
+
+ 
+
+提示：
+
+- 1 <= s.length <= 500
+
+- s 仅由小写英文字母组成`}};export{n as categoryContent};
