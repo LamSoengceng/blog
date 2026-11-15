@@ -35,7 +35,7 @@
 .practice-page .practice-source{font-size: var(--text-xs);color:#9eacc0;border:0;margin-top:8px}
 .practice-results:has(.practice-muted):not(:has(details)):not(:has([role=alert])){background:transparent}
 .practice-dashboard .practice-header{margin-bottom:16px}
-.practice-dashboard .practice-header h1{font-size:32px;margin:0 0 6px}
+.practice-dashboard .practice-header h1{font-size:var(--text-8xl);margin:0 0 6px}
 .practice-dashboard .practice-header .eyebrow{display:none}
 .practice-dashboard .practice-header p{font-size: var(--text-md);margin:0;color:#9eacc0}
 .practice-dashboard .practice-overview{margin:12px 0;gap:16px}
@@ -148,7 +148,7 @@
 .practice-page .practice-message{background:#65c39610;border:1px solid #65c39626;color:#a6d8be}
 .practice-page .practice-result-summary{color:var(--accent)}
 .practice-dashboard .practice-header{padding-bottom:22px;border-bottom:1px solid var(--practice-border);margin-bottom:16px}
-.practice-dashboard .practice-header h1{font-size:34px}
+.practice-dashboard .practice-header h1{font-size:var(--text-9xl)}
 .practice-dashboard .practice-overview{gap:20px;color:var(--practice-muted)}
 .practice-dashboard .practice-overview>span{color:var(--muted);font-size: var(--text-xs)}
 .practice-dashboard .practice-overview b{color:var(--text-strong);font-weight: 700;font-size: var(--text-base)}

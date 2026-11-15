@@ -104,7 +104,7 @@
 @media(max-width:760px){
   .site-shell :is(.content-band,.detail-page,.algorithm-detail-page,.blog-detail-page,.market-page){padding-inline:20px}
   .site-shell .page-band{padding-top:96px;padding-bottom:36px}
-  .site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:30px;line-height:1.35;margin-bottom:14px}
+  .site-shell :is(.page-title,.blog-article-header h1,.detail-hero h1,.algorithm-detail-hero h1){font-size:var(--text-7xl);line-height:1.35;margin-bottom:14px}
   .site-shell :is(.section-heading,.blog-hero,.market-hero){margin-bottom:24px}
   .site-shell :is(.section-heading,.blog-hero,.market-hero) p:not(.eyebrow){font-size: var(--text-sm)}
   .site-shell .career-import{padding:16px}
