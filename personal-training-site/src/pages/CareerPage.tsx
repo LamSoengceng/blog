@@ -294,7 +294,7 @@ export function CareerPage() {
             <div className="lesson-card-top"><span className="lesson-card-platform">{platformLabels[lesson.source.platform]}</span><span>{lesson.source.author} · {lesson.date} · 约 {lesson.minutes} 分钟</span></div>
             <h3>{lesson.title}</h3>
             <p>{lesson.summary}</p>
-            <div className="lesson-card-meta">{lesson.sections.length} 个章节 · {lesson.quiz.length} 道自测{lesson.keyTerms.length ? ` · ${lesson.keyTerms.length} 个术语` : ''}</div>
+            <div className="lesson-card-meta">{lesson.sections.length} 个章节 · {lesson.quizCount} 道自测{lesson.keyTerms.length ? ` · ${lesson.keyTerms.length} 个术语` : ''}</div>
             <div className="lesson-card-tags">{lesson.tags.slice(0, 4).map((tag) => <span key={tag}>#{tag}</span>)}</div>
             <span className="lesson-card-more">进入课程 <ArrowUpRight size={15} aria-hidden="true" /></span>
           </Link>

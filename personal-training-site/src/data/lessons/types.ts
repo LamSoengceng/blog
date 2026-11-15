@@ -48,3 +48,10 @@ export type Lesson = {
   sections: LessonSection[]
   quiz: { q: string; a: string }[]
 }
+
+/** 列表/检索用的讲义元数据：正文 blocks 与 quiz 题面不在其中（构建期由 virtual:lessons-meta 生成，
+ *  完整讲义经 loadLesson 按需加载，见 index.ts）。 */
+export type LessonMeta = Omit<Lesson, 'sections' | 'quiz'> & {
+  sections: { heading: string }[]
+  quizCount: number
+}

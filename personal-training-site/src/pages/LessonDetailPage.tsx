@@ -1,17 +1,37 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ArrowLeft, ArrowUp } from 'lucide-react'
-import { getLesson, lessons } from '../data/lessons'
+import { loadLesson, lessons } from '../data/lessons'
 import { LessonRenderer } from '../components/lesson/LessonRenderer'
 import { LessonToc } from '../components/lesson/LessonToc'
 import { lessonTocItems } from '../components/lesson/lessonTocItems'
+import type { Lesson } from '../data/lessons/types'
 
 export function LessonDetailPage() {
   const { lessonSlug } = useParams()
-  const lesson = lessonSlug ? getLesson(lessonSlug) : undefined
+  // 正文按需动态加载（index/content 分离）：undefined=加载中，missing=确认无此课。
+  // 换课时用渲染期重置（React 官方模式），避免 effect 里同步 setState。
+  const [lesson, setLesson] = useState<Lesson | undefined>()
+  const [missing, setMissing] = useState(false)
+  const [loadedSlug, setLoadedSlug] = useState(lessonSlug)
+  if (loadedSlug !== lessonSlug) {
+    setLoadedSlug(lessonSlug)
+    setLesson(undefined)
+    setMissing(false)
+  }
   // 阅读进度（顶部细线）与回到顶部按钮；监听放在最前，避免 404 分支提前 return 打乱 hooks
   const [progress, setProgress] = useState(0)
   const [showTop, setShowTop] = useState(false)
+
+  useEffect(() => {
+    let active = true
+    loadLesson(lessonSlug).then((data) => {
+      if (!active) return
+      if (data === undefined) setMissing(true)
+      else setLesson(data)
+    })
+    return () => { active = false }
+  }, [lessonSlug])
 
   useEffect(() => {
     const onScroll = () => {
@@ -26,6 +46,7 @@ export function LessonDetailPage() {
   }, [lessonSlug])
 
   if (!lesson) {
+    if (!missing) return <section className="not-found-page" aria-busy="true" />
     return (
       <section className="not-found-page">
         <p className="eyebrow">404 / Lesson not found</p>
