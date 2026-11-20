@@ -20,7 +20,7 @@ export type XunjiDaySummary = {
   types: string[]
 }
 
-export const xunjiLastSyncedAt = "2026-11-19T21:57:26.526Z"
+export const xunjiLastSyncedAt = "2026-11-20T09:37:02.232Z"
 
 export const xunjiStaleDates: string[] = []
 
